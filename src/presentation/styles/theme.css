@@ -1,0 +1,32 @@
+/* Import this file in all CSS modules to use the global theme variables */
+/* @import '../App.css'; */
+
+/* Additional helper classes for responsive design */
+.responsive-width {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.responsive-container {
+  width: 100%;
+  padding: 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Input container styles */
+.input-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.input-container input,
+.input-container textarea,
+.input-container select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}

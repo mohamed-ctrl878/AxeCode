@@ -1,0 +1,131 @@
+
+/* Import global theme variables */
+/* @import '../../App.css'; */
+
+.calendar {
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: var(--border-radius-lg);
+  width: 18rem;
+  color: var(--text-primary);
+  font-family: sans-serif;
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.headerButton {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.headerTitle {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.daysRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0.5rem;
+}
+
+.dayName {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.cellsRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.cell {
+  position: relative;
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.cellInactive {
+  color: var(--text-disabled);
+}
+
+.cellToday {
+  background-color: var(--primary);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-sm);
+}
+
+.cell:hover {
+  background-color: var(--primary-hover);
+  color: var(--text-inverse);
+  transition: all var(--transition-fast);
+}
+
+.dot {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.375rem;
+  height: 0.375rem;
+  background-color: var(--error);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+}
+
+.premiumBox {
+  margin-top: 0.75rem;
+  background-color: var(--warning-light);
+  border-radius: var(--border-radius-lg);
+  padding: 0.5rem;
+  text-align: center;
+  color: var(--warning-dark);
+  font-size: 0.875rem;
+  border: 1px solid var(--warning);
+}
+
+.premiumTitle {
+  font-weight: bold;
+  color: var(--warning-dark);
+}
+
+.premiumWeeks {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.premiumActive {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-xl);
+  background-color: var(--warning);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.premiumInactive {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-xl);
+  background-color: var(--bg-muted);
+  color: var(--text-muted);
+  border: 1px solid var(--border-primary);
+  transition: all var(--transition-fast);
+}

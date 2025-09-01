@@ -1,0 +1,521 @@
+/* Import global theme variables */
+/* @import "../../../../styles/theme.css"; */
+
+/* Using global theme variables */
+
+.practiceContainer {
+  min-height: 100vh;
+  /* background: var(--bg); */
+  display: flex;
+  justify-content: center;
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+  padding: 2rem 0;
+  box-sizing: border-box;
+  padding-top: 4rem;
+}
+
+.bubblesContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.bubble {
+  position: absolute;
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.1),
+    rgba(52, 211, 153, 0.05)
+  );
+  border-radius: 50%;
+  animation: float 10s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.bubble:nth-child(1) {
+  width: 80px;
+  height: 80px;
+  left: 10%;
+  bottom: -100px;
+  animation-delay: 0s;
+}
+.bubble:nth-child(2) {
+  width: 120px;
+  height: 120px;
+  left: 20%;
+  bottom: -100px;
+  animation-delay: 2s;
+}
+.bubble:nth-child(3) {
+  width: 60px;
+  height: 60px;
+  left: 35%;
+  bottom: -100px;
+  animation-delay: 4s;
+}
+.bubble:nth-child(4) {
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  bottom: -100px;
+  animation-delay: 1s;
+}
+.bubble:nth-child(5) {
+  width: 70px;
+  height: 70px;
+  left: 65%;
+  bottom: -100px;
+  animation-delay: 3s;
+}
+.bubble:nth-child(6) {
+  width: 90px;
+  height: 90px;
+  left: 80%;
+  bottom: -100px;
+  animation-delay: 5s;
+}
+.infoSlide {
+  padding-top: 4rem;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.practiceContent {
+  position: relative;
+  z-index: 2;
+  order: -1;
+  max-width: 1200px;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.practiceHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.practiceTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.practiceSubtitle {
+  font-size: 1.2rem;
+  color: var(--primary-green-dark);
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filtersSection {
+  /*  */
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.08);
+  animation: slideInUp 0.8s ease-out 0.2s both;
+  box-sizing: border-box;
+}
+
+.filtersHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filtersIcon {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.75rem;
+  color: var(--primary-green);
+}
+
+.filtersTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-green-dark);
+  margin: 0;
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--primary-green-dark);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterSelect {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--primary-green-light);
+
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.08);
+}
+.filterSelect option {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.searchContainer {
+  position: relative;
+  grid-column: 1 / -1;
+}
+
+.searchInput {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+.searchInput::placeholder {
+  color: var(--primary-green-dark);
+}
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-green-light);
+
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.08);
+}
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-green-dark);
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.problemsSection {
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.08);
+  animation: slideInUp 0.8s ease-out 0.6s both;
+  box-sizing: border-box;
+}
+
+.problemsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.problemsTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-green-dark);
+  margin: 0;
+}
+
+.problemsStats {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.statItem {
+  background: var(--primary-green-light);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--primary-green);
+}
+
+.problemsTable {
+  width: 100%;
+  border-collapse: collapse;
+
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
+}
+
+.tableHeader {
+  background: var(--primary-green-light);
+  backdrop-filter: blur(15px);
+}
+.tableHeader th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--primary-green);
+}
+.tableRow {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--border);
+}
+.tableRow:hover {
+  background: var(--bg-tertiary);
+  transform: scale(1.01);
+}
+.tableCell {
+  padding: 1rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border);
+}
+.problemTitle {
+  font-weight: 600;
+  color: var(--primary-green-dark);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.problemTitle:hover {
+  color: var(--primary-green);
+}
+.difficultyBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.difficultyEasy {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid #10b981;
+}
+.difficultyMedium {
+  background: rgba(237, 137, 54, 0.15);
+  color: #ed8936;
+  border: 1px solid #ed8936;
+}
+.difficultyHard {
+  background: rgba(245, 101, 101, 0.15);
+  color: #f56565;
+  border: 1px solid #f56565;
+}
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.statusSolved {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid #10b981;
+}
+.statusUnsolved {
+  background: rgba(160, 174, 192, 0.15);
+  color: #a0aec0;
+  border: 1px solid #a0aec0;
+}
+.actionButton {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
+}
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--primary-green-light);
+  border-top: 4px solid var(--primary-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: var(--primary-green-dark);
+}
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-green-dark);
+}
+.emptyDescription {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .practiceContainer {
+    padding: 1rem 0;
+  }
+  .practiceContent {
+    padding: 0 1rem;
+  }
+  .practiceTitle {
+    font-size: 2.5rem;
+  }
+  .filtersSection {
+    padding: 1.5rem;
+  }
+  .filtersGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .problemsSection {
+    padding: 1.5rem;
+  }
+  .problemsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .problemsStats {
+    flex-wrap: wrap;
+  }
+  .tableHeader th,
+  .tableCell {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  .problemsTable {
+    font-size: 0.85rem;
+  }
+}
+@media (max-width: 480px) {
+  .practiceTitle {
+    font-size: 2rem;
+  }
+  .filtersSection {
+    padding: 1rem;
+  }
+  .problemsSection {
+    padding: 1rem;
+  }
+  .tableHeader th,
+  .tableCell {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.8rem;
+  }
+  .difficultyBadge,
+  .statusBadge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+  .actionButton {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
