@@ -1,0 +1,342 @@
+/* Import global theme variables */
+/* @import '../..App.css'; */
+
+/* page wrapper (gradient background) */
+.pageWrapper {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+  box-sizing: border-box;
+}
+
+/* main container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-xl);
+  border: 1px solid var(--border-primary);
+  overflow: hidden;
+  font-family: var(--font-family);
+}
+
+/* header */
+.header {
+  background: linear-gradient(90deg, var(--primary), var(--purple));
+  padding: var(--spacing-lg);
+  color: var(--text-inverse);
+  text-align: center;
+}
+.headerTitle {
+  font-size: var(--text-2xl);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+.headerSubtitle {
+  opacity: 0.9;
+  font-size: var(--text-base);
+  margin: 0;
+}
+
+/* toolbar */
+.toolbar {
+  background: var(--bg-muted);
+  padding: var(--spacing-md);
+  border-bottom: 2px solid var(--border-primary);
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.toolbarButton {
+  background: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  min-width: 40px;
+}
+.toolbarButton:hover {
+  background: #4a4a5e;
+  transform: translateY(-1px);
+}
+.toolbarButtonActive {
+  background: #667eea;
+  color: white;
+}
+
+.toolbarSelect {
+  background: var(--bg-secondary);
+  border: none;
+  color: var(--text-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  min-width: 150px;
+}
+
+/* editor & panels */
+.editorContainer {
+  display: flex;
+  height: 600px;
+}
+
+.editorPanel {
+  flex: 1;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.editor {
+
+  flex: 1;
+  padding: 20px;
+  background:var(--bg-primary);
+  border: none;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow-y: auto;
+  min-height: 300px;
+  box-sizing: border-box;
+}
+
+/* output panel */
+.outputPanel {
+  width: 400px;
+  background: var(--bg-secondary);
+  border-left: 2px solid var(--border-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.outputHeader {
+  background: var(--bg-muted);
+  padding: var(--spacing-md);
+  color: var(--text-primary);
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid var(--border-primary);
+  margin: 0;
+}
+
+.outputContent {
+  flex: 1;
+  padding: 20px;
+  background: #1e1e2e;
+  color: #a0a0a0;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  direction: ltr;
+  box-sizing: border-box;
+}
+
+.copyButton {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* link dialog */
+.linkDialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-primary);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  z-index: 1000;
+  min-width: 400px;
+  box-shadow: var(--shadow-lg);
+}
+.linkDialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay-color);
+  z-index: 999;
+}
+
+.linkDialogTitle {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.linkDialogInput {
+  width: 100%;
+  background: #1e1e2e;
+  border: 1px solid #4a4a5e;
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.inputLabel {
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.linkDialogButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.linkDialogButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.linkDialogButtonPrimary {
+  background: #667eea;
+  color: white;
+}
+.linkDialogButtonSecondary {
+  background: #6c757d;
+  color: white;
+}
+
+.clearButton {
+  background: #e74c3c;
+}
+
+/* Editor rich-text specific rules (global so selectors like .editor-content h1 work) */
+:global(.editor-content) {
+  min-height: 300px;
+}
+:global(.editor-content) strong,
+:global(.editor-content b) {
+  font-weight: bold !important;
+}
+:global(.editor-content em),
+:global(.editor-content i) {
+  font-style: italic !important;
+}
+:global(.editor-content u) {
+  text-decoration: underline !important;
+}
+:global(.editor-content code) {
+  background-color: #3a3a4e !important;
+  color: #f8f8f2 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-family: "Courier New", monospace !important;
+  font-size: 14px !important;
+}
+:global(.editor-content a) {
+  color: #667eea !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+}
+:global(.editor-content a:hover) {
+  color: #5a6dd8 !important;
+  background-color: rgba(102, 126, 234, 0.1) !important;
+}
+:global(.editor-content h1) {
+  font-size: 2em !important;
+  font-weight: bold !important;
+  margin: 20px 0 10px 0 !important;
+  display: block !important;
+}
+:global(.editor-content h2) {
+  font-size: 1.5em !important;
+  font-weight: bold !important;
+  margin: 18px 0 8px 0 !important;
+  display: block !important;
+}
+:global(.editor-content h3) {
+  font-size: 1.3em !important;
+  font-weight: bold !important;
+  margin: 15px 0 6px 0 !important;
+  display: block !important;
+}
+:global(.editor-content ul),
+:global(.editor-content ol) {
+  margin: 15px 0 !important;
+  padding-right: 40px !important;
+  padding-left: 10px !important;
+  display: block !important;
+  list-style-position: outside !important;
+  margin-left: 20px !important;
+}
+:global(.editor-content ul) {
+  list-style-type: disc !important;
+}
+:global(.editor-content ol) {
+  list-style-type: decimal !important;
+}
+:global(.editor-content ul li),
+:global(.editor-content ol li) {
+  margin: 8px 0 !important;
+  display: list-item !important;
+  padding-right: 5px !important;
+  line-height: 1.6 !important;
+}
+:global(.editor-content ul li::marker) {
+  color: #667eea !important;
+  font-size: 1.2em !important;
+}
+:global(.editor-content ol li::marker) {
+  color: #667eea !important;
+  font-weight: bold !important;
+}
+:global(.editor-content p) {
+  margin: 8px 0 !important;
+  display: block !important;
+  line-height: 1.6 !important;
+}
+/* تحسين عرض القوائم في RTL */
+:global(.editor-content[dir="rtl"] ul),
+:global(.editor-content[dir="rtl"] ol) {
+  text-align: right !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  padding-right: 40px !important;
+  padding-left: 10px !important;
+}
+:global(.editor-content[dir="rtl"] ul li),
+:global(.editor-content[dir="rtl"] ol li) {
+  text-align: right !important;
+  direction: rtl !important;
+}
+:global(.editor-content br) {
+  line-height: 1.6 !important;
+}
+:global(.editor-content div:empty:not(:focus)) {
+  min-height: 1.6em;
+}
+:global(.editor-content:empty:before) {
+  content: "ابدأ في كتابة المحتوى...";
+  color: #666;
+  font-style: italic;
+}

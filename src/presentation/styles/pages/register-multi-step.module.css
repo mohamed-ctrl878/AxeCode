@@ -1,0 +1,379 @@
+/* Register Multi-Step Form Modern Styles */
+:root {
+  --primary-green: #10b981;
+  --primary-green-light: #34d399;
+  --primary-green-dark: #059669;
+  --bg-light: #f9fafb;
+  --bg-dark: #1f2937;
+  --text-light: #222;
+  --text-dark: #f3f4f6;
+}
+
+.light-theme {
+  --bg: var(--bg-light);
+  --text: var(--text-light);
+}
+
+.dark-theme {
+  --bg: var(--bg-dark);
+  --text: var(--text-dark);
+}
+
+.registerMultiStepContainer {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.registerMultiStepFormWrapper {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1),
+    0 1.5px 16px 0 var(--primary-green-light);
+  padding: 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  transition: background 0.3s;
+  box-sizing: border-box;
+}
+
+.registerMultiStepStepperWrapper {
+  margin-bottom: 2rem;
+}
+
+.registerMultiStepForm {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.registerMultiStepFormBody {
+  min-height: 300px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.registerMultiStepFormNavBtns {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.registerMultiStepSwitchLink {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.registerMultiStepLink {
+  color: var(--primary-green);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.registerMultiStepLink:hover {
+  color: var(--primary-green-dark);
+}
+
+/* Step Styles */
+.step {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+  box-sizing: border-box;
+}
+
+.step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stepTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-green);
+  margin-bottom: 0.5rem;
+}
+
+.stepSubtitle {
+  color: var(--primary-green-dark);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.formControl {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  color: var(--text);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.formControl:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.formControl:hover {
+  border-color: var(--primary-green-light);
+}
+
+.formControl[rows] {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Error Styles */
+.error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  display: block;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.btnPrimary {
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--primary-green-light)
+  );
+  color: white;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btnPrimary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btnPrimary:hover::before {
+  left: 100%;
+}
+
+.btnPrimary:hover {
+  background: linear-gradient(
+    135deg,
+    var(--primary-green-dark),
+    var(--primary-green)
+  );
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+}
+
+.btnPrimary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+}
+
+.btnSecondary:hover {
+  background: var(--primary-green);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Review Section */
+.reviewSection {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-sizing: border-box;
+}
+
+.reviewItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.reviewItem:last-child {
+  border-bottom: none;
+}
+
+.reviewLabel {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.reviewValue {
+  color: var(--primary-green);
+  font-weight: 500;
+}
+
+.submitSection {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registerMultiStepContainer {
+    padding: 1rem;
+  }
+
+  .registerMultiStepFormWrapper {
+    padding: 2rem;
+    max-width: 100%;
+    margin: 0 1rem;
+  }
+
+  .stepTitle {
+    font-size: 1.25rem;
+  }
+
+  .stepSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .registerMultiStepFormBody {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .registerMultiStepContainer {
+    padding: 0.5rem;
+  }
+
+  .registerMultiStepFormWrapper {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .stepTitle {
+    font-size: 1.1rem;
+  }
+
+  .formControl {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .formActions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .reviewSection {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .registerMultiStepFormWrapper {
+    padding: 1rem;
+  }
+
+  .stepTitle {
+    font-size: 1rem;
+  }
+
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+
+  .registerMultiStepFormBody {
+    min-height: 200px;
+  }
+}
