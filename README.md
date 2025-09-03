@@ -41,8 +41,8 @@ Getting Started
 
 Clone the repository:
 
-git clone <repository-url>
-cd axecode
+git clone <https://github.com/mohamed-ctrl878/AxeCode.git>
+cd AXE_CODE
 
 Install dependencies:
 
