@@ -11,14 +11,14 @@ const WeekMappingElement = ({ element, index, setData }) => {
   return (
     <div className={style.courseSlide}>
       <h4
-        onClick={() => setSlideWeeks(index)}
+        onClick={() => setSlideWeeks((e) => (e === index ? null : index))}
         className={style.courseTitle}
         key={element.id}
       >
         {element.title}{" "}
         <i>
           <FontAwesomeIcon
-            className={`${slideWeeks === index ? style.rotate90Deg : ""}`}
+            className={`${slideWeeks === index ? style.rotate90Deg : ""} ${style.iconSlide}`}
             icon={faCaretRight}
           />
         </i>

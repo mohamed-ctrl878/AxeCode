@@ -77,6 +77,7 @@ const StepCourseSelection = ({
                 storeName={storeName}
                 data={data?.data}
                 Component={Component}
+                dataSetter={dataSetter}
               ></DataMapping>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { stop } from "@data/storage/storeRx/sharedSlices/validStarter";
+import { set } from "date-fns";
 import React, { useEffect, useRef } from "react";
 // import { stop } from "@store/validStarter";
 import { useSelector } from "react-redux";
@@ -17,7 +18,8 @@ export const useValidateInputEffect = ({
   const start = useSelector((state) => state.validStarter.start);
 
   const prevResultRef = useRef();
-
+console.log(fieldName, value, "fieldName, value");
+console.log(setProberty, "setProberty");
   useEffect(() => {
     if (!start) return;
     try {
@@ -30,9 +32,8 @@ export const useValidateInputEffect = ({
           : JSON.stringify(currentFieldValue) === JSON.stringify(result);
       if (!same) {
         dispatch(setProberty({ [fieldName]: result }));
-        prevResultRef.current = result; // حدّث السجل للمرّات القادمة
+        prevResultRef.current = result;
       }
-      // إذا كانت نفس القيمة فلا نفعل شيء لتجنب الحلقة
     } catch (err) {
       dispatch(stop());
       setError(err.message);
