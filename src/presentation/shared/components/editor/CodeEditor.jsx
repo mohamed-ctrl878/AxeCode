@@ -24,7 +24,7 @@ const CodeEditor = React.memo(
       value={code}
       loading={loading}
       options={options}
-      theme={theme.includes("dark") ? "vs-dark" : "vs-light"}
+      theme={theme ? "vs-dark" : "vs-light"}
       onChange={(e) => {
         onChange(e);
       }}

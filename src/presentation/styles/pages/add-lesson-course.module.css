@@ -319,6 +319,9 @@ display: flex;
   color: #fff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 }
+.iconSlide{
+  transition: all 0.3s ease;
+}
 
 /* Animation */
 @keyframes fadeIn {

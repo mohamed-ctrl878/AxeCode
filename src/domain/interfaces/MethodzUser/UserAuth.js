@@ -12,7 +12,5 @@ export class UserAuth{
     }
     getMyData(){
         throw new Error("this non for reuseble")
-
     }
 }
-    
