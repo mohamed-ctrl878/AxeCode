@@ -1,7 +1,7 @@
 import React from "react";
+import style from "@presentation/styles/pages/add-lesson-course.module.css";
 
 const StepReview = ({
-  style,
   lsnOrCrs,
   tittle,
   description,

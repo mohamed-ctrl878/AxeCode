@@ -15,7 +15,7 @@ const StepDificulty = ({ style }) => {
   const currentFieldValue = useSelector(
     (state) => state.problemDataPost?.dificulty
   );
-  console.log(select);
+  // console.log(select);
   const dispatch = useDispatch();
   useValidateInputEffect({
     start: start,

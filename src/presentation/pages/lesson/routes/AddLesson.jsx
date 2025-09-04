@@ -24,7 +24,7 @@ const AddLesson = ({ className, lsnOrCrs, step = [] }) => {
   const steps = [
     ...BaseCourseContentSteps(setLessonData, "lessonsData", "lesson"),
     ...uploadLessonSteps(setLessonData, "lessonsData"),
-    <StepReview style={style} />,
+    StepReview,
   ];
 
   const size = steps.length;

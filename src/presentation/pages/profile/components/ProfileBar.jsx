@@ -59,7 +59,7 @@ const ProfileBar = React.memo(
               aria-label="sellecor-theme"
               className={`${hover} ${"mood-btn"}`}
               onClick={() => {
-                console.log("fll");
+                // console.log("fll");
                 switchTheme(switchState());
                 setProfile((e) => !e);
               }}

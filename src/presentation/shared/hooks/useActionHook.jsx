@@ -15,7 +15,7 @@ const useActionHook = ({
   setFail,
 }) => {
   useEffect(() => {
-    console.log("dataDTO in useActionHook", dataDTO);
+    // console.log("dataDTO in useActionHook", dataDTO);
     if (subRef?.current && !loader) {
       const action = async (e) => {
         e.preventDefault();

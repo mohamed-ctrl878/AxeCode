@@ -18,7 +18,7 @@ const useParsingExe = ({
 
   // const valid = store.getState().sliceForValid.valid;
   const dispatch = useDispatch();
-  console.log(elChange);
+  // console.log(elChange);
   useEffect(() => {
     setErr("");
 

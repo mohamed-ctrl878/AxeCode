@@ -19,7 +19,7 @@ const StepDescInForm = ({ style }) => {
   const currentFieldValue = useSelector(
     (state) => state.problemDataPost?.description
   );
-  console.log(state);
+  // console.log(state);
   const dispatch = useDispatch();
   useValidateInputEffect({
     start: start,

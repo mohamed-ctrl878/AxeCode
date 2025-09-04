@@ -43,7 +43,7 @@ const Register = () => {
     }
 
     // Handle registration logic here
-    console.log("Registration attempt:", { username, email, password });
+    // console.log("Registration attempt:", { username, email, password });
   };
 
   return (

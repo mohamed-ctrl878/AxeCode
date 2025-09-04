@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const localStg = new LocalStorageServImp();
 
-console.log(localStg.getItem("theme"));
+// console.log(localStg.getItem("theme"));
 
 const themeSlice = createSlice({
   name: "theme",

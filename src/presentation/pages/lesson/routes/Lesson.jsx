@@ -13,7 +13,7 @@ const Lesson = ({ theme }) => {
       .then((e) => setData(e));
   }, []);
 
-  console.log(theme);
+  // console.log(theme);
 
   const mapping = data?.data?.lessons?.map((e, i) => {
     return (

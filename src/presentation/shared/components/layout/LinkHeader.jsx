@@ -24,7 +24,7 @@ import { switchState } from "@data/storage/storeRx/globalStore/themeSlice";
 
 const Header = React.memo(
   ({ className, theme, setTheme, setGetUserData, userHere, data }) => {
-    console.log(data);
+    // console.log(data);
     const [profile, setProfile] = useState(false);
     const [tgl, setTgl] = useState(false);
     const [scrolled, setScrolled] = useState(false);

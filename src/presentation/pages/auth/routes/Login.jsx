@@ -63,7 +63,7 @@ const Login = ({ theme }) => {
     }
     onLogin();
     // Handle login logic here
-    console.log("Login attempt:", { email, password });
+    // console.log("Login attempt:", { email, password });
   };
 
   return (

@@ -25,7 +25,7 @@ const StepParams = ({ style }) => {
   const [typeOfParams, SetTypeOfParams] = useState(typeOfParamsFromStore);
   const [err, setErr] = useState("");
 
-  console.log(typeOfParams);
+  // console.log(typeOfParams);
   const dispatch = useDispatch();
   const currentFieldValue = useSelector(
     (state) => state.problemDataPost?.typeOfParams

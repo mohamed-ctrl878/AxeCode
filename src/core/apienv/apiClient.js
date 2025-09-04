@@ -26,7 +26,7 @@ export async function apiClient({
 
     return new ApiSuccess(data);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     throw err;
   }
 }

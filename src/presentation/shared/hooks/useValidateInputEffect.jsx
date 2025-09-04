@@ -18,8 +18,8 @@ export const useValidateInputEffect = ({
   const start = useSelector((state) => state.validStarter.start);
 
   const prevResultRef = useRef();
-console.log(fieldName, value, "fieldName, value");
-console.log(setProberty, "setProberty");
+  // console.log(fieldName, value, "fieldName, value");
+  // console.log(setProberty, "setProberty");
   useEffect(() => {
     if (!start) return;
     try {
@@ -33,6 +33,7 @@ console.log(setProberty, "setProberty");
       if (!same) {
         dispatch(setProberty({ [fieldName]: result }));
         prevResultRef.current = result;
+        console.log(fieldName, result, "result");
       }
     } catch (err) {
       dispatch(stop());
