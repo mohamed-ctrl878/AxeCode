@@ -96,14 +96,15 @@ const RegisterMultiStep = ({ theme }) => {
     e.preventDefault();
     if (currentStep === size - 1) {
       // Validate and submit
-      console.log("Submitting registration:", {
-        username,
-        email,
-        password,
-        firstName,
-        lastName,
-        bio,
-      });
+      // console.log("Submitting registration:",
+      //  {
+      //   username,
+      //   email,
+      //   password,
+      //   firstName,
+      //   lastName,
+      //   bio,
+      // });
     }
   };
 

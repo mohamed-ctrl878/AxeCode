@@ -8,7 +8,7 @@ const useParseAndValidTstCs = ({testCases}) => {
             // return executionValidType(type, e);
           });
         } catch (m) {
-          console.log(m);
+          // console.log(m);
         }
       };
   }, []);

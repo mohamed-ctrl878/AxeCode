@@ -26,7 +26,7 @@ const App = React.memo(() => {
   const theme = useSelector((state) => state.themeSlice.theme);
   const data = useSelector((state) => state.userData.data);
   const themeClass = theme ? "dark-theme" : "light-theme";
-  console.log(data);
+  // console.log(data);
   const auth = useSelector((state) => state.auth.getuserData);
   const dispatch = useDispatch();
 

@@ -16,7 +16,7 @@ const StepFunNamInForm = ({ style }) => {
   const currentFieldValue = useSelector(
     (state) => state.problemDataPost?.functionName
   );
-  console.log(start);
+  // console.log(start);
   useValidateInputEffect({
     value: funcName,
     fieldName: "functionName",

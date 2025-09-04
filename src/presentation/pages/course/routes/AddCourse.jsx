@@ -24,10 +24,9 @@ const AddCourse = React.memo(({ className, lsnOrCrs }) => {
   const steps = [
     ...BaseCourseContentSteps(setCourseData, "coursesData", "course"),
     ...uploadCoursesSteps(setCourseData, "coursesData"),
-    <StepReview style={style} />,
+    StepReview,
   ];
   const size = steps.length;
-  const state = useSelector((state) => state.coursesData);
   return (
     <CourseAndLessonBoard
       steps={steps}
@@ -37,7 +36,7 @@ const AddCourse = React.memo(({ className, lsnOrCrs }) => {
       className={className}
       currentStep={currentStep}
       lsnOrCrs={"Add Course"}
-      routeName={"lesson"}
+      routeName={"course"}
       core={PostCourses}
       dataDTO={CourseUploadDTO}
       caseUse={postCourseExe}

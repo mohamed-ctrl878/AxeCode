@@ -84,7 +84,7 @@ const Settings = ({ theme, user, setGetUserData }) => {
   ];
 
   const handleLogout = () => {
-    console.log("Logging out...");
+    // console.log("Logging out...");
   };
   const renderSection =
     activeSection === "profile" ? (

@@ -31,6 +31,7 @@ const usePaginationContent = ({
             limit: limit,
           })
         );
+        
         setSuccess(state);
         setData(data);
         setLoad(false);

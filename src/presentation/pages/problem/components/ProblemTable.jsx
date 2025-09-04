@@ -19,7 +19,7 @@ const ProblemTable = ({ data, theme }) => {
     setNameProblem(title);
   };
 
-  console.log(nameProblem);
+  // console.log(nameProblem);
   const mapping = data?.map((e) => {
     if (topic.length == 0 || topic.includes(e.title))
       return (

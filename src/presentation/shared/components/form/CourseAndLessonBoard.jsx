@@ -17,6 +17,7 @@ const CourseAndLessonBoard = ({
   setCurrentStep,
   routeName,
 }) => {
+  const CStep = steps[currentStep];
   return (
     <div className={style.addLessonCourseContainer}>
       <div className={style.addLessonCourseFormWrapper}>
@@ -32,9 +33,7 @@ const CourseAndLessonBoard = ({
           className={`${style.addLessonCourseForm} ${className}`}
           style={style.addLessonCourseFormStyle}
         >
-          <div className={style.addLessonCourseFormBody}>
-            {steps[currentStep]}
-          </div>
+          <div className={style.addLessonCourseFormBody}>{<CStep></CStep>}</div>
 
           <div className={style.addLessonCourseFormNavBtns}>
             <SwitchersBtnsMForm

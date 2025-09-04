@@ -147,17 +147,17 @@ const Community = ({ theme }) => {
   console.log("run");
   const handleLike = (postId) => {
     // Mock like functionality
-    console.log("Liked post:", postId);
+    // console.log("Liked post:", postId);
   };
 
   const handleBookmark = (postId) => {
     // Mock bookmark functionality
-    console.log("Bookmarked post:", postId);
+    // console.log("Bookmarked post:", postId);
   };
 
   const handleShare = (postId) => {
     // Mock share functionality
-    console.log("Shared post:", postId);
+    // console.log("Shared post:", postId);
   };
 
   return (

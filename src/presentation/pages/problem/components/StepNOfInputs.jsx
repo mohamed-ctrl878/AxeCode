@@ -21,7 +21,7 @@ const StepNOfInputs = ({ style }) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(numperOfParams);
+    // console.log(numperOfParams);
     dispatch(setProberty({ typeOfParams: Array(numperOfParams).fill("") }));
   }, [numperOfParams]);
   const currentFieldValue = useSelector(

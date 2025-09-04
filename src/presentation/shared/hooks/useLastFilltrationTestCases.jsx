@@ -12,7 +12,7 @@ const useLastFilltrationTestCases = () => {
   const dispatch = useDispatch();
   const start = useSelector((state) => state.validStarter.start);
 
-  console.log("fire upload");
+  // console.log("fire upload");
   useEffect(() => {
     const testCasesStates = store.getState().DataPostProblem.testCasesStates;
     if (start) {

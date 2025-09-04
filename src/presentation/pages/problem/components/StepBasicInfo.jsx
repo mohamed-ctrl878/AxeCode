@@ -20,7 +20,7 @@ const StepBasicInfo = ({ dataSetter, storeName, style, titErr, lsnOrCrs }) => {
     change: title,
     setErr,
   });
-
+console.log("title", title);
   // useValidateInputEffect is a custom hook that validates the title input
   // *make this in another file
   // and use it in other steps as well

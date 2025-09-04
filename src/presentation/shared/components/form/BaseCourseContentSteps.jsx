@@ -5,22 +5,28 @@ import StepMediaUpload from "@presentation/pages/problem/components/StepMediaUpl
 import StepDescription from "@presentation/pages/problem/components/StepDescription";
 
 const BaseCourseContentSteps = (dataSetter, storeName, lsnOrCrs) => [
-  <StepBasicInfo
-    dataSetter={dataSetter}
-    storeName={storeName}
-    lsnOrCrs={lsnOrCrs}
-    style={style}
-  />,
-  <StepMediaUpload
-    dataSetter={dataSetter}
-    storeName={storeName}
-    style={style}
-  />,
-  <StepDescription
-    dataSetter={dataSetter}
-    storeName={storeName}
-    style={style}
-  />,
+  (props) => (
+    <StepBasicInfo
+      dataSetter={dataSetter}
+      storeName={storeName}
+      lsnOrCrs={lsnOrCrs}
+      style={style}
+    />
+  ),
+  (props) => (
+    <StepMediaUpload
+      dataSetter={dataSetter}
+      storeName={storeName}
+      style={style}
+    />
+  ),
+  (props) => (
+    <StepDescription
+      dataSetter={dataSetter}
+      storeName={storeName}
+      style={style}
+    />
+  ),
 ];
 
 export { BaseCourseContentSteps };

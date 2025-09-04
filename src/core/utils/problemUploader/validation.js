@@ -42,8 +42,8 @@ export const nullValid = (params) => {
 export const checkLength = (e, title, condition, errorMessage) => {
   try {
     if (condition) {
-      console.log(condition);
-      console.log(e.length);
+      // console.log(condition);
+      // console.log(e.length);
       return e;
     } else throw new Error(errorMessage);
   } catch (m) {

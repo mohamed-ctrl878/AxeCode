@@ -3,11 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import WeekSelector from "./weekSelector";
 import style from "@presentation/styles/pages/add-lesson-course.module.css";
-import { setWeek } from "date-fns";
 
 const WeekMappingElement = ({ element, index, setData }) => {
   const [slideWeeks, setSlideWeeks] = useState(null);
-  console.log(slideWeeks, "slideWeeks");
+  // console.log(slideWeeks, "slideWeeks");
   return (
     <div className={style.courseSlide}>
       <h4

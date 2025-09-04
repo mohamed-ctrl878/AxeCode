@@ -5,8 +5,8 @@ import ScrollReveal from "@presentation/shared/components/layout/ScrollReveal";
 // import { ScrollReveal } from "@/presentation/shared/components";
 
 const PinedPosts = ({ theme, mood, style }) => {
-  console.log(theme);
-  console.log(mood);
+  // console.log(theme);
+  // console.log(mood);
   const ref = useRef(null);
   useEffect(() => {
     const handleMouseMove = (e) => {

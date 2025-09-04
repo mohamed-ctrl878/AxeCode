@@ -13,9 +13,9 @@ const DataMapping = ({
   storeName,
 }) => {
   const ItemFromStore = useSelector((state) => state[storeName][probertyItem]);
-  console.log(storeName, "storeName");
-  console.log(probertyItem, "probertyIatem");
-  console.log(ItemFromStore, "ItemFromStore");
+  // console.log(storeName, "storeName");
+  // console.log(probertyItem, "probertyIatem");
+  // console.log(ItemFromStore, "ItemFromStore");
   const [selectors, setSelectors] = useState(ItemFromStore);
   const dispatch = useDispatch();
   useValidateInputEffect({

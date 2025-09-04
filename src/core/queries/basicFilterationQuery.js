@@ -7,6 +7,7 @@ export const basicFilterationQuery = ({
   isFilter,
   start,
   limit,
+  isPopulate,
 }) => {
   const query = stringify(
     {
@@ -17,8 +18,8 @@ export const basicFilterationQuery = ({
           },
         },
       }),
-
-      populate: populateVal,
+...( isPopulate &&{
+      populate: populateVal}),
       sort: ["createdAt:desc"],
       pagination: {
         start: 0,
