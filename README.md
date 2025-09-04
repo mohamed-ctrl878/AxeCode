@@ -78,7 +78,7 @@ At a high level, the project is organized into key directories:
 
 core/ – Global configuration, services, and utility functions.
 
-data/ – Data layer including API client code, Redux slices, and data-fetching logic.
+data/ – Data layer including API client code, models DTOs, Redux slices, and data-fetching logic.
 
 domain/ – Business logic and data models.
 
