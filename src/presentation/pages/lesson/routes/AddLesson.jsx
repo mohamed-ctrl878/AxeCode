@@ -5,9 +5,11 @@ import { setLessonData } from "@data/storage/storeRx/lessonSlices/lessonData";
 import CourseAndLessonBoard from "@presentation/shared/components/form/CourseAndLessonBoard";
 import PostLesson from "@data/repositories/lessonImps/PostLesson";
 import { LessonUploadDTO } from "@data/models/LessonDTOs/LessonUploadDTO";
-import postLessonExe from "@domain/usecases/lesson/postLessonExe";
+import { postLessonExe } from "@domain/usecases/lesson/postLessonExe";
 import { uploadLessonSteps } from "../components/uploadLessonSteps";
 import StepReview from "@presentation/pages/problem/components/StepReview";
+import ShowImage from "@presentation/shared/components/media/ShowImage";
+import ShowVideo from "@presentation/shared/components/media/ShowVideo";
 
 // import StepReview from "../components/StepReview";
 
@@ -22,7 +24,13 @@ import StepReview from "@presentation/pages/problem/components/StepReview";
 const AddLesson = ({ className, lsnOrCrs, step = [] }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const steps = [
-    ...BaseCourseContentSteps(setLessonData, "lessonsData", "lesson"),
+    ...BaseCourseContentSteps(
+      setLessonData,
+      ShowVideo,
+      "lessonsData",
+      "lesson",
+      "video"
+    ),
     ...uploadLessonSteps(setLessonData, "lessonsData"),
     StepReview,
   ];

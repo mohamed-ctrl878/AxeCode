@@ -14,6 +14,8 @@
   padding: 2rem 0;
   box-sizing: border-box;
   padding-top: 4rem;
+  overflow-y: overlay;
+  max-height: 100vh;
 }
 
 .bubblesContainer {

@@ -4,6 +4,8 @@
 .homeContainer {
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  overflow-y: overlay;
+  max-height: 100vh;
 }
 
 .section {
