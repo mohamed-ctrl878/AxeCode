@@ -5,7 +5,7 @@ export default class GetCourses extends ApiContentMethodz {
     const getData = await apiClient({
       method: "GET",
       token: true,
-      url: `${import.meta.env.VITE_API_COURSES}?${query}`,
+      url: `${import.meta.env.VITE_API_WEEKS}?${query}`,
     });
     return getData.data;
   }

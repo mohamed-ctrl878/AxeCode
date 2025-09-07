@@ -23,7 +23,7 @@ export const useValidateInputEffect = ({
   useEffect(() => {
     if (!start) return;
     try {
-      const result = validationFunc(value, fieldName, condition, errorMessage);
+      const result = validationFunc(value, condition, errorMessage);
 
       setError("");
       const same =

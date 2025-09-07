@@ -28,29 +28,30 @@ export const handelChangeListnerTsts = (prev, idx, change) => {
   return filt;
 };
 
-
-
 export function checkAllTrue(arr) {
-    if (!Array.isArray(arr)) {
+  if (!Array.isArray(arr)) {
+    return false;
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    const element = arr[i];
+
+    if (Array.isArray(element)) {
+      if (!checkAllTrue(element)) {
         return false;
+      }
+    } else {
+      if (element === false) {
+        return false;
+      }
     }
-    
-    for (let i = 0; i < arr.length; i++) {
-        const element = arr[i];
-        
-        if (Array.isArray(element)) {
-            if (!checkAllTrue(element)) {
-                return false;
-            }
-        } 
-        else {
-            if (element === false) {
-                return false;
-            }
-        }
-    }
-    
-    return true;
+  }
+
+  return true;
 }
 
-
+export const toFromData = (data) => {
+  const formData = new FormData();
+  formData.append("files", data);
+  return formData;
+};

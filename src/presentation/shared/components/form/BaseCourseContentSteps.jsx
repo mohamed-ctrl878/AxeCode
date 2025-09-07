@@ -1,10 +1,17 @@
 import React from "react";
 import style from "@presentation/styles/pages/add-lesson-course.module.css";
 import StepBasicInfo from "@presentation/pages/problem/components/StepBasicInfo";
-import StepMediaUpload from "@presentation/pages/problem/components/StepMediaUpload";
+import StepMediaUpload from "@presentation/shared/components/form/StepMediaUpload";
 import StepDescription from "@presentation/pages/problem/components/StepDescription";
 
-const BaseCourseContentSteps = (dataSetter, storeName, lsnOrCrs) => [
+const BaseCourseContentSteps = (
+  dataSetter,
+  ShowMedia
+  ,
+  storeName,
+  lsnOrCrs,
+  media = "image"
+) => [
   (props) => (
     <StepBasicInfo
       dataSetter={dataSetter}
@@ -15,9 +22,11 @@ const BaseCourseContentSteps = (dataSetter, storeName, lsnOrCrs) => [
   ),
   (props) => (
     <StepMediaUpload
+    ShowMedia={ShowMedia}
       dataSetter={dataSetter}
       storeName={storeName}
       style={style}
+      media={media}
     />
   ),
   (props) => (

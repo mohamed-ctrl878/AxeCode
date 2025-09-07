@@ -6,7 +6,7 @@ import { getCourseTypeExe } from "@domain/usecases/course/getCourseTypesExe";
 import { getProblemTypeExe } from "@domain/usecases/problem/getProblemTypeExe";
 import ProblemTypeMapper from "@presentation/shared/components/form/ProblemTypeMapper";
 import StepCourseSelection from "@presentation/shared/components/form/StepCourseSelection";
-import WeekMappingElement from "@presentation/shared/components/form/WeekMappingElement";
+import WeekSelector from "@presentation/shared/components/form/WeekSelector";
 import style from "@presentation/styles/pages/add-lesson-course.module.css";
 import React from "react";
 
@@ -18,15 +18,15 @@ const uploadCoursesSteps = (dataSetter, storeName) => [
       storeName={storeName}
       core={GetCourses}
       caseUse={getCoursesExe}
-      selectionType="courses"
+      selectionType="Weeks of the Course"
       style={style}
       probertyItem={"weeks"}
-      Component={WeekMappingElement}
+      Component={WeekSelector}
       query={{
         filterkey: "title",
-        populateVal: ["picture", "weeks", "course_types", "problem_types"],
+        populateVal: [],
         isFilter: true,
-        isPopulate: true,
+        isPopulate: false,
       }}
     />
   ),

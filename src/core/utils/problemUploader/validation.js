@@ -39,7 +39,7 @@ export const nullValid = (params) => {
   }
 };
 
-export const checkLength = (e, title, condition, errorMessage) => {
+export const checkLength = (e, condition, errorMessage) => {
   try {
     if (condition) {
       // console.log(condition);
