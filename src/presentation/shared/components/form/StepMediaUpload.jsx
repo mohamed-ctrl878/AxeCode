@@ -1,7 +1,8 @@
+import { toFormData } from "@core/utils/problemUploader/handellers";
 import { checkLength } from "@core/utils/problemUploader/validation";
 import useUpdateStoper from "@presentation/shared/hooks/useUpdateStoper";
 import { useValidateInputEffect } from "@presentation/shared/hooks/useValidateInputEffect";
-import React, { useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import useUpdateStoper from "./useUpdateStoper";
 // import { useValidateInputEffect } from "./useValidateInputEffect";
@@ -16,7 +17,10 @@ const StepMediaUpload = ({
   media,
 }) => {
   const mediaFromStore = useSelector((state) => state[storeName][media]);
+  const Store = useSelector((state) => state[storeName]);
+
   console.log(mediaFromStore);
+  console.log(Store);
   const [mediaCurrent, setMediaCurrent] = useState(mediaFromStore);
   const [err, setErr] = useState("");
   const dispatch = useDispatch();
@@ -25,7 +29,6 @@ const StepMediaUpload = ({
     change: mediaCurrent,
     setErr,
   });
-
   useValidateInputEffect({
     fieldName: media,
     setProberty: dataSetter,
@@ -49,6 +52,58 @@ const StepMediaUpload = ({
     setMediaCurrent(file);
   };
 
+  useEffect(() => {
+    if (!mediaCurrent) return;
+    const ac = new AbortController();
+
+    const uploadMedia = async () => {
+      try {
+        const formData = toFormData(mediaCurrent);
+        // debug
+        for (const pair of formData.entries()) {
+          console.log("formData entry:", pair[0], pair[1]);
+        }
+        console.log("formData", formData);
+        // الحصول على التوكن (عدّل حسب استخدامك: من localStorage أو redux)
+        const token = localStorage.getItem("token"); // مثال
+
+        const res = await fetch(import.meta.env.VITE_API_UPLOADS, {
+          method: "POST",
+          headers: {
+            // لا تضيف Content-Type هنا — المتصفح يضبط boundary تلقائيًا
+          },
+
+          credentials: "include",
+          // إذا ستراپي يستخدم JWT عبر header فاستعمل Authorization.
+          // إذا كنت تعتمد على session cookies فممكن تضع credentials: "include"
+          // لكن تأكد من إعدادات CORS على السيرفر.
+          body: formData,
+          // signal: ac.signal,
+        });
+
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          data = text;
+        }
+
+        if (!res.ok) {
+          console.error("Upload failed:", res.status, data);
+          return;
+        }
+
+        console.log("Upload success:", data);
+      } catch (err) {
+        if (err.name === "AbortError") return;
+        console.error("Upload error:", err);
+      }
+    };
+
+    uploadMedia();
+    return () => ac.abort();
+  }, [mediaCurrent]);
   return (
     <div className={`${style.step} ${style.active}`} id="step2">
       <div className={style.formGroup}>
