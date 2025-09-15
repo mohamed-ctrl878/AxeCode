@@ -26,10 +26,14 @@ export const useValidateInputEffect = ({
       const result = validationFunc(value, condition, errorMessage);
 
       setError("");
-      const same =
-        prevResultRef.current !== undefined
-          ? JSON.stringify(prevResultRef.current) === JSON.stringify(result)
-          : JSON.stringify(currentFieldValue) === JSON.stringify(result);
+      let same = "";
+      if (fieldName !== "video" && fieldName !== "image") {
+        same =
+          prevResultRef.current !== undefined
+            ? JSON.stringify(prevResultRef.current) === JSON.stringify(result)
+            : JSON.stringify(currentFieldValue) === JSON.stringify(result);
+      }
+
       if (!same) {
         dispatch(setProberty({ [fieldName]: result }));
         prevResultRef.current = result;
@@ -43,7 +47,7 @@ export const useValidateInputEffect = ({
     start,
     errorMessage,
     condition,
-    value,
+    // value,
     dispatch,
     fieldName,
     validationFunc,

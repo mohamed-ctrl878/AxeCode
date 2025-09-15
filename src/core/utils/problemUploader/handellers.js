@@ -50,8 +50,20 @@ export function checkAllTrue(arr) {
   return true;
 }
 
-export const toFromData = (data) => {
+export const toFormData = (file) => {
+  if (!file) return null;
+
   const formData = new FormData();
-  formData.append("files", data);
+  formData.append("files", file, file.name);
+
+  // للـ debug: iterate فقط لو entries موجودة
+  if (typeof formData.entries === "function") {
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+  } else {
+    console.warn("FormData.entries is not available in this environment.");
+  }
+
   return formData;
 };

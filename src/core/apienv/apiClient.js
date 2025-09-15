@@ -6,27 +6,29 @@ export async function apiClient({
   method = "GET",
   body = null,
   token = false,
+  bodyType = "json",
 }) {
-  try {
-    const headers = {
-      "Content-Type": "application/json",
-    };
+  // try {
+  const headers = {
+    ...(bodyType === "json" && body && { "Content-Type": "application/json" }),
+  };
 
-    const response = await fetch(url, {
-      method,
-      headers,
-      ...(token && { credentials: "include" }),
-      ...(body && { body: JSON.stringify(body) }),
-    });
-    const data = await response.json();
+  const response = await fetch(url, {
+    method,
+    headers,
+    ...(token && { credentials: "include" }),
+    ...(body && { body: JSON.stringify(body) }),
+  });
 
-    if (!response.ok) {
-      throw new Error(data.error.message || "Unknown error");
-    }
+  const data =
+    bodyType === "json" ? await response.json() : await response.text();
 
-    return new ApiSuccess(data);
-  } catch (err) {
-    // console.log(err);
-    throw err;
+  if (!response.ok) {
+    throw new Error(data.error.message || "Unknown error");
   }
+  return new ApiSuccess(data);
+  // } catch (err) {
+  //   // console.log(err);
+  //   throw err;
+  // }
 }
