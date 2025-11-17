@@ -18,13 +18,14 @@ export const useValidateInputEffect = ({
   const start = useSelector((state) => state.validStarter.start);
 
   const prevResultRef = useRef();
-  // console.log(fieldName, value, "fieldName, value");
-  // console.log(setProberty, "setProberty");
+  const refrence = useRef();
+
   useEffect(() => {
     if (!start) return;
     try {
       const result = validationFunc(value, condition, errorMessage);
 
+      refrence.current = true;
       setError("");
       let same = "";
       if (fieldName !== "video" && fieldName !== "image") {
@@ -42,16 +43,18 @@ export const useValidateInputEffect = ({
     } catch (err) {
       dispatch(stop());
       setError(err.message);
+      refrence.current = false;
     }
   }, [
     start,
     errorMessage,
     condition,
-    // value,
     dispatch,
     fieldName,
     validationFunc,
     setError,
     currentFieldValue,
   ]);
+
+  return refrence;
 };

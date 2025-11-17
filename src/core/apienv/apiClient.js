@@ -9,15 +9,21 @@ export async function apiClient({
   bodyType = "json",
 }) {
   // try {
-  const headers = {
-    ...(bodyType === "json" && body && { "Content-Type": "application/json" }),
-  };
+  const headers =
+    bodyType === "media"
+      ? {}
+      : {
+          ...(bodyType === "json" &&
+            body && { "Content-Type": "application/json" }),
+        };
+
+  const bodyToJson = bodyType === "media" ? body : JSON.stringify(body);
 
   const response = await fetch(url, {
     method,
     headers,
     ...(token && { credentials: "include" }),
-    ...(body && { body: JSON.stringify(body) }),
+    ...(body && { body: bodyToJson }),
   });
 
   const data =
@@ -27,8 +33,4 @@ export async function apiClient({
     throw new Error(data.error.message || "Unknown error");
   }
   return new ApiSuccess(data);
-  // } catch (err) {
-  //   // console.log(err);
-  //   throw err;
-  // }
 }

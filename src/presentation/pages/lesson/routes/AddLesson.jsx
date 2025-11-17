@@ -10,6 +10,7 @@ import { uploadLessonSteps } from "../components/uploadLessonSteps";
 import StepReview from "@presentation/pages/problem/components/StepReview";
 import ShowImage from "@presentation/shared/components/media/ShowImage";
 import ShowVideo from "@presentation/shared/components/media/ShowVideo";
+import { useSelector } from "react-redux";
 
 // import StepReview from "../components/StepReview";
 
@@ -22,6 +23,8 @@ import ShowVideo from "@presentation/shared/components/media/ShowVideo";
 // import { setLessonData } from "../@data/storage/storeRx/lessonData";
 
 const AddLesson = ({ className, lsnOrCrs, step = [] }) => {
+  console.log("kdfmvkm");
+
   const [currentStep, setCurrentStep] = useState(0);
   const steps = [
     ...BaseCourseContentSteps(
@@ -34,6 +37,10 @@ const AddLesson = ({ className, lsnOrCrs, step = [] }) => {
     ...uploadLessonSteps(setLessonData, "lessonsData"),
     StepReview,
   ];
+
+  const store = useSelector((state) => state.addLesson);
+
+  console.log(store);
 
   const size = steps.length;
 

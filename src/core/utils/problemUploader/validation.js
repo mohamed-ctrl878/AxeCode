@@ -24,7 +24,6 @@ export const boolValid = (params) => {
 export const stringValid = (params) => {
   try {
     if (params.length === 0) throw new Error("please enter a valid string");
-
     return params;
   } catch (msg) {
     throw msg;

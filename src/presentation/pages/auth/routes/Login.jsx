@@ -1,73 +1,30 @@
 // import baseLogin from "@/domain/usecases/baseLoginExe";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-// import { Link } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-
-// // Core
-// import { baseLogin } from "@domain/usecases/baseLoginExe";
-// import { logIn } from "@data/storage/storeRx/userAuthSlice";
-
-// // Styles
 import style from "@presentation/styles/pages/login.module.css";
-// import style from "@presentation/styles/pages/login.module.css";
 import { Link } from "react-router-dom";
 import { logIn } from "@data/storage/storeRx/globalStore/userAuthSlice";
 import baseLogin from "@domain/usecases/user/baseLoginExe";
+import ReCapatcha from "@presentation/shared/components/layout/ReCapatcha";
+import useBaseLogin from "@presentation/shared/hooks/useBaseLogin";
 
 const Login = ({ theme }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailErr, setEmailErr] = useState("");
-  const [data, setData] = useState("");
-  const [passwordErr, setPasswordErr] = useState("");
+  const [error, setError] = useState(null);
+  const [captchaToken, setCaptchaToken] = useState(null);
+  console.log(captchaToken);
 
-  // Get theme class
-  const themeClass = theme ? "dark-theme" : "light-theme";
+  const formRef = useRef(null);
 
-  const dis = useDispatch();
-  async function onLogin() {
-    // e.preventDefault();
-    try {
-      const ss = await baseLogin({
-        token: true,
-        body: {
-          identifier: "mohamedeleskanderwow@gmail.com",
-          password: "1234567890",
-        },
-        url: "http://localhost:1338/api/auth/login",
-        method: "POST",
-      });
-      setData(ss);
-      dis(logIn());
-    } catch (c) {
-      // setErr(c.message || "unknown error");
-    }
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Reset errors
-    setEmailErr("");
-    setPasswordErr("");
-
-    // Validation
-    if (!email) {
-      setEmailErr("Email is required");
-      return;
-    }
-
-    if (!password) {
-      setPasswordErr("Password is required");
-      return;
-    }
-    onLogin();
-    // Handle login logic here
-    // console.log("Login attempt:", { email, password });
-  };
-
+  const { handleSubmit } = useBaseLogin({
+    identifier: email,
+    password,
+    recaptchaToken: captchaToken,
+    setError,
+  });
   return (
-    <div className={`${style.loginContainer} ${themeClass}`}>
+    <div className={`${style.loginContainer} `}>
       <div
         className="card card-elevated"
         style={{ padding: "2rem", maxWidth: "400px", margin: "0 auto" }}
@@ -88,7 +45,7 @@ const Login = ({ theme }) => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form noValidate onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email" className="form-label">
               Email
@@ -102,7 +59,6 @@ const Login = ({ theme }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            {emailErr && <div className="form-error">{emailErr}</div>}
           </div>
 
           <div className="form-group">
@@ -118,8 +74,9 @@ const Login = ({ theme }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {passwordErr && <div className="form-error">{passwordErr}</div>}
           </div>
+          {error && <div className="form-error">{error}</div>}
+          <ReCapatcha setCaptchaToken={setCaptchaToken} />
 
           <button
             type="submit"
@@ -131,6 +88,11 @@ const Login = ({ theme }) => {
         </form>
 
         <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
+          <p style={{ color: "var(--text-secondary)" }}>
+            <Link to="/forget-password" className="link">
+              I forget my password -&gt;
+            </Link>
+          </p>
           <p style={{ color: "var(--text-secondary)" }}>
             Don't have an account?{" "}
             <Link to="/register" className="link">

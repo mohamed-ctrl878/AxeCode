@@ -32,6 +32,8 @@ export class UserDTO {
   }
 }
 
+
+
 // id
 // documentId
 // createdAt
