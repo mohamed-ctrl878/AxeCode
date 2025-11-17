@@ -1,6 +1,4 @@
-import AuthLoginbase from "@data/repositories/userImps/LoginImp";
-
-export default async function baseLogin(propertyes) {
-  const mm = await new AuthLoginbase().login(propertyes);
+export default async function baseLogin(core, propertyes) {
+  const mm = await core.login(propertyes);
   return mm;
 }

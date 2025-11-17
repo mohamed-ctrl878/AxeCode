@@ -10,6 +10,7 @@ const useValidationCourseAndLesson = ({
   proberty,
   setProberty,
 }) => {
+  
   const dispatch = useDispatch();
   return useEffect(() => {
     try {

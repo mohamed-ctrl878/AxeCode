@@ -30,7 +30,6 @@ const StepCourseSelection = ({
   const [change, setChange] = useState("");
   const [lastChange, setLastChange] = useState("");
   const prevChange = useRef(change);
-  console.log(data, "data in step course selection");
   useOPTAndPGN({
     setLoad,
     change,

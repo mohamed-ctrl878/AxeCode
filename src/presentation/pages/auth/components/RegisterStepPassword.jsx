@@ -1,14 +1,26 @@
-import React from "react";
+import { validatePassword } from "@core/utils/validationFroms/validationReg";
+import { setRegisterDataStore } from "@data/storage/storeRx/globalStore/registerDataSteps";
+import { useValidateInputEffect } from "@presentation/shared/hooks/useValidateInputEffect";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const RegisterStepPassword = ({
-  style,
-  password,
-  setPassword,
-  confirmPassword,
-  setConfirmPassword,
-  passwordErr,
-  confirmPasswordErr,
-}) => {
+const RegisterStepPassword = ({ style }) => {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const state = useSelector((state) => state.registerDataSteps);
+  const dispatch = useDispatch();
+  useValidateInputEffect({
+    dispatch,
+    value: { password: password, confirmPassword: confirmPassword },
+    errorMessage: "Please, make them have similar values",
+    setProberty: setRegisterDataStore,
+    setError,
+    fieldName: "password",
+    validationFunc: validatePassword,
+    condition: password === confirmPassword,
+    currentFieldValue: state,
+  });
   return (
     <div className={`${style.step} ${style.active}`} id="step2">
       <div className={style.formGroup}>
@@ -30,7 +42,6 @@ const RegisterStepPassword = ({
             className={style.formControl}
             required
           />
-          {passwordErr && <div className={style.error}>{passwordErr}</div>}
         </div>
 
         <div className={style.formGroup}>
@@ -46,9 +57,7 @@ const RegisterStepPassword = ({
             className={style.formControl}
             required
           />
-          {confirmPasswordErr && (
-            <div className={style.error}>{confirmPasswordErr}</div>
-          )}
+          {error && <div className={style.error}>{error}</div>}
         </div>
       </div>
     </div>

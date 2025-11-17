@@ -1,4 +1,4 @@
-import {stringify} from "qs";
+import { stringify } from "qs";
 
 export const basicFilterationQuery = ({
   filterkey,
@@ -18,8 +18,9 @@ export const basicFilterationQuery = ({
           },
         },
       }),
-...( isPopulate &&{
-      populate: populateVal}),
+      ...(isPopulate && {
+        populate: populateVal,
+      }),
       sort: ["createdAt:desc"],
       pagination: {
         start: 0,

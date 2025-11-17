@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useMatch } from "react-router-dom";
+import { Link, useLocation, useMatch, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -21,6 +21,8 @@ import axe from "@presentation/assets/icons/axe.svg";
 // import { switchState } from "../@data/storage/storeRx/themeSlice";
 import { useDispatch } from "react-redux";
 import { switchState } from "@data/storage/storeRx/globalStore/themeSlice";
+import { logoutExe } from "@domain/usecases/user/logoutExe";
+import AuthLogoutBase from "@data/repositories/userImps/Logout";
 
 const Header = React.memo(
   ({ className, theme, setTheme, setGetUserData, userHere, data }) => {
@@ -40,6 +42,7 @@ const Header = React.memo(
     const sunElement = <FontAwesomeIcon icon={faSun} />;
     const barsElement = <FontAwesomeIcon icon={faBars} />;
     const active = useLocation();
+    const nav = useNavigate();
     let match = useMatch("/practice/:type/:id");
 
     // Handle scroll effect
@@ -223,7 +226,8 @@ const Header = React.memo(
                         <button
                           className={style.logoutButton}
                           onClick={() => {
-                            // logout function here
+                            logoutExe(new AuthLogoutBase());
+                            nav("/login");
                             setProfile(false);
                           }}
                         >

@@ -1,19 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-// Shared Components
-// import {
-//   MultibleFrom,
-//   SwitchersBtnsMForm,
-// } from "@presentation/shared/components/form";
-
-// Local Components
-// import { RegisterStepBasicInfo } from "../components/RegisterStepBasicInfo";
-// import { RegisterStepPassword } from "../components/RegisterStepPassword";
-// import { RegisterStepProfile } from "../components/RegisterStepProfile";
-// import { RegisterStepReview } from "../components/RegisterStepReview";
-
-// Styles
 import style from "@presentation/styles/pages/register-multi-step.module.css";
 import RegisterStepBasicInfo from "../components/RegisterStepBasicInfo";
 import RegisterStepPassword from "../components/RegisterStepPassword";
@@ -21,93 +8,57 @@ import RegisterStepProfile from "../components/RegisterStepProfile";
 import RegisterStepReview from "../components/RegisterStepReview";
 import MultibleFrom from "@presentation/shared/components/form/MultibleFrom";
 import SwitchersBtnsMForm from "@presentation/shared/components/form/SwitchersBtnsMForm";
-
+import FetchingStep from "@presentation/shared/components/form/FetchingStep";
+import { RegisterDTO } from "@data/models/userDTOs/RegisterDTO";
+import { basicRegisterExe } from "@domain/usecases/user/basicRegisterExe";
+import RegisterAuthBase from "@data/repositories/userImps/RegesterImp";
+import { useDispatch, useSelector } from "react-redux";
+import { stopSuccess } from "@data/storage/storeRx/sharedSlices/validStarter";
 
 const RegisterMultiStep = ({ theme }) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const nav = useNavigate();
 
   // Get theme class
   const themeClass = theme ? "dark-theme" : "light-theme";
 
-  // Form states
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [bio, setBio] = useState("");
-
-  // Error states
-  const [usernameErr, setUsernameErr] = useState("");
-  const [emailErr, setEmailErr] = useState("");
-  const [passwordErr, setPasswordErr] = useState("");
-  const [confirmPasswordErr, setConfirmPasswordErr] = useState("");
-  const [firstNameErr, setFirstNameErr] = useState("");
-  const [lastNameErr, setLastNameErr] = useState("");
-
-  // Get steps
+  const successFromStore = useSelector((state) => state.validStarter.success);
   const getSteps = () => {
     return [
-      <RegisterStepBasicInfo
-        style={style}
-        username={username}
-        setUsername={setUsername}
-        email={email}
-        setEmail={setEmail}
-        usernameErr={usernameErr}
-        emailErr={emailErr}
-      />,
-      <RegisterStepPassword
-        style={style}
-        password={password}
-        setPassword={setPassword}
-        confirmPassword={confirmPassword}
-        setConfirmPassword={setConfirmPassword}
-        passwordErr={passwordErr}
-        confirmPasswordErr={confirmPasswordErr}
-      />,
-      <RegisterStepProfile
-        style={style}
-        firstName={firstName}
-        setFirstName={setFirstName}
-        lastName={lastName}
-        setLastName={setLastName}
-        bio={bio}
-        setBio={setBio}
-        firstNameErr={firstNameErr}
-        lastNameErr={lastNameErr}
-      />,
-      <RegisterStepReview
-        style={style}
-        username={username}
-        email={email}
-        firstName={firstName}
-        lastName={lastName}
-        bio={bio}
-      />,
+      <RegisterStepBasicInfo style={style} />,
+      <RegisterStepPassword style={style} />,
+      <RegisterStepProfile style={style} />,
+      <RegisterStepReview style={style} />,
     ];
   };
+
+  const dispatch = useDispatch();
 
   const steps = getSteps();
   const size = steps.length;
 
+  console.log(successFromStore);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (currentStep === size - 1) {
-      // Validate and submit
-      // console.log("Submitting registration:",
-      //  {
-      //   username,
-      //   email,
-      //   password,
-      //   firstName,
-      //   lastName,
-      //   bio,
-      // });
-    }
   };
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      if (successFromStore) {
+        nav("/login");
+        dispatch(stopSuccess());
+      }
+    }, 5000);
 
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [successFromStore]);
+
+  if (successFromStore) {
+    <div className={`${style.loginContainer} `}>
+      <p> {<div className="form-success">{successFromStore}</div>}</p>
+    </div>;
+  }
   return (
     <div className={`${style.registerMultiStepContainer} ${themeClass}`}>
       <div
@@ -133,12 +84,25 @@ const RegisterMultiStep = ({ theme }) => {
               justifyContent: "space-between",
             }}
           >
-            <SwitchersBtnsMForm
-              style={style}
-              SetCurrentStep={setCurrentStep}
-              currentStep={currentStep}
-              size={size}
-            />
+            {currentStep === 0 || currentStep === size - 1 ? (
+              <FetchingStep
+                style={style}
+                SetCurrentStep={setCurrentStep}
+                currentStep={currentStep}
+                size={size}
+              ></FetchingStep>
+            ) : (
+              <SwitchersBtnsMForm
+                style={style}
+                SetCurrentStep={setCurrentStep}
+                currentStep={currentStep}
+                size={size}
+                dataDTO={RegisterDTO}
+                dataStore={"registerDataSteps"}
+                caseUse={basicRegisterExe}
+                core={RegisterAuthBase}
+              />
+            )}
           </div>
         </form>
 

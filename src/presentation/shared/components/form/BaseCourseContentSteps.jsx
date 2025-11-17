@@ -22,7 +22,7 @@ const BaseCourseContentSteps = (
   ),
   (props) => (
     <StepMediaUpload
-    ShowMedia={ShowMedia}
+      ShowMedia={ShowMedia}
       dataSetter={dataSetter}
       storeName={storeName}
       style={style}

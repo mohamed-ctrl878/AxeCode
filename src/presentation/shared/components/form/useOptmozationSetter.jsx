@@ -1,7 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 
-const useOptmozationSetter = ({setLoad=()=>{},change,prevChange,setLastChange}) => {
- useEffect(() => {
+const useOptmozationSetter = ({
+  setLoad = () => {},
+  change,
+  prevChange,
+  setLastChange,
+}) => {
+  useEffect(() => {
     setLoad(true);
     const timeOut = setTimeout(() => {
       if (change !== prevChange.current) {
@@ -14,6 +19,6 @@ const useOptmozationSetter = ({setLoad=()=>{},change,prevChange,setLastChange}) 
       clearTimeout(timeOut);
     };
   }, [change]);
-}
+};
 
-export default useOptmozationSetter
+export default useOptmozationSetter;

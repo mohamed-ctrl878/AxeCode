@@ -51,6 +51,8 @@ export function checkAllTrue(arr) {
 }
 
 export const toFormData = (file) => {
+  console.log("filefilefilefile",file);
+  
   if (!file) return null;
 
   const formData = new FormData();
@@ -66,4 +68,8 @@ export const toFormData = (file) => {
   }
 
   return formData;
+};
+
+export const registerUserAdminHandeller = (key, value, anotherKey) => {
+  return { [key]: value.target.value, ...anotherKey };
 };

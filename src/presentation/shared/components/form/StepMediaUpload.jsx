@@ -1,5 +1,6 @@
 import { toFormData } from "@core/utils/problemUploader/handellers";
 import { checkLength } from "@core/utils/problemUploader/validation";
+import useSetMediaToIndexedDB from "@presentation/shared/hooks/useSetMediaToIndexedDB";
 import useUpdateStoper from "@presentation/shared/hooks/useUpdateStoper";
 import { useValidateInputEffect } from "@presentation/shared/hooks/useValidateInputEffect";
 import React, { use, useEffect, useRef, useState } from "react";
@@ -29,16 +30,24 @@ const StepMediaUpload = ({
     change: mediaCurrent,
     setErr,
   });
-  useValidateInputEffect({
-    fieldName: media,
-    setProberty: dataSetter,
+  // useValidateInputEffect({
+  //   fieldName: media,
+  //   setProberty: dataSetter,
+  //   dispatch,
+  //   value: mediaCurrent,
+  //   currentFieldValue: mediaFromStore,
+  //   condition: mediaCurrent instanceof File,
+  //   setError: setErr,
+  //   validationFunc: checkLength,
+  //   errorMessage: "Title must be at least 1 character long",
+  // });
+  useSetMediaToIndexedDB({
     dispatch,
     value: mediaCurrent,
-    currentFieldValue: mediaFromStore,
-    condition: mediaCurrent instanceof File,
+    fieldName: media,
     setError: setErr,
-    validationFunc: checkLength,
-    errorMessage: "Title must be at least 1 character long",
+    errorMessage: "please select a correct type",
+    setProberty: dataSetter,
   });
   const handleChange = (e) => {
     const file = e.target.files[0];
@@ -52,58 +61,6 @@ const StepMediaUpload = ({
     setMediaCurrent(file);
   };
 
-  useEffect(() => {
-    if (!mediaCurrent) return;
-    const ac = new AbortController();
-
-    const uploadMedia = async () => {
-      try {
-        const formData = toFormData(mediaCurrent);
-        // debug
-        for (const pair of formData.entries()) {
-          console.log("formData entry:", pair[0], pair[1]);
-        }
-        console.log("formData", formData);
-        // الحصول على التوكن (عدّل حسب استخدامك: من localStorage أو redux)
-        const token = localStorage.getItem("token"); // مثال
-
-        const res = await fetch(import.meta.env.VITE_API_UPLOADS, {
-          method: "POST",
-          headers: {
-            // لا تضيف Content-Type هنا — المتصفح يضبط boundary تلقائيًا
-          },
-
-          credentials: "include",
-          // إذا ستراپي يستخدم JWT عبر header فاستعمل Authorization.
-          // إذا كنت تعتمد على session cookies فممكن تضع credentials: "include"
-          // لكن تأكد من إعدادات CORS على السيرفر.
-          body: formData,
-          // signal: ac.signal,
-        });
-
-        const text = await res.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch (e) {
-          data = text;
-        }
-
-        if (!res.ok) {
-          console.error("Upload failed:", res.status, data);
-          return;
-        }
-
-        console.log("Upload success:", data);
-      } catch (err) {
-        if (err.name === "AbortError") return;
-        console.error("Upload error:", err);
-      }
-    };
-
-    uploadMedia();
-    return () => ac.abort();
-  }, [mediaCurrent]);
   return (
     <div className={`${style.step} ${style.active}`} id="step2">
       <div className={style.formGroup}>

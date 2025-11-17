@@ -717,27 +717,62 @@
   transform: translateY(0);
 }
 
-/* Responsive Design */
+/* Enhanced Responsive Design */
+@media (max-width: 1200px) {
+  .pinnedPostsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+  
+  .feedbackGrid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .heroSection {
+    min-height: 80vh;
+    padding: 1.5rem 1rem;
+  }
+  
   .heroTitle {
     font-size: 2.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
   .heroSubtitle {
     font-size: 1.2rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
   }
 
   .heroButtons {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+  }
+  
+  .heroButton {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
   }
 
   .pinnedPostsGrid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .pinnedPostsContainer,
+  .developerFeedbackContainer {
+    padding: 4rem 1.5rem;
   }
 
   .feedbackGrid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .gradientShape1,
@@ -745,17 +780,36 @@
   .gradientShape3 {
     width: 250px;
     height: 250px;
+    filter: blur(60px);
   }
 
   .pinnedPostsTitle,
   .developerFeedbackTitle {
     font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .heroContent {
+    padding: 1.5rem;
+    margin: 0 1rem;
   }
 }
 
 @media (max-width: 480px) {
+  .heroSection {
+    min-height: 70vh;
+    padding: 1rem 0.5rem;
+  }
+  
   .heroTitle {
     font-size: 2.2rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
   }
 
   .pinnedPostsContainer,
@@ -765,12 +819,70 @@
 
   .pinnedPostCard,
   .feedbackCard {
-    padding: 2rem;
+    padding: 2rem 1.5rem;
   }
 
   .heroButton {
     padding: 1rem 2rem;
     font-size: 1.1rem;
+    max-width: 250px;
+  }
+  
+  .pinnedPostsTitle,
+  .developerFeedbackTitle {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .heroContent {
+    padding: 1rem;
+    margin: 0 0.5rem;
+  }
+  
+  .gradientShape1,
+  .gradientShape2,
+  .gradientShape3 {
+    width: 200px;
+    height: 200px;
+    filter: blur(50px);
+  }
+}
+
+@media (max-width: 360px) {
+  .heroTitle {
+    font-size: 1.9rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+  
+  .heroButton {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    max-width: 220px;
+  }
+  
+  .pinnedPostsTitle,
+  .developerFeedbackTitle {
+    font-size: 1.75rem;
+  }
+  
+  .pinnedPostCard,
+  .feedbackCard {
+    padding: 1.5rem 1rem;
+  }
+  
+  .gradientShape1,
+  .gradientShape2,
+  .gradientShape3 {
+    width: 150px;
+    height: 150px;
+    filter: blur(40px);
+  }
+  
+  .heroContent {
+    padding: 0.75rem;
   }
 }
 

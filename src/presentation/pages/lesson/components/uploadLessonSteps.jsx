@@ -24,7 +24,7 @@ const uploadLessonSteps = (dataSetter, storeName) => [
       Component={WeekSelector}
       query={{
         filterkey: "title",
-        populateVal: ["picture", "weeks", "course_types", "problem_types"],
+        populateVal: [],
         isFilter: true,
         isPopulate: true,
       }}
@@ -59,7 +59,7 @@ const uploadLessonSteps = (dataSetter, storeName) => [
       caseUse={getCourseTypeExe}
       probertyItem={"course_types"}
       Component={ProblemTypeMapper}
-            query={{
+      query={{
         isPopulate: false,
         isFilter: true,
         filterkey: "title",

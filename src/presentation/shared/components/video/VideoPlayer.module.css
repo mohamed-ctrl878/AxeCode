@@ -1,0 +1,518 @@
+/* VideoPlayer Component Styles */
+/* Simple, responsive, and modern design */
+
+.videoPlayerContainer {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  outline: none;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.videoPlayerContainer.theater {
+  max-width: 1400px;
+}
+
+.videoPlayerContainer.normal {
+  max-width: 900px;
+}
+
+/* Player Shell */
+.playerShell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.playerShell.theater {
+  border-radius: 16px;
+}
+
+.playerShell:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Video Element */
+.videoElement {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+  border-radius: inherit;
+}
+
+/* Center Play Button */
+.centerPlayButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 5;
+}
+
+.centerPlayButton:hover,
+.centerPlayButton:focus {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.centerPlayButton svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Top Controls Bar */
+.topControlsBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.topControlsBar.visible {
+  opacity: 1;
+}
+
+.topControlsBar.hidden {
+  opacity: 0;
+}
+
+.topControlsLeft,
+.topControlsRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  pointer-events: auto;
+}
+
+/* Control Buttons and Selects */
+.controlButton,
+.controlSelect {
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.controlButton:hover,
+.controlSelect:hover,
+.controlButton:focus,
+.controlSelect:focus {
+  background: rgba(0, 0, 0, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  outline: none;
+}
+
+.controlSelect {
+  appearance: none;
+  min-width: 80px;
+}
+
+/* Bottom Controls */
+.bottomControls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.bottomControls.visible {
+  opacity: 1;
+}
+
+.bottomControls.hidden {
+  opacity: 0;
+}
+
+.controlsPanel {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+/* Seek Bar */
+.seekBarContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.timeDisplay {
+  color: white;
+  font-size: 12px;
+  font-family: monospace;
+  min-width: 45px;
+  text-align: center;
+}
+
+.seekBar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.seekBar::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.seekBar::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.seekBar::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #3b82f6;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.seekBar::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Bottom Button Row */
+.bottomButtonRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.leftControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rightInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+}
+
+/* Primary Play Button */
+.playButton {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.playButton:hover,
+.playButton:focus {
+  background: #2563eb;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* Secondary Buttons */
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover,
+.secondaryButton:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  outline: none;
+}
+
+/* Volume Slider */
+.volumeSlider {
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #3b82f6;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+/* Screen Reader Only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Loading State */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 15;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .videoPlayerContainer.theater {
+    max-width: 100%;
+  }
+  
+  .videoPlayerContainer.normal {
+    max-width: 100%;
+  }
+  
+  .topControlsBar {
+    padding: 12px;
+  }
+  
+  .bottomControls {
+    padding: 12px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .topControlsBar {
+    padding: 8px;
+  }
+  
+  .bottomControls {
+    padding: 8px;
+  }
+  
+  .topControlsLeft,
+  .topControlsRight {
+    gap: 8px;
+  }
+  
+  .controlButton,
+  .controlSelect {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .centerPlayButton {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .centerPlayButton svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .seekBarContainer {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .timeDisplay {
+    font-size: 10px;
+    min-width: 40px;
+  }
+  
+  .bottomButtonRow {
+    gap: 8px;
+  }
+  
+  .leftControls {
+    gap: 6px;
+  }
+  
+  .playButton {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .secondaryButton {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  .volumeSlider {
+    width: 60px;
+  }
+  
+  .rightInfo {
+    font-size: 10px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .playerShell {
+    border-radius: 8px;
+  }
+  
+  .centerPlayButton {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .centerPlayButton svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .controlsPanel {
+    padding: 8px 12px;
+  }
+  
+  .seekBarContainer {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .timeDisplay {
+    font-size: 9px;
+    min-width: 35px;
+  }
+  
+  .bottomButtonRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .leftControls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .rightInfo {
+    justify-content: center;
+    font-size: 9px;
+  }
+  
+  .volumeSlider {
+    width: 50px;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 360px) {
+  .topControlsBar,
+  .bottomControls {
+    padding: 6px;
+  }
+  
+  .controlButton,
+  .controlSelect {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .playButton {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+  
+  .secondaryButton {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+}

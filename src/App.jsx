@@ -18,6 +18,7 @@ import { setUserDataHere } from "@data/storage/storeRx/globalStore/userData";
 import Layout from "@presentation/shared/components/layout/Layout";
 import Header from "@presentation/shared/components/layout/LinkHeader";
 import { routes } from "./routes";
+import SocketChatTest from "./SocketChatTest";
 const AppRoutes = ({ data, theme, themeClass }) => {
   return useRoutes(routes(data, theme, themeClass));
 };
@@ -70,6 +71,7 @@ const App = React.memo(() => {
           <div className={`background-lights ${themeClass}`} />
         </Layout>
       </Router>
+      <SocketChatTest></SocketChatTest>
     </div>
   );
 });

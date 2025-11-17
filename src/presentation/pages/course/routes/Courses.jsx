@@ -197,70 +197,61 @@ const Courses = ({ theme }) => {
 
   return (
     <div className={`${style.coursesContainer} ${themeClass}`}>
-      {/* Header Section */}
-      <div
-        className="card card-elevated"
-        style={{ marginBottom: "2rem", textAlign: "center", padding: "2rem" }}
-      >
-        <h1
-          style={{
-            color: "var(--text-primary)",
-            marginBottom: "0.5rem",
-            fontSize: "2.25rem",
-            fontWeight: "700",
-          }}
-        >
-          Explore Our Courses
-        </h1>
-        <p style={{ color: "var(--text-secondary)", fontSize: "1.125rem" }}>
-          Discover the perfect course to advance your skills and career
-        </p>
-      </div>
-
-      {/* Search and Filter Section */}
-      <div className="card" style={{ marginBottom: "2rem", padding: "1.5rem" }}>
-        <div style={{ marginBottom: "1rem" }}>
-          <div style={{ position: "relative" }}>
-            <input
-              type="text"
-              placeholder="Search courses, instructors, or topics..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="input"
-              style={{ width: "100%", paddingLeft: "2.5rem" }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                left: "0.75rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "var(--text-muted)",
-              }}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-              </svg>
+      {/* Enhanced Header Section */}
+      <div className={style.coursesHeader}>
+        <div className={style.headerContent}>
+          <h1 className={style.coursesTitle}>
+            Explore Our Courses
+          </h1>
+          <p className={style.coursesSubtitle}>
+            Discover the perfect course to advance your skills and career with expert-led content
+          </p>
+          <div className={style.coursesStats}>
+            <div className={style.statItem}>
+              <span className={style.statNumber}>{courses.length}</span>
+              <span className={style.statLabel}>Total Courses</span>
+            </div>
+            <div className={style.statItem}>
+              <span className={style.statNumber}>{filteredCourses.length}</span>
+              <span className={style.statLabel}>Available</span>
+            </div>
+            <div className={style.statItem}>
+              <span className={style.statNumber}>15+</span>
+              <span className={style.statLabel}>Categories</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+      {/* Enhanced Search and Filter Section */}
+      <div className={style.searchFilterSection}>
+        <div className={style.searchContainer}>
+          <input
+            type="text"
+            placeholder="Search courses, instructors, or topics..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={style.searchInput}
+          />
+          <div className={style.searchIcon}>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div className={style.categoriesContainer}>
           {categories.map((category) => (
             <button
               key={category.id}
-              className={`btn ${
-                selectedCategory === category.id
-                  ? "btn-primary"
-                  : "btn-secondary"
+              className={`${style.categoryButton} ${
+                selectedCategory === category.id ? style.categoryActive : ""
               }`}
               onClick={() => setSelectedCategory(category.id)}
             >
@@ -270,15 +261,8 @@ const Courses = ({ theme }) => {
         </div>
       </div>
 
-      {/* Courses Grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-          gap: "2rem",
-          marginBottom: "2rem",
-        }}
-      >
+      {/* Enhanced Courses Grid */}
+      <div className={style.coursesGrid}>
         {filteredCourses.length === 0 ? (
           <div
             className="card card-elevated"
@@ -314,8 +298,7 @@ const Courses = ({ theme }) => {
           filteredCourses.map((course, index) => (
             <div
               key={course.id}
-              className="card card-elevated"
-              style={{ overflow: "hidden" }}
+              className={style.courseCard}
             >
               <div style={{ position: "relative" }}>
                 <img
@@ -474,15 +457,19 @@ const Courses = ({ theme }) => {
 
                 <div style={{ display: "flex", gap: "0.75rem" }}>
                   <Link
-                    to={`/courses/${course.id}`}
+                    to={`/courses/${course.id}/preview`}
                     className="btn btn-secondary"
                     style={{ flex: 1, textAlign: "center" }}
                   >
                     View Course
                   </Link>
-                  <button className="btn btn-primary" style={{ flex: 1 }}>
+                  <Link
+                    to={`/courses/${course.id}/content`}
+                    className="btn btn-primary"
+                    style={{ flex: 1, textAlign: "center" }}
+                  >
                     Enroll Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
