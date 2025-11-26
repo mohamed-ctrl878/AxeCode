@@ -14,4 +14,5 @@ export class LessonUploadDTO {
     this.course_types = course_types;
     this.video = video;
   }
+
 }

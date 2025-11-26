@@ -24,4 +24,5 @@ export class LessoneDTO {
     this.weeks = weeks;
     this.video = video;
   }
+
 }

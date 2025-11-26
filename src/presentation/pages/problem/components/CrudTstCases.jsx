@@ -1,11 +1,11 @@
 import useClearChkStateEffect from "@presentation/shared/hooks/useClearChkStateEffect";
 import useFillTestCasesEffect from "@presentation/shared/hooks/useFillTestCasesEffect";
 import { toWords } from "number-to-words";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useStore } from "react-redux";
 import InputTstCase from "./InputTstCase";
 import VectorInput from "@presentation/shared/components/form/VectorInput";
-
+import { intValid } from "@core/utils/problemUploader/validation";
 
 const CrudTstCases = ({ idx, style }) => {
   const store = useStore();

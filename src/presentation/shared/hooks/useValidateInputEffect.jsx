@@ -16,10 +16,9 @@ export const useValidateInputEffect = ({
   currentFieldValue,
 }) => {
   const start = useSelector((state) => state.validStarter.start);
-
   const prevResultRef = useRef();
   const refrence = useRef();
-
+  
   useEffect(() => {
     if (!start) return;
     try {

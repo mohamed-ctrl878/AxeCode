@@ -23,14 +23,8 @@ import SwitchersBtnsMForm from "@presentation/shared/components/form/SwitchersBt
 import { ProblemChangesDTO } from "@data/models/problemDTOs/ProblemUploadDTO";
 // import { ProblemChangesDTO } from "../@data/models/problemDTOs/ProblemUploadDTO";
 
-let wdt = { width: "25px" };
-
 const UploadProblem = React.memo(({ theme }) => {
   const [currentStep, SetCurrentStep] = useState(0);
-  const functionReturnTypeFromStore = useSelector(
-    (state) => state.DataPostProblem.functionReturnTypeFromStore
-  );
-
   const steps = [
     <StepFunNamInForm style={style} />,
     <StepTitleInForm style={style} />,
@@ -43,33 +37,8 @@ const UploadProblem = React.memo(({ theme }) => {
     <StepSetTstCases style={style} />,
     <StepShowDetails style={style} />,
   ];
-
   // console.log(typeOfParams)
   const size = steps.length;
-
-  useEffect(() => {
-    async function getCourse() {
-      try {
-        const getdata = await getCoursesExe(new GetCourses());
-        // console.log(getdata);
-        // setDataHere
-      } catch (d) {
-        // err state here
-      }
-    }
-    getCourse();
-  }, []);
-
-  async function ftsh() {
-    try {
-      const getExecutionFunc = await postProblemExe(new PostProblem(), {
-        // body here
-      });
-      // sucsess
-    } catch (d) {
-      // console.log(d.message);
-    }
-  }
 
   return (
     <div
