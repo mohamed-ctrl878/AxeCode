@@ -93,10 +93,9 @@
 }
 
 .editor {
-
   flex: 1;
   padding: 20px;
-  background:var(--bg-primary);
+  background: var(--bg-primary);
   border: none;
   outline: none;
   font-size: 16px;
@@ -135,7 +134,7 @@
   font-size: 12px;
   overflow-y: auto;
   white-space: pre-wrap;
-  direction: ltr;
+  direction: rtl;
   box-sizing: border-box;
 }
 
@@ -336,7 +335,7 @@
   min-height: 1.6em;
 }
 :global(.editor-content:empty:before) {
-  content: "ابدأ في كتابة المحتوى...";
+  content: "let's start...";
   color: #666;
   font-style: italic;
 }

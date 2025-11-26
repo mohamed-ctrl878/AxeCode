@@ -28,4 +28,7 @@ export class courseDTO extends CourseUploadDTO {
     this.updatedAt = updatedAt;
     this.publishedAt = publishedAt;
   }
+
+
 }
+

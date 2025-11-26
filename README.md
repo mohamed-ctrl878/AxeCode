@@ -43,7 +43,6 @@ Clone the repository:
 
 git clone <https://github.com/mohamed-ctrl878/AxeCode.git>
 
-
 cd AXE_CODE
 
 Install dependencies:
@@ -111,6 +110,16 @@ Author: Mohamed El Eskander (sole developer)
 Contact: mohamedeleskanderwow@gmail.com
 
 Contributions: This project is currently developed by a single author and is not accepting external contributions at this time.
+
+## Software Functionalities and Content Relations
+
+The following diagram illustrates the main functionalities of AxeCode and how different content types and systems relate to each other within the platform. It covers user interactions, educational content, community features, and future planned systems.
+
+<img src="\public\software_functionality_diagram.jpg" alt="AxeCode Software Functionalities and Content Relations" style="max-width:100%;height:auto;" />
+
+_Diagram: Overview of AxeCode's software functionalities and content relationships, including user flows, educational modules, community features, chat, events, live streaming, and future extensions like e-commerce and competitive programming._
+
+---
 
 License
 
