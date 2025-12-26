@@ -1,0 +1,780 @@
+/* 🎨 AxeCode Design System - Clean Brutalist Style */
+/* Import this file in all CSS modules to use the design system */
+
+/* ============================================
+   🎨 COLOR PALETTE
+   ============================================ */
+
+:root {
+  /* Primary Colors */
+  --main-bg-color: #f0eee6;
+  --white: rgba(255, 255, 255, 0.87);
+  
+  /* Text Colors */
+  --text-primary: #141413;
+  --text-secondary: #5c5b5b;
+  --text-muted: #aaa;
+  
+  /* Surface Colors */
+  --surface-card: #e3dacc;
+  --surface-white: var(--white);
+  --surface-footer: #293952;
+  
+  /* Accent Colors - Modified to remove blue spread */
+  --accent-blue: #141413; /* Changed to black/primary to neutralize blue borders */
+  --accent-green: #5cb85c;
+  --accent-orange: #f0ad4e;
+  --accent-red: #d9534f;
+  --accent-purple: #9b59b6;
+  --accent-teal: #5bc0de;
+  
+  /* Card Colors - خلفيات ملونة خفيفة */
+  --card-blue: #e8f4f8;
+  --card-green: #e8f5e9;
+  --card-orange: #fff3e0;
+  --card-red: #ffebee;
+  --card-purple: #f3e5f5;
+  --card-yellow: #fffde7;
+  
+  /* Border Colors */
+  --border-light: #f0f0f0;
+  --border-medium: #ddd;
+  --border-dark: #141413;
+  
+  /* Shadow - Brutalist Style */
+  --shadow-solid: 3px 3px 0px black;
+  --shadow-soft-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-soft-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-soft-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Theme Variables */
+.dark-theme {
+  --main-bg-color: #1a1a1a;
+  --white: rgba(20, 20, 19, 0.87);
+  
+  --text-primary: #f0eee6;
+  --text-secondary: #aaa;
+  --text-muted: #777;
+  
+  --surface-card: #2a2a2a;
+  --surface-white: rgba(42, 42, 42, 0.87);
+  --surface-footer: #141413;
+  
+  --border-light: #333;
+  --border-medium: #444;
+  --border-dark: #f0eee6;
+  
+  --shadow-solid: 3px 3px 0px #f0eee6;
+  --shadow-soft-sm: 0 2px 8px rgba(255, 255, 255, 0.05);
+  --shadow-soft-md: 0 4px 12px rgba(255, 255, 255, 0.08);
+  --shadow-soft-lg: 0 8px 24px rgba(255, 255, 255, 0.12);
+}
+
+/* ============================================
+   🔤 TYPOGRAPHY
+   ============================================ */
+
+.text-hero {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding-block: 2.5rem;
+}
+
+.text-h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  padding-block: 1.8rem;
+}
+
+.text-h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  padding-block: 1.4rem;
+}
+
+.text-h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding-block: 0.8rem;
+}
+
+.text-body {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+}
+
+.text-small {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Responsive Typography */
+@media (min-width: 375px) {
+  .text-responsive { font-size: 15px; }
+}
+@media (min-width: 768px) {
+  .text-responsive { font-size: 16px; }
+}
+@media (min-width: 1024px) {
+  .text-responsive { font-size: 17px; }
+}
+@media (min-width: 1280px) {
+  .text-responsive { font-size: 18px; }
+}
+@media (min-width: 1440px) {
+  .text-responsive { font-size: 19px; }
+}
+
+/* ============================================
+   📐 SPACING SYSTEM
+   ============================================ */
+
+.gap-xs { gap: 5px; }
+.gap-sm { gap: 10px; }
+.gap-md { gap: 20px; }
+.gap-lg { gap: 30px; }
+
+.p-xs { padding: 0.6rem; }
+.p-sm { padding: 1rem; }
+.p-md { padding: 2rem; }
+.p-lg { padding: 3rem; }
+.p-xl { padding: 4rem; }
+
+.m-xs { margin: 0.6rem; }
+.m-sm { margin: 1rem; }
+.m-md { margin: 1.5rem; }
+.m-lg { margin: 2.5rem; }
+.m-xl { margin: 4rem; }
+
+/* ============================================
+   🎯 BUTTONS - Brutalist Style
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  box-shadow: var(--shadow-solid);
+  border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px var(--text-primary);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-solid);
+}
+
+.btn-black {
+  background-color: var(--text-primary);
+  color: var(--white);
+}
+
+.btn-white {
+  background-color: var(--white);
+  color: var(--text-primary);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 2px solid var(--text-primary);
+  box-shadow: none;
+}
+
+.btn-outline:hover {
+  background-color: var(--text-primary);
+  color: var(--white);
+  box-shadow: var(--shadow-solid);
+}
+
+.btn-small {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.95rem;
+}
+
+.btn-large {
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+}
+
+/* ============================================
+   🎴 CARDS
+   ============================================ */
+
+.card {
+  background-color: var(--surface-card);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: var(--shadow-soft-sm);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft-md);
+}
+
+.card-flat {
+  background-color: var(--surface-white);
+  border: 1px solid var(--border-light);
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.card-bordered {
+  border: 2px solid var(--border-dark);
+  box-shadow: var(--shadow-solid);
+}
+
+.card-horizontal {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  padding-top: 3rem;
+  border-top: 2px solid var(--border-medium);
+}
+
+/* Grid System for Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card-grid-sm {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.card-grid-lg {
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2.5rem;
+}
+
+/* ============================================
+   📦 CONTAINERS
+   ============================================ */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.container-flex {
+  display: flex;
+  gap: 30px;
+  padding-inline: 2rem;
+  align-items: center;
+}
+
+.container-narrow {
+  max-width: 800px;
+}
+
+.container-wide {
+  max-width: 1400px;
+}
+
+.section {
+  padding: 4rem 1rem;
+  box-sizing: border-box;
+}
+
+.section-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 30rem !important;
+  gap: 1rem;
+}
+
+/* ============================================
+   🎭 EFFECTS & TRANSITIONS
+   ============================================ */
+
+.transition-fast {
+  transition: all 0.1s ease;
+}
+
+.transition-normal {
+  transition: all 0.3s ease;
+}
+
+.transition-slow {
+  transition: all 0.4s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* ============================================
+   🖼️ BORDERS & SHADOWS
+   ============================================ */
+
+.border-sm {
+  border-radius: 3px;
+}
+
+.border-md {
+  border-radius: 4px;
+}
+
+.border-lg {
+  border-radius: 8px;
+}
+
+.shadow-solid {
+  box-shadow: var(--shadow-solid);
+}
+
+.shadow-soft-sm {
+  box-shadow: var(--shadow-soft-sm);
+}
+
+.shadow-soft-md {
+  box-shadow: var(--shadow-soft-md);
+}
+
+.shadow-soft-lg {
+  box-shadow: var(--shadow-soft-lg);
+}
+
+/* ============================================
+   📱 RESPONSIVE UTILITIES
+   ============================================ */
+
+.responsive-width {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.responsive-container {
+  width: 100%;
+  padding: 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    padding-inline: 0.6rem;
+  }
+  
+  .container-flex {
+    gap: 10px;
+  }
+  
+  .section-hero {
+    padding: 2.5rem 0.8rem;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .text-hero {
+    font-size: 1.7rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .container {
+    max-width: 700px;
+  }
+  
+  .container-flex {
+    gap: 20px;
+    padding-inline: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .section-hero {
+    padding: 3rem 1rem;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .text-hero {
+    font-size: 2rem;
+  }
+}
+
+/* Desktop Small */
+@media (max-width: 992px) {
+  .container {
+    max-width: 900px;
+  }
+  
+  .container-flex {
+    gap: 20px;
+    padding-inline: 1.25rem;
+  }
+}
+
+/* ============================================
+   🎨 SPECIAL COMPONENTS
+   ============================================ */
+
+/* Logo */
+.logo {
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+}
+
+.logo-bordered {
+  border-top: 2px solid var(--border-dark);
+  border-bottom: 2px solid var(--border-dark);
+  border-left: 2px solid var(--border-dark);
+  padding: 4px;
+}
+
+/* Header */
+.header-fixed {
+  position: fixed !important;
+  height: 70px;
+  width: 100%;
+  background-color: var(--main-bg-color);
+  user-select: none;
+  z-index: 999;
+  top: 0;
+  left: 0;
+}
+
+/* Navigation Link */
+.nav-link {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  height: 70px;
+  cursor: pointer;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--surface-footer);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  color: var(--white);
+}
+
+/* Input Container */
+.input-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.input-container input,
+.input-container textarea,
+.input-container select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--border-medium);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: var(--white);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.input-container input:focus,
+.input-container textarea:focus,
+.input-container select:focus {
+  outline: none;
+  border-color: var(--text-primary);
+  box-shadow: var(--shadow-solid);
+}
+
+.input-container input::placeholder,
+.input-container textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Colored Cards */
+.card-blue {
+  background-color: var(--card-blue);
+  border-color: var(--accent-blue);
+}
+
+.card-green {
+  background-color: var(--card-green);
+  border-color: var(--accent-green);
+}
+
+.card-orange {
+  background-color: var(--card-orange);
+  border-color: var(--accent-orange);
+}
+
+.card-red {
+  background-color: var(--card-red);
+  border-color: var(--accent-red);
+}
+
+.card-purple {
+  background-color: var(--card-purple);
+  border-color: var(--accent-purple);
+}
+
+.card-yellow {
+  background-color: var(--card-yellow);
+  border-color: var(--border-dark);
+}
+
+
+/* Lists */
+.list-feature {
+  margin-left: 5rem;
+  margin-bottom: 1.5rem;
+  list-style: disc;
+  line-height: 2.1;
+  padding-left: 1rem;
+}
+
+.list-feature ul {
+  margin-left: 2rem;
+  margin-top: 0.8rem;
+  list-style: circle;
+  line-height: 1.8;
+  padding-left: 1rem;
+}
+
+/* ============================================
+   🎬 ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.anim-fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+.anim-fade-in-up {
+  animation: fadeInUp 0.5s ease;
+}
+
+.anim-slide-left {
+  animation: slideInLeft 0.5s ease;
+}
+
+.anim-slide-right {
+  animation: slideInRight 0.5s ease;
+}
+
+/* ============================================
+   🎯 UTILITY CLASSES
+   ============================================ */
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grid {
+  display: grid;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+/* ============================================
+   📝 NOTES FOR DEVELOPERS
+   ============================================ */
+
+/*
+  🎨 Design System Summary:
+  
+  1. COLORS:
+     - Main BG: #f0eee6 (warm beige)
+     - Text: #141413 (almost black)
+     - Cards: #e3dacc (lighter beige)
+     
+  2. SHADOWS:
+     - Brutalist: 3px 3px 0px black (solid, offset)
+     - Soft: graduated rgba shadows
+     
+  3. BUTTONS:
+     - Always use box-shadow: var(--shadow-solid)
+     - border-radius: 3px
+     - font-weight: 600
+     
+  4. CARDS:
+     - border-radius: 8px
+     - Hover: lift up with translateY(-2px)
+     - Grid: minmax(300px, 1fr)
+     
+  5. TRANSITIONS:
+     - Fast: 0.1s (dropdowns)
+     - Normal: 0.3s (default)
+     - Slow: 0.4s (navigation)
+     
+  6. RESPONSIVE:
+     - Mobile First approach
+     - Breakpoints: 480, 768, 992, 1024, 1280, 1440
+     
+  Use these classes to maintain consistency!
+*/

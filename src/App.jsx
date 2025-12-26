@@ -17,7 +17,7 @@ import ScrollToTop from "@presentation/shared/components/layout/ScrollToTop";
 import { setUserDataHere } from "@data/storage/storeRx/globalStore/userData";
 import Layout from "@presentation/shared/components/layout/Layout";
 import Header from "@presentation/shared/components/layout/LinkHeader";
-import { routes } from "./routes";
+import { routes } from "./routes.jsx";
 import SocketChatTest from "./SocketChatTest";
 const AppRoutes = ({ data, theme, themeClass }) => {
   return useRoutes(routes(data, theme, themeClass));
@@ -30,6 +30,8 @@ const App = React.memo(() => {
   // console.log(data);
   const auth = useSelector((state) => state.auth.getuserData);
   const dispatch = useDispatch();
+
+  console.log(auth);
 
   const info = <FontAwesomeIcon icon={faSitemap} />;
   const world = <FontAwesomeIcon icon={faGlobe} />;
@@ -52,7 +54,6 @@ const App = React.memo(() => {
   }
 
   // Get theme class
-
   useEffect(() => {
     myData();
   }, []);
@@ -71,7 +72,7 @@ const App = React.memo(() => {
           <div className={`background-lights ${themeClass}`} />
         </Layout>
       </Router>
-      <SocketChatTest></SocketChatTest>
+      {/* <SocketChatTest></SocketChatTest> */}
     </div>
   );
 });

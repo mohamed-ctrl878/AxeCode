@@ -1,4 +1,4 @@
-import { LessonUploadDTO } from "@data/models/LessonDTOs/LessonUploadDTO";
+import { LessonUploadDTO } from "@domain/reqs_dtos/LessonUploadDTO";
 import { createSlice } from "@reduxjs/toolkit";
 
 const lessonsData = createSlice({
@@ -9,8 +9,11 @@ const lessonsData = createSlice({
       state = { ...state, ...action.payload };
       return state;
     },
+    removeLessonData: (state) => {
+      return { ...new LessonUploadDTO({}) };
+    },
   },
 });
 
-export const { setLessonData } = lessonsData.actions;
+export const { setLessonData,removeLessonData } = lessonsData.actions;
 export default lessonsData.reducer;

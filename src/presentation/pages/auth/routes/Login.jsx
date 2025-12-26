@@ -1,7 +1,6 @@
-// import baseLogin from "@/domain/usecases/baseLoginExe";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import style from "@presentation/styles/pages/login.module.css";
+import styles from "@presentation/styles/pages/auth.module.css";
 import { Link } from "react-router-dom";
 import { logIn } from "@data/storage/storeRx/globalStore/userAuthSlice";
 import baseLogin from "@domain/usecases/user/baseLoginExe";
@@ -13,91 +12,111 @@ const Login = ({ theme }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [captchaToken, setCaptchaToken] = useState(null);
-  console.log(captchaToken);
+  const capatchaRef = useRef(null);
 
   const formRef = useRef(null);
+  console.log(captchaToken);
 
-  const { handleSubmit } = useBaseLogin({
+  const { handleSubmit, load } = useBaseLogin({
+    setCaptchaToken,
     identifier: email,
     password,
     recaptchaToken: captchaToken,
     setError,
+    capatchaRef,
   });
+
+  useEffect(() => {
+    setError("");
+  }, [password, email]);
+
   return (
-    <div className={`${style.loginContainer} `}>
-      <div
-        className="card card-elevated"
-        style={{ padding: "2rem", maxWidth: "400px", margin: "0 auto" }}
-      >
-        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <h1
-            style={{
-              color: "var(--text-primary)",
-              marginBottom: "0.5rem",
-              fontSize: "2rem",
-              fontWeight: "700",
-            }}
-          >
-            Welcome Back
-          </h1>
-          <p style={{ color: "var(--text-secondary)" }}>
-            Sign in to your account
-          </p>
+    <div className={styles.authContainer}>
+      {/* Left Side - Form */}
+      <div className={styles.authFormSide}>
+        <div className={styles.formWrapper}>
+          {/* Logo */}
+          <div className={styles.logoContainer}>
+            <div className={styles.logo}>AxeCode</div>
+          </div>
+
+          {/* Header */}
+          <div className={styles.authHeader}>
+            <h1 className={styles.authTitle}>Welcome Back</h1>
+            <p className={styles.authSubtitle}>
+              Sign in to continue your learning journey
+            </p>
+          </div>
+
+          {/* Error Message */}
+
+          {/* Form */}
+          <form noValidate onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
+              <label htmlFor="email" className={styles.formLabel}>
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                className={styles.formInput}
+                placeholder="your-email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="password" className={styles.formLabel}>
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                className={styles.formInput}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <ReCapatcha ref={capatchaRef} setCaptchaToken={setCaptchaToken} />
+
+            <button type="submit" className={styles.btnPrimary}>
+              Sign In
+              {load && <>....</>}
+            </button>
+            {error && <div className={styles.formError}>{error}</div>}
+          </form>
+
+          {/* Links */}
+          <div className={styles.formLinks}>
+            <Link to="/forget-password" className={styles.formLink}>
+              Forgot your password?
+            </Link>
+
+            <div className={styles.divider}></div>
+
+            <p style={{ margin: 0, color: "var(--text-secondary)" }}>
+              Don't have an account?{" "}
+              <Link to="/register" className={styles.linkPrimary}>
+                Create Account
+              </Link>
+            </p>
+          </div>
         </div>
+      </div>
 
-        <form noValidate onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="input"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="input"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          {error && <div className="form-error">{error}</div>}
-          <ReCapatcha setCaptchaToken={setCaptchaToken} />
-
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ width: "100%", marginTop: "1rem" }}
-          >
-            Sign In
-          </button>
-        </form>
-
-        <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-          <p style={{ color: "var(--text-secondary)" }}>
-            <Link to="/forget-password" className="link">
-              I forget my password -&gt;
-            </Link>
-          </p>
-          <p style={{ color: "var(--text-secondary)" }}>
-            Don't have an account?{" "}
-            <Link to="/register" className="link">
-              Sign up
-            </Link>
+      {/* Right Side - Image/Illustration */}
+      <div className={styles.authImageSide}>
+        <div className={styles.imagePlaceholder}>
+          <div className={styles.placeholderIcon}>💻</div>
+          <h2 className={styles.placeholderText}>Start Your Coding Journey</h2>
+          <p className={styles.placeholderSubtext}>
+            Master programming skills with interactive lessons and real-world
+            projects
           </p>
         </div>
       </div>

@@ -1,0 +1,286 @@
+/* 
+  🎨 Example Component - Clean Brutalist Style
+  This is a practical example showing the new design system in action
+*/
+
+@import '../theme.css';
+
+/* ============================================
+   PAGE CONTAINER
+   ============================================ */
+
+.examplePage {
+  background-color: var(--main-bg-color);
+  min-height: 100vh;
+  padding-top: 70px; /* Account for fixed header */
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero {
+  composes: section from '../theme.css';
+  composes: flex-center from '../theme.css';
+  min-height: 60vh;
+  text-align: center;
+}
+
+.heroTitle {
+  composes: text-hero from '../theme.css';
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+  composes: text-body from '../theme.css';
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.heroButtons {
+  composes: flex from '../theme.css';
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.heroPrimaryBtn {
+  composes: btn btn-black from '../theme.css';
+}
+
+.heroSecondaryBtn {
+  composes: btn btn-outline from '../theme.css';
+}
+
+/* ============================================
+   FEATURES SECTION
+   ============================================ */
+
+.featuresSection {
+  composes: section from '../theme.css';
+  background-color: var(--main-bg-color);
+}
+
+.sectionTitle {
+  composes: text-h1 from '../theme.css';
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid var(--border-dark);
+  padding-bottom: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.featuresGrid {
+  composes: card-grid from '../theme.css';
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featureCard {
+  composes: card hover-lift transition-normal from '../theme.css';
+  text-align: center;
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.featureTitle {
+  composes: text-h3 from '../theme.css';
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.featureDescription {
+  composes: text-body from '../theme.css';
+  margin-bottom: 1.5rem;
+}
+
+.featureButton {
+  composes: btn btn-black btn-small from '../theme.css';
+}
+
+/* ============================================
+   BRUTALIST SECTION (With Solid Shadows)
+   ============================================ */
+
+.brutalistSection {
+  composes: section from '../theme.css';
+  background-color: var(--surface-card);
+}
+
+.brutalistGrid {
+  composes: card-grid from '../theme.css';
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.brutalistCard {
+  composes: card-bordered transition-normal from '../theme.css';
+  /* This card has the distinctive brutalist shadow */
+}
+
+.brutalistCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px var(--text-primary);
+}
+
+.brutalistCardTitle {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.brutalistCardText {
+  composes: text-body from '../theme.css';
+}
+
+/* ============================================
+   CTA SECTION
+   ============================================ */
+
+.ctaSection {
+  composes: section from '../theme.css';
+  composes: flex-center from '../theme.css';
+  background-color: var(--text-primary);
+  color: var(--white);
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.ctaTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+
+.ctaSubtitle {
+  font-size: 1.2rem;
+  color: var(--white);
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.ctaButton {
+  composes: btn btn-white btn-large from '../theme.css';
+}
+
+/* ============================================
+   FORM SECTION
+   ============================================ */
+
+.formSection {
+  composes: section from '../theme.css';
+  composes: flex-center from '../theme.css';
+}
+
+.formContainer {
+  composes: card from '../theme.css';
+  max-width: 500px;
+  width: 100%;
+}
+
+.formTitle {
+  composes: text-h2 from '../theme.css';
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.inputGroup {
+  composes: input-container from '../theme.css';
+}
+
+.inputLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.submitButton {
+  composes: btn btn-black btn-large from '../theme.css';
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 50vh;
+    padding: 3rem 1rem;
+  }
+  
+  .heroTitle {
+    font-size: 2rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .heroButtons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .featuresGrid,
+  .brutalistGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .ctaSection {
+    padding: 4rem 1.5rem;
+  }
+  
+  .ctaTitle {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .heroTitle {
+    font-size: 1.7rem;
+  }
+  
+  .formContainer {
+    padding: 1.5rem;
+  }
+  
+  .featuresSection,
+  .brutalistSection {
+    padding: 3rem 1rem;
+  }
+}
+
+/* ============================================
+   DESKTOP LARGE
+   ============================================ */
+
+@media (min-width: 1280px) {
+  .featuresGrid,
+  .brutalistGrid {
+    gap: 3rem;
+  }
+}

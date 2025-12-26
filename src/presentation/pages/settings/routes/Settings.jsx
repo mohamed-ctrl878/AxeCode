@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -15,102 +16,78 @@ import style from "@presentation/styles/pages/settings.module.css";
 import RenderProfileSection from "@presentation/pages/profile/routes/RenderProfileSection";
 import RenderDashboardSection from "@presentation/pages/dashboard/routes/RenderDashboardSection";
 import RenderCoursesSection from "@presentation/pages/dashboard/routes/RenderCoursesSection";
-import RenderContentSection from "@presentation/pages/dashboard/routes/RenderContentSection";
+// import RenderDashboardSection from "@presentation/pages/dashboard/routes/RenderDashboardSection";
+// import RenderCoursesSection from "@presentation/pages/dashboard/routes/RenderCoursesSection";
+// import RenderContentSection from "@presentation/pages/dashboard/routes/RenderContentSection";
+import ContentDashboard from "@presentation/pages/dashboard/routes/ContentDashboard";
+import CourseManager from "@presentation/pages/dashboard/routes/CourseManager";
 import RenderPreferencesSection from "@presentation/pages/dashboard/routes/RenderPreferencesSection";
 
 
+const RenderAccessDenied = () => (
+    <div className={style.accessDenied}>
+        <FontAwesomeIcon icon={faLock} />
+        <h3>Access Denied</h3>
+        <p>This section is only available for instructors.</p>
+    </div>
+);
+
 const Settings = ({ theme, user, setGetUserData }) => {
+  const { topic } = useParams();
+  const navigate = useNavigate();
+  // Default to 'profile' if no topic is provided
+  const activeSection = topic || "profile"; 
+  
   // Convert boolean theme to string format for CSS classes
   const themeClass = theme === "dark-theme" ? "dark-theme" : "light-theme";
-  const [activeSection, setActiveSection] = useState("profile");
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  
+  // Ensure user data is available (using prop or context if needed, but prop 'user' is passed)
+  // user prop is "data" from App.js
+  const currentUser = user || {}; 
 
-  // Mock user data
-  const mockUser = {
-    id: 1,
-    name: "Ahmed Ali Mohamed",
-    email: "ahmed.ali@example.com",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    role: "instructor",
-    country: "Egypt",
-    language: "English",
-    isVerified: true,
-    joinDate: "2023-01-15",
-    notifications: {
-      email: true,
-      push: true,
-      sms: false,
-      courseUpdates: true,
-      comments: true,
-      marketing: false,
-    },
+  const renderSection = () => {
+    switch (activeSection) {
+      case "profile":
+        return <RenderProfileSection theme={theme} />;
+      case "dashboard":
+        return <RenderDashboardSection theme={theme} />;
+      case "courses":
+      case "manage-courses":
+        return currentUser.role?.name === "instructor" || currentUser.role?.name === "publisher" ? (
+          <CourseManager theme={theme} />
+        ) : <RenderAccessDenied />;
+        
+      case "manage-problems":
+        return <ContentDashboard theme={theme} contentType="PROBLEM" />;
+        
+      case "manage-events":
+        return <ContentDashboard theme={theme} contentType="EVENT" />;
+        
+      case "manage-articles":
+      case "blogs": // map existing 'blogs' if needed or separate
+        return <ContentDashboard theme={theme} contentType="ARTICLE" />;
+      case "manage-live":
+        return <ContentDashboard theme={theme} contentType="LIVE" />;
+        
+      case "manage-roadmaps":
+        return <ContentDashboard theme={theme} contentType="ROADMAP" />;
+
+      case "content":
+        return currentUser.role?.name === "instructor" || currentUser.role?.name === "publisher" ? (
+          <ContentDashboard theme={theme} /> // Fallback or General View
+        ) : (
+          <div className={style.accessDenied}>
+             <FontAwesomeIcon icon={faLock} />
+             <h3>Access Denied</h3>
+             <p>This section is only available for instructors.</p>
+          </div>
+        );
+      case "preferences":
+        return <RenderPreferencesSection theme={theme} />;
+      default:
+        return <RenderProfileSection theme={theme} />;
+    }
   };
-
-  // Mock content data
-
-  const navigationItems = [
-    {
-      id: "profile",
-      name: "My Profile",
-      icon: faUser,
-      description: "Manage personal information",
-    },
-    {
-      id: "dashboard",
-      name: "Dashboard",
-      icon: faChartLine,
-      description: "Overview of your activity",
-    },
-    {
-      id: "courses",
-      name: "My Courses",
-      icon: faBook,
-      description: "Manage educational courses",
-    },
-    {
-      id: "content",
-      name: "Content Management",
-      icon: faEdit,
-      description: "Create and edit content",
-      instructorOnly: true,
-    },
-    {
-      id: "preferences",
-      name: "Settings",
-      icon: faCog,
-      description: "Customize preferences",
-    },
-  ];
-
-  const handleLogout = () => {
-    // console.log("Logging out...");
-  };
-  const renderSection =
-    activeSection === "profile" ? (
-      <RenderProfileSection theme={theme} />
-    ) : activeSection === "dashboard" ? (
-      <RenderDashboardSection theme={theme} />
-    ) : activeSection === "courses" ? (
-      <RenderCoursesSection theme={theme} />
-    ) : activeSection === "content" ? (
-      mockUser.role === "instructor" ? (
-        <RenderContentSection theme={theme} />
-      ) : (
-        <div className={style.accessDenied}>
-          <FontAwesomeIcon icon={faLock} />
-          <h3>Access Denied</h3>
-          <p>This section is only available for instructors.</p>
-        </div>
-      )
-    ) : activeSection === "preferences" ? (
-      <RenderPreferencesSection theme={theme} />
-    ) : (
-      <div className={style.sectionContent}>
-        <h2>Section Not Found</h2>
-        <p>The requested section could not be found.</p>
-      </div>
-    );
 
   return (
     <div className={`${style.settingsContainer} ${themeClass}`}>
@@ -121,63 +98,10 @@ const Settings = ({ theme, user, setGetUserData }) => {
         <div className={style.blob3}></div>
       </div>
 
-      {/* Sidebar */}
-      <aside
-        className={`${style.sidebar} ${
-          isSidebarCollapsed ? style.collapsed : ""
-        }`}
-      >
-        <div className={style.sidebarHeader}>
-          <button
-            className={style.collapseBtn}
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-          >
-            <FontAwesomeIcon
-              icon={isSidebarCollapsed ? faChevronRight : faChevronLeft}
-            />
-          </button>
-          {!isSidebarCollapsed && (
-            <>
-              <h2 className={style.sidebarTitle}>Settings</h2>
-              <p className={style.sidebarSubtitle}>
-                Manage your account and preferences
-              </p>
-            </>
-          )}
-        </div>
-
-        <nav className={style.navigation}>
-          {navigationItems.map((item) => (
-            <button
-              key={item.id}
-              className={`${style.navItem} ${
-                activeSection === item.id ? style.active : ""
-              }`}
-              onClick={() => setActiveSection(item.id)}
-              disabled={item.instructorOnly && mockUser.role !== "instructor"}
-            >
-              <FontAwesomeIcon icon={item.icon} className={style.navIcon} />
-              {!isSidebarCollapsed && (
-                <div className={style.navContent}>
-                  <span className={style.navName}>{item.name}</span>
-                  <span className={style.navDescription}>
-                    {item.description}
-                  </span>
-                </div>
-              )}
-            </button>
-          ))}
-        </nav>
-
-        <div className={style.sidebarFooter}>
-          <button className={style.logoutBtn} onClick={handleLogout}>
-            <FontAwesomeIcon icon={faSignOutAlt} />
-            {!isSidebarCollapsed && "Logout"}
-          </button>
-        </div>
-      </aside>
-
-      <main className={style.mainContent}>{renderSection}</main>
+      {/* Main Content (Full Width now) */}
+      <main className={style.mainContent}>
+        {renderSection()}
+      </main>
     </div>
   );
 };

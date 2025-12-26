@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
-
 import { useSelector, useDispatch } from "react-redux";
 // import { setProberty } from "../@data/storage/storeRx/sliceProblemDataPost";
 import style from "@presentation/styles/pages/upload-problem.module.css";
@@ -15,14 +14,16 @@ import StepTstCases from "../components/StepTstCases";
 import StepSetTstCases from "../components/StepSetTstCases";
 import StepShowDetails from "../components/StepShowDetails";
 import getCoursesExe from "@domain/usecases/course/getCoursesExe";
-import GetCourses from "@data/repositories/courseImps/GetCourses";
+import GetWeeks from "@data/repositories/courseImps/GetWeeks";
 import postProblemExe from "@domain/usecases/problem/postProblemExe";
 import PostProblem from "@data/repositories/problemImps/PostProblem";
 import MultibleFrom from "@presentation/shared/components/form/MultibleFrom";
 import SwitchersBtnsMForm from "@presentation/shared/components/form/SwitchersBtnsMForm";
-import { ProblemChangesDTO } from "@data/models/problemDTOs/ProblemUploadDTO";
+// import { ProblemChangesDTO } from "@data/models/problemDTOs/ProblemUploadDTO";
+import { ProblemChangesDTO } from "@domain/reqs_dtos/ProblemUploadDTO";
+import { clearProblemData } from "@data/storage/storeRx/problemSlices/sliceProblemDataPost";
+import StepEntitlement from "@presentation/shared/components/form/StepEntitlement";
 // import { ProblemChangesDTO } from "../@data/models/problemDTOs/ProblemUploadDTO";
-
 const UploadProblem = React.memo(({ theme }) => {
   const [currentStep, SetCurrentStep] = useState(0);
   const steps = [
@@ -39,13 +40,14 @@ const UploadProblem = React.memo(({ theme }) => {
   ];
   // console.log(typeOfParams)
   const size = steps.length;
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch(clearProblemData());
+    };
+  }, []);
   return (
-    <div
-      className={`${style.uploadProblemPageContainer} ${
-        theme === "dark" ? style.darkTheme : style.lightTheme
-      }`}
-    >
+    <div className={style.uploadProblemPageContainer}>
       <div className={style.uploadProblemContainer}>
         <div className={style.uploadStepperWrapper}>
           <MultibleFrom current={currentStep} size={size} style={style} />
@@ -55,6 +57,7 @@ const UploadProblem = React.memo(({ theme }) => {
             {steps[currentStep]}
             <div className={style.uploadFormNavBtns}>
               <SwitchersBtnsMForm
+                removeData={clearProblemData}
                 dataDTO={ProblemChangesDTO}
                 core={PostProblem}
                 dataStore={"DataPostProblem"}
@@ -71,5 +74,4 @@ const UploadProblem = React.memo(({ theme }) => {
     </div>
   );
 });
-
 export default UploadProblem;

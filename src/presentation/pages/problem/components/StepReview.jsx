@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "@presentation/styles/pages/add-lesson-course.module.css";
+import { useSelector } from "react-redux";
+import ShowImage from "@presentation/shared/components/media/ShowImage";
+import ShowVideo from "@presentation/shared/components/media/ShowVideo";
+import { get } from "idb-keyval";
+import RichTextRenderer from "@presentation/shared/components/ui/themes&other/RichTextRenderer";
 
 const StepReview = ({
   lsnOrCrs,
   tittle,
   description,
-  video,
+  storeName,
+  media,
   courseId,
   linksArr,
 }) => {
+  const file = useSelector((state) => state[storeName]);
+  const [currentMedia, setMedia] = useState(null);
+
+  useEffect(() => {
+    if (!file) return;
+    (async () => {
+      setMedia(await get(file[media]));
+    })();
+  }, [file]);
   return (
     <div className={`${style.step} ${style.active}`} id="step6">
       <div className={style.formGroup}>
@@ -20,21 +35,31 @@ const StepReview = ({
         <div className={style.reviewSection}>
           <div className={style.reviewItem}>
             <h4 className={style.reviewLabel}>Title:</h4>
-            <p className={style.reviewValue}>{tittle}</p>
+            <p className={style.reviewValue}>{file?.title}</p>
           </div>
 
           <div className={style.reviewItem}>
             <h4 className={style.reviewLabel}>Media File:</h4>
-            <p className={style.reviewValue}>
-              {video ? video.name : "No file selected"}
-            </p>
-          </div>
 
+            {currentMedia &&
+              (media === "video" ? (
+                <ShowVideo file={currentMedia}></ShowVideo>
+              ) : (
+                <ShowImage
+                  file={
+                    currentMedia instanceof File &&
+                    URL.createObjectURL(currentMedia)
+                  }
+                ></ShowImage>
+              ))}
+          </div>
           <div className={style.reviewItem}>
             <h4 className={style.reviewLabel}>Description:</h4>
-            <p className={style.reviewValue}>{description}</p>
+            {file && (
+              <RichTextRenderer content={file.description}></RichTextRenderer>
+            )}
+            {/* <p className={style.reviewValue}>{description}</p> */}
           </div>
-
           {lsnOrCrs === "lesson" && (
             <div className={style.reviewItem}>
               <h4 className={style.reviewLabel}>Course ID:</h4>

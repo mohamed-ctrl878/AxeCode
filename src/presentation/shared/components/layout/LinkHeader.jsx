@@ -12,6 +12,8 @@ import {
   faClock,
   faSignOutAlt,
   faCog,
+  faComments,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import style from "@presentation/styles/components/header-new.module.css";
 // import cat from "@assets/images/cat.webp";
@@ -23,53 +25,51 @@ import { useDispatch } from "react-redux";
 import { switchState } from "@data/storage/storeRx/globalStore/themeSlice";
 import { logoutExe } from "@domain/usecases/user/logoutExe";
 import AuthLogoutBase from "@data/repositories/userImps/Logout";
+import useLogout from "@presentation/shared/hooks/useLogout";
+
+import Sidebar from "./Sidebar";
 
 const Header = React.memo(
   ({ className, theme, setTheme, setGetUserData, userHere, data }) => {
     // console.log(data);
     const [profile, setProfile] = useState(false);
-    const [tgl, setTgl] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true); // Default open on desktop
 
-    const courseElement = (
-      <FontAwesomeIcon className="icon" icon={faChalkboardUser} />
-    );
-    const codeElement = <FontAwesomeIcon className="icon" icon={faCode} />;
-    const uploadElement = <FontAwesomeIcon className="icon" icon={faUpload} />;
-    const userElement = <FontAwesomeIcon icon={faUser} />;
+    // Sync body class for layout shifting
+    useEffect(() => {
+      // Remove old classes
+      document.body.classList.remove("sidebar-expanded", "sidebar-collapsed");
+
+      if (sidebarOpen) {
+        document.body.classList.add("sidebar-expanded");
+      } else {
+        document.body.classList.add("sidebar-collapsed");
+      }
+    }, [sidebarOpen]);
+
+    // Unused icons but kept if needed later or cleaning up import if causing issues
     const moonElement = <FontAwesomeIcon icon={faMoon} />;
     const sunElement = <FontAwesomeIcon icon={faSun} />;
     const barsElement = <FontAwesomeIcon icon={faBars} />;
-    const active = useLocation();
-    const nav = useNavigate();
-    let match = useMatch("/practice/:type/:id");
-
-    // Handle scroll effect
-    useEffect(() => {
-      const handleScroll = () => {
-        setScrolled(window.scrollY > 20);
-      };
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
 
     const switchTheme = useDispatch();
 
-    // Close mobile menu when clicking outside
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (mobileMenuOpen && !event.target.closest(".mobileMenuButton")) {
-          setMobileMenuOpen(false);
-          setTgl(false);
-        }
-      };
-      document.addEventListener("click", handleClickOutside);
-      return () => document.removeEventListener("click", handleClickOutside);
-    }, [mobileMenuOpen]);
+    const handleThemeToggle = () => {
+      switchTheme(switchState());
+    };
 
+    const { logout } = useLogout(setProfile);
     return (
       <>
+        <Sidebar
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          onOpen={() => setSidebarOpen(true)}
+          theme={theme}
+          toggleTheme={handleThemeToggle}
+          user={data}
+        />
+
         <header
           className={`${style.headerContainer} ${theme} 
           `}
@@ -83,81 +83,27 @@ const Header = React.memo(
               width: "100%",
             }}
           >
-            {" "}
-            {/* Flex row for all header content */}
-            {/* Logo */}
-            <Link className={style.logo} to={"/"}>
-              <img src={axe} alt="axe" />
-            </Link>
-            {/* Desktop Navigation */}
-            <ul
-              className={`${style.navList} ${
-                mobileMenuOpen ? style.mobileOpen : ""
-              }`}
-            >
-              <li className={style.navItem}>
-                <Link
-                  className={`${style.navLink} ${
-                    active.pathname.startsWith("courses", 1) ? style.active : ""
-                  }`}
-                  to={"/courses"}
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setTgl(false);
-                  }}
-                >
-                  <span>courses</span>
-                  {courseElement}
-                </Link>
-              </li>
-              <li className={style.navItem}>
-                <Link
-                  className={`${style.navLink} ${
-                    active.pathname.startsWith("practice", 1)
-                      ? style.active
-                      : ""
-                  }`}
-                  to={"/practice"}
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setTgl(false);
-                  }}
-                >
-                  <span>Practices</span>
-                  {codeElement}
-                </Link>
-              </li>
-              <li className={style.navItem}>
-                <Link
-                  className={`${style.navLink} ${
-                    active.pathname.startsWith("community", 1)
-                      ? style.active
-                      : ""
-                  }`}
-                  to={"/community"}
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setTgl(false);
-                  }}
-                >
-                  <span>community</span>
-                </Link>
-              </li>
-            </ul>
-            {/* Profile Section */}
-            <section className={style.profileSection}>
-              {/* Mobile Menu Button */}
-              <button
-                className={`${style.mobileMenuButton} mobileMenuButton`}
-                onClick={() => {
-                  setProfile(false);
-                  setTgl(!mobileMenuOpen);
-                  setMobileMenuOpen((e) => !e);
-                }}
-              >
-                {barsElement}
-              </button>
+            {/* Left Side: Logo */}
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <Link className={style.logo} to={"/"}>
+                <img src={axe} alt="axe" />
+              </Link>
+            </div>
 
+            {/* Center: Search Box */}
+            <div className={style.searchContainer}>
+              <div className={style.searchBox}>
+                <input
+                  type="text"
+                  placeholder="Search courses, mentors, problems..."
+                  className={style.searchInput}
+                />
+                <FontAwesomeIcon icon={faSearch} className={style.searchIcon} />
+              </div>
+            </div>
+
+            {/* Right: Profile Section */}
+            <section className={style.profileSection}>
               {/* Profile Button */}
               <button
                 className={style.profileButton}
@@ -223,14 +169,7 @@ const Header = React.memo(
                           {theme === "light-theme" ? moonElement : sunElement}
                         </button>
 
-                        <button
-                          className={style.logoutButton}
-                          onClick={() => {
-                            logoutExe(new AuthLogoutBase());
-                            nav("/login");
-                            setProfile(false);
-                          }}
-                        >
+                        <button className={style.logoutButton} onClick={logout}>
                           <FontAwesomeIcon icon={faSignOutAlt} />
                           <span>Logout</span>
                         </button>
@@ -276,8 +215,8 @@ const Header = React.memo(
           </div>
         </header>
 
-        {/* Overlay */}
-        {(profile || tgl) && (
+        {/* Overlay for Profile Dropdown */}
+        {profile && (
           <div className={style.overlay} onClick={() => setProfile(false)} />
         )}
       </>

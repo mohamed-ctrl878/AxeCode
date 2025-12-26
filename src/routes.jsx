@@ -1,3 +1,4 @@
+import React from "react";
 import { uploadCourseStore } from "@data/storage/storeRx/Course&LessonStore/uploadCourse&LessonStore";
 import { storeOfProblem } from "@data/storage/storeRx/problemSlices/uploadProblemStore";
 import Login from "@presentation/pages/auth/routes/Login";
@@ -16,13 +17,21 @@ import Practice from "@presentation/pages/problem/routes/Practice";
 import ProblemModern from "@presentation/pages/problem/routes/ProblemModern";
 import UploadProblem from "@presentation/pages/problem/routes/UploadProblem";
 import Settings from "@presentation/pages/settings/routes/Settings";
+import Chat from "@presentation/pages/chat/routes/Chat";
 import ErrComponent from "@presentation/shared/components/ui/error/ErrComponent";
 import { Provider } from "react-redux";
 import ResetPassword from "@presentation/pages/auth/routes/ResetPassword";
 import ForgetPassword from "@presentation/pages/auth/routes/ForgetPassword";
 import EmailConfirmation from "@presentation/pages/auth/routes/EmailConfirmation";
-import LiveStream from "./LiveStream";
+import LiveStream from "@presentation/pages/livestream/routes/LiveStream";
+import LiveSchedule from "@presentation/pages/livestream/routes/LiveSchedule";
+import LiveDetail from "@presentation/pages/livestream/routes/LiveDetail";
 import LiveViewer from "./LiveViewer";
+import Roadmaps from "@presentation/pages/roadmaps/routes/Roadmaps";
+import Documents from "@presentation/pages/documents/routes/Documents";
+import ContentDashboard from "@presentation/pages/dashboard/routes/ContentDashboard";
+import EntitlementManager from "@presentation/pages/dashboard/routes/EntitlementManager";
+import AddWeek from "@presentation/pages/week/routes/AddWeek";
 
 export const routes = (data, theme, themeClass) => [
   { path: "/", element: <Home theme={theme} auth={!!data} /> },
@@ -66,7 +75,18 @@ export const routes = (data, theme, themeClass) => [
           ),
       },
       {
-        path: "profile/add-problem",
+        path: "profile/add-week",
+        element:
+          data?.role?.name === "publisher" ? (
+            <Provider store={uploadCourseStore}>
+              <AddWeek theme={theme} />
+            </Provider>
+          ) : (
+            <ErrComponent theme={theme} />
+          ),
+      },
+      {
+        path: "content/add-problem",
         element:
           data?.role?.name === "publisher" ? (
             <Provider store={storeOfProblem}>
@@ -75,6 +95,10 @@ export const routes = (data, theme, themeClass) => [
           ) : (
             <ErrComponent theme={theme} />
           ),
+      },
+      {
+        path: "content/configure/:id",
+        element: <EntitlementManager theme={theme} />,
       },
     ],
   },
@@ -85,15 +109,24 @@ export const routes = (data, theme, themeClass) => [
   },
   { path: "/courses", element: <Courses theme={theme} /> },
   { path: "/courses/:id", element: <Lesson theme={theme} /> },
-  { path: "/courses/:id/preview", element: <CoursePreview theme={theme} /> },
-  { path: "/courses/:id/content", element: <CourseContent theme={theme} /> },
+  { path: "/courses/preview/:id", element: <CoursePreview theme={theme} /> },
+  {
+    path: "/courses/preview/:courseId/:lessonId/",
+    element: <CourseContent theme={theme} />,
+  },
   { path: "/events", element: <EventsListing theme={theme} /> },
   { path: "/events/:id", element: <TechEvent theme={theme} /> },
-  { path: "/community", element: <Community theme={theme} /> },
+  { path: "/chat", element: <Chat theme={theme} /> },
+  { path: "/chat/:chatId", element: <Chat theme={theme} /> },
+  { path: "/blogs", element: <Community theme={theme} /> },
   { path: "/reset-password", element: <ResetPassword /> },
   { path: "/forget-password", element: <ForgetPassword /> },
   { path: "/api/email-confirmation", element: <EmailConfirmation /> },
   { path: "/live", element: <LiveStream /> },
-  { path: "/view", element: <LiveViewer /> },
+  { path: "/live/schedule", element: <LiveSchedule theme={theme} /> },
+  { path: "/live/:id", element: <LiveDetail theme={theme} /> },
+  { path: "/roadmaps", element: <Roadmaps theme={theme} /> },
+  { path: "/documents", element: <Documents theme={theme} /> },
+  // { path: "/view", element: <LiveViewer /> },
   { path: "*", element: <ErrComponent theme={theme} /> },
 ];

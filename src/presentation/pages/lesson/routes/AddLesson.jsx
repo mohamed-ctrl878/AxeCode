@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@presentation/styles/pages/add-lesson-course.module.css";
 import { BaseCourseContentSteps } from "@presentation/shared/components/form/BaseCourseContentSteps";
-import { setLessonData } from "@data/storage/storeRx/lessonSlices/lessonData";
+import {
+  removeLessonData,
+  setLessonData,
+} from "@data/storage/storeRx/lessonSlices/lessonData";
 import CourseAndLessonBoard from "@presentation/shared/components/form/CourseAndLessonBoard";
 import PostLesson from "@data/repositories/lessonImps/PostLesson";
-import { LessonUploadDTO } from "@data/models/LessonDTOs/LessonUploadDTO";
+import { LessonUploadDTO } from "@domain/reqs_dtos/LessonUploadDTO";
 import { postLessonExe } from "@domain/usecases/lesson/postLessonExe";
 import { uploadLessonSteps } from "../components/uploadLessonSteps";
 import StepReview from "@presentation/pages/problem/components/StepReview";
 import ShowImage from "@presentation/shared/components/media/ShowImage";
 import ShowVideo from "@presentation/shared/components/media/ShowVideo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // import StepReview from "../components/StepReview";
 
@@ -23,8 +26,6 @@ import { useSelector } from "react-redux";
 // import { setLessonData } from "../@data/storage/storeRx/lessonData";
 
 const AddLesson = ({ className, lsnOrCrs, step = [] }) => {
-  console.log("kdfmvkm");
-
   const [currentStep, setCurrentStep] = useState(0);
   const steps = [
     ...BaseCourseContentSteps(
@@ -35,13 +36,18 @@ const AddLesson = ({ className, lsnOrCrs, step = [] }) => {
       "video"
     ),
     ...uploadLessonSteps(setLessonData, "lessonsData"),
-    StepReview,
+    (props) => <StepReview {...props} media="video" storeName="lessonsData" />,
   ];
 
   const store = useSelector((state) => state.addLesson);
 
   console.log(store);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch(removeLessonData());
+    };
+  }, []);
   const size = steps.length;
 
   return (
@@ -58,6 +64,7 @@ const AddLesson = ({ className, lsnOrCrs, step = [] }) => {
       dataDTO={LessonUploadDTO}
       caseUse={postLessonExe}
       dataStore={"lessonsData"}
+      removeData={removeLessonData}
     ></CourseAndLessonBoard>
   );
 };

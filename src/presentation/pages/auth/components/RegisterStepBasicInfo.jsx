@@ -4,12 +4,11 @@ import useCheckUserIdentifierFound from "@domain/usecases/user/useCheckUserIdent
 import { useValidateInputEffect } from "@presentation/shared/hooks/useValidateInputEffect";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import styles from "@presentation/styles/pages/auth.module.css";
 
 const RegisterStepBasicInfo = ({
   style,
-  // username,
   setUsername,
-  // email,
   setEmail,
   usernameErr,
   emailErr,
@@ -20,63 +19,101 @@ const RegisterStepBasicInfo = ({
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState("");
 
-  console.log(checkEmail, "emeil");
-  console.log(checkUsername, "checkUsername");
   useCheckUserIdentifierFound({
     core: new CheckerForIdintify(),
     data,
     setCheckUsername,
     setCheckEmail,
     setError,
+    setLoader,
   });
 
   return (
-    <div className={`${style.step} ${style.active}`} id="step1">
-      <div className={style.formGroup}>
-        <h3 className={style.stepTitle}>Basic Information</h3>
-        <p className={style.stepSubtitle}>Enter your basic account details</p>
-
-        <div className={style.formGroup}>
-          <label htmlFor="username" className={style.formLabel}>
-            Username *
-          </label>
-          <input
-            placeholder="Enter username"
-            value={data.username}
-            onChange={(e) =>
-              setData(
-                registerUserAdminHandeller("username", e, { email: data.email })
-              )
-            }
-            id="username"
-            className={style.formControl}
-            required
-          />
-          {usernameErr && <div className={style.error}>{usernameErr}</div>}
-        </div>
-
-        <div className={style.formGroup}>
-          <label htmlFor="email" className={style.formLabel}>
-            Email *
-          </label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={data.email}
-            onChange={(e) =>
-              setData(
-                registerUserAdminHandeller("email", e, {
-                  username: data.username,
-                })
-              )
-            }
-            id="email"
-            className={style.formControl}
-            required
-          />
-          {emailErr && <div className={style.error}>{emailErr}</div>}
-        </div>
+    <div>
+      <div style={{ marginBottom: "2rem" }}>
+        <h3
+          style={{
+            fontSize: "1.3rem",
+            fontWeight: 600,
+            color: "var(--text-primary)",
+            margin: "0 0 0.5rem 0",
+          }}
+        >
+          Basic Information
+        </h3>
+        <p
+          style={{
+            fontSize: "0.95rem",
+            color: "var(--text-secondary)",
+            margin: 0,
+          }}
+        >
+          Enter your basic account details
+        </p>
       </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="username" className={styles.formLabel}>
+          Username *
+        </label>
+        <input
+          placeholder="Enter username"
+          value={data.username}
+          onChange={(e) =>
+            setData(
+              registerUserAdminHandeller("username", e, { email: data.email })
+            )
+          }
+          id="username"
+          className={styles.formInput}
+          required
+        />
+        {usernameErr && (
+          <div
+            style={{
+              color: "var(--accent-red)",
+              fontSize: "0.9rem",
+              marginTop: "0.5rem",
+            }}
+          >
+            {usernameErr}
+          </div>
+        )}
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="email" className={styles.formLabel}>
+          Email *
+        </label>
+        <input
+          type="email"
+          placeholder="your-email@example.com"
+          value={data.email}
+          onChange={(e) =>
+            setData(
+              registerUserAdminHandeller("email", e, {
+                username: data.username,
+              })
+            )
+          }
+          id="email"
+          className={styles.formInput}
+          required
+        />
+        {emailErr && (
+          <div
+            style={{
+              color: "var(--accent-red)",
+              fontSize: "0.9rem",
+              marginTop: "0.5rem",
+            }}
+          >
+            {emailErr}
+          </div>
+        )}
+      </div>
+
+      {error && <div className={styles.formError}>{error}</div>}
     </div>
   );
 };

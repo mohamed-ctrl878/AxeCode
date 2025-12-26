@@ -45,7 +45,7 @@ export default function SocketChatTest() {
 
     const s = io(SOCKET_URL, {
       transports: ["websocket", "polling"],
-      withCredentials: true, // مهم: يطلب من المتصفح إرسال الكوكي مع handshake
+      withCredentials: true,
       autoConnect: true,
     });
 
@@ -141,6 +141,13 @@ export default function SocketChatTest() {
       alert("Error sending message: " + (e.message || e));
     }
   };
+
+  useEffect(() => {
+    connectSocket();
+    return () => {
+      disconnectSocket();
+    };
+  }, []);
 
   // small helper to render a safe string
   const safeText = (val) =>

@@ -167,13 +167,9 @@ export default function VideoPlayer({
             onContextMenu={(e) => e.preventDefault()}
             // Source managed via <source> elements
           >
-            {/* {currentSource?.src ? (
+            {currentSource?.src ? (
               <source src={currentSource.src} type={currentSource.type || "video/mp4"} />
-            ) : null} */}
-            <source
-              src="https://www.w3schools.com/html/mov_bbb.mp4"
-              type="video/mp4"
-            />
+            ) : null}
             Your browser does not support the video tag.
           </video>
 

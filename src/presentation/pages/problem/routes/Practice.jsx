@@ -246,8 +246,6 @@ const Practice = React.memo(({ theme }) => {
 
   return (
     <div className={`${style.practiceContainer}`}>
-      <PracticenActivitesInfo style={style}></PracticenActivitesInfo>
-
       <div className={style.practiceContent}>
         {/* Header Section */}
         <div className={style.practiceHeader}>
@@ -394,36 +392,32 @@ const Practice = React.memo(({ theme }) => {
             </div>
           ) : (
             <div className={style.tableContainer}>
-              <table className={` ${style.problemsTable}`}>
+              <table className={style.problemsTable}>
                 <thead className={style.tableHeader}>
-                  <tr className={"first-bg"}>
-                    <th className={"prm-border"}>Problem</th>
-                    <th className={"prm-border"}>Difficulty</th>
-                    <th className={"prm-border"}>Category</th>
-                    <th className={"prm-border"}>Status</th>
-                    <th className={"prm-border"}>Submissions</th>
-                    <th className={"prm-border"}>Acceptance Rate</th>
-                    <th className={"prm-border"}>Action</th>
+                  <tr>
+                    <th>Problem</th>
+                    <th>Difficulty</th>
+                    <th className={style.colCategory}>Category</th>
+                    <th className={style.colStatus}>Status</th>
+                    <th className={style.colSubmissions}>Submissions</th>
+                    <th className={style.colAcceptance}>Acceptance Rate</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredProblems.map((problem) => (
-                    <tr key={problem.id} className={`sec-bg ${style.tableRow}`}>
-                      <td className={`prm-border  ${style.tableCell}`}>
+                    <tr key={problem.id} className={style.tableRow}>
+                      <td className={style.tableCell}>
                         <div>
                           <div className={style.problemTitle}>
                             {problem.title}
                           </div>
-                          <div
-                            style={{
-                              fontSize: "0.85rem",
-                            }}
-                          >
+                          <div className={style.problemDesc}>
                             {problem.description}
                           </div>
                         </div>
                       </td>
-                      <td className={`prm-border ${style.tableCell}`}>
+                      <td className={style.tableCell}>
                         <span
                           className={`${
                             style.difficultyBadge
@@ -432,7 +426,7 @@ const Practice = React.memo(({ theme }) => {
                           {problem.difficulty}
                         </span>
                       </td>
-                      <td className={`prm-border ${style.tableCell}`}>
+                      <td className={`${style.tableCell} ${style.colCategory}`}>
                         {problem.category
                           .split("-")
                           .map(
@@ -441,7 +435,7 @@ const Practice = React.memo(({ theme }) => {
                           )
                           .join(" ")}
                       </td>
-                      <td className={`prm-border ${style.tableCell}`}>
+                      <td className={`${style.tableCell} ${style.colStatus}`}>
                         <span
                           className={`${style.statusBadge} ${getStatusColor(
                             problem.status
@@ -450,13 +444,13 @@ const Practice = React.memo(({ theme }) => {
                           {problem.status}
                         </span>
                       </td>
-                      <td className={`prm-border ${style.tableCell}`}>
+                      <td className={`${style.tableCell} ${style.colSubmissions}`}>
                         {problem.submissions.toLocaleString()}
                       </td>
-                      <td className={`prm-border ${style.tableCell}`}>
+                      <td className={`${style.tableCell} ${style.colAcceptance}`}>
                         {problem.acceptanceRate}%
                       </td>
-                      <td className={`prm-border ${style.tableCell}`}>
+                      <td className={style.tableCell}>
                         <button
                           className={style.actionButton}
                           onClick={() => navigate(`/problem/${problem.id}`)}
@@ -471,6 +465,10 @@ const Practice = React.memo(({ theme }) => {
             </div>
           )}
         </div>
+      </div>
+
+      <div className={style.practiceSidebar}>
+        <PracticenActivitesInfo style={style}></PracticenActivitesInfo>
       </div>
     </div>
   );

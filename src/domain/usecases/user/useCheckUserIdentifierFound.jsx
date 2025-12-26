@@ -18,20 +18,33 @@ const useCheckUserIdentifierFound = ({
 
   const start = useSelector((state) => state.validStarter.start);
   const query = querySearchingUserIdintify(data);
-  console.log("fire");
 
   useEffect(() => {
-    console.log(start);
     if (start) {
+      setLoader(true);
+      setError("");
       dispatch(stop());
       (async function () {
         try {
           const toStore = validationRegInfo(data);
           const dataFitch = await core.postContent(query);
-          setCheckUsername(
-            getOutIdintify(dataFitch?.data, "username", data.username)
+          const userNameState = getOutIdintify(
+            dataFitch?.data,
+            "username",
+            data.username
           );
-          setCheckEmail(getOutIdintify(dataFitch?.data, "email", data.email));
+          const emailState = getOutIdintify(
+            dataFitch?.data,
+            "email",
+            data.email
+          );
+          setCheckUsername(userNameState);
+          setCheckEmail(emailState);
+          if (emailState) {
+            if (userNameState)
+              throw "userName and email are selected please choose another";
+            throw "email is selected please choose another";
+          }
 
           if (dataFitch?.data.length === 0) {
             dispatch(setRegisterDataStore(toStore));
@@ -39,8 +52,9 @@ const useCheckUserIdentifierFound = ({
           }
         } catch (e) {
           dispatch(stop());
-          setError(e);
-          console.log(e);
+          setError(e.toString());
+        } finally {
+          setLoader(false);
         }
       })();
     }

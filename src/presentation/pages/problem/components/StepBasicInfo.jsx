@@ -56,7 +56,7 @@ console.log("title", title);
             className={style.formControl}
             required
           />
-          {titErr && <div className={style.error}>{titErr}</div>}
+          {err && <div className={style.error}>{err}</div>}
         </div>
       </div>
     </div>

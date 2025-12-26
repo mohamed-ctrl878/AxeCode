@@ -3,7 +3,7 @@ import { checkLength } from "@core/utils/problemUploader/validation";
 import useSetMediaToIndexedDB from "@presentation/shared/hooks/useSetMediaToIndexedDB";
 import useUpdateStoper from "@presentation/shared/hooks/useUpdateStoper";
 import { useValidateInputEffect } from "@presentation/shared/hooks/useValidateInputEffect";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import useUpdateStoper from "./useUpdateStoper";
 // import { useValidateInputEffect } from "./useValidateInputEffect";
@@ -20,8 +20,6 @@ const StepMediaUpload = ({
   const mediaFromStore = useSelector((state) => state[storeName][media]);
   const Store = useSelector((state) => state[storeName]);
 
-  console.log(mediaFromStore);
-  console.log(Store);
   const [mediaCurrent, setMediaCurrent] = useState(mediaFromStore);
   const [err, setErr] = useState("");
   const dispatch = useDispatch();
@@ -41,6 +39,8 @@ const StepMediaUpload = ({
   //   validationFunc: checkLength,
   //   errorMessage: "Title must be at least 1 character long",
   // });
+
+  
   useSetMediaToIndexedDB({
     dispatch,
     value: mediaCurrent,

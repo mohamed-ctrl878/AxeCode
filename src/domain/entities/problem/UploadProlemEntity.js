@@ -1,4 +1,4 @@
-import { problemDTO } from "@data/models/problemDTOs/ProblemDTO";
+import { problemDTO } from "@data/models/ProblemDTO";
 
 export class UploadProlemEntity extends problemDTO {
   constructor({

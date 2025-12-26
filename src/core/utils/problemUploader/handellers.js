@@ -51,14 +51,13 @@ export function checkAllTrue(arr) {
 }
 
 export const toFormData = (file) => {
-  console.log("filefilefilefile",file);
-  
+  console.log("filefilefilefile", file);
+
   if (!file) return null;
 
   const formData = new FormData();
   formData.append("files", file, file.name);
 
-  // للـ debug: iterate فقط لو entries موجودة
   if (typeof formData.entries === "function") {
     for (const pair of formData.entries()) {
       console.log(pair[0], pair[1]);

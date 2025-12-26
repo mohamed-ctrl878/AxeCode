@@ -53,35 +53,35 @@ const StepCourseSelection = ({
         <p className={style.stepSubtitle}>
           {selectionType} the {selectionType} for this lesson
         </p>
-        <section className={`${style.popup} `}>
-          <div className={style.popupContent}>
-            <h4 className={style.popupTitle}>Select {selectionType}</h4>
-            <div className={style.searchInputBox}>
-              <input
-                className={style.formControl}
-                value={searchInput}
-                onChange={(e) => setChange(e.currentTarget.value)}
-                type="search"
-                placeholder={`Search ${selectionType}...`}
-              />
-              {load && (
-                <div className={style.iconLoad}>
-                  <FontAwesomeIcon icon={faRotateRight} spin spinReverse />
-                </div>
-              )}
-            </div>
-            <div className={`${style.popupList} ${className}`}>
-              <DataMapping
-                setError={setError}
-                probertyItem={probertyItem}
-                storeName={storeName}
-                data={data?.data}
-                Component={Component}
-                dataSetter={dataSetter}
-              ></DataMapping>
-            </div>
+        <div className={style.selectionContainer}>
+          <div className={style.selectionHeader}>
+            <h4 className={style.formLabel}>Select {selectionType}</h4>
           </div>
-        </section>
+          <div className={style.searchInputBox}>
+            <input
+              className={style.formControl}
+              value={searchInput}
+              onChange={(e) => setChange(e.currentTarget.value)}
+              type="search"
+              placeholder={`Search ${selectionType}...`}
+            />
+            {load && (
+              <div className={style.iconLoad}>
+                <FontAwesomeIcon icon={faRotateRight} spin spinReverse />
+              </div>
+            )}
+          </div>
+          <div className={`${style.selectionList} ${className}`}>
+            <DataMapping
+              setError={setError}
+              probertyItem={probertyItem}
+              storeName={storeName}
+              data={data?.data}
+              Component={Component}
+              dataSetter={dataSetter}
+            ></DataMapping>
+          </div>
+        </div>
       </div>
     </div>
   );

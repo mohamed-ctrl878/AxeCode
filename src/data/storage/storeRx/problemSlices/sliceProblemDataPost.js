@@ -24,8 +24,27 @@ const sliceProblemDataPost = createSlice({
       state = { ...state, ...action.payload };
       return state;
     },
+    clearProblemData: () => {
+      return {
+        testCases: [],
+        testCasesStates: [],
+        functionName: "",
+        functionReturnType: "",
+        language: "",
+        dificulty: "easy",
+        tittle: "",
+        description: [],
+        courses: [],
+        comments: [],
+        problem_types: [],
+        numperOfParams: 0,
+        typeOfParams: [],
+        numperOfTstCases: 0,
+        errorCases: [],
+      };
+    },
   },
 });
 
-export const { setProberty } = sliceProblemDataPost.actions;
+export const { setProberty, clearProblemData } = sliceProblemDataPost.actions;
 export default sliceProblemDataPost.reducer;

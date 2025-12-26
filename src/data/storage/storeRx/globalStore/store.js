@@ -4,7 +4,7 @@ import themeSlice from "./themeSlice";
 import userData from "./userData";
 import registerDataSteps from "./registerDataSteps";
 import validStarter from "../sharedSlices/validStarter";
-
+import entitlementSlice from "../sharedSlices/entitlementSlice";
 const store = configureStore({
   reducer: {
     auth: userAuthSlice,
@@ -12,7 +12,7 @@ const store = configureStore({
     userData: userData,
     registerDataSteps: registerDataSteps,
     validStarter: validStarter,
+    entitlementData: entitlementSlice,
   },
 });
-
 export default store;
