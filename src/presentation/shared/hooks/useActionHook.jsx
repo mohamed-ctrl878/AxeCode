@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-// import { PostProblem } from "../@data/repositories/problemImps/PostProblem";
-// import { ProblemChangesDTO } from "../@data/models/problemDTOs/ProblemUploadDTO";
-// import { postProblemExe } from "../@domain/usecases/postProblemExe";
+import React, { useEffect, useRef, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const useActionHook = ({
   loader,
@@ -13,45 +12,64 @@ const useActionHook = ({
   dataDTO,
   setError,
   setFail,
+  removeData,
+  success,
 }) => {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+  const time = useRef();
+
   useEffect(() => {
-    // console.log("dataDTO in useActionHook", dataDTO);
-    if (subRef?.current && !loader) {
-      const action = async (e) => {
-        e.preventDefault();
-        setFail(false);
-        setError("");
-        setLoader(true);
-        setSuccess(false);
-        try {
-          const [state, data] = await caseUse(core, dataDTO);
-          setLoader(!state);
-          setSuccess(state);
-        } catch (msg) {
-          setLoader(false);
-          setError(msg.message);
-          setFail(true);
-        }
-      };
-
-      subRef?.current.addEventListener("click", action);
-
-      return () => {
-        if (subRef.current)
-          subRef?.current.removeEventListener("click", action);
-      };
+    if (success) {
+      const timer = setTimeout(() => nav("/"), 5000);
+      return () => clearTimeout(timer);
     }
-  }, [
-    loader,
-    setLoader,
-    setFail,
-    setError,
-    setSuccess,
-    subRef,
-    caseUse,
-    core,
-    dataDTO,
-  ]);
+  }, [success, nav]);
+
+  const action = useCallback(
+    async (e) => {
+      e.preventDefault();
+      setFail(false);
+      setError("");
+      setLoader(true);
+      setSuccess(false);
+
+      try {
+        const [state, data] = await caseUse(core, dataDTO);
+        setLoader(!state);
+        setSuccess(state);
+        dispatch(removeData());
+      } catch (msg) {
+        setLoader(false);
+        setError(msg.message);
+        setFail(true);
+      }
+    },
+    [
+      caseUse,
+      core,
+      dataDTO,
+      dispatch,
+      setFail,
+      setError,
+      setLoader,
+      setSuccess,
+      removeData,
+    ]
+  );
+
+  useEffect(() => {
+    const el = subRef?.current;
+    if (!el) return;
+    if (success) return;
+
+    el.addEventListener("click", action);
+
+    return () => {
+      el.removeEventListener("click", action);
+      // if (time.current) clearTimeout(time.current);
+    };
+  }, [subRef, action]);
 };
 
 export default useActionHook;

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import useActionHook from "@presentation/shared/hooks/useActionHook";
-import { go } from "@data/storage/storeRx/sharedSlices/validStarter";
+import { go, stop } from "@data/storage/storeRx/sharedSlices/validStarter";
 import SuccessMessage from "../ui/messages/SuccessMessage";
 import FailureMessage from "../ui/messages/FailureMessage";
 // import { useActionHook } from "../../hooks";
@@ -36,6 +36,7 @@ const SwitchersBtnsMForm = ({
   core,
   dataDTO,
   dataStore,
+  removeData,
 }) => {
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(false);
@@ -49,6 +50,8 @@ const SwitchersBtnsMForm = ({
   console.log(size, "size");
   console.log(currentStep, "currentStep");
   useActionHook({
+    success,
+    removeData,
     loader,
     setLoader,
     setSuccess,

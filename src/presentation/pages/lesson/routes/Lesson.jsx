@@ -6,14 +6,16 @@ import { Link, useParams } from "react-router-dom";
 // import style from "@presentation/styles/pages/l";
 const Lesson = ({ theme }) => {
   const [data, setData] = useState(null);
-  const { id } = useParams();
-  useEffect(() => {
-    fetch(`http://localhost:1338/api/courses/${id}?populate=*`)
-      .then((e) => e.json())
-      .then((e) => setData(e));
-  }, []);
+  const param = useParams();
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:1338/api/courses/${id}?populate=*`)
+  //     .then((e) => e.json())
+  //     .then((e) => setData(e));
+  // }, []);
 
   // console.log(theme);
+  console.log(data);
 
   const mapping = data?.data?.lessons?.map((e, i) => {
     return (

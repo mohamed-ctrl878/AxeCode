@@ -1,4 +1,4 @@
-import { CourseUploadDTO } from "@data/models/courseDTOs/CourseUploadDTO";
+import { CourseUploadDTO } from "@domain/reqs_dtos/CourseUploadDTO";
 import { createSlice } from "@reduxjs/toolkit";
 
 const coursesData = createSlice({
@@ -9,8 +9,11 @@ const coursesData = createSlice({
       state = { ...state, ...action.payload };
       return state;
     },
+    removeCoursesData: (state) => {
+      return { ...new CourseUploadDTO({}) };
+    },
   },
 });
 
-export const { setCourseData } = coursesData.actions;
+export const { setCourseData, removeCoursesData } = coursesData.actions;
 export default coursesData.reducer;

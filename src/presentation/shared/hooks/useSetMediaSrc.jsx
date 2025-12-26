@@ -10,7 +10,7 @@ const useSetMediaSrc = ({ setSrc, file }) => {
       return;
     }
 
-    if (file instanceof File) {
+    if (file instanceof File || file instanceof Blob) {
       currentUrl = URL.createObjectURL(file);
       setSrc(currentUrl);
 

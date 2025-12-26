@@ -3,26 +3,22 @@ import ProgressBar from "@presentation/shared/components/loading/ProgressBar";
 import React from "react";
 import { useSelector } from "react-redux";
 
-const PracticenActivitesInfo = ({ problems, totalSolved }) => {
+const PracticenActivitesInfo = ({ problems, totalSolved, style }) => {
   const  isDark  = useSelector((state) => state.themeSlice.theme);
 
   return (
-    <div
-      className={`mt-4 rounded-lg p-6 ${
-        isDark ? "bg-gray-800" : "bg-white"
-      } shadow-lg`}
-    >
-      <h2 className="mb-4 text-xl font-semibold dark:text-white">
+    <div className={style?.sidebarCard || "card"}>
+      <h2 className={style?.coursesTitle || "text-xl font-bold mb-4"} style={{ fontSize: '1.5rem', marginBottom: '1rem', borderBottom: 'none' }}>
         Practice Activities
       </h2>
       <div className="mb-6">
-        <h3 className="mb-2 text-lg font-medium dark:text-gray-300">
+        <h3 className={style?.filterLabel || "mb-2 text-lg font-medium"}>
           Progress
         </h3>
         <ProgressBar problems={problems} totalSolved={totalSolved} />
       </div>
       <div>
-        <h3 className="mb-2 text-lg font-medium dark:text-gray-300">
+        <h3 className={style?.filterLabel || "mb-2 text-lg font-medium"}>
           Activity Calendar
         </h3>
         <Calendar />

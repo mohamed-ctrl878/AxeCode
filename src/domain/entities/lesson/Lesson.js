@@ -1,5 +1,5 @@
 export class LessonInfo {
-  constructor({tittle, id, documentId, updatedAt, description}) {
+  constructor({ tittle, id, documentId, updatedAt, description }) {
     this.tittle = tittle;
     this.id = id;
     this.documentId = documentId;
@@ -9,8 +9,8 @@ export class LessonInfo {
 }
 
 export class LessonWhithMedia extends LessonInfo {
-  constructor(tittle, id, documentId, updatedAt, description, video) {
-    super(tittle, id, documentId, updatedAt, description);
+  constructor({ tittle, id, documentId, updatedAt, description, video }) {
+    super({ tittle, id, documentId, updatedAt, description });
     this.video = video;
   }
 }

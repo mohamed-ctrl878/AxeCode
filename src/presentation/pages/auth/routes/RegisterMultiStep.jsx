@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import style from "@presentation/styles/pages/register-multi-step.module.css";
+import styles from "@presentation/styles/pages/auth.module.css";
+import stepStyles from "@presentation/styles/pages/register-multi-step.module.css";
 import RegisterStepBasicInfo from "../components/RegisterStepBasicInfo";
 import RegisterStepPassword from "../components/RegisterStepPassword";
 import RegisterStepProfile from "../components/RegisterStepProfile";
@@ -9,26 +10,25 @@ import RegisterStepReview from "../components/RegisterStepReview";
 import MultibleFrom from "@presentation/shared/components/form/MultibleFrom";
 import SwitchersBtnsMForm from "@presentation/shared/components/form/SwitchersBtnsMForm";
 import FetchingStep from "@presentation/shared/components/form/FetchingStep";
-import { RegisterDTO } from "@data/models/userDTOs/RegisterDTO";
+import { RegisterDTO } from "@domain/reqs_dtos/RegisterDTO";
 import { basicRegisterExe } from "@domain/usecases/user/basicRegisterExe";
 import RegisterAuthBase from "@data/repositories/userImps/RegesterImp";
 import { useDispatch, useSelector } from "react-redux";
 import { stopSuccess } from "@data/storage/storeRx/sharedSlices/validStarter";
+import { clearRegData } from "@data/storage/storeRx/globalStore/registerDataSteps";
 
 const RegisterMultiStep = ({ theme }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const nav = useNavigate();
 
-  // Get theme class
-  const themeClass = theme ? "dark-theme" : "light-theme";
-
   const successFromStore = useSelector((state) => state.validStarter.success);
+
   const getSteps = () => {
     return [
-      <RegisterStepBasicInfo style={style} />,
-      <RegisterStepPassword style={style} />,
-      <RegisterStepProfile style={style} />,
-      <RegisterStepReview style={style} />,
+      <RegisterStepBasicInfo style={stepStyles} />,
+      <RegisterStepPassword style={stepStyles} />,
+      <RegisterStepProfile style={stepStyles} />,
+      <RegisterStepReview style={stepStyles} />,
     ];
   };
 
@@ -37,10 +37,10 @@ const RegisterMultiStep = ({ theme }) => {
   const steps = getSteps();
   const size = steps.length;
 
-  console.log(successFromStore);
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       if (successFromStore) {
@@ -52,64 +52,97 @@ const RegisterMultiStep = ({ theme }) => {
     return () => {
       clearTimeout(timeOut);
     };
-  }, [successFromStore]);
+  }, [successFromStore, nav, dispatch]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearRegData());
+    };
+  }, []);
 
   if (successFromStore) {
-    <div className={`${style.loginContainer} `}>
-      <p> {<div className="form-success">{successFromStore}</div>}</p>
-    </div>;
-  }
-  return (
-    <div className={`${style.registerMultiStepContainer} ${themeClass}`}>
-      <div
-        className="card card-elevated"
-        style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}
-      >
-        <div style={{ marginBottom: "2rem" }}>
-          <MultibleFrom
-            current={currentStep}
-            size={size}
-            style={style}
-            title="Create Account"
-          />
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "2rem" }}>{steps[currentStep]}</div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: "1rem",
-              justifyContent: "space-between",
-            }}
-          >
-            {currentStep === 0 || currentStep === size - 1 ? (
-              <FetchingStep
-                style={style}
-                SetCurrentStep={setCurrentStep}
-                currentStep={currentStep}
-                size={size}
-              ></FetchingStep>
-            ) : (
-              <SwitchersBtnsMForm
-                style={style}
-                SetCurrentStep={setCurrentStep}
-                currentStep={currentStep}
-                size={size}
-                dataDTO={RegisterDTO}
-                dataStore={"registerDataSteps"}
-                caseUse={basicRegisterExe}
-                core={RegisterAuthBase}
-              />
-            )}
+    return (
+      <div className={styles.authContainer}>
+        <div className={styles.authFormSide}>
+          <div className={styles.formWrapper}>
+            <div className={styles.formSuccess}>{successFromStore}</div>
+            <p style={{ textAlign: "center", marginTop: "1rem" }}>
+              Redirecting to login...
+            </p>
           </div>
-        </form>
+        </div>
+      </div>
+    );
+  }
 
-        <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-          <Link to="/login" className="link">
-            Already have an account? Login
-          </Link>
+  return (
+    <div className={styles.authContainer}>
+      {/* Left Side - Form */}
+      <div className={styles.authFormSide}>
+        <div className={styles.formWrapper}>
+          {/* Logo */}
+          <div className={styles.logoContainer}>
+            <div className={styles.logo}>AxeCode</div>
+          </div>
+
+          {/* Progress Stepper */}
+          <div style={{ marginBottom: "2.5rem" }}>
+            <MultibleFrom
+              current={currentStep}
+              size={size}
+              style={stepStyles}
+              title="Create Account"
+            />
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "2rem" }}>{steps[currentStep]}</div>
+
+            {/* Navigation Buttons */}
+            <div className={stepStyles.buttonGroup}>
+              {currentStep === 0 || currentStep === size - 1 ? (
+                <FetchingStep
+                  style={stepStyles}
+                  SetCurrentStep={setCurrentStep}
+                  currentStep={currentStep}
+                  size={size}
+                />
+              ) : (
+                <SwitchersBtnsMForm
+                  removeData={clearRegData}
+                  style={stepStyles}
+                  SetCurrentStep={setCurrentStep}
+                  currentStep={currentStep}
+                  size={size}
+                  dataDTO={RegisterDTO}
+                  dataStore={"registerDataSteps"}
+                  caseUse={basicRegisterExe}
+                  core={RegisterAuthBase}
+                />
+              )}
+            </div>
+          </form>
+
+          {/* Footer Link */}
+          <div className={styles.formLinks}>
+            <p style={{ margin: 0, color: "var(--text-secondary)" }}>
+              Already have an account?{" "}
+              <Link to="/login" className={styles.linkPrimary}>
+                Sign In
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Image/Illustration */}
+      <div className={styles.authImageSide}>
+        <div className={styles.imagePlaceholder}>
+          <div className={styles.placeholderIcon}>🚀</div>
+          <h2 className={styles.placeholderText}>Join Our Community</h2>
+          <p className={styles.placeholderSubtext}>
+            Connect with thousands of developers and accelerate your learning
+          </p>
         </div>
       </div>
     </div>

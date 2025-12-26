@@ -1,29 +1,22 @@
-/* Events Listing Page Styles */
-/* Following the established theme system and responsive patterns */
+/* Events Listing Page Styles - Clean Brutalist */
+@import '../theme.css';
 
 .eventsListingContainer {
   min-height: 100vh;
-  background: var(--bg-primary);
+  background-color: var(--main-bg-color);
   color: var(--text-primary);
-  position: relative;
-  overflow-x: hidden;
-  box-sizing: border-box;
-  padding-top: 4rem;
-  overflow-y: auto;
-  max-height: 100vh;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
 }
 
+/* Header */
 .eventsHeader {
-  position: relative;
-  background: linear-gradient(
-    135deg,
-    var(--primary-light) 0%,
-    var(--accent-light) 100%
-  );
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-primary);
+  background-color: var(--card-blue);
+  border-bottom: 2px solid var(--border-dark);
   padding: 3rem 2rem;
   text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-solid);
 }
 
 .headerContent {
@@ -33,125 +26,127 @@
 
 .eventsTitle {
   font-size: 3rem;
-  font-weight: 700;
+  font-weight: 900;
   color: var(--text-primary);
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: fadeInUp 0.8s ease-out;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: -1px;
 }
 
 .eventsSubtitle {
   font-size: 1.25rem;
   color: var(--text-secondary);
+  font-weight: 500;
   margin-bottom: 2rem;
-  animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .eventsStats {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  animation: fadeInUp 0.8s ease-out 0.4s both;
+  flex-wrap: wrap;
 }
 
 .statItem {
-  text-align: center;
+  background: var(--white);
+  border: 2px solid var(--border-dark);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px black;
 }
 
 .statNumber {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
   display: block;
 }
 
 .statLabel {
-  font-size: 0.875rem;
-  color: var(--text-muted);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-weight: 700;
 }
 
+/* Layout */
 .eventsContent {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;
 }
 
+/* Sidebar */
 .sidebar {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
+  background: var(--white);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
   padding: 1.5rem;
   height: fit-content;
   position: sticky;
   top: 6rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-solid);
 }
 
-.searchSection {
+.searchSection, .filterSection {
   margin-bottom: 2rem;
 }
 
 .searchInput {
   width: 100%;
-  padding: 0.875rem 1rem 0.875rem 2.5rem;
-  border: 2px solid var(--border-primary);
-  border-radius: 0.75rem;
-  font-size: 0.875rem;
-  background: var(--bg-primary);
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  border: 2px solid var(--border-medium);
+  border-radius: 3px;
+  font-size: 0.95rem;
+  background: var(--white);
   color: var(--text-primary);
-  transition: all 0.3s ease;
-  position: relative;
+  transition: all 0.2s ease;
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: var(--border-dark);
+  box-shadow: 3px 3px 0px black;
 }
 
 .searchIcon {
   position: absolute;
-  left: 0.75rem;
+  left: 0.8rem;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
-  width: 1rem;
-  height: 1rem;
-  pointer-events: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.filterSection {
-  margin-bottom: 2rem;
+.searchIcon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .filterTitle {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border-dark);
+  padding-bottom: 0.25rem;
 }
 
 .filterIcon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--primary);
-}
-
-.filterOptions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--text-primary);
 }
 
 .filterOption {
@@ -159,85 +154,79 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem;
-  border-radius: 0.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.875rem;
+  transition: all 0.2s ease;
 }
 
 .filterOption:hover {
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
 }
 
 .filterCheckbox {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--border-primary);
-  border-radius: 0.25rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid var(--border-dark);
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  background: var(--white);
 }
 
 .filterCheckbox.checked {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--text-inverse);
+  background: var(--text-primary);
+  color: var(--white);
 }
 
 .filterLabel {
   flex: 1;
-  color: var(--text-primary);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .filterCount {
-  color: var(--text-muted);
   font-size: 0.75rem;
-  background: var(--bg-muted);
+  background: var(--border-light);
+  border: 1px solid var(--border-medium);
   padding: 0.25rem 0.5rem;
-  border-radius: 1rem;
-  min-width: 1.5rem;
-  text-align: center;
+  border-radius: 12px;
+  font-weight: 700;
 }
 
 .clearFilters {
-  margin-top: 1rem;
   width: 100%;
   padding: 0.75rem;
-  background: var(--bg-secondary);
+  background: var(--white);
   color: var(--text-primary);
-  border: 1px solid var(--border-primary);
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  border: 2px solid var(--border-dark);
+  border-radius: 3px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  box-shadow: 2px 2px 0px black;
+  transition: all 0.2s ease;
 }
 
 .clearFilters:hover {
-  background: var(--bg-tertiary);
-  border-color: var(--border-secondary);
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px black;
 }
 
-.mainContent {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
+/* Main Content */
 .contentHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  margin-bottom: 2rem;
+  background: var(--white);
+  padding: 1rem;
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  box-shadow: var(--shadow-solid);
 }
 
 .resultsCount {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .sortControls {
@@ -246,486 +235,246 @@
   gap: 1rem;
 }
 
-.sortLabel {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-}
-
 .sortSelect {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--border-primary);
-  border-radius: 0.5rem;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--border-dark);
+  border-radius: 3px;
+  font-weight: 600;
+  background: var(--white);
   cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.sortSelect:focus {
-  outline: none;
-  border-color: var(--primary);
 }
 
 .viewToggle {
   display: flex;
-  border: 1px solid var(--border-primary);
-  border-radius: 0.5rem;
+  border: 2px solid var(--border-dark);
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .viewButton {
   padding: 0.5rem;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
+  background: var(--white);
   border: none;
+  border-right: 2px solid var(--border-dark);
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.viewButton:last-child {
+  border-right: none;
 }
 
 .viewButton.active {
-  background: var(--primary);
-  color: var(--text-inverse);
+  background: var(--text-primary);
+  color: var(--white);
 }
 
-.viewButton:hover:not(.active) {
-  background: var(--bg-tertiary);
-}
-
+/* Grid & List Styles */
 .eventsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
 }
 
 .eventsGridList {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-.eventCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
+.eventCard, .eventCardList {
+  background: var(--white);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  position: relative;
+  box-shadow: var(--shadow-solid);
+  transition: all 0.2s ease;
 }
 
-.eventCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.eventImage {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.eventCardContent {
-  padding: 1.5rem;
-}
-
-.eventBadges {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.eventBadge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.badgeProgramming {
-  background: var(--primary-light);
-  color: var(--primary-dark);
-}
-
-.badgeDsa {
-  background: var(--success-light);
-  color: var(--success-dark);
-}
-
-.badgeArchitecture {
-  background: var(--warning-light);
-  color: var(--warning-dark);
-}
-
-.badgeDesign {
-  background: var(--info-light);
-  color: var(--info-dark);
-}
-
-.badgeAi {
-  background: var(--accent-light);
-  color: var(--accent-dark);
-}
-
-.eventTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
-}
-
-.eventMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.metaItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-}
-
-.metaItem svg {
-  width: 1rem;
-  height: 1rem;
-  color: var(--primary);
-}
-
-.eventDescription {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.eventActions {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.primaryButton {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  background: var(--primary);
-  color: var(--text-inverse);
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  text-decoration: none;
-}
-
-.primaryButton:hover {
-  background: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-.secondaryButton {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-primary);
-  border-radius: 0.5rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  text-decoration: none;
-}
-
-.secondaryButton:hover {
-  background: var(--bg-tertiary);
-  border-color: var(--border-secondary);
-}
-
-/* List View Styles */
 .eventCardList {
   display: flex;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
-  cursor: pointer;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 200px;
 }
 
-.eventCardList:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.eventCardList .eventImage {
+  display: none; /* Hide default grid image class if present */
 }
 
 .eventImageList {
-  width: 150px;
-  height: 100px;
+  width: 280px;
+  height: auto;
   object-fit: cover;
-  border-radius: 0.5rem;
-  flex-shrink: 0;
+  border-right: 2px solid var(--border-dark);
+  border-bottom: none;
 }
 
 .eventContentList {
   flex: 1;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
 }
 
 .eventHeaderList {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .eventActionsCompact {
-  display: flex;
-  gap: 0.5rem;
   flex-shrink: 0;
+  margin-left: 1rem;
 }
 
 .compactButton {
   padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  min-width: auto;
+  font-size: 0.85rem;
+  min-width: 120px;
 }
 
-.noEvents {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
-  box-shadow: var(--shadow-sm);
+/* CSS Conditional display not needed as React handles it */
+
+/* Responsive adjustment for list view */
+@media (max-width: 768px) {
+  .eventCardList {
+    flex-direction: column;
+  }
+  .eventImageList {
+    width: 100%;
+    height: 200px;
+    border-right: none;
+    border-bottom: 2px solid var(--border-dark);
+  }
+  .eventHeaderList {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .eventActionsCompact {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
-.noEventsIcon {
-  width: 4rem;
-  height: 4rem;
-  color: var(--text-muted);
-  margin: 0 auto 1rem;
+.eventCard:hover, .eventCardList:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0px black;
 }
 
-.noEventsTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
+.eventImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid var(--border-dark);
+}
+
+.eventCardContent {
+  padding: 1.5rem;
+}
+
+.eventTitle {
+  font-size: 1.4rem;
+  font-weight: 800;
   margin-bottom: 0.5rem;
+  line-height: 1.3;
 }
 
-.noEventsText {
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-.loadMore {
+.eventMeta {
+  border-top: 2px solid var(--border-light);
+  border-bottom: 2px solid var(--border-light);
+  padding: 0.75rem 0;
+  margin: 1rem 0;
   display: flex;
-  justify-content: center;
-  padding: 2rem 0;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.loadMoreButton {
-  padding: 1rem 2rem;
-  background: var(--primary);
-  color: var(--text-inverse);
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
-.loadMoreButton:hover {
-  background: var(--primary-hover);
+.metaItem svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex-shrink: 0;
+}
+
+.primaryButton {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--text-primary);
+  color: var(--white);
+  border: 2px solid var(--border-dark); /* Ensure border handles */
+  border-radius: 3px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover {
+  background: #000;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.secondaryButton {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--white);
+  color: var(--text-primary);
+  border: 2px solid var(--border-dark);
+  border-radius: 3px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px black;
+  margin-top: 0.5rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .eventsContent {
-    grid-template-columns: 280px 1fr;
-    gap: 1.5rem;
-    padding: 2rem 1rem;
-  }
-  
-  .eventsGrid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
+.badgeProgramming, .badgeDsa, .badgeArchitecture, .badgeDesign, .badgeAi {
+  border: 2px solid var(--border-dark);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
 }
 
+.badgeProgramming { background: #e0f7fa; }
+.badgeDsa { background: #f1f8e9; }
+.badgeArchitecture { background: #fff3e0; }
+.badgeDesign { background: #f3e5f5; }
+.badgeAi { background: #e1bee7; }
+
+/* Responsive */
 @media (max-width: 1024px) {
   .eventsContent {
     grid-template-columns: 1fr;
-    gap: 1rem;
   }
-  
   .sidebar {
     position: relative;
     top: 0;
-    margin-bottom: 1rem;
-  }
-  
-  .contentHeader {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .sortControls {
-    justify-content: space-between;
+    margin-bottom: 2rem;
   }
 }
 
 @media (max-width: 768px) {
-  .eventsListingContainer {
-    padding-top: 2rem;
-  }
-  
   .eventsHeader {
     padding: 2rem 1rem;
   }
-  
-  .eventsTitle {
-    font-size: 2.5rem;
-  }
-  
-  .eventsSubtitle {
-    font-size: 1.125rem;
-  }
-  
-  .eventsStats {
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .eventsContent {
-    padding: 1.5rem 1rem;
-  }
-  
-  .sidebar {
-    padding: 1rem;
-  }
-  
-  .eventsGrid {
-    grid-template-columns: 1fr;
-  }
-  
-  .eventCardList {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .eventImageList {
-    width: 100%;
-    height: 150px;
-  }
-  
-  .eventHeaderList {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .eventActionsCompact {
-    align-self: stretch;
-  }
-  
-  .compactButton {
-    flex: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .eventsHeader {
-    padding: 1.5rem 0.75rem;
-  }
-  
   .eventsTitle {
     font-size: 2rem;
   }
-  
-  .eventsSubtitle {
-    font-size: 1rem;
-  }
-  
-  .eventsContent {
-    padding: 1rem 0.75rem;
-  }
-  
-  .sidebar {
-    padding: 0.75rem;
-  }
-  
-  .eventCard,
-  .eventCardList {
-    margin: 0 -0.5rem;
-  }
-  
-  .eventCardContent {
-    padding: 1rem;
-  }
-  
-  .eventActions {
+  .contentHeader {
     flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .viewToggle {
-    width: 100%;
-  }
-  
-  .viewButton {
-    flex: 1;
-  }
-}
-
-@media (max-width: 360px) {
-  .eventsTitle {
-    font-size: 1.75rem;
-  }
-  
-  .statNumber {
-    font-size: 1.75rem;
-  }
-  
-  .eventTitle {
-    font-size: 1.125rem;
-  }
-  
-  .searchInput {
-    padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+    align-items: stretch;
   }
 }

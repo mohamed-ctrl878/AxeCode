@@ -1,0 +1,347 @@
+/* 
+  🎨 Example Usage - AxeCode Design System
+  
+  This file shows how to use the new Brutalist/Clean design system
+  that matches the main index.css aesthetic
+*/
+
+@import '../theme.css';
+
+/* ============================================
+   EXAMPLE 1: Simple Page Container
+   ============================================ */
+
+.examplePage {
+  background-color: var(--main-bg-color);
+  min-height: 100vh;
+  padding-top: 70px; /* Account for fixed header */
+}
+
+/* ============================================
+   EXAMPLE 2: Hero Section
+   ============================================ */
+
+.exampleHero {
+  /* Use the predefined section-hero class or custom */
+  composes: section-hero from '../theme.css';
+  background-color: var(--main-bg-color);
+}
+
+.exampleHeroTitle {
+  composes: text-hero from '../theme.css';
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.exampleHeroSubtitle {
+  composes: text-body from '../theme.css';
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.exampleHeroButtons {
+  composes: flex from '../theme.css';
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.examplePrimaryButton {
+  composes: btn btn-black from '../theme.css';
+}
+
+.exampleSecondaryButton {
+  composes: btn btn-outline from '../theme.css';
+}
+
+/* ============================================
+   EXAMPLE 3: Content Section with Cards
+   ============================================ */
+
+.exampleContentSection {
+  composes: section from '../theme.css';
+  background-color: var(--main-bg-color);
+}
+
+.exampleSectionTitle {
+  composes: text-h1 from '../theme.css';
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.exampleCardsContainer {
+  composes: card-grid from '../theme.css';
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.exampleCard {
+  composes: card from '../theme.css';
+  /* Card automatically has:
+     - background-color: var(--surface-card)
+     - border-radius: 8px
+     - padding: 2rem
+     - box-shadow: var(--shadow-soft-sm)
+     - hover effect
+  */
+}
+
+.exampleCardTitle {
+  composes: text-h3 from '../theme.css';
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.exampleCardDescription {
+  composes: text-body from '../theme.css';
+  margin-bottom: 1.5rem;
+}
+
+.exampleCardButton {
+  composes: btn btn-black btn-small from '../theme.css';
+}
+
+/* ============================================
+   EXAMPLE 4: Card with Brutalist Shadow
+   ============================================ */
+
+.exampleBrutalistCard {
+  composes: card-bordered from '../theme.css';
+  /* This gives you:
+     - border: 2px solid var(--border-dark)
+     - box-shadow: var(--shadow-solid)
+     - The distinctive brutalist look
+  */
+}
+
+/* ============================================
+   EXAMPLE 5: Horizontal Card Layout
+   ============================================ */
+
+.exampleHorizontalSection {
+  composes: section from '../theme.css';
+}
+
+.exampleHorizontalCard {
+  composes: card-horizontal from '../theme.css';
+  /* Automatically has border-top styling */
+  margin-top: 6rem;
+}
+
+.exampleCardItem {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.exampleCardItem h3 {
+  width: 500px;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.exampleCardItem p {
+  composes: text-body from '../theme.css';
+  width: -webkit-fill-available;
+}
+
+/* ============================================
+   EXAMPLE 6: Form with Inputs
+   ============================================ */
+
+.exampleForm {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.exampleInputGroup {
+  composes: input-container from '../theme.css';
+  /* Inputs automatically styled with:
+     - border: 2px solid var(--border-medium)
+     - Focus: box-shadow: var(--shadow-solid)
+     - Full width and proper spacing
+  */
+}
+
+.exampleInputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.exampleSubmitButton {
+  composes: btn btn-black btn-large from '../theme.css';
+  width: 100%;
+}
+
+/* ============================================
+   EXAMPLE 7: Navigation
+   ============================================ */
+
+.exampleHeader {
+  composes: header-fixed from '../theme.css';
+  /* Already has:
+     - position: fixed
+     - height: 70px
+     - z-index: 999
+     - background-color: var(--main-bg-color)
+  */
+}
+
+.exampleNavContainer {
+  composes: container-flex from '../theme.css';
+  height: 100%;
+}
+
+.exampleLogo {
+  composes: logo logo-bordered from '../theme.css';
+}
+
+.exampleNavLinks {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+}
+
+.exampleNavLink {
+  composes: nav-link from '../theme.css';
+  padding: 0 1rem;
+}
+
+/* ============================================
+   EXAMPLE 8: Footer
+   ============================================ */
+
+.exampleFooter {
+  composes: footer from '../theme.css';
+  /* Has dark background and styling */
+}
+
+.exampleFooterContent {
+  composes: container from '../theme.css';
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 2rem;
+}
+
+/* ============================================
+   EXAMPLE 9: Using Utility Classes
+   ============================================ */
+
+.exampleUtilities {
+  /* Flexbox utilities */
+  composes: flex-center from '../theme.css';
+  
+  /* Spacing */
+  composes: p-md from '../theme.css';
+  composes: m-lg from '../theme.css';
+  
+  /* Effects */
+  composes: transition-normal from '../theme.css';
+  composes: hover-lift from '../theme.css';
+}
+
+/* ============================================
+   EXAMPLE 10: Custom with System Variables
+   ============================================ */
+
+.exampleCustomComponent {
+  /* Use system variables for consistency */
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  border: 2px solid var(--border-dark);
+  border-radius: 8px;
+  padding: 2rem;
+  
+  /* Use system shadow */
+  box-shadow: var(--shadow-solid);
+  
+  /* Use system transition */
+  transition: all 0.3s ease;
+}
+
+.exampleCustomComponent:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px var(--text-primary);
+}
+
+/* ============================================
+   EXAMPLE 11: Responsive Design
+   ============================================ */
+
+.exampleResponsiveSection {
+  composes: section from '../theme.css';
+  padding: 4rem 2rem;
+}
+
+.exampleResponsiveGrid {
+  composes: card-grid from '../theme.css';
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .exampleResponsiveSection {
+    padding: 2rem 1rem;
+  }
+  
+  .exampleHeroTitle {
+    font-size: 1.8rem;
+  }
+  
+  .exampleCardItem {
+    flex-direction: column;
+  }
+  
+  .exampleCardItem h3 {
+    width: auto;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .exampleResponsiveSection {
+    padding: 3rem 1.5rem;
+  }
+  
+  .exampleHeroTitle {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================
+   NOTES
+   ============================================ */
+
+/*
+  KEY PRINCIPLES:
+  
+  1. Always compose from theme.css when possible
+  2. Use CSS variables (var(--name)) for colors and effects
+  3. Maintain the brutalist aesthetic with solid shadows
+  4. Keep border-radius minimal (3px, 4px, 8px)
+  5. Use system spacing (0.6rem, 1rem, 2rem, etc.)
+  6. Transitions should be 0.3s ease (default)
+  7. Hover effects: translateY(-2px) for lift
+  8. Mobile-first responsive design
+  
+  QUICK CHECKLIST FOR NEW COMPONENTS:
+  
+  ✅ Import theme.css at the top
+  ✅ Use var(--main-bg-color) for backgrounds
+  ✅ Use var(--text-primary) for main text
+  ✅ Use var(--text-secondary) for secondary text
+  ✅ Use var(--shadow-solid) for brutalist buttons/cards
+  ✅ Use var(--shadow-soft-sm/md/lg) for soft shadows
+  ✅ Follow the spacing system (gap, padding, margin)
+  ✅ Add responsive breakpoints: 480px, 768px, 992px
+  ✅ Test hover effects
+  ✅ Ensure transitions are smooth (0.3s ease)
+*/

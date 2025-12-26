@@ -16,7 +16,9 @@ const CourseAndLessonBoard = ({
   className,
   setCurrentStep,
   routeName,
+  removeData
 }) => {
+  
   const CStep = steps[currentStep];
   return (
     <div className={style.addLessonCourseContainer}>
@@ -37,6 +39,7 @@ const CourseAndLessonBoard = ({
 
           <div className={style.addLessonCourseFormNavBtns}>
             <SwitchersBtnsMForm
+            
               style={style}
               SetCurrentStep={setCurrentStep}
               currentStep={currentStep}
@@ -45,6 +48,7 @@ const CourseAndLessonBoard = ({
               core={core}
               dataDTO={dataDTO}
               dataStore={dataStore}
+              removeData={removeData}
             />
           </div>
         </form>

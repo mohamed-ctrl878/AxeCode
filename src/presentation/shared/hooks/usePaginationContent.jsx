@@ -39,6 +39,8 @@ const usePaginationContent = ({
         setLoad(false);
         setFail(true);
         setError(msg.message);
+        console.log(msg)
+        console.log(core)
       }
     };
     filterVal.length && action();

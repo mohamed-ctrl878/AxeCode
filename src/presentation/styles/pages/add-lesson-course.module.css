@@ -1,403 +1,425 @@
-/* Add Lesson & Course Modern Styles */
-:root {
-  --primary-green: #10b981;
-  --primary-green-light: #34d399;
-  --primary-green-dark: #059669;
-  --bg-light: #f9fafb;
-  --bg-dark: #1f2937;
-  --text-light: #222;
-  --text-dark: #f3f4f6;
-}
+/* Add Lesson & Course - Brutalist Design System */
 
-.light-theme {
-  --bg: var(--bg-light);
-  --text: var(--text-light);
-}
-.dark-theme {
-  --bg: var(--bg-dark);
-  --text: var(--text-dark);
-}
+@import '../theme.css';
+
+/* ============================================
+   CONTAINER & LAYOUT
+   ============================================ */
 
 .addLessonCourseContainer {
   min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
+  background-color: var(--main-bg-color);
+  padding: 2rem 1rem;
+  padding-top: 90px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 0;
+  justify-content: center;
 }
 
 .addLessonCourseFormWrapper {
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1),
-    0 1.5px 16px 0 var(--primary-green-light);
-  padding: 2rem;
-  max-width: 700px;
-  width: 100%;
-  margin: 2rem 0;
-  transition: background 0.3s;
+  composes: card from '../theme.css';
+  max-width: 100%;
+  width: 98%;
+  padding: 3rem;
+  border: 3px solid var(--border-dark);
+  box-shadow: var(--shadow-solid);
+  background-color: var(--white);
+  animation: fadeInUp 0.5s ease;
+  position: relative;
 }
+
+/* ============================================
+   STEPPER
+   ============================================ */
 
 .addLessonCourseStepperWrapper {
   margin-bottom: 2rem;
+  border-bottom: 3px solid var(--border-medium);
+  padding-bottom: 2rem;
 }
 
-.addLessonCourseForm {
-  width: 100%;
-}
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
 
 .addLessonCourseFormBody {
   width: 100%;
   min-height: 400px;
 }
 
-.addLessonCourseFormNavBtns {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 2px solid #e5e7eb;
-}
-
-.addLessonCourseSwitchLink {
-  text-align: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.addLessonCourseLink {
-  color: var(--primary-green);
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.3s;
-}
-
-.addLessonCourseLink:hover {
-  color: var(--primary-green-dark);
-}
-
-/* Step Styles */
 .step {
   display: none;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.4s ease;
 }
 
 .step.active {
   display: block;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Step Title Styles */
 .stepTitle {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--primary-green);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
+  text-transform: uppercase;
 }
 
 .stepSubtitle {
-  color: var(--primary-green-dark);
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
 }
 
-/* Form Group Styles */
 .formGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .formLabel {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: var(--text);
-  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .formControl {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: white;
-  color: var(--text);
+  padding: 1rem 1.25rem;
+  border: 3px solid var(--border-medium);
+  border-radius: 0;
+  font-size: 1rem;
+  background-color: var(--white);
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .formControl:focus {
   outline: none;
-  border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: var(--border-dark);
+  box-shadow: var(--shadow-solid);
+  transform: translateY(-2px);
 }
 
-.formControl:hover {
-  border-color: var(--primary-green-light);
+.formControl::placeholder {
+  color: var(--text-muted);
 }
 
 .formControl[rows] {
   resize: vertical;
-  min-height: 100px;
+  min-height: 150px;
 }
 
-/* Error Styles */
+/* ============================================
+   ERROR MESSAGES
+   ============================================ */
+
 .error {
-  color: #ef4444;
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
+  color: var(--accent-red);
+  font-weight: 600;
+  font-size: 0.9rem;
   display: block;
-  animation: shake 0.5s ease-in-out;
+  animation: shake 0.4s ease;
+  background-color: var(--card-red);
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--accent-red);
+  width: fit-content;
 }
 
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5px);
-  }
-  75% {
-    transform: translateX(5px);
-  }
+/* ============================================
+   NAVIGATION & BUTTONS
+   ============================================ */
+
+.addLessonCourseFormNavBtns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 3px solid var(--border-medium);
 }
 
-/* File Preview Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 3px solid var(--border-dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  background-color: transparent;
+}
+
+.btnPrimary {
+  background-color: var(--text-primary);
+  color: var(--main-bg-color);
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+}
+
+.btnPrimary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+}
+
+.btnPrimary:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.btnSecondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  box-shadow: 4px 4px 0px var(--border-dark);
+}
+
+.btnSecondary:hover {
+  background-color: var(--border-medium);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--border-dark);
+}
+
+.btnSecondary:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+/* ============================================
+   SWITCH LINK
+   ============================================ */
+
+.addLessonCourseSwitchLink {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 3px solid var(--border-medium);
+}
+
+.addLessonCourseLink {
+  color: var(--text-primary);
+  text-decoration: underline;
+  font-weight: 700;
+  margin-left: 0.5rem;
+  transition: color 0.2s;
+}
+
+.addLessonCourseLink:hover {
+  background-color: var(--accent-yellow);
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0 0.2rem;
+}
+
+/* ============================================
+   FILE PREVIEW
+   ============================================ */
+
 .filePreview {
   margin-top: 1rem;
   padding: 1rem;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 2px dashed #e5e7eb;
+  background: var(--surface-card);
+  border: 2px dashed var(--border-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .fileName {
-  display: block;
-  font-weight: 600;
-  color: var(--primary-green);
-  margin-bottom: 0.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .fileSize {
-  display: block;
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
-/* Popup Styles */
-.popup {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--bg-primary);
+/* ============================================
+   SELECTION LIST (INLINE, NO POPUP)
+   ============================================ */
+
+.selectionContainer {
+  background: var(--surface-card);
+  border: 3px solid var(--border-dark);
+  padding: 1.5rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.selectionHeader {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--border-medium);
+  padding-bottom: 0.5rem;
+}
+
+.selectionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.selectionList::-webkit-scrollbar {
+  width: 8px;
+  background: var(--border-medium);
+}
+.selectionList::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+}
+
+.addLessonCourseCourseItem {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid var(--border-medium);
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.popupContent {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  width: 90%;
+.addLessonCourseCourseItem:hover {
+  border-color: var(--border-dark);
+  background-color: var(--surface-card);
+  transform: translateX(5px);
+  box-shadow: 4px 4px 0px var(--border-medium);
 }
 
-.popupTitle {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--primary-green);
-  margin-bottom: 1rem;
+.addLessonCourseCourseTitle {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
 }
 
-.popupList {
-  margin-top: 1rem;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.noResults {
-  text-align: center;
-  color: #6b7280;
-  padding: 2rem;
+.addLessonCourseCourseImg {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--border-dark);
+  object-fit: cover;
 }
 
 .searchInputBox {
   position: relative;
+  margin-bottom: 1rem;
 }
+
 .iconLoad {
   position: absolute;
-  right: -30px;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
 }
-/* week Step */
-.courseSlide {
-}
 
-.courseTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary, #2a7);
-  margin-bottom: 12px;
-  cursor: pointer;
-}
+/* ============================================
+   WEEKS / SLIDES
+   ============================================ */
 
-/* Container للـ courses slides */
 .coursesContainer {
   display: flex;
   overflow-x: auto;
-  gap: 16px;
-  padding: 12px;
-  scrollbar-width: thin;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 3px solid var(--border-medium);
+  margin-bottom: 1rem;
 }
 
 .coursesContainer::-webkit-scrollbar {
   height: 8px;
+  background: var(--border-medium);
 }
 .coursesContainer::-webkit-scrollbar-thumb {
-  background: var(--border-primary, #2a7);
-  border-radius: 10px;
+  background: var(--border-dark);
 }
 
-/* weeks container */
+.courseTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
 .weekSelector {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-  animation: fadeIn 0.3s ease;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
-/* week pill button */
-.rotate90Deg{
-  transform: rotate(90deg);
-  transition: transform 0.3s ease;
-}
-.weeksContainer {
-  display: none;
-}
-.weeksContainer.active {
-display: flex;
-}
 .weekItem {
-  padding: 6px 12px;
-  border: 1px solid var(--border-primary, #2a7);
-  border-radius: 20px;
-  background: var(--bg-overlay);
-  color: var(--text-primary, #2a7);
-  font-size: 14px;
-  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--border-dark);
+  background: var(--white);
+  color: var(--text-primary);
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
-  width: fit-content;
 }
 
 .weekItem:hover {
-  background: #2a7;
-  color: #fff;
+  background: var(--border-medium);
+  transform: translateY(-2px);
+  box-shadow: 2px 2px 0px var(--border-dark);
 }
 
 .weekItem.selected {
-  background: #2a7;
-  color: #fff;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
-}
-.iconSlide{
-  transition: all 0.3s ease;
+  background: var(--text-primary);
+  color: var(--white);
+  box-shadow: 4px 4px 0px var(--border-medium);
 }
 
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.rotate90Deg {
+  transform: rotate(90deg);
 }
-/* week */
-/* Links Styles */
+
+/* ============================================
+   LINKS & REVIEW
+   ============================================ */
+
 .linksWrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.linksList {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
 }
 
 .linksList > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
-  background: white;
-  border-radius: 8px;
+  padding: 1rem;
+  background: var(--white);
+  border: 2px solid var(--border-medium);
   margin-bottom: 0.5rem;
-  border: 1px solid #e5e7eb;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .linksList > div:hover {
-  border-color: var(--primary-green);
-  background: #f0fdf4;
+  border-color: var(--border-dark);
+  box-shadow: 4px 4px 0px var(--border-medium);
 }
 
-.linksList > div:last-child {
-  margin-bottom: 0;
-}
-
-.linksList span {
-  font-size: 0.9rem;
-}
-
-.linksList span:first-child {
-  font-weight: 600;
-  color: var(--primary-green);
-}
-
-.linksList span:last-child {
-  color: #6b7280;
-}
-
-/* Review Styles */
 .reviewSection {
-  background: #f9fafb;
-  border-radius: 16px;
-  padding: 1.5rem;
+  background: var(--surface-card);
+  border: 3px solid var(--border-dark);
+  padding: 2rem;
   margin-bottom: 2rem;
 }
 
 .reviewItem {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 2px solid var(--border-medium);
 }
 
 .reviewItem:last-child {
@@ -406,175 +428,57 @@ display: flex;
 }
 
 .reviewLabel {
-  font-weight: 600;
-  color: var(--primary-green);
+  font-weight: 700;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
+  text-transform: uppercase;
 }
 
 .reviewValue {
-  color: var(--text);
-  line-height: 1.5;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
 }
 
-.reviewLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.reviewLink {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.linkName {
-  font-weight: 500;
-  color: var(--primary-green);
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
-.linkUrl {
-  color: #6b7280;
-  font-size: 0.85rem;
-}
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 
-.submitSection {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-/* Button Base Styles */
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 120px;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.5s;
-}
-
-.btn:hover::before {
-  left: 100%;
-}
-
-/* Primary Button */
-.btnPrimary {
-  background: linear-gradient(
-    135deg,
-    var(--primary-green),
-    var(--primary-green-light)
-  );
-  color: white;
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-}
-
-.btnPrimary:hover {
-  background: linear-gradient(
-    135deg,
-    var(--primary-green-dark),
-    var(--primary-green)
-  );
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-}
-
-.btnPrimary:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-}
-
-/* Secondary Button */
-.btnSecondary {
-  background: #f3f4f6;
-  color: #374151;
-  border: 2px solid #e5e7eb;
-}
-
-.btnSecondary:hover {
-  background: #e5e7eb;
-  border-color: var(--primary-green);
-  color: var(--primary-green-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btnSecondary:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsive Design */
 @media (max-width: 600px) {
   .addLessonCourseFormWrapper {
-    padding: 1rem;
-    max-width: 98vw;
+    padding: 1.5rem;
   }
-
+  
   .stepTitle {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
-
+  
+  .addLessonCourseFormNavBtns {
+    flex-direction: column-reverse;
+  }
+  
   .popupContent {
     padding: 1rem;
     width: 95%;
   }
-}
-
-/* Course Item Styles */
-.addLessonCourseCourseItem {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 12px;
-  background: #f3f4f6;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.addLessonCourseCourseItem:hover {
-  background: var(--primary-green-light);
-  transform: scale(1.02);
-}
-
-.addLessonCourseCourseTitle {
-  font-weight: 700;
-  color: var(--primary-green);
-  margin: 0;
-}
-
-.addLessonCourseCourseImg {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  object-fit: cover;
 }

@@ -5,7 +5,7 @@ import FailureMessage from "../ui/messages/FailureMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { go, stopFetch } from "@data/storage/storeRx/sharedSlices/validStarter";
 import { useRegisterProcess } from "@presentation/shared/hooks/useRegisterProcess";
-import { RegisterDTO } from "@data/models/userDTOs/RegisterDTO";
+import { RegisterDTO } from "@domain/reqs_dtos/RegisterDTO";
 import { basicRegisterExe } from "@domain/usecases/user/basicRegisterExe";
 import RegisterAuthBase from "@data/repositories/userImps/RegesterImp";
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import style from "@presentation/styles/pages/login.module.css";
+import styles from "@presentation/styles/pages/auth.module.css";
+import { Link } from "react-router-dom";
 import { handelChangeValueBasic } from "@core/utils/problemUploader/handellers";
 import { forgetPassExe } from "@domain/usecases/user/forgetPassExe";
 import { ForgetPasswordClass } from "@data/repositories/userImps/ForgetPasswordClass";
@@ -9,7 +10,7 @@ const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
-  console.log(error);
+
   const forgetProccess = useResetPasswordProccess({
     dataModel: { email: email },
     setError,
@@ -18,44 +19,115 @@ const ForgetPassword = () => {
     exeuter: forgetPassExe,
     fireOnSuccess: false,
   });
-  if (success)
+
+  if (success) {
     return (
-      <div className={`${style.loginContainer} `}>
-        {" "}
-        <p> {<div className="form-success">{success}</div>}</p>
+      <div className={styles.authContainer}>
+        <div className={styles.authFormSide}>
+          <div className={styles.formWrapper}>
+            <div className={styles.logoContainer}>
+              <div className={styles.logo}>AxeCode</div>
+            </div>
+
+            <div className={styles.authHeader}>
+              <h1 className={styles.authTitle}>Check Your Email 📧</h1>
+              <p className={styles.authSubtitle}>
+                We've sent a password reset link to your email address.
+              </p>
+            </div>
+
+            <div className={styles.formSuccess}>{success}</div>
+
+            <div className={styles.formLinks}>
+              <Link to="/login" className={styles.linkPrimary}>
+                ← Back to Login
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.authImageSide}>
+          <div className={styles.imagePlaceholder}>
+            <div className={styles.placeholderIcon}>✉️</div>
+            <h2 className={styles.placeholderText}>Check Your Inbox</h2>
+            <p className={styles.placeholderSubtext}>
+              Follow the link in your email to reset your password
+            </p>
+          </div>
+        </div>
       </div>
     );
+  }
+
   return (
-    <div className={`${style.loginContainer} `}>
-      <form
-        onSubmit={(e) => {
-          forgetProccess(e);
-        }}
-        noValidate
-      >
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="input"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(handelChangeValueBasic(e))}
-            required
-          />
-          <p> {error && <div className="form-error">{error}</div>}</p>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ width: "100%", marginTop: "1rem" }}
+    <div className={styles.authContainer}>
+      {/* Left Side - Form */}
+      <div className={styles.authFormSide}>
+        <div className={styles.formWrapper}>
+          {/* Logo */}
+          <div className={styles.logoContainer}>
+            <div className={styles.logo}>AxeCode</div>
+          </div>
+
+          {/* Header */}
+          <div className={styles.authHeader}>
+            <h1 className={styles.authTitle}>Forgot Password?</h1>
+            <p className={styles.authSubtitle}>
+              No worries! Enter your email and we'll send you reset instructions.
+            </p>
+          </div>
+
+          {/* Error Message */}
+          {error && <div className={styles.formError}>{error}</div>}
+
+          {/* Form */}
+          <form
+            onSubmit={(e) => {
+              forgetProccess(e);
+            }}
+            noValidate
           >
-            Sign In
-          </button>
+            <div className={styles.formGroup}>
+              <label htmlFor="email" className={styles.formLabel}>
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                className={styles.formInput}
+                placeholder="your-email@example.com"
+                value={email}
+                onChange={(e) => setEmail(handelChangeValueBasic(e))}
+                required
+              />
+            </div>
+
+            <button type="submit" className={styles.btnPrimary}>
+              Send Reset Link
+            </button>
+          </form>
+
+          {/* Links */}
+          <div className={styles.formLinks}>
+            <Link to="/login" className={styles.formLink}>
+              ← Back to Login
+            </Link>
+          </div>
         </div>
-      </form>
+      </div>
+
+      {/* Right Side - Image/Illustration */}
+      <div className={styles.authImageSide}>
+        <div className={styles.imagePlaceholder}>
+          <div className={styles.placeholderIcon}>🔐</div>
+          <h2 className={styles.placeholderText}>
+            Secure Password Reset
+          </h2>
+          <p className={styles.placeholderSubtext}>
+            We'll help you regain access to your account safely and securely
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

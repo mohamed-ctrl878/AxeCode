@@ -1,0 +1,243 @@
+{
+    "designSystem": {
+        "name": "AxeCode Clean Brutalist Design System",
+        "version": "1.0.0",
+        "style": "Clean Brutalist",
+        "description": "نظام تصميم موحد متبعاً النمط البسيط والنظيف من index.css"
+    },
+    "colors": {
+        "primary": {
+            "--main-bg-color": "#f0eee6",
+            "description": "الخلفية الرئيسية - بيج دافئ"
+        },
+        "text": {
+            "--text-primary": "#141413",
+            "--text-secondary": "#5c5b5b",
+            "--text-muted": "#aaa",
+            "description": "ألوان النصوص من الأغمق للأفتح"
+        },
+        "surfaces": {
+            "--surface-card": "#e3dacc",
+            "--surface-white": "rgba(255, 255, 255, 0.87)",
+            "--surface-footer": "#293952",
+            "description": "خلفيات الكروت والعناصر"
+        },
+        "borders": {
+            "--border-light": "#f0f0f0",
+            "--border-medium": "#ddd",
+            "--border-dark": "#141413",
+            "description": "ألوان الحدود"
+        }
+    },
+    "shadows": {
+        "brutalist": {
+            "--shadow-solid": "3px 3px 0px black",
+            "description": "الظل البارز المميز للنمط Brutalist",
+            "usage": "للأزرار والعناصر البارزة"
+        },
+        "soft": {
+            "--shadow-soft-sm": "0 2px 8px rgba(0, 0, 0, 0.08)",
+            "--shadow-soft-md": "0 4px 12px rgba(0, 0, 0, 0.12)",
+            "--shadow-soft-lg": "0 8px 24px rgba(0, 0, 0, 0.15)",
+            "description": "ظلال ناعمة متدرجة",
+            "usage": "للكروت والعناصر الثانوية"
+        }
+    },
+    "spacing": {
+        "gap": {
+            "xs": "5px",
+            "sm": "10px",
+            "md": "20px",
+            "lg": "30px"
+        },
+        "padding": {
+            "xs": "0.6rem",
+            "sm": "1rem",
+            "md": "2rem",
+            "lg": "3rem",
+            "xl": "4rem"
+        },
+        "margin": {
+            "xs": "0.6rem",
+            "sm": "1rem",
+            "md": "1.5rem",
+            "lg": "2.5rem",
+            "xl": "4rem"
+        }
+    },
+    "typography": {
+        "sizes": {
+            "hero": "2.5rem",
+            "h1": "2.2rem",
+            "h2": "1.8rem",
+            "h3": "1.4rem",
+            "h4": "1.1rem",
+            "body": "1rem",
+            "small": "0.9rem"
+        },
+        "weights": {
+            "light": 300,
+            "normal": 400,
+            "medium": 500,
+            "semibold": 600,
+            "bold": 700
+        },
+        "lineHeight": {
+            "tight": 1.1,
+            "normal": 1.5,
+            "relaxed": 1.7,
+            "loose": 2.1
+        }
+    },
+    "borderRadius": {
+        "small": "3px",
+        "medium": "4px",
+        "large": "8px",
+        "usage": "استخدم الأحجام الصغيرة للحفاظ على النمط Clean"
+    },
+    "transitions": {
+        "fast": "0.1s ease",
+        "normal": "0.3s ease",
+        "slow": "0.4s ease",
+        "default": "0.3s ease"
+    },
+    "buttons": {
+        "classes": {
+            ".btn": "الزر الأساسي - يحتوي على box-shadow: var(--shadow-solid)",
+            ".btn-black": "خلفية سوداء، نص أبيض",
+            ".btn-white": "خلفية بيضاء، نص أسود",
+            ".btn-outline": "شفاف مع حدود سوداء",
+            ".btn-small": "حجم صغير - padding: 0.5rem 0.9rem",
+            ".btn-large": "حجم كبير - padding: 1.2rem 2.5rem"
+        },
+        "structure": {
+            "display": "inline-flex",
+            "alignItems": "center",
+            "justifyContent": "center",
+            "gap": "5px",
+            "fontWeight": 600,
+            "borderRadius": "3px",
+            "whiteSpace": "nowrap"
+        }
+    },
+    "cards": {
+        "classes": {
+            ".card": "كرت أساسي - ظل ناعم، border-radius: 8px",
+            ".card-flat": "كرت مسطح مع حدود",
+            ".card-bordered": "كرت مع ظل Brutalist",
+            ".card-horizontal": "تخطيط أفقي",
+            ".card-grid": "شبكة متجاوبة للكروت"
+        },
+        "grid": {
+            "columns": "repeat(auto-fill, minmax(300px, 1fr))",
+            "gap": "2rem",
+            "responsive": true
+        }
+    },
+    "containers": {
+        "classes": {
+            ".container": "max-width: 1200px",
+            ".container-flex": "flex مع gap: 30px",
+            ".container-narrow": "max-width: 800px",
+            ".container-wide": "max-width: 1400px",
+            ".section": "padding: 4rem 1rem",
+            ".section-hero": "full height hero section"
+        }
+    },
+    "utilities": {
+        "layout": {
+            ".flex": "display: flex",
+            ".flex-col": "flex-direction: column",
+            ".flex-center": "center items",
+            ".flex-between": "space-between",
+            ".grid": "display: grid"
+        },
+        "text": {
+            ".text-center": "text-align: center",
+            ".text-left": "text-align: left",
+            ".text-right": "text-align: right",
+            ".uppercase": "text-transform: uppercase",
+            ".capitalize": "text-transform: capitalize"
+        },
+        "effects": {
+            ".hover-lift": "translateY(-2px) on hover",
+            ".hover-scale": "scale(1.05) on hover",
+            ".transition-fast": "0.1s ease",
+            ".transition-normal": "0.3s ease",
+            ".transition-slow": "0.4s ease"
+        }
+    },
+    "breakpoints": {
+        "mobile-small": "< 480px",
+        "mobile-large": "480px - 767px",
+        "tablet": "768px - 991px",
+        "desktop-small": "992px - 1023px",
+        "desktop": "1024px - 1279px",
+        "desktop-large": ">= 1280px",
+        "approach": "Mobile-First"
+    },
+    "usage": {
+        "import": "@import '../theme.css';",
+        "compose": "composes: btn btn-black from '../theme.css';",
+        "variables": "background-color: var(--main-bg-color);",
+        "example": {
+            "button": {
+                "jsx": "<button className={styles.myBtn}>Click</button>",
+                "css": ".myBtn { composes: btn btn-black from '../theme.css'; }"
+            },
+            "card": {
+                "jsx": "<div className={styles.card}>Content</div>",
+                "css": ".card { composes: card hover-lift from '../theme.css'; }"
+            }
+        }
+    },
+    "files": {
+        "main": "design-system.css",
+        "reference": "theme.css",
+        "guides": {
+            "complete": "DESIGN_SYSTEM_GUIDE.md",
+            "migration": "MIGRATION_GUIDE.md",
+            "readme": "README.md"
+        },
+        "examples": {
+            "comprehensive": "examples/design-system-usage-example.module.css",
+            "simple": "examples/simple-example.module.css"
+        }
+    },
+    "principles": {
+        "do": [
+            "استخدم المتغيرات CSS دائماً: var(--name)",
+            "اتبع نظام المسافات المحدد",
+            "استخدم composes للـ utility classes",
+            "احترم نقاط التوقف Responsive",
+            "اختبر على جميع أحجام الشاشات"
+        ],
+        "dont": [
+            "لا تستخدم ألوان خارج النظام",
+            "لا تستخدم ظلال مخصصة بدون سبب",
+            "لا تكسر نظام المسافات",
+            "لا تستخدم border-radius كبير",
+            "لا تنسى الاستجابة"
+        ]
+    },
+    "quickReference": {
+        "mostUsedClasses": [
+            "btn btn-black",
+            "btn btn-outline",
+            "card",
+            "card-grid",
+            "container",
+            "section",
+            "flex-center",
+            "hover-lift"
+        ],
+        "mostUsedVariables": [
+            "var(--main-bg-color)",
+            "var(--text-primary)",
+            "var(--text-secondary)",
+            "var(--surface-card)",
+            "var(--shadow-solid)",
+            "var(--shadow-soft-sm)"
+        ]
+    }
+}

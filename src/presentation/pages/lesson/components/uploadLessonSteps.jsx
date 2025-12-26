@@ -1,4 +1,4 @@
-import GetCourses from "@data/repositories/courseImps/GetCourses";
+import GetWeeks from "@data/repositories/courseImps/GetWeeks";
 import { GetCoursesType } from "@data/repositories/courseImps/GetCoursesType";
 import { GetProblem_types } from "@data/repositories/problemImps/GetProblem_types";
 import getCoursesExe from "@domain/usecases/course/getCoursesExe";
@@ -16,7 +16,7 @@ const uploadLessonSteps = (dataSetter, storeName) => [
       // {...props}
       dataSetter={dataSetter}
       storeName={storeName}
-      core={GetCourses}
+      core={GetWeeks}
       caseUse={getCoursesExe}
       selectionType="Weeks of the Course"
       style={style}

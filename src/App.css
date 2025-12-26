@@ -49,36 +49,33 @@
   --light-info-light: #e0f2fe;
   --light-info-dark: #0c4a6e;
 
-  /* Light Theme - Background Colors */
-  --light-bg-primary: #ffffff; /* أبيض نقي */
-  --light-bg-secondary: #eef1f7; /* أفتح من السابق لكن أوضح من الأبيض */
-  --light-bg-tertiary: #d9e1ec; /* أغمق بشكل أوضح من secondary */
-  --light-bg-card: #f5f7fa; /* للكروت مع فرق واضح عن الخلفية */
-  --light-bg-overlay: rgba(15, 23, 42, 0.22); /* أوفرلاي أوضح قليلاً */
-  --light-bg-muted: #c8d3e2; /* عناصر غير بارزة لكن واضحة */
-  --light-bg-elevated: #fcfcfc; /* طبقة مرتفعة قريبة من الأبيض */
+  /* Light Theme - Background Colors (Clean Brutalist) */
+  --light-bg-primary: #f0eee6; /* بيج دافئ */
+  --light-bg-secondary: #e3dacc; /* بيج فاتح للكروت */
+  --light-bg-tertiary: #d9d1c3; /* بيج أغمق قليلاً */
+  --light-bg-card: #e3dacc; /* للكروت */
+  --light-bg-overlay: rgba(0, 0, 0, 0.3); /* أوفرلاي بسيط */
+  --light-bg-muted: #e8e4dc; /* عناصر غير بارزة */
+  --light-bg-elevated: rgba(255, 255, 255, 0.87); /* أبيض شبه شفاف */
 
-  /* Light Theme - Text Colors */
-  --light-text-primary: #0f172a;
-  --light-text-secondary: #475569;
-  --light-text-muted: #64748b;
-  --light-text-inverse: #ffffff;
-  --light-text-disabled: #94a3b8;
+  /* Light Theme - Text Colors (Clean Brutalist) */
+  --light-text-primary: #141413; /* أسود تقريباً */
+  --light-text-secondary: #5c5b5b; /* رمادي متوسط */
+  --light-text-muted: #aaa; /* رمادي فاتح */
+  --light-text-inverse: rgba(255, 255, 255, 0.87); /* أبيض شبه شفاف */
+  --light-text-disabled: #ddd;
 
-  /* Light Theme - Border Colors */
-  --light-border-primary: #e2e8f0;
-  --light-border-secondary: #cbd5e1;
-  --light-border-accent: #6366f1;
-  --light-border-muted: #f1f5f9;
+  /* Light Theme - Border Colors (Clean Brutalist) */
+  --light-border-primary: #f0f0f0; /* فاتح جداً */
+  --light-border-secondary: #ddd; /* متوسط */
+  --light-border-accent: #141413; /* أسود للحدود البارزة */
+  --light-border-muted: #f0f0f0;
 
-  /* Light Theme - Shadow Colors */
-  --light-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --light-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --light-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --light-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* Light Theme - Shadow Colors (Clean Brutalist) */
+  --light-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08); /* ناعم صغير */
+  --light-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12); /* ناعم متوسط */
+  --light-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15); /* ناعم كبير */
+  --light-shadow-xl: 3px 3px 0px black; /* Brutalist Shadow */
 
   /* Dark Theme - Primary Colors */
   --dark-primary: #818cf8;
@@ -671,10 +668,10 @@ body {
 }
 
 /* Focus styles */
-*:focus {
+/* *:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
-}
+} */
 
 /* Disabled states */
 .disabled,

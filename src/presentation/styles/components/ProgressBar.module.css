@@ -8,6 +8,11 @@
   width: var(--size, 120px);
   height: var(--size, 120px);
   cursor: pointer;
+  background-color: var(--white);
+  border-radius: 50%;
+  box-shadow: var(--shadow-solid); 
+  border: 2px solid var(--border-dark);
+  margin: 1rem auto;
 }
 
 .svg {

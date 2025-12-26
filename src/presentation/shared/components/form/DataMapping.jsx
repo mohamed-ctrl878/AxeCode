@@ -24,14 +24,19 @@ const DataMapping = ({
     validationFunc: checkLength,
     setError: setError,
     dispatch: dispatch,
-    condition: selectors.length > 0,
-    errorMessage: "please sellect a week/s",
+    condition: Array.isArray(selectors) ? selectors.length > 0 : !!selectors,
+    errorMessage: "Please select an item",
     setProberty: dataSetter,
     currentFieldValue: ItemFromStore,
   });
   return Array.isArray(data)
     ? data.map((element, index) => (
-        <Component element={element} index={index} setData={setSelectors} />
+        <Component
+          element={element}
+          index={index}
+          setData={setSelectors}
+          currentSelection={selectors}
+        />
       ))
     : null;
 };

@@ -1,4 +1,4 @@
-import { RegisterDTO } from "@data/models/userDTOs/RegisterDTO";
+import { RegisterDTO } from "@domain/reqs_dtos/RegisterDTO";
 import { createSlice } from "@reduxjs/toolkit";
 
 const registerDataSteps = createSlice({
@@ -9,8 +9,11 @@ const registerDataSteps = createSlice({
       state = new RegisterDTO({ ...state, ...action.payload });
       return state;
     },
+    clearRegData: (state) => {
+      return { ...new RegisterDTO({}) };
+    },
   },
 });
 
-export const { setRegisterDataStore } = registerDataSteps.actions;
+export const { setRegisterDataStore ,clearRegData} = registerDataSteps.actions;
 export default registerDataSteps.reducer;
