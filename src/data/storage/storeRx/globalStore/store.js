@@ -5,6 +5,7 @@ import userData from "./userData";
 import registerDataSteps from "./registerDataSteps";
 import validStarter from "../sharedSlices/validStarter";
 import entitlementSlice from "../sharedSlices/entitlementSlice";
+import UploadEventData from "../eventSlice/UploadEventData";
 const store = configureStore({
   reducer: {
     auth: userAuthSlice,
@@ -13,6 +14,7 @@ const store = configureStore({
     registerDataSteps: registerDataSteps,
     validStarter: validStarter,
     entitlementData: entitlementSlice,
+    UploadEventData:UploadEventData
   },
 });
 export default store;

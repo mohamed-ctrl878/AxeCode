@@ -11,6 +11,9 @@ import {
   faVideo 
 } from "@fortawesome/free-solid-svg-icons";
 import style from "@presentation/styles/pages/content-dashboard.module.css"; // We will need to create this CSS
+import CourseCartContainer from "../components/CourseCartContainer";
+import LessonCartContainer from "../components/LessonCartContainer";
+import EventCartContainer from "../components/EventCartContainer";
 const generateMockContent = (count) => {
   const types = ["PROBLEM", "COURSE", "EVENT", "ARTICLE", "LIVE", "ROADMAP", "LESSON", "WEEK"];
   return Array.from({ length: count }, (_, i) => ({
@@ -88,6 +91,11 @@ const ContentDashboard = ({ theme, contentType, embedded = false }) => {
                   <FontAwesomeIcon icon={faPlus} /> Add Problem
               </Link>
             )}
+            {contentType === "EVENT" && (
+              <Link to="/settings/profile/add-event" className={`${style.btn} ${style.btnPrimary}`}>
+                  <FontAwesomeIcon icon={faPlus} /> Add Event
+              </Link>
+            )}
             {contentType === "LESSON" && (
               <Link to="/settings/profile/add-lesson" className={`${style.btn} ${style.btnPrimary}`}>
                   <FontAwesomeIcon icon={faPlus} /> Add Lesson
@@ -127,6 +135,11 @@ const ContentDashboard = ({ theme, contentType, embedded = false }) => {
                     <FontAwesomeIcon icon={faPlus} /> Add Lesson
                 </Link>
               )}
+              {contentType === "EVENT" && (
+                <Link to="/settings/profile/add-event" className={`${style.btn} ${style.btnPrimary}`}>
+                    <FontAwesomeIcon icon={faPlus} /> Add Event
+                </Link>
+              )}
             {/* Add Week Button */}
             {contentType === "WEEK" && (
                 <Link to="/settings/profile/add-week" className={`${style.btn} ${style.btnPrimary}`}>
@@ -152,43 +165,15 @@ const ContentDashboard = ({ theme, contentType, embedded = false }) => {
         />
       </div>
       {/* Content Grid/Table */}
-      <div className={style.contentGrid}>
-        {displayedContent.length > 0 ? (
-          displayedContent.map((item) => (
-            <div key={item.id} className={style.contentCard}>
-              <div className={style.cardHeader}>
-                <span className={`${style.badge} ${item.type === "PROBLEM" ? style.badgeProblem : style.badgeCourse}`}>
-                  {item.type}
-                </span>
-                <span className={`${style.status} ${item.status === "DRAFT" ? style.statusDraft : style.statusPublished}`}>
-                  {item.status}
-                </span>
-              </div>
-              <h3 className={style.cardTitle}>{item.title}</h3>
-              <p className={style.cardMeta}>Created: {item.createdAt} • Price: {item.price}</p>
-              
-              <div className={style.cardActions}>
-                 {/* Entitlement Configuration Link */}
-                <button 
-                  onClick={() => navigate(`/settings/content/configure/${item.id}`)} 
-                  className={`${style.actionBtn} ${style.btnConfig}`}
-                  title="Configure Entitlement"
-                >
-                  <FontAwesomeIcon icon={faCog} /> Authorization
-                </button>
-                <button className={style.actionBtn} title="Edit">
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-                <button className={`${style.actionBtn} ${style.btnDelete}`} title="Delete">
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </div>
-            </div>
-          ))
+      {
+        contentType === "COURSE" ? (
+          <CourseCartContainer />
+        ) : contentType === "EVENT" ? (
+          <EventCartContainer />
         ) : (
-          <div className={style.noResults}>No content found matching "{searchTerm}"</div>
-        )}
-      </div>
+          <LessonCartContainer />
+        )
+      }
       {/* Pagination Load More */}
       {hasMore && (
         <div className={style.paginationWrapper}>

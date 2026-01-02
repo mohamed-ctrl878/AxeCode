@@ -1,5 +1,6 @@
 import React from "react";
 import { uploadCourseStore } from "@data/storage/storeRx/Course&LessonStore/uploadCourse&LessonStore";
+import { useParams } from "react-router-dom";
 import { storeOfProblem } from "@data/storage/storeRx/problemSlices/uploadProblemStore";
 import Login from "@presentation/pages/auth/routes/Login";
 import RegisterMultiStep from "@presentation/pages/auth/routes/RegisterMultiStep";
@@ -8,6 +9,7 @@ import AddCourse from "@presentation/pages/course/routes/AddCourse";
 import Courses from "@presentation/pages/course/routes/Courses";
 import CoursePreview from "@presentation/pages/course/routes/CoursePreview";
 import CourseContent from "@presentation/pages/course/routes/CourseContent";
+import Checkout from "@presentation/pages/course/routes/Checkout";
 import TechEvent from "@presentation/pages/events/routes/TechEvent";
 import EventsListing from "@presentation/pages/events/routes/EventsListing";
 import Home from "@presentation/pages/home/routes/Home";
@@ -18,6 +20,7 @@ import ProblemModern from "@presentation/pages/problem/routes/ProblemModern";
 import UploadProblem from "@presentation/pages/problem/routes/UploadProblem";
 import Settings from "@presentation/pages/settings/routes/Settings";
 import Chat from "@presentation/pages/chat/routes/Chat";
+import AddEvent from "@presentation/pages/events/routes/AddEvent";
 import ErrComponent from "@presentation/shared/components/ui/error/ErrComponent";
 import { Provider } from "react-redux";
 import ResetPassword from "@presentation/pages/auth/routes/ResetPassword";
@@ -32,6 +35,12 @@ import Documents from "@presentation/pages/documents/routes/Documents";
 import ContentDashboard from "@presentation/pages/dashboard/routes/ContentDashboard";
 import EntitlementManager from "@presentation/pages/dashboard/routes/EntitlementManager";
 import AddWeek from "@presentation/pages/week/routes/AddWeek";
+import UserEntitlement from "@presentation/shared/components/ui/themes&other/UserEntitlement";
+
+const EntitlementGate = () => {
+  const { courseId, lessonId, entitlementId } = useParams();
+  return <UserEntitlement id={entitlementId} to={`/courses/preview/${courseId}/${lessonId}`} />;
+};
 
 export const routes = (data, theme, themeClass) => [
   { path: "/", element: <Home theme={theme} auth={!!data} /> },
@@ -97,7 +106,16 @@ export const routes = (data, theme, themeClass) => [
           ),
       },
       {
-        path: "content/configure/:id",
+        path: "profile/add-event",
+        element:
+          data?.role?.name === "publisher" ? (
+              <AddEvent theme={theme} />
+          ) : (
+            <ErrComponent theme={theme} />
+          ),
+      },
+      {
+        path: "content/configure/:type/:id",
         element: <EntitlementManager theme={theme} />,
       },
     ],
@@ -113,6 +131,14 @@ export const routes = (data, theme, themeClass) => [
   {
     path: "/courses/preview/:courseId/:lessonId/",
     element: <CourseContent theme={theme} />,
+  },
+  {
+    path: "/courses/preview/:courseId/:lessonId/:entitlementId",
+    element: <EntitlementGate />,
+  },
+  {
+    path: "/courses/checkout/:id",
+    element: <Checkout />,
   },
   { path: "/events", element: <EventsListing theme={theme} /> },
   { path: "/events/:id", element: <TechEvent theme={theme} /> },

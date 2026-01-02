@@ -31,23 +31,24 @@ const uploadCoursesSteps = (dataSetter, storeName) => [
     />
   ),
   (props) => (
-    <StepCourseSelection
-      // {...props}
-      dataSetter={dataSetter}
-      storeName={storeName}
-      selectionType="problem types"
-      style={style}
-      probertyItem={"problem_types"}
-      Component={ProblemTypeMapper}
-      query={{
-        isPopulate: false,
-        isFilter: true,
-        filterkey: "title",
-        populateVal: [],
-      }}
-      caseUse={getProblemTypeExe}
-      core={GetProblem_types}
-    />
+    // <StepCourseSelection
+    //   // {...props}
+    //   dataSetter={dataSetter}
+    //   storeName={storeName}
+    //   selectionType="problem types"
+    //   style={style}
+    //   probertyItem={"problem_types"}
+    //   Component={ProblemTypeMapper}
+    //   query={{
+    //     isPopulate: false,
+    //     isFilter: true,
+    //     filterkey: "title",
+    //     populateVal: [],
+    //   }}
+    //   caseUse={getProblemTypeExe}
+    //   core={GetProblem_types}
+    // />
+    <></>
   ),
   (props) => (
     <StepCourseSelection

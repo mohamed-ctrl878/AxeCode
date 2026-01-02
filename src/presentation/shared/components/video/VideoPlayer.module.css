@@ -23,29 +23,28 @@
 .playerShell {
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #000;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  border: 1px solid #e5e7eb;
+  border: 3px solid var(--border-dark, #141413);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .playerShell.theater {
-  border-radius: 16px;
+  border-radius: 4px;
 }
 
 .playerShell:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
+  box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.25);
+  transform: translate(-2px, -2px);
 }
 
 /* Video Element */
 .videoElement {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 16 / 9;
   background: #000;
-  border-radius: inherit;
 }
 
 /* Center Play Button */
@@ -54,30 +53,30 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  background: rgba(0, 0, 0, 0.7);
-  border: none;
+  width: 80px;
+  height: 80px;
+  background: var(--text-primary, #141413);
+  border: 2px solid white;
   border-radius: 50%;
   color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  z-index: 5;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 50;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
 .centerPlayButton:hover,
 .centerPlayButton:focus {
-  transform: translate(-50%, -50%) scale(1.1);
-  background: rgba(0, 0, 0, 0.8);
+  transform: translate(-50%, -50%) scale(1.15);
+  background: var(--primary, #3b82f6);
 }
 
 .centerPlayButton svg {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
 }
 
 /* Top Controls Bar */
@@ -86,57 +85,72 @@
   top: 0;
   left: 0;
   right: 0;
-  padding: 16px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
-  transition: opacity 0.3s ease;
+  z-index: 100;
+  transition: all 0.3s ease;
   pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
 }
 
 .topControlsBar.visible {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .topControlsBar.hidden {
   opacity: 0;
+  transform: translateY(-10px);
 }
 
 .topControlsLeft,
 .topControlsRight {
   display: flex;
-  gap: 12px;
+  gap: 15px;
   align-items: center;
   pointer-events: auto;
 }
 
-/* Control Buttons and Selects */
+/* Control Buttons and Selects - Brutalist Style */
 .controlButton,
 .controlSelect {
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  color: white;
+  padding: 10px 18px;
+  background: white;
+  border: 2px solid var(--border-dark, #141413);
+  border-radius: 2px;
+  color: var(--text-primary, #141413);
   font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  box-shadow: 3px 3px 0px var(--border-dark, #141413);
 }
 
 .controlButton:hover,
 .controlSelect:hover,
 .controlButton:focus,
 .controlSelect:focus {
-  background: rgba(0, 0, 0, 0.9);
-  border-color: rgba(255, 255, 255, 0.4);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px var(--border-dark, #141413);
+  background: #f8f8f8;
   outline: none;
+}
+
+.controlButton:active,
+.controlSelect:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--border-dark, #141413);
 }
 
 .controlSelect {
   appearance: none;
-  min-width: 80px;
+  min-width: 90px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23141413' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 5 3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
 }
 
 /* Bottom Controls */
@@ -145,26 +159,29 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 16px;
-  z-index: 10;
-  transition: opacity 0.3s ease;
+  padding: 20px;
+  z-index: 100;
+  transition: all 0.3s ease;
   pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
 }
 
 .bottomControls.visible {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .bottomControls.hidden {
   opacity: 0;
+  transform: translateY(10px);
 }
 
 .controlsPanel {
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 12px 16px;
-  backdrop-filter: blur(10px);
+  background: white;
+  border: 3px solid var(--border-dark, #141413);
+  border-radius: 4px;
+  padding: 15px 20px;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
   pointer-events: auto;
 }
 

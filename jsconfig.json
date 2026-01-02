@@ -13,6 +13,7 @@
       "@domain/entities/*": ["domain/entities/*"],
       "@domain/interfaces/*": ["domain/interfaces/*"],
       "@domain/usecases/*": ["domain/usecases/*"],
+      "@domain/reqs_dtos/*": ["domain/reqs_dtos/*"],
       "@core/queries/*": ["core/queries/*"],
       "@core/utils/*": ["core/utils/*"],
 

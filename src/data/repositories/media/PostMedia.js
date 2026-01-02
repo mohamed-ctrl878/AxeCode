@@ -17,7 +17,6 @@ export class PostMedia extends ApiContentMethodz {
       bodyType: "media",
     });
 
-    console.log(req.data);
 
     return req.data;
   }

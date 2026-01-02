@@ -1,19 +1,17 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setEntitlementProperty } from "@data/storage/storeRx/sharedSlices/entitlementSlice";
+import React, { useEffect, useState } from "react";
+import { EntitlementData } from "@domain/reqs_dtos/EntitlementData";
 // import useUpdateStoper from "@presentation/shared/hooks/useUpdateStoper";
 // import { useValidateInputEffect } from "@presentation/shared/hooks/useValidateInputEffect";
 // import { checkLength, intValid, doubleValid } from "@core/utils/problemUploader/validation";
 // import { handelChangeValueBasic } from "@core/utils/problemUploader/handellers";
-const StepEntitlement = ({ style }) => {
-  const dispatch = useDispatch();
-  const entitlementData = useSelector((state) => state.entitlementData);
+const StepEntitlement = ({ style,type, id,setData }) => {
   // Local state for immediate input feedback (mirrors Redux)
   // implementing a simpler direct-dispatch approach for this demo to ensure it works first
-  
-  const handleChange = (field, value) => {
-    dispatch(setEntitlementProperty({ [field]: value }));
-  };
+  const [payload , setPayload]= useState({...new EntitlementData({itemId:id,content_types:type})})
+  useEffect(()=>{
+setData(payload);
+  },[payload])
+  console.log(payload)
   return (
     <div className={`${style.step} ${style.active}`} id="entitlementStep">
       <h3 className={style.stepTitle}>Entitlement Details</h3>
@@ -24,8 +22,8 @@ const StepEntitlement = ({ style }) => {
         <input
           type="text"
           className={style.formControl}
-          // value={entitlementData.title}
-          onChange={(e) => handleChange("title", e.target.value)}
+          value={payload.title}
+          onChange={(e) => setPayload((el)=>{return {...el,title:e.target.value}})}
         />
       </div>
       {/* Description */}
@@ -33,8 +31,8 @@ const StepEntitlement = ({ style }) => {
         <label className={style.formLabel}>Description</label>
         <textarea
           className={style.formControl}
-          // value={entitlementData.description}
-          onChange={(e) => handleChange("description", e.target.value)}
+          value={payload.description}
+          onChange={(e) => setPayload((el)=>{return {...el,description:e.target.value}})}
         />
       </div>
       {/* Price & Currency */}
@@ -44,8 +42,8 @@ const StepEntitlement = ({ style }) => {
           <input
             type="number"
             className={style.formControl}
-            value={entitlementData.price}
-            onChange={(e) => handleChange("price", parseFloat(e.target.value))}
+            value={payload.price}
+          onChange={(e) => setPayload((el)=>{return {...el,price:e.target.value}})}
           />
         </div>
         <div className={style.formGroup} style={{ flex: 1 }}>
@@ -53,8 +51,8 @@ const StepEntitlement = ({ style }) => {
           <input
             type="text"
             className={style.formControl}
-            value={entitlementData.currency}
-            onChange={(e) => handleChange("currency", e.target.value)}
+            value={payload.currency}
+          onChange={(e) => setPayload((el)=>{return {...el,currency:e.target.value}})}
           />
         </div>
       </div>
@@ -63,8 +61,7 @@ const StepEntitlement = ({ style }) => {
         <label className={style.formLabel}>
           <input
             type="checkbox"
-            checked={entitlementData.decision}
-            onChange={(e) => handleChange("decision", e.target.checked)}
+          onChange={(e) => setPayload((el)=>{return {...el,decision:!el.decision}})}
             style={{ marginRight: "10px" }}
           />
           Decision (Enable/Disable)
@@ -72,26 +69,20 @@ const StepEntitlement = ({ style }) => {
       </div>
       {/* Content Type */}
       <div className={style.formGroup}>
-        <label className={style.formLabel}>Content Type</label>
-        <select
+        <label className={style.formLabel}>Content Type:</label>
+        <span
           className={style.formControl}
-          value={entitlementData.content_types}
-          onChange={(e) => handleChange("content_types", e.target.value)}
-        >
-          <option value="VIDEO">VIDEO</option>
-          <option value="ARTICLE">ARTICLE</option>
-          <option value="PROBLEM">PROBLEM</option>
-        </select>
+          >
+          {payload.content_types}
+        </span>
       </div>
        {/* Item ID */}
        <div className={style.formGroup}>
         <label className={style.formLabel}>Item ID</label>
-        <input
+        <span
           type="number"
           className={style.formControl}
-          value={entitlementData.itemId}
-          onChange={(e) => handleChange("itemId", parseInt(e.target.value))}
-        />
+       > {id}</span>
       </div>
        {/* Duration */}
        <div className={style.formGroup}>
@@ -99,8 +90,8 @@ const StepEntitlement = ({ style }) => {
         <input
           type="datetime-local"
            className={style.formControl}
-          value={entitlementData.duration || ""}
-          onChange={(e) => handleChange("duration", e.target.value)}
+          value={payload.duration || ""}
+          onChange={(e) => setPayload((el)=>{return {...el,duration:e.target.value}})}
         />
       </div>
     </div>
