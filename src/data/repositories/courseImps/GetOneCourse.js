@@ -16,7 +16,6 @@ export class GetOneCourse extends ApiContentMethodz {
 
   async DTOToEntity(id, query) {
     const req = await this.getContent(id, query);
-
     return new courseDTO(req?.data);
   }
 }

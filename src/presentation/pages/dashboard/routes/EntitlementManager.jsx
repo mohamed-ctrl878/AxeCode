@@ -5,14 +5,17 @@ import StepEntitlement from "@presentation/shared/components/form/StepEntitlemen
 import PostEntitlement from "@data/repositories/sharedImps/PostEntitlement";
 import { setEntitlementProperty } from "@data/storage/storeRx/sharedSlices/entitlementSlice";
 import style from "@presentation/styles/pages/upload-problem.module.css";
+import { EntitlementData } from "@domain/reqs_dtos/EntitlementData";
+import { postEntitlementExe } from "@domain/usecases/entitlement/postEntitlementExe";
 // Reuse existing styles logic or layout
 // We can wrap this in a nice container style similar to UploadProblem
 // Use inline or shared styles for wrapper
 const EntitlementManager = ({ theme }) => {
-  const { id } = useParams();
+  const { id,type } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const entitlementData = useSelector((state) => state.entitlementData);
+  // const dispatch = useDispatch();
+  // const entitlementData = useSelector((state) => state.entitlementData);
+ const [data,setData]= useState(new EntitlementData())
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -20,17 +23,12 @@ const EntitlementManager = ({ theme }) => {
     setLoading(true);
     setMsg("");
     try {
-      const repository = new PostEntitlement();
-      // Inject the ID from URL into the DTO/Payload
-      const payload = { ...entitlementData, content_id: id };
       
-      const result = await repository.postContent(payload);
-      setMsg("Success! Entitlement Updated.");
-      
-      // Optional: Redirect back to dashboard after delay
-      setTimeout(() => {
-        navigate("/settings/content");
-      }, 1500);
+ postEntitlementExe(new PostEntitlement(),data)
+ console.log("fire")
+      // setTimeout(() => {
+      //   navigate("/settings/content");
+      // }, 1500);
 
     } catch (error) {
       setMsg("Error: " + error.message);
@@ -47,7 +45,7 @@ const EntitlementManager = ({ theme }) => {
       </p>
 
       {/* Reusing the Step Component */}
-      <StepEntitlement style={style} />
+      <StepEntitlement setData={setData} type={type} id={id} style={style} />
 
       <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
         <button 

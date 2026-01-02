@@ -14,5 +14,10 @@ export class courseDTO {
     this.problem_types = data?.problem_types;
     this.users_permissions_user = data?.users_permissions_user;
     this.weeks = data?.weeks;
+    this.rate = data?.rate ||"90%"
+    this.student_count = data?.student_count
+    this.price = data?.price
+    this.hasAccess = data?.hasAccess
+    this.entitlementsId = data?.entitlementsId
   }
 }

@@ -1,36 +1,29 @@
-/* Course Preview Page Styles */
-/* Following the established theme system and responsive patterns */
+/* 🎨 Course Preview Page - Clean Brutalist Redesign */
 
 .coursePreviewContainer {
   min-height: 100vh;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  position: relative;
-  overflow-x: hidden;
+  background-color: var(--main-bg-color, #f0eee6);
+  color: var(--text-primary, #141413);
+  padding-top: 70px;
   box-sizing: border-box;
-  padding-top: 4rem;
-  overflow-y: auto;
-  max-height: 100vh;
 }
 
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
 .courseHero {
-  position: relative;
-  background: linear-gradient(
-    135deg,
-    var(--primary-light) 0%,
-    var(--accent-light) 100%
-  );
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-primary);
-  padding: 3rem 2rem;
+  background-color: var(--card-blue, #dbeafe);
+  border-bottom: 3px solid var(--border-dark, #141413);
+  padding: 4rem 2rem;
 }
 
 .heroContent {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 3rem;
+  grid-template-columns: 1fr 420px;
+  gap: 4rem;
   align-items: center;
 }
 
@@ -40,335 +33,386 @@
   gap: 1.5rem;
 }
 
+.difficultyBadge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 6px 16px;
+  background: var(--text-primary, #141413);
+  color: white;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: 2px solid var(--border-dark, #141413);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
 .courseTitle {
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.2;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: fadeInUp 0.8s ease-out;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--text-primary, #141413);
+  margin: 0;
 }
 
-.courseSubtitle {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-.courseMeta {
+.courseMetaBrutalist {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  animation: fadeInUp 0.8s ease-out 0.4s both;
+  gap: 1.5rem;
 }
 
-.metaItem {
+.metaPill {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-}
-
-.metaItem svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-.courseStats {
-  display: flex;
-  gap: 1rem;
-  animation: fadeInUp 0.8s ease-out 0.6s both;
-}
-
-.statItem {
-  text-align: center;
-}
-
-.statNumber {
-  font-size: 1.5rem;
+  gap: 10px;
   font-weight: 700;
-  color: var(--primary);
-  display: block;
-}
-
-.statLabel {
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 0.95rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
-.heroCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
+.metaPill svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.instructorQuickInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.instrIcon {
+  background: var(--card-yellow, #fef9c3);
+  border: 2px solid var(--border-dark, #141413);
+  padding: 2px 8px;
+  font-size: 0.75rem;
+}
+
+.heroCardBrutalist {
+  background: white;
+  border: 4px solid var(--border-dark, #141413);
+  box-shadow: 12px 12px 0px var(--border-dark, #141413);
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  animation: fadeInUp 0.8s ease-out 0.8s both;
+}
+
+.imageContainer {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-bottom: 4px solid var(--border-dark, #141413);
+  overflow: hidden;
 }
 
 .heroImage {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
 }
 
 .heroCardContent {
-  padding: 1.5rem;
-}
-
-.priceSection {
+  padding: 2rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.price {
-  font-size: 2rem;
+.priceWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.priceLabel {
+  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--primary);
+  text-transform: uppercase;
+  color: var(--text-secondary, #5c5b5b);
 }
 
-.oldPrice {
-  font-size: 1.125rem;
-  color: var(--text-muted);
-  text-decoration: line-through;
+.priceValue {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--text-primary, #141413);
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .enrollButton {
-  width: 100%;
+  background: var(--text-primary, #141413);
+  color: white;
+  text-align: center;
   padding: 1rem;
-  background: var(--primary);
-  color: var(--text-inverse);
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1.1rem;
+  border: 3px solid var(--border-dark, #141413);
+  box-shadow: 4px 4px 0px #333;
+  transition: all 0.2s ease;
 }
 
 .enrollButton:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #333;
 }
 
 .previewButton {
-  width: 100%;
-  padding: 0.75rem;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-primary);
-  border-radius: 0.5rem;
-  font-weight: 500;
+  background: white;
+  color: var(--text-primary, #141413);
+  padding: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: 3px solid var(--border-dark, #141413);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .previewButton:hover {
-  background: var(--bg-tertiary);
-  border-color: var(--border-secondary);
+  background: #f8f8f8;
 }
 
-.contentSection {
+.guaranteeText {
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-secondary, #5c5b5b);
+  margin: 0;
+}
+
+/* ============================================
+   CONTENT LAYOUT
+   ============================================ */
+
+.contentLayout {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 1fr 380px;
+  gap: 4rem;
 }
 
 .mainContent {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
 }
 
-.sectionCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
+.brutalistSection {
+  background: white;
+  border: 3px solid var(--border-dark, #141413);
+  padding: 2.5rem;
+  box-shadow: 8px 8px 0px var(--border-dark, #141413);
 }
 
-.sectionCard:hover {
-  box-shadow: var(--shadow-md);
+.sectionHeading {
+  font-size: 1.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid var(--border-dark, #141413);
 }
 
-.sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-}
-
-.description {
-  color: var(--text-secondary);
+.descriptionContent {
   line-height: 1.8;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  color: var(--text-primary, #141413);
 }
 
-.skillsList {
+.skillsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
 }
 
-.skillItem {
+.skillBox {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  background: var(--bg-secondary);
-  border-radius: 0.5rem;
-  color: var(--text-primary);
-  transition: all 0.3s ease;
-}
-
-.skillItem:hover {
-  background: var(--bg-tertiary);
-  transform: translateX(4px);
+  gap: 12px;
+  padding: 12px;
+  background: #fcfcfc;
+  border: 2px solid var(--border-dark, #141413);
 }
 
 .skillCheck {
-  color: var(--success);
-  font-weight: bold;
+  color: var(--accent-green, #22c55e);
+  font-weight: 900;
+  font-size: 1.25rem;
 }
 
-.curriculumList {
+.skillTitle {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   CURRICULUM
+   ============================================ */
+
+.curriculumBrutalist {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.moduleItem {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  border-radius: 0.75rem;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.moduleItem:hover {
-  box-shadow: var(--shadow-sm);
+.moduleCard {
+  border: 2px solid var(--border-dark, #141413);
 }
 
 .moduleHeader {
+  background: white;
+  padding: 1.25rem 1.5rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: between;
-  padding: 1rem 1.5rem;
-  background: var(--bg-elevated);
-  border-bottom: 1px solid var(--border-primary);
   cursor: pointer;
 }
 
-.moduleTitle {
-  font-weight: 600;
-  color: var(--text-primary);
-  flex: 1;
-}
-
-.moduleInfo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--text-muted);
-  font-size: 0.875rem;
-}
-
-.lessonsList {
-  padding: 1rem 1.5rem;
+.moduleMain {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 4px;
 }
 
-.lessonItem {
+.weekIndicator {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-secondary, #5c5b5b);
+}
+
+.moduleTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.moduleMeta {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0;
-  color: var(--text-secondary);
+  gap: 1.5rem;
+  font-weight: 700;
+  font-size: 0.85rem;
 }
 
-.lessonIcon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--text-muted);
+.chevron {
+  transition: transform 0.3s ease;
 }
+
+.chevron.active {
+  transform: rotate(180deg);
+}
+
+.lessonsPanel {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  background: #fdfdfd;
+}
+
+.lessonsPanel.expanded {
+  max-height: 1500px;
+  border-top: 2px solid var(--border-dark, #141413);
+}
+
+.lessonRow {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.75rem;
+  gap: 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+
+.lessonRow:last-child {
+  border-bottom: none;
+}
+
+.lessonType {
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary, #5c5b5b);
+}
+
+.lessonTitle {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.lessonDuration {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary, #5c5b5b);
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
 
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
-.instructorCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  text-align: center;
-}
-
-.instructorAvatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin: 0 auto 1rem;
-  border: 3px solid var(--primary-light);
-}
-
-.instructorName {
+.sideHeading {
   font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-dark, #141413);
+  padding-bottom: 0.5rem;
 }
 
-.instructorTitle {
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-
-.instructorStats {
-  display: flex;
-  justify-content: space-around;
-  padding: 1rem 0;
-  border-top: 1px solid var(--border-primary);
-  margin-top: 1rem;
-}
-
-.courseFeatures {
-  background: var(--bg-card);
-  border: 1px solid var(--border-primary);
-  border-radius: 1rem;
+.instructorCardBrutalist, .featuresCardBrutalist {
+  background: white;
+  border: 3px solid var(--border-dark, #141413);
   padding: 2rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 6px 6px 0px var(--border-dark, #141413);
 }
 
-.featuresList {
-  list-style: none;
-  padding: 0;
+.instrHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.instrAvatarBox {
+  width: 54px;
+  height: 54px;
+  background: var(--card-blue, #dbeafe);
+  border: 2px solid var(--border-dark, #141413);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.instrName {
+  font-weight: 900;
   margin: 0;
+  font-size: 1.1rem;
+}
+
+.instrTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary, #5c5b5b);
+  margin: 0;
+}
+
+.instrDescription {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-primary, #141413);
+}
+
+.featureList {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -377,164 +421,67 @@
 .featureItem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: var(--text-primary);
+  gap: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
-.featureIcon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--primary);
+.featureItem svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--text-primary, #141413);
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.loadingState, .errorState {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1200px) {
   .heroContent {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    max-width: 800px;
   }
-
-  .contentSection {
+  
+  .contentLayout {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem 1rem;
-  }
-
-  .courseTitle {
-    font-size: 2.5rem;
+    max-width: 800px;
   }
 }
 
 @media (max-width: 768px) {
-  .coursePreviewContainer {
-    padding-top: 2rem;
+  .courseTitle {
+    font-size: 2.5rem;
   }
-
-  .courseHero {
+  
+  .heroContent, .contentLayout {
     padding: 2rem 1rem;
   }
-
-  .heroContent {
-    gap: 1.5rem;
-  }
-
-  .courseTitle {
-    font-size: 2rem;
-  }
-
-  .courseSubtitle {
-    font-size: 1.125rem;
-  }
-
-  .courseMeta {
-    gap: 0.75rem;
-  }
-
-  .courseStats {
-    gap: 0.75rem;
-  }
-
-  .contentSection {
-    padding: 1.5rem 1rem;
-    gap: 1.5rem;
-  }
-
-  .sectionCard {
-    padding: 1.5rem;
-  }
-
-  .skillsList {
+  
+  .skillsGrid {
     grid-template-columns: 1fr;
-  }
-
-  .moduleHeader {
-    padding: 0.75rem 1rem;
-  }
-
-  .lessonsList {
-    padding: 0.75rem 1rem;
-  }
-
-  .instructorCard {
-    padding: 1.5rem;
-  }
-
-  .courseFeatures {
-    padding: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .courseHero {
-    padding: 1.5rem 1rem;
+    padding: 2rem 1rem;
   }
-
+  
   .courseTitle {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
-
-  .courseSubtitle {
-    font-size: 1rem;
-  }
-
-  .courseMeta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .courseStats {
-    justify-content: space-around;
-    width: 100%;
-  }
-
-  .heroCardContent {
-    padding: 1rem;
-  }
-
-  .contentSection {
-    padding: 1rem 0.5rem;
-  }
-
-  .sectionCard {
-    padding: 1rem;
-  }
-
-  .sectionTitle {
-    font-size: 1.25rem;
-  }
-
-  .instructorCard {
-    padding: 1rem;
-  }
-
-  .courseFeatures {
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .courseTitle {
-    font-size: 1.5rem;
-  }
-
-  .price {
-    font-size: 1.75rem;
-  }
-
-  .enrollButton {
-    padding: 0.875rem;
-    font-size: 0.875rem;
+  
+  .heroCardBrutalist {
+    box-shadow: 8px 8px 0px var(--border-dark, #141413);
   }
 }

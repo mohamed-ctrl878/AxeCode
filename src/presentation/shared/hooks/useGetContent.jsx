@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-const useGetContent = ({ caseUse }) => {
+const useGetContent = ({ caseUse ,crsId="",lsnId=""}) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [load, setLoad] = useState(false);
 
   const getData = useCallback(async () => {
     const reqData = await caseUse();
-    console.log(reqData);
     setData(reqData);
   }, [caseUse]);
+  
 
   useEffect(() => {
     const fetch = async () => {
@@ -25,8 +25,10 @@ const useGetContent = ({ caseUse }) => {
     };
 
     fetch();
-  }, []);
+  }, [crsId,lsnId]);
 
+
+  
   return { data, error, load };
 };
 

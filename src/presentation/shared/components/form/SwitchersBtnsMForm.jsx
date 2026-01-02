@@ -46,9 +46,9 @@ const SwitchersBtnsMForm = ({
   const subRef = useRef(null);
   const start = useSelector((state) => state["validStarter"].start);
   const newData = useSelector((state) => state[dataStore]); //DataPostProblem
-  console.log(newData, "newData in SwitchersBtnsMForm");
-  console.log(size, "size");
-  console.log(currentStep, "currentStep");
+  // console.log(newData, "newData in SwitchersBtnsMForm");
+  // console.log(size, "size");
+  // console.log(currentStep, "currentStep");
   useActionHook({
     success,
     removeData,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import style from "@presentation/styles/pages/course-content.module.css";
 import VideoPlayer from "@presentation/shared/components/video/VideoPlayer";
@@ -17,6 +17,8 @@ const CourseContent = ({ theme }) => {
   }
   
   const { load: loadCourse, data: courseData, error: errorCourse } = useGetContent({
+    lsnId: lessonId,
+    crsId: courseId,
     caseUse: getCourse,
   }); 
   
@@ -25,7 +27,6 @@ const CourseContent = ({ theme }) => {
     .find((lesson) => lesson?.id == lessonId);
 
 
-    console.log(currentLesson)
 
   const videoSource = currentLesson?.video?.url 
     ? {
@@ -113,29 +114,45 @@ const CourseContent = ({ theme }) => {
     }
   };
 
+  useEffect(() => {
+    if (courseData && courseData.price > 0 && !courseData.hasAccess) {
+      navigate(`/courses/preview/${courseId}`);
+    }
+  }, [courseData, courseId, navigate]);
+
+  const progressCount = courseData?.weeks?.flatMap((w) => w.lessons).length || 1;
+  const progressPercentage = Math.round((completedLessons.size / progressCount) * 100);
+
   return (
     <div className={`${style.courseContentContainer} ${themeClass}`}>
       <div className={style.courseContentLayout}>
         {/* Sidebar */}
         <div className={style.sidebar}>
-          <div className={style.courseInfo}>
-            <div className={style.courseProgress}>
+          <div className={style.courseInfoCard}>
+            <h2 className={style.sidebarCourseTitle}>{courseData?.title}</h2>
+            <div className={style.difficultyBadge}>{courseData?.difficulty}</div>
+
+            <div className={style.courseProgressSection}>
+              <div className={style.progressHeader}>
+                <span className={style.progressLabel}>Your Progress</span>
+                <span className={style.progressPercentage}>{progressPercentage}%</span>
+              </div>
               <div className={style.progressBar}>
-                <div className={style.progressFill}></div>
+                <div
+                  className={style.progressFill}
+                  style={{ width: `${progressPercentage}%` }}
+                ></div>
               </div>
             </div>
-            <div className={style.courseStats}>
-              <div className={style.statItem}>
-                <span className={style.statNumber}>{completedLessons.size}</span>
-                <span className={style.statLabel}>Completed</span>
+
+            <div className={style.courseStatsBrutalist}>
+              <div className={style.statBox}>
+                <span className={style.statVal}>{courseData?.rate || "9.0"}</span>
+                <span className={style.statLab}>Rating</span>
               </div>
-              <div className={style.statItem}>
-                <span className={style.statNumber}></span>
-                <span className={style.statLabel}>Total</span>
-              </div>
-              <div className={style.statItem}>
-                <span className={style.statNumber}></span>
-                <span className={style.statLabel}>Remaining</span>
+              <div className={style.statBox}>
+                <span className={style.statVal}>{courseData?.student_count || "0"}</span>
+                <span className={style.statLab}>Students</span>
               </div>
             </div>
           </div>
@@ -147,48 +164,51 @@ const CourseContent = ({ theme }) => {
                   className={style.moduleHeader}
                   onClick={() => toggleModule(week.id || weekIndex)}
                 >
-                  <span>{week.title}</span>
+                  <span className={style.moduleTitleText}>{week.title}</span>
                   <svg
                     className={`${style.moduleToggle} ${
                       expandedModules.has(week.id || weekIndex) ? style.expanded : ""
                     }`}
-                    width="12"
-                    height="12"
+                    width="14"
+                    height="14"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="3"
                   >
                     <polyline points="9,18 15,12 9,6"></polyline>
                   </svg>
                 </div>
 
-                {expandedModules.has(week.id || weekIndex) &&
-                  week.lessons?.map((lesson) => (
+                <div
+                  className={`${style.moduleContent} ${
+                    expandedModules.has(week.id || weekIndex) ? style.moduleExpanded : ""
+                  }`}
+                >
+                  {week.lessons?.map((lesson) => (
                     <div
                       key={lesson.id}
                       className={`${style.lessonItem} ${
                         lessonId == lesson.id ? style.active : ""
-                      } ${
-                        completedLessons.has(lesson.id) ? style.completed : ""
-                      }`}
+                      } ${completedLessons.has(lesson.id) ? style.completed : ""}`}
                       onClick={() => selectLesson(lesson.id)}
                     >
-                      <div className={style.lessonIcon}>
+                      <div className={style.lessonStatusIcon}>
                         {completedLessons.has(lesson.id) ? (
-                          <span className={style.completedCheck}>✓</span>
+                          <div className={style.checkCircle}>✓</div>
                         ) : (
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                          </svg>
+                          <div className={style.playCircle}></div>
                         )}
                       </div>
-                      <div className={style.lessonContent}>
-                        <div className={style.lessonTitle}>{lesson.title}</div>
+                      <div className={style.lessonInfo}>
+                        <div className={style.lessonTitleText}>{lesson.title}</div>
+                        {lesson.duration && (
+                          <div className={style.lessonTime}>{lesson.duration}</div>
+                        )}
                       </div>
                     </div>
                   ))}
+                </div>
               </div>
             ))}
           </div>
@@ -196,77 +216,65 @@ const CourseContent = ({ theme }) => {
 
         {/* Main Content */}
         <div className={style.mainContent}>
-          {currentLesson && (
-            <>
-              <div className={style.contentHeader}>
-                <h1 className={style.contentTitle}>{currentLesson?.title}</h1>
-                <div className={style.contentMeta}>
-                  <div className={style.metaItem}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12,6 12,12 16,14"></polyline>
-                    </svg>
-                    <span>{currentLesson?.duration}</span>
-                  </div>
-                  <div className={style.metaItem}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                      <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                    </svg>
-                    <span>{currentLesson?.type}</span>
-                  </div>
-                  <div className={style.metaItem}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                    </svg>
-                    <span>{courseData?.instructor}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={style.contentBody}>
+          {currentLesson ? (
+            <div className={style.contentWrapper}>
+              <div className={style.videoCard}>
                 <VideoPlayer
+                  key={lessonId}
                   sources={videoSource ? [videoSource] : []}
                   initialQuality="1080p"
                   initialVolume={0.8}
                   theaterDefault={false}
                   autoPlay={false}
                 />
-                
-                <div className={style.contentSection}>
-                  <h2 className={style.sectionTitle}>
-                    <svg className={style.sectionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    About This Lesson
-                  </h2>
-                  <p className={style.description}>
-                    {Array.isArray(currentLesson?.description) 
-                      ? currentLesson.description.map(desc => desc?.children?.map(child => child.text).join(' ')).join('\n')
+              </div>
+
+              <div className={style.lessonDetailsCard}>
+                <div className={style.detailsHeader}>
+                  <h1 className={style.mainLessonTitle}>{currentLesson?.title}</h1>
+                  <div className={style.lessonMetaBrutalist}>
+                    <div className={style.metaPill}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                      </svg>
+                      {currentLesson?.duration}
+                    </div>
+                    <div className={style.metaPill}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                      </svg>
+                      {currentLesson?.type || "Video"}
+                    </div>
+                  </div>
+                </div>
+
+                <div className={style.descriptionSection}>
+                  <h3 className={style.sectionSubTitle}>About Lesson</h3>
+                  <div className={style.descriptionText}>
+                    {Array.isArray(currentLesson?.description)
+                      ? currentLesson.description.map((desc) =>
+                          desc?.children?.map((child) => child.text).join(" ")
+                        ).join("\n")
                       : currentLesson?.description}
-                  </p>
+                  </div>
                 </div>
 
                 {currentLesson?.resources && currentLesson?.resources.length > 0 && (
-                  <div className={style.contentSection}>
-                    <h2 className={style.sectionTitle}>
-                      <svg className={style.sectionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14,2 14,8 20,8"></polyline>
-                      </svg>
-                      Lesson Resources
-                    </h2>
-                    <div className={style.resourcesList}>
+                  <div className={style.resourcesSection}>
+                    <h3 className={style.sectionSubTitle}>Resources</h3>
+                    <div className={style.resourcesGrid}>
                       {currentLesson?.resources.map((resource) => (
-                        <Link key={resource.id} to={"#"} className={style.resourceItem}>
-                          <div className={style.resourceIcon}>
+                        <Link key={resource.id} to={"#"} className={style.brutalistResource}>
+                          <div className={style.resourceIconBox}>
                             {getResourceIcon(resource.type)}
                           </div>
-                          <div className={style.resourceContent}>
-                            <h3 className={style.resourceTitle}>{resource.title}</h3>
-                            <p className={style.resourceMeta}>
+                          <div className={style.resourceTextInfo}>
+                            <div className={style.resName}>{resource.title}</div>
+                            <div className={style.resMeta}>
                               {resource.type.toUpperCase()} • {resource.size}
-                            </p>
+                            </div>
                           </div>
                         </Link>
                       ))}
@@ -275,39 +283,52 @@ const CourseContent = ({ theme }) => {
                 )}
               </div>
 
-              <div className={style.navigationControls}>
-                <div>
+              <div className={style.navigationFooter}>
+                <div className={style.navGroup}>
                   {getPreviousLesson() && (
-                    <button className={style.navButton} onClick={() => selectLesson(getPreviousLesson().id)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <button
+                      className={style.brutalistNavBtn}
+                      onClick={() => selectLesson(getPreviousLesson().id)}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                         <polyline points="15,18 9,12 15,6"></polyline>
                       </svg>
-                      Previous: {getPreviousLesson().title}
+                      <span>Previous</span>
                     </button>
                   )}
                 </div>
 
-                <div style={{ display: "flex", gap: "1rem" }}>
+                <div className={style.navGroup}>
                   {!completedLessons.has(lessonId) && (
-                    <button className={style.completeButton} onClick={markLessonComplete}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <button className={style.brutalistCompleteBtn} onClick={markLessonComplete}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                         <polyline points="20,6 9,17 4,12"></polyline>
                       </svg>
-                      Mark Complete
+                      Mark as Complete
                     </button>
                   )}
 
                   {getNextLesson() && (
-                    <button className={`${style.navButton} ${style.primary}`} onClick={() => selectLesson(getNextLesson().id)}>
-                      Next: {getNextLesson().title}
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <button
+                      className={`${style.brutalistNavBtn} ${style.primaryNav}`}
+                      onClick={() => selectLesson(getNextLesson().id)}
+                    >
+                      <span>Next Lesson</span>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                         <polyline points="9,18 15,12 9,6"></polyline>
                       </svg>
                     </button>
                   )}
                 </div>
               </div>
-            </>
+            </div>
+          ) : (
+            <div className={style.emptyState}>
+              <div className={style.emptyCard}>
+                <h2>Select a lesson to start learning</h2>
+                <p>Welcome to {courseData?.title}</p>
+              </div>
+            </div>
           )}
         </div>
       </div>
