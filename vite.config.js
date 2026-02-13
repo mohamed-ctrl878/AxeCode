@@ -1,4 +1,3 @@
-// vite.config.js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -10,15 +9,28 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [react()],
+  
+  // --- الجزء الجديد المضاف هنا ---
+  server: {
+    host: '0.0.0.0', // يسمح بالوصول من أي جهاز في الشبكة
+    port: 5173,      // التأكد من تثبيت المنفذ
+    hmr: {
+      host: '192.168.1.5', // عنوان IP الخاص بجهازك (الذي استخرجناه من ipconfig)
+    },
+  },
+  // ----------------------------
+
   resolve: {
     alias: {
       // Core
       "@core": path.resolve(__dirname, "src/core"),
       "@core/apienv": path.resolve(__dirname, "src/core/apienv"),
-      "@data/": path.resolve(__dirname, "src/data"),
+      "@data": path.resolve(__dirname, "src/data"),
       "@data/models": path.resolve(__dirname, "src/data/models"),
       "@data/repositories": path.resolve(__dirname, "src/data/repositories"),
       "@data/storage": path.resolve(__dirname, "src/data/storage"),
+      "@data/services": path.resolve(__dirname, "src/data/services"),
+      
       "@domain": path.resolve(__dirname, "src/domain"),
       "@domain/entities": path.resolve(__dirname, "src/domain/entities"),
       "@domain/interfaces": path.resolve(__dirname, "src/domain/interfaces"),

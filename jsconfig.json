@@ -2,30 +2,9 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "paths": {
-      "@core/*": ["core/*"],
-      "@core/apienv/*": ["core/apienv/*"],
-      "@data/*": ["data/*"],
-      "@data/models/*": ["data/models/*"],
-      "@data/repositories/*": ["data/repositories/*"],
-      "@data/storage/*": ["data/storage/*"],
-      "@domain/*": ["domain/*"],
-      "@domain/entities/*": ["domain/entities/*"],
-      "@domain/interfaces/*": ["domain/interfaces/*"],
-      "@domain/usecases/*": ["domain/usecases/*"],
-      "@domain/reqs_dtos/*": ["domain/reqs_dtos/*"],
-      "@core/queries/*": ["core/queries/*"],
-      "@core/utils/*": ["core/utils/*"],
-
-      "@presentation/*": ["presentation/*"],
-      "@presentation/assets/*": ["presentation/assets/*"],
-      "@presentation/pages/*": ["presentation/pages/*"],
-      "@presentation/shared/*": ["presentation/shared/*"],
-      "@presentation/hooks/*": ["presentation/hooks/*"],
-      "@presentation/styles/*": ["presentation/styles/*"],
-
-      "@assets/*": ["assets/*"]
-    }
+    "paths": {}
   },
-  "include": ["src"]
+  "include": [
+    "src"
+, "data", "domain", "presentation", "core"  ]
 }
