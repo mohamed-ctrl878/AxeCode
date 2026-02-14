@@ -1,12 +1,12 @@
-import { BaseRepository } from './BaseRepository';
-import { fetchWrapper } from '../../core/API/fetchWrapper';
+import { repositoryRegistry } from './RepositoryRegistry';
 
 /**
- * Repository for handling file and media uploads.
+ * MediaRepository handling technical file uploads.
+ * Depends on IApiClient (abstracted technical layer).
  */
-export class MediaRepository extends BaseRepository {
-    constructor() {
-        super();
+export class MediaRepository {
+    constructor(apiClient = repositoryRegistry.apiClient) {
+        this.apiClient = apiClient;
         this.endpoint = import.meta.env.VITE_API_UPLOAD;
     }
 
@@ -18,9 +18,7 @@ export class MediaRepository extends BaseRepository {
     async uploadFiles(files) {
         this.#validateFiles(files);
 
-        const url = this.buildUrl(this.endpoint);
         const formData = new FormData();
-
         const fileList = files instanceof FileList || Array.isArray(files) 
             ? Array.from(files) 
             : [files];
@@ -29,9 +27,8 @@ export class MediaRepository extends BaseRepository {
             formData.append('files', file);
         });
 
-        const results = await fetchWrapper(url, true, null, 'POST', formData);
+        const results = await this.apiClient.upload(this.endpoint, formData);
 
-        // Strapi returns an array of media objects or a single object
         if (!Array.isArray(results)) {
             return [results.id].filter(id => id !== undefined);
         }
