@@ -1,23 +1,29 @@
-import { BaseRepository } from './BaseRepository';
+import { IContentInteraction } from '../../domain/interface/IContentInteraction';
 import { BlogRequest } from '../DTO/Request/BlogRequest';
+import { repositoryRegistry } from './RepositoryRegistry';
 
 /**
- * Repository for Blog entities.
+ * BlogRepository implementing IContentInteraction.
+ * Depends on IApiClient (abstracted technical layer).
  */
-export class BlogRepository extends BaseRepository {
-    constructor() {
+export class BlogRepository extends IContentInteraction {
+    constructor(apiClient = repositoryRegistry.apiClient) {
         super();
+        this.apiClient = apiClient;
         this.endpoint = import.meta.env.VITE_API_BLOG;
     }
 
-    /**
-     * Creates a new blog post.
-     * @param {object} rawData 
-     * @returns {Promise<object>}
-     */
-    async create(rawData) {
-        const url = this.buildUrl(this.endpoint);
-        const request = new BlogRequest(rawData);
-        return await this.upload(url, request);
+    async create(data) {
+        const request = new BlogRequest(data);
+        return await this.apiClient.post(this.endpoint, request);
     }
+
+    async update(id, data) {
+        const request = new BlogRequest(data);
+        return await this.apiClient.put(this.endpoint, id, request);
+    }
+
+    async like(contentId, contentType) {}
+    async comment(contentId, contentType, commentData) {}
+    async trackEngagement(contentId) {}
 }

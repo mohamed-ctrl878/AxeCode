@@ -1,23 +1,27 @@
-import { BaseRepository } from './BaseRepository';
+import { IProblemInteraction } from '../../domain/interface/IProblemInteraction';
 import { ProblemRequest } from '../DTO/Request/ProblemRequest';
+import { repositoryRegistry } from './RepositoryRegistry';
 
 /**
- * Repository for Problem entities.
+ * ProblemRepository implementing IProblemInteraction.
+ * Depends on IApiClient (abstracted technical layer).
  */
-export class ProblemRepository extends BaseRepository {
-    constructor() {
+export class ProblemRepository extends IProblemInteraction {
+    constructor(apiClient = repositoryRegistry.apiClient) {
         super();
+        this.apiClient = apiClient;
         this.endpoint = import.meta.env.VITE_API_PROBLEM_ADD;
     }
 
-    /**
-     * Creates a new problem.
-     * @param {object} rawData 
-     * @returns {Promise<object>}
-     */
-    async create(rawData) {
-        const url = this.buildUrl(this.endpoint);
-        const request = new ProblemRequest(rawData);
-        return await this.upload(url, request);
+    async create(data) {
+        const request = new ProblemRequest(data);
+        return await this.apiClient.post(this.endpoint, request);
     }
+
+    async update(id, data) {
+        const request = new ProblemRequest(data);
+        return await this.apiClient.put(this.endpoint, id, request);
+    }
+
+    async submitSolution(problemId, solution) {}
 }
