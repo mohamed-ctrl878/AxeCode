@@ -34,3 +34,11 @@ export class ProblemEntity extends ContentEntity {
         }
     }
 }
+
+export class CardProblemEntity {
+    constructor(props = {}) {
+       this.title = props.title;
+       this.difficulty = props.difficulty;
+       this.status = props.status;
+    }
+}
