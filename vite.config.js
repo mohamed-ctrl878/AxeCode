@@ -2,14 +2,17 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
+import tailwindcss from "@tailwindcss/vite";
+
 
 // تحويل import.meta.url إلى dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  plugins: [react()],
-  
+  plugins: [react(), tailwindcss()],
+
+
   // --- الجزء الجديد المضاف هنا ---
   server: {
     host: '0.0.0.0', // يسمح بالوصول من أي جهاز في الشبكة
@@ -22,42 +25,31 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      // Core
+      // Core Technical Layer
       "@core": path.resolve(__dirname, "src/core"),
-      "@core/apienv": path.resolve(__dirname, "src/core/apienv"),
-      "@data": path.resolve(__dirname, "src/data"),
-      "@data/models": path.resolve(__dirname, "src/data/models"),
-      "@data/repositories": path.resolve(__dirname, "src/data/repositories"),
-      "@data/storage": path.resolve(__dirname, "src/data/storage"),
-      "@data/services": path.resolve(__dirname, "src/data/services"),
-      
-      "@domain": path.resolve(__dirname, "src/domain"),
-      "@domain/entities": path.resolve(__dirname, "src/domain/entities"),
-      "@domain/interfaces": path.resolve(__dirname, "src/domain/interfaces"),
-      "@domain/usecases": path.resolve(__dirname, "src/domain/usecases"),
-      "@core/queries": path.resolve(__dirname, "src/core/queries"),
+      "@core/API": path.resolve(__dirname, "src/core/API"),
       "@core/utils": path.resolve(__dirname, "src/core/utils"),
+      "@API": path.resolve(__dirname, "src/API"),
 
-      // Presentation
+      // Infrastructure Layer (Technicall Implementation)
+      "@infrastructure": path.resolve(__dirname, "src/infrastructure"),
+      "@infrastructure/store": path.resolve(__dirname, "src/infrastructure/store"),
+      "@infrastructure/repository": path.resolve(__dirname, "src/infrastructure/repository"),
+      "@infrastructure/DTO": path.resolve(__dirname, "src/infrastructure/DTO"),
+
+      // Domain Layer (Business Logic & Entities)
+      "@domain": path.resolve(__dirname, "src/domain"),
+      "@domain/entity": path.resolve(__dirname, "src/domain/entity"),
+      "@domain/interface": path.resolve(__dirname, "src/domain/interface"),
+      "@domain/mapper": path.resolve(__dirname, "src/domain/mapper"),
+      "@domain/useCase": path.resolve(__dirname, "src/domain/useCase"),
+
+      // Presentation Layer (UI & UX)
       "@presentation": path.resolve(__dirname, "src/presentation"),
-      "@presentation/assets": path.resolve(
-        __dirname,
-        "src/presentation/assets"
-      ),
-      "@presentation/pages": path.resolve(__dirname, "src/presentation/pages"),
-      "@presentation/shared": path.resolve(
-        __dirname,
-        "src/presentation/shared"
-      ),
-      "@presentation/hooks": path.resolve(__dirname, "src/presentation/hooks"),
-      "@presentation/styles": path.resolve(
-        __dirname,
-        "src/presentation/styles"
-      ),
-
-      // Assets عامة
-      "@assets": path.resolve(__dirname, "src/assets"),
+      "@presentation/shared": path.resolve(__dirname, "src/presentation/shared"),
+      "@presentation/styles": path.resolve(__dirname, "src/presentation/styles"),
     },
+
   },
   css: {
     modules: {

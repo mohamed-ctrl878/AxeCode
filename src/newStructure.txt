@@ -1,0 +1,307 @@
+
+    Directory: D:\newViteApp\Axe_code\src
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/13/2026  7:14 AM                API
+d----           2/13/2026 11:22 PM                core
+d----           2/14/2026  2:39 AM                domain
+d----           2/13/2026 11:22 PM                infrastructure
+d----           2/13/2026  6:43 AM                presentation
+-a---           2/13/2026  4:51 AM              0 App.css
+-a---           2/15/2026  2:14 AM            991 App.jsx
+-a---           2/15/2026  2:14 AM             46 index.css
+-a---           2/15/2026  2:16 AM            500 main.jsx
+-a---           9/16/2025  7:34 AM            108 modules.d.ts
+-a---           2/15/2026  2:21 AM              0 newStructure.txt
+-a---           2/14/2026  2:32 AM             37 setupTests.js
+
+    Directory: D:\newViteApp\Axe_code\src\API
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/13/2026  7:17 AM           1469 fetchWrapper.js
+
+    Directory: D:\newViteApp\Axe_code\src\core
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/13/2026 11:04 PM                API
+d----           2/13/2026  5:05 AM                helper
+d----           2/15/2026  2:14 AM                utils
+d----           2/13/2026  5:06 AM                validation
+
+    Directory: D:\newViteApp\Axe_code\src\core\API
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/13/2026  7:28 AM           1047 fetchWrapper.js
+-a---           2/13/2026 11:04 PM           1920 QueryBuilder.js
+
+    Directory: D:\newViteApp\Axe_code\src\core\utils
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/15/2026  2:14 AM            348 cn.js
+-a---           2/13/2026 11:16 PM           2855 SecurityUtils.js
+
+    Directory: D:\newViteApp\Axe_code\src\domain
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/13/2026 11:44 PM                entity
+d----           2/14/2026 12:24 AM                interface
+d----           2/13/2026 11:41 PM                mapper
+d----           2/14/2026  2:32 AM                useCase
+
+    Directory: D:\newViteApp\Axe_code\src\domain\entity
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/13/2026 11:43 PM            949 ArticleEntity.js
+-a---           2/13/2026 11:40 PM           1253 BaseEntity.js
+-a---           2/13/2026 11:41 PM            893 BlogEntity.js
+-a---           2/13/2026 11:44 PM            874 CommentEntity.js
+-a---           2/13/2026 11:40 PM           1071 ContentEntity.js
+-a---           2/13/2026 11:44 PM           1237 ConversationEnti
+                                                  ty.js
+-a---           2/13/2026 11:41 PM           1520 CourseEntity.js
+-a---           2/13/2026 11:41 PM           1520 EventEntity.js
+-a---           2/13/2026 11:41 PM           1253 LessonEntity.js
+-a---           2/13/2026 11:41 PM           1469 MediaEntity.js
+-a---           2/13/2026 11:44 PM           1196 MessageEntity.js
+-a---           2/13/2026 11:41 PM           1271 PostEntity.js
+-a---           2/13/2026 11:41 PM           1105 ProblemEntity.js
+-a---           2/13/2026 11:44 PM            973 RoadmapEntity.js
+-a---           2/13/2026 11:41 PM           1432 UserEntity.js
+
+    Directory: D:\newViteApp\Axe_code\src\domain\interface
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/13/2026  2:58 PM            579 IAccess.js
+-a---           2/14/2026 12:24 AM           1062 IApiClient.js
+-a---           2/13/2026  2:58 PM            368 IAuthAccess.js
+-a---           2/13/2026  2:58 PM            546 IAuthInteraction
+                                                  .js
+-a---           2/13/2026  2:58 PM            599 IContentAccess.j
+                                                  s
+-a---           2/13/2026  3:04 PM            161 IContentDeletion
+                                                  .js
+-a---           2/13/2026  3:01 PM            875 IContentInteract
+                                                  ion.js
+-a---           2/13/2026  3:04 PM            294 IDeletion.js
+-a---           2/13/2026  2:58 PM            561 IEventAccess.js
+-a---           2/13/2026  3:04 PM            157 IEventDeletion.j
+                                                  s
+-a---           2/13/2026  2:58 PM            393 IEventInteractio
+                                                  n.js
+-a---           2/13/2026  3:04 PM            539 IInteraction.js
+-a---           2/13/2026  2:58 PM            544 ILiveStreamAcces
+                                                  s.js
+-a---           2/13/2026  3:04 PM            167 ILiveStreamDelet
+                                                  ion.js
+-a---           2/13/2026  2:58 PM            529 ILiveStreamInter
+                                                  action.js
+-a---           2/13/2026  2:58 PM            528 IProblemAccess.j
+                                                  s
+-a---           2/13/2026  3:04 PM            161 IProblemDeletion
+                                                  .js
+-a---           2/13/2026  2:58 PM            405 IProblemInteract
+                                                  ion.js
+-a---           2/13/2026  2:58 PM            331 IRoadmapAccess.j
+                                                  s
+-a---           2/13/2026  3:04 PM            161 IRoadmapDeletion
+                                                  .js
+-a---           2/13/2026  2:58 PM            249 IRoadmapInteract
+                                                  ion.js
+-a---           2/13/2026  2:58 PM            481 IUserAccess.js
+-a---           2/13/2026  3:04 PM            359 IUserDeletion.js
+-a---           2/13/2026  2:58 PM            425 IUserInteraction
+                                                  .js
+
+    Directory: D:\newViteApp\Axe_code\src\domain\mapper
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/13/2026 11:44 PM           9406 EntityMapper.js
+
+    Directory: D:\newViteApp\Axe_code\src\domain\useCase
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/14/2026  2:32 AM                __tests__
+-a---           2/14/2026  2:24 AM           1120 useAsyncUseCase.
+                                                  js
+-a---           2/14/2026  2:49 AM            596 useCreateArticle
+                                                  .js
+-a---           2/14/2026  2:49 AM            574 useCreateBlog.js
+-a---           2/14/2026  2:49 AM            588 useCreateCourse.
+                                                  js
+-a---           2/14/2026  2:49 AM            582 useCreateEvent.j
+                                                  s
+-a---           2/14/2026  2:49 AM            588 useCreateLesson.
+                                                  js
+-a---           2/14/2026  2:50 AM            574 useCreatePost.js
+-a---           2/14/2026  2:49 AM            595 useCreateProblem
+                                                  .js
+-a---           2/14/2026  2:49 AM            595 useCreateRoadmap
+                                                  .js
+-a---           2/14/2026  2:50 AM            594 useUploadMedia.j
+                                                  s
+
+    Directory: D:\newViteApp\Axe_code\src\domain\useCase\__tests__
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/14/2026  2:32 AM            745 mockData.js
+-a---           2/14/2026  2:48 AM           1172 useCreateLesson.
+                                                  test.js
+-a---           2/14/2026  2:48 AM           2192 useCreatePost.te
+                                                  st.js
+-a---           2/14/2026  2:48 AM           1198 useUploadMedia.t
+                                                  est.js
+
+    Directory: D:\newViteApp\Axe_code\src\infrastructure
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/13/2026 10:46 PM                DTO
+d----           2/14/2026 12:24 AM                repository
+d----           2/15/2026  2:16 AM                store
+
+    Directory: D:\newViteApp\Axe_code\src\infrastructure\DTO
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/13/2026 10:58 PM                Request
+-a---           2/13/2026  3:08 PM            689 ArticleDTO.js
+-a---           2/13/2026  7:05 AM            724 BaseContentDTO.j
+                                                  s
+-a---           2/13/2026  7:01 AM            539 BlogDTO.js
+-a---           2/13/2026  3:08 PM            642 CommentDTO.js
+-a---           2/13/2026 10:46 PM           1325 ConversationDTO.
+                                                  js
+-a---           2/13/2026 10:31 PM           2206 CourseDTO.js
+-a---           2/13/2026 10:31 PM            977 EntitlementDTO.j
+                                                  s
+-a---           2/13/2026  7:04 AM            321 EventActivityDTO
+                                                  .js
+-a---           2/13/2026 10:32 PM           2398 EventDTO.js
+-a---           2/13/2026  3:19 PM            656 InteractionDTO.j
+                                                  s
+-a---           2/13/2026  3:08 PM           1333 LessonDTO.js
+-a---           2/13/2026  3:08 PM           1248 LiveStreamDTO.js
+-a---           2/13/2026 10:46 PM            507 MessageDTO.js
+-a---           2/13/2026  3:08 PM            758 PostDTO.js
+-a---           2/13/2026  7:01 AM           2116 ProblemDTO.js
+-a---           2/13/2026 10:46 PM            996 ReportDTO.js
+-a---           2/13/2026  3:08 PM            662 RoadmapDTO.js
+-a---           2/13/2026  7:30 AM            613 SharedDTOs.js
+-a---           2/13/2026  3:08 PM            521 SpeakerDTO.js
+-a---           2/13/2026  3:08 PM            883 SubmissionDTO.js
+-a---           2/13/2026  7:30 AM           2616 UserDTO.js
+-a---           2/13/2026 10:46 PM            864 UserEntitlementD
+                                                  TO.js
+-a---           2/13/2026  7:08 AM            642 WeekDTO.js
+
+    Directory: D:\newViteApp\Axe_code\src\infrastructure\DTO\Request
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/13/2026 11:18 PM            514 ArticleRequest.j
+                                                  s
+-a---           2/13/2026 11:16 PM           1066 BaseRequest.js
+-a---           2/13/2026 11:18 PM            484 BlogRequest.js
+-a---           2/13/2026 11:16 PM           1178 CourseRequest.js
+-a---           2/13/2026 11:18 PM            681 CreateConversati
+                                                  onRequest.js
+-a---           2/13/2026 11:18 PM            801 CreateReportRequ
+                                                  est.js
+-a---           2/13/2026 11:18 PM            894 EntitlementReque
+                                                  st.js
+-a---           2/13/2026 11:22 PM           2168 EventRequest.js
+-a---           2/13/2026 11:19 PM            821 LessonRequest.js
+-a---           2/13/2026 11:19 PM            648 LiveStreamReques
+                                                  t.js
+-a---           2/13/2026 11:19 PM            543 PostRequest.js
+-a---           2/13/2026 11:19 PM           1343 ProblemRequest.j
+                                                  s
+-a---           2/13/2026 11:19 PM            616 RoadmapRequest.j
+                                                  s
+-a---           2/13/2026 11:19 PM            527 SendMessageReque
+                                                  st.js
+-a---           2/13/2026 11:19 PM            956 SubmissionReques
+                                                  t.js
+-a---           2/13/2026 11:20 PM           1394 UpdateUserReques
+                                                  t.js
+
+    Directory: D:\newViteApp\Axe_code\src\infrastructure\repository
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/14/2026 12:25 AM           1037 ArticleRepositor
+                                                  y.js
+-a---           2/14/2026 12:24 AM           1704 BaseRepository.j
+                                                  s
+-a---           2/14/2026 12:24 AM           1016 BlogRepository.j
+                                                  s
+-a---           2/14/2026 12:24 AM           1064 CourseRepository
+                                                  .js
+-a---           2/14/2026 12:25 AM            913 EventRepository.
+                                                  js
+-a---           2/14/2026 12:25 AM           1031 LessonRepository
+                                                  .js
+-a---           2/14/2026 12:25 AM           1880 MediaRepository.
+                                                  js
+-a---           2/14/2026 12:24 AM           1050 PostRepository.j
+                                                  s
+-a---           2/14/2026 12:25 AM            948 ProblemRepositor
+                                                  y.js
+-a---           2/14/2026 12:50 AM            528 RepositoryRegist
+                                                  ry.js
+-a---           2/14/2026 12:25 AM            892 RoadmapRepositor
+                                                  y.js
+
+    Directory: D:\newViteApp\Axe_code\src\infrastructure\store
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/15/2026  2:16 AM            965 authSlice.js
+-a---           2/13/2026  7:25 AM           1702 cacheManager.js
+-a---           2/15/2026  2:16 AM            349 store.js
+
+    Directory: D:\newViteApp\Axe_code\src\presentation
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/13/2026  5:10 AM                feature
+d----           2/15/2026  2:14 AM                shared
+d----           2/15/2026  2:14 AM                styles
+-a---           2/13/2026  6:43 AM           2961 design.system.md
+
+    Directory: D:\newViteApp\Axe_code\src\presentation\shared
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           2/15/2026  2:14 AM                layout
+d----           2/15/2026  2:14 AM                provider
+
+    Directory: D:\newViteApp\Axe_code\src\presentation\shared\layout
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/15/2026  2:14 AM            634 MainLayout.jsx
+
+    Directory: D:\newViteApp\Axe_code\src\presentation\shared\provider
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/15/2026  2:14 AM            996 UIProvider.jsx
+
+    Directory: D:\newViteApp\Axe_code\src\presentation\styles
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           2/15/2026  2:14 AM           1666 globals.css
+

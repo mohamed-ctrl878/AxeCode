@@ -1,10 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
-const App = ()=>{
-  return (
-    <div className={}>
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { MainLayout } from "./presentation/shared/layout/MainLayout";
+import { AppRoutes } from "./presentation/routes/AppRoutes";
 
-    </div>
+const App = () => {
+  return (
+    <BrowserRouter>
+      <MainLayout>
+        <AppRoutes />
+      </MainLayout>
+    </BrowserRouter>
   );
 };
+
 
 export default App;

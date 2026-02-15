@@ -46,3 +46,17 @@ export class CourseEntity extends ContentEntity {
         return this.weeks.reduce((acc, week) => acc + (week.lessons?.length || 0), 0);
     }
 }
+
+
+export class CardCourseEntity {
+    constructor(props = {}) {
+        this.title = props.title;
+        this.thumbnail = props.thumbnail;
+        this.difficulty = props.difficulty;
+        this.price = props.price;
+        this.studentCount = props.studentCount || 0;
+        this.hasAccess = props.hasAccess || false;
+        this.instructor = props.instructor;
+        this.weeks = props.weeks || [];
+    }
+}

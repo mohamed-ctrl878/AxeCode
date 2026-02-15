@@ -47,3 +47,17 @@ export class EventEntity extends ContentEntity {
         return `${start} - ${this.endDate.toLocaleDateString()}`;
     }
 }
+
+
+export class CardEventEntity {
+    constructor(props = {}) {
+        this.title = props.title;
+        this.type = props.type;
+        this.startDate = props.startDate;
+        this.endDate = props.endDate;
+        this.location = props.location;
+        this.cover = props.cover;
+        this.price = props.price;
+        this.registeredCount = props.registeredCount || 0;
+    }
+}
