@@ -27,7 +27,14 @@ export const PATHS = {
     // Social
     MESSAGES: '/messages',
 
+    // Management
+    CONTENT_MANAGEMENT: '/cms',
+
     // User
     PROFILE: '/profile',
     SETTINGS: '/settings',
+
+    // Auth
+    LOGIN: '/login',
+    REGISTER: '/register',
 };
