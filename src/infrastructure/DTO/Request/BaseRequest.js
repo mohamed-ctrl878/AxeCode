@@ -1,4 +1,4 @@
-import { SecurityUtils } from '../utils/SecurityUtils';
+import { SecurityUtils } from '@core/utils/SecurityUtils';
 
 /**
  * Base class for all Request DTOs (Form Data).

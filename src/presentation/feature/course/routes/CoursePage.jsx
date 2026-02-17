@@ -123,7 +123,7 @@ export const CoursePage = () => {
                         <p className="text-[9px] text-text-muted mb-4 leading-relaxed">
                             Generate your specialized learning path now.
                         </p>
-                        <button className="w-full py-2 bg-accent-primary text-black rounded-lg text-[9px] font-bold hover:brightness-110 transition-all active:scale-95 shadow-[0_0_20px_rgba(52,211,153,0.3)]">
+                        <button className="w-full py-2 btn-primary rounded-lg text-[9px] font-bold">
                             GENERATE
                         </button>
                     </div>

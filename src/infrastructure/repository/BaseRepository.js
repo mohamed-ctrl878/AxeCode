@@ -1,5 +1,6 @@
 import { IApiClient } from '../../domain/interface/IApiClient';
 import { fetchWrapper } from '../../core/API/fetchWrapper';
+import qs from 'qs';
 
 /**
  * BaseRepository implementing IApiClient technical interface.
@@ -43,8 +44,15 @@ export class BaseRepository extends IApiClient {
     }
 
     async get(endpoint, params = {}) {
-        const url = this.#buildUrl(endpoint);
-        // QueryBuilder logic could be integrated here if needed
+        let url = this.#buildUrl(endpoint);
+
+        // Use qs library to stringify params for better Strapi compatibility
+        const queryString = qs.stringify(params, { encodeValuesOnly: true });
+
+        if (queryString) {
+            url += `${url.includes('?') ? '&' : '?'}${queryString}`;
+        }
+
         return await fetchWrapper(url, true, 'application/json', 'GET');
     }
 }

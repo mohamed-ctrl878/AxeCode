@@ -14,7 +14,14 @@ const PlaceholderPage = ({ title }) => (
 );
 
 const CoursePage = lazy(() => import('../feature/course/routes/CoursePage'));
+const CourseDetailsPage = lazy(() => import('../feature/course/routes/CourseDetailsPage'));
 const ProblemPage = lazy(() => import('../feature/problem/routes/ProblemPage'));
+const FeedPage = lazy(() => import('../feature/feed/routes/FeedPage'));
+const ArticlePage = lazy(() => import('../feature/article/routes/ArticlePage'));
+const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
+const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
+const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
+const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
 
 /**
  * AppRoutes: Centralized router.
@@ -29,17 +36,25 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path={PATHS.DASHBOARD} element={<PlaceholderPage title="Dashboard Feed" />} />
                 
+                {/* Auth */}
+                <Route path={PATHS.REGISTER} element={<RegisterPage />} />
+                <Route path={PATHS.LOGIN} element={<LoginPage />} />
+                
                 {/* Learning */}
                 <Route path={PATHS.COURSES} element={<CoursePage />} />
+                <Route path={`${PATHS.COURSES}/:documentId`} element={<CourseDetailsPage />} />
                 <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />
 
 
                 <Route path={PATHS.ROADMAPS} element={<PlaceholderPage title="Learning Paths" />} />
 
+                {/* Management */}
+                <Route path={PATHS.CONTENT_MANAGEMENT} element={<CMSPage />} />
+
                 {/* Community */}
-                <Route path={PATHS.FEED} element={<PlaceholderPage title="Global Feed" />} />
-                <Route path={PATHS.ARTICLES} element={<PlaceholderPage title="Knowledge Base" />} />
-                <Route path={PATHS.EVENTS} element={<PlaceholderPage title="Upcoming Events" />} />
+                <Route path={PATHS.FEED} element={<FeedPage />} />
+                <Route path={PATHS.ARTICLES} element={<ArticlePage />} />
+                <Route path={PATHS.EVENTS} element={<EventPage />} />
 
                 {/* Resources */}
                 <Route path={PATHS.MEDIA} element={<PlaceholderPage title="Media Assets" />} />

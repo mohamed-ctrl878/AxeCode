@@ -134,7 +134,8 @@ export class EntityMapper {
             studentCount: dto.studentCount,
             hasAccess: dto.hasAccess,
             instructor: this.toUser(dto.instructor),
-            weeks: Array.from(dto.weeks?.values() || [])
+            weeks: Array.from(dto.weeks?.values() || []),
+            rating: dto.interactions?.rating || 0 // Mapping from interactions if available
         });
     }
 

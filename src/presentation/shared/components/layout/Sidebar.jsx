@@ -14,7 +14,8 @@ import {
     Search,
     UserCircle,
     Settings,
-    LogOut
+    LogOut,
+    Database
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { PATHS } from '../../../routes/paths';
@@ -101,6 +102,9 @@ export const Sidebar = () => {
                 <NavItem icon={Image} label="Media Library" path={PATHS.MEDIA} collapsed={!isSidebarOpen} />
                 <NavItem icon={Video} label="Live Streams" path={PATHS.LIVE} collapsed={!isSidebarOpen} />
                 
+                <NavCategory label="Management" collapsed={!isSidebarOpen} />
+                <NavItem icon={Database} label="Content Management" path={PATHS.CONTENT_MANAGEMENT} collapsed={!isSidebarOpen} />
+
                 <NavCategory label="Social" collapsed={!isSidebarOpen} />
                 <NavItem icon={MessageSquare} label="Messages" path={PATHS.MESSAGES} collapsed={!isSidebarOpen} />
             </div>

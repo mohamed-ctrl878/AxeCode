@@ -15,6 +15,7 @@ export class CourseEntity extends ContentEntity {
      * @param {boolean} props.hasAccess
      * @param {UserEntity|null} props.instructor
      * @param {Array<object>} props.weeks
+     * @param {number} props.rating
      */
     constructor(props = {}) {
         super(props);
@@ -27,6 +28,7 @@ export class CourseEntity extends ContentEntity {
         this.hasAccess = props.hasAccess || false;
         this.instructor = props.instructor;
         this.weeks = props.weeks || [];
+        this.rating = props.rating || 0;
     }
 
     /**
@@ -58,5 +60,6 @@ export class CardCourseEntity {
         this.hasAccess = props.hasAccess || false;
         this.instructor = props.instructor;
         this.weeks = props.weeks || [];
+        this.rating = props.rating || 0;
     }
 }

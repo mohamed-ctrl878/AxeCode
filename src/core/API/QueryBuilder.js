@@ -6,22 +6,30 @@ import qs from 'qs';
  */
 const QueryBuilder = {
     /**
-     * Builds a filter query string for a specific field.
+     * Builds a filter query object for a specific field.
      * @param {string} field - The field name to filter by.
      * @param {any} value - The value to filter for.
-     * @returns {string} - Encoded query string (e.g., filters[title][$eq]=value)
+     * @returns {object} - Raw query object.
      */
-    buildFilter: (field, value) => {
-        if (!field || value === undefined) return '';
-        
-        const queryObject = {
+    buildFilterObject: (field, value) => {
+        if (!field || value === undefined) return {};
+        return {
             filters: {
                 [field]: {
                     $eq: value
                 }
             }
         };
-        
+    },
+
+    /**
+     * Builds a filter query string for a specific field.
+     * @param {string} field - The field name to filter by.
+     * @param {any} value - The value to filter for.
+     * @returns {string} - Encoded query string (e.g., filters[title][$eq]=value)
+     */
+    buildFilter: (field, value) => {
+        const queryObject = QueryBuilder.buildFilterObject(field, value);
         return qs.stringify(queryObject, { encodeValuesOnly: true });
     },
 
