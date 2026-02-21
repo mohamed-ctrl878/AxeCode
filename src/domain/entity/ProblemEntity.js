@@ -37,8 +37,12 @@ export class ProblemEntity extends ContentEntity {
 
 export class CardProblemEntity {
     constructor(props = {}) {
-       this.title = props.title;
-       this.difficulty = props.difficulty;
-       this.status = props.status;
+        this.id = props.id;
+        this.documentId = props.documentId;
+        this.title = props.title;
+        this.difficulty = props.difficulty;
+        this.status = props.status || 'New';
+        this.points = props.points || 0;
+        this.tags = props.tags || [];
     }
 }

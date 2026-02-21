@@ -5,7 +5,7 @@ import { LessonEntity } from '../entity/LessonEntity';
 import { CourseEntity, CardCourseEntity } from '../entity/CourseEntity';
 import { BlogEntity } from '../entity/BlogEntity';
 import { EventEntity, CardEventEntity } from '../entity/EventEntity';
-import { ProblemEntity } from '../entity/ProblemEntity';
+import { ProblemEntity, CardProblemEntity } from '../entity/ProblemEntity';
 import { ArticleEntity } from '../entity/ArticleEntity';
 import { CommentEntity } from '../entity/CommentEntity';
 import { RoadmapEntity } from '../entity/RoadmapEntity';
@@ -21,7 +21,7 @@ export class EntityMapper {
      */
     static toMedia(data) {
         if (!data) return null;
-        console.log("data",data)
+        console.log("data", data)
         return new MediaEntity({
             id: data.id,
             url: data.url,
@@ -246,6 +246,24 @@ export class EntityMapper {
             description: dto.description,
             availableLanguages: dto.availableLanguages,
             points: dto.points
+        });
+    }
+
+    /**
+     * Maps a ProblemDTO to CardProblemEntity (lightweight card representation).
+     * @param {ProblemDTO|object} dto
+     * @returns {CardProblemEntity|null}
+     */
+    static toCardProblem(dto) {
+        if (!dto) return null;
+        return new CardProblemEntity({
+            id: dto.id,
+            documentId: dto.documentId,
+            title: dto.title,
+            difficulty: dto.difficulty,
+            status: dto.submissionStatus || 'New',
+            points: dto.points || dto.engagement_score || 0,
+            tags: Array.isArray(dto.tags) ? dto.tags.map(t => t.name || t) : [],
         });
     }
 
