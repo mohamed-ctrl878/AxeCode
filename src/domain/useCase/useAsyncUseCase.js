@@ -23,6 +23,7 @@ export const useAsyncUseCase = (asyncFunction) => {
             console.error('[UseCase Error]:', err);
             throw err;
         } finally {
+            console.log(error)
             setInProgress(false);
         }
     }, [asyncFunction]);
