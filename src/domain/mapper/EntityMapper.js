@@ -2,9 +2,9 @@ import { MediaEntity } from '../entity/MediaEntity';
 import { UserEntity } from '../entity/UserEntity';
 import { PostEntity } from '../entity/PostEntity';
 import { LessonEntity } from '../entity/LessonEntity';
-import { CourseEntity } from '../entity/CourseEntity';
+import { CourseEntity, CardCourseEntity } from '../entity/CourseEntity';
 import { BlogEntity } from '../entity/BlogEntity';
-import { EventEntity } from '../entity/EventEntity';
+import { EventEntity, CardEventEntity } from '../entity/EventEntity';
 import { ProblemEntity } from '../entity/ProblemEntity';
 import { ArticleEntity } from '../entity/ArticleEntity';
 import { CommentEntity } from '../entity/CommentEntity';
@@ -21,6 +21,7 @@ export class EntityMapper {
      */
     static toMedia(data) {
         if (!data) return null;
+        console.log("data",data)
         return new MediaEntity({
             id: data.id,
             url: data.url,
@@ -179,6 +180,51 @@ export class EntityMapper {
             cover: this.toMedia(dto.cover),
             price: dto.price,
             registeredCount: dto.registeredCount
+        });
+    }
+
+    /**
+     * Maps a CourseDTO to CardCourseEntity (lightweight card representation).
+     * @param {CourseDTO} dto
+     * @returns {CardCourseEntity|null}
+     */
+    static toCardCourse(dto) {
+        if (!dto) return null;
+        return new CardCourseEntity({
+            uid: dto.documentId,
+            title: dto.title,
+            thumbnail: this.toMedia(dto.picture),
+            difficulty: dto.difficulty,
+            contentType: dto.contentType,
+            price: dto.price,
+            studentCount: dto.studentCount,
+            hasAccess: dto.hasAccess,
+            entitlementsId: dto.entitlementsId,
+            instructor: dto.instructor?.username || dto.instructor,
+            weeks: Array.from(dto.weeks?.values() || []),
+            rating: dto.interactions?.rating || 0
+        });
+    }
+
+    /**
+     * Maps an EventDTO to CardEventEntity (lightweight card representation).
+     * @param {EventDTO} dto
+     * @returns {CardEventEntity|null}
+     */
+    static toCardEvent(dto) {
+        if (!dto) return null;
+        const firstImage = dto.images?.size > 0 ? this.toMedia(Array.from(dto.images.values())[0]) : null;
+        return new CardEventEntity({
+            uid: dto.documentId,
+            title: dto.title,
+            type: dto.onsite && dto.live_streaming ? 'Hybrid' : dto.onsite ? 'Onsite' : dto.live_streaming ? 'Live' : 'Event',
+            startDate: dto.date,
+            location: dto.location,
+            cover: firstImage?.url || null,
+            price: dto.price,
+            registeredCount: dto.studentCount,
+            hasAccess: dto.hasAccess,
+            duration: dto.duration
         });
     }
 

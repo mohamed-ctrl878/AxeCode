@@ -21,6 +21,12 @@ export const fetchWrapper = async (url, useToken = true, contentType = 'applicat
         credentials: useToken ? 'include' : 'same-origin',
     };
 
+    console.log(config);
+    console.log(body);
+    console.log(contentType);
+    console.log(method);
+    console.log(url);
+    console.log(useToken);
     if (body && method !== 'GET') {
         config.body = contentType === 'application/json' ? JSON.stringify(body) : body;
     }

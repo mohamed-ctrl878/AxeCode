@@ -1,96 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EventCard } from '../components/EventCard';
 import { EventFilters } from '../components/EventFilters';
-import { EventEntity } from '@domain/entity/EventEntity';
+import { useFetchRecommendedEvents } from '@domain/useCase/useFetchRecommendedEvents';
+import { Loader2, AlertTriangle } from 'lucide-react';
 
 /**
  * EventPage: Core layout for exploring and registering for events.
  */
 const EventPage = () => {
     const [filter, setFilter] = useState('all');
+    const { fetchEvents, events, loading, error } = useFetchRecommendedEvents();
 
-    // Mock data for initial presentation
-    const mockEvents = [
-        new EventEntity({
-            id: 1,
-            title: "Future of Agentic Coding Workshop",
-            type: "Workshop",
-            startDate: new Date('2026-03-10'),
-            endDate: new Date('2026-03-11'),
-            location: "Virtual HQ",
-            registeredCount: 420,
-            price: 49
-        }),
-        new EventEntity({
-            id: 2,
-            title: "React 19 Security Masterclass",
-            type: "Webinar",
-            startDate: new Date(), // Current for Live badge
-            location: "Discord Live",
-            registeredCount: 1540,
-            price: 0
-        })
-        ,
-        new EventEntity({
-            id: 3,
-            title: "Global AI Ethics Summit",
-            type: "Physical",
-            startDate: new Date('2026-05-20'),
-            location: "Cairo, Egypt",
-            registeredCount: 85,
-            price: 299
-        })
-        ,
-        new EventEntity({
-            id: 3,
-            title: "Global AI Ethics Summit",
-            type: "Physical",
-            startDate: new Date('2026-05-20'),
-            location: "Cairo, Egypt",
-            registeredCount: 85,
-            price: 299
-        })
-        ,
-        new EventEntity({
-            id: 3,
-            title: "Global AI Ethics Summit",
-            type: "Physical",
-            startDate: new Date('2026-05-20'),
-            location: "Cairo, Egypt",
-            registeredCount: 85,
-            price: 299
-        })
-        ,
-        new EventEntity({
-            id: 3,
-            title: "Global AI Ethics Summit",
-            type: "Physical",
-            startDate: new Date('2026-05-20'),
-            location: "Cairo, Egypt",
-            registeredCount: 85,
-            price: 299
-        })
-        ,
-        new EventEntity({
-            id: 3,
-            title: "Global AI Ethics Summit",
-            type: "Physical",
-            startDate: new Date('2026-05-20'),
-            location: "Cairo, Egypt",
-            registeredCount: 85,
-            price: 299
-        })
-    ];
+    useEffect(() => {
+        fetchEvents();
+    }, []);
 
     return (
         <React.Fragment>
             {/* Main Content (9 cols) - Responsive Grid */}
             <div className="md:col-span-9 order-1">
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {mockEvents.map(event => (
-                        <EventCard key={event.id} event={event} />
-                    ))}
-                </div>
+                {loading ? (
+                    <div className="flex items-center justify-center py-16 gap-2 text-text-muted">
+                        <Loader2 size={20} className="animate-spin text-accent-primary" />
+                        <span className="text-sm font-mono">Loading events...</span>
+                    </div>
+                ) : error ? (
+                    <div className="flex items-center justify-center py-16 gap-2 text-red-400">
+                        <AlertTriangle size={20} />
+                        <span className="text-sm font-mono">Failed to load events</span>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                        {events?.map((event, idx) => (
+                            <EventCard key={event.uid || idx} event={event} />
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* Sidebar (3 cols) */}

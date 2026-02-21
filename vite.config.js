@@ -14,13 +14,13 @@ export default defineConfig({
 
 
   // --- الجزء الجديد المضاف هنا ---
-  server: {
-    host: '0.0.0.0', // يسمح بالوصول من أي جهاز في الشبكة
-    port: 5173,      // التأكد من تثبيت المنفذ
-    hmr: {
-      host: '192.168.1.5', // عنوان IP الخاص بجهازك (الذي استخرجناه من ipconfig)
-    },
-  },
+  // server: {
+  //   host: '0.0.0.0', // يسمح بالوصول من أي جهاز في الشبكة
+  //   port: 5173,      // التأكد من تثبيت المنفذ
+  //   hmr: {
+  //     host: '192.168.1.5', // عنوان IP الخاص بجهازك (الذي استخرجناه من ipconfig)
+  //   },
+  // },
   // ----------------------------
 
   resolve: {
@@ -48,6 +48,7 @@ export default defineConfig({
       "@presentation": path.resolve(__dirname, "src/presentation"),
       "@presentation/shared": path.resolve(__dirname, "src/presentation/shared"),
       "@presentation/styles": path.resolve(__dirname, "src/presentation/styles"),
+      // routes
     },
 
   },

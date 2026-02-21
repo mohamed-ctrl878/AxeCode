@@ -51,6 +51,7 @@ export class EventEntity extends ContentEntity {
 
 export class CardEventEntity {
     constructor(props = {}) {
+        this.uid = props.uid;
         this.title = props.title;
         this.type = props.type;
         this.startDate = props.startDate;
@@ -59,5 +60,7 @@ export class CardEventEntity {
         this.cover = props.cover;
         this.price = props.price;
         this.registeredCount = props.registeredCount || 0;
+        this.hasAccess = props.hasAccess || false;
+        this.duration = props.duration;
     }
 }

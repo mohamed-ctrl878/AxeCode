@@ -19,14 +19,16 @@ export class CourseEntity extends ContentEntity {
      */
     constructor(props = {}) {
         super(props);
-        this.title = props.title;
-        this.description = props.description;
-        this.thumbnail = props.thumbnail;
-        this.difficulty = props.difficulty;
-        this.price = props.price;
+        this.title = props.title || null;
+        this.description = props.description || null;
+        this.thumbnail = props.thumbnail || null;
+        this.difficulty = props.difficulty || null;
+        this.contentType = props.contentType || 'course';
+        this.price = props.price ?? null;
         this.studentCount = props.studentCount || 0;
         this.hasAccess = props.hasAccess || false;
-        this.instructor = props.instructor;
+        this.entitlementsId = props.entitlementsId || null;
+        this.instructor = props.instructor || null;
         this.weeks = props.weeks || [];
         this.rating = props.rating || 0;
     }
@@ -52,13 +54,17 @@ export class CourseEntity extends ContentEntity {
 
 export class CardCourseEntity {
     constructor(props = {}) {
-        this.title = props.title;
-        this.thumbnail = props.thumbnail;
-        this.difficulty = props.difficulty;
-        this.price = props.price;
+        console.log("props",props)
+        this.uid = props.uid || null;
+        this.title = props.title || null;
+        this.thumbnail = props.thumbnail || null;
+        this.difficulty = props.difficulty || null;
+        this.contentType = props.contentType || 'course';
+        this.price = props.price ?? null;
         this.studentCount = props.studentCount || 0;
         this.hasAccess = props.hasAccess || false;
-        this.instructor = props.instructor;
+        this.entitlementsId = props.entitlementsId || null;
+        this.instructor = props.instructor || null;
         this.weeks = props.weeks || [];
         this.rating = props.rating || 0;
     }
