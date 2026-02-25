@@ -63,4 +63,31 @@ export class CardEventEntity {
         this.hasAccess = props.hasAccess || false;
         this.duration = props.duration;
     }
+
+    /**
+     * Checks if the event is currently happening.
+     * @returns {boolean}
+     */
+    get isActive() {
+        if (!this.startDate) return false;
+        const now = new Date();
+        const start = this.startDate instanceof Date ? this.startDate : new Date(this.startDate);
+        const end = this.endDate ? (this.endDate instanceof Date ? this.endDate : new Date(this.endDate)) : null;
+        return start <= now && (end ? end >= now : true);
+    }
+
+    /**
+     * Formatted date range for UI display.
+     * @returns {string}
+     */
+    get displayDateRange() {
+        if (!this.startDate) return 'TBA';
+        const fmt = (d) => {
+            const date = d instanceof Date ? d : new Date(d);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        };
+        const start = fmt(this.startDate);
+        if (!this.endDate) return start;
+        return `${start} - ${fmt(this.endDate)}`;
+    }
 }

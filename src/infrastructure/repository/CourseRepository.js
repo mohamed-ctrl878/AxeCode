@@ -24,7 +24,18 @@ export class CourseRepository extends IContentInteraction {
     }
 
     // Domain interface methods
-    async like(contentId, contentType) {}
-    async comment(contentId, contentType, commentData) {}
-    async trackEngagement(contentId) {}
+    async like(contentId, contentType) { }
+    async comment(contentId, contentType, commentData) { }
+    async trackEngagement(contentId) { }
+
+    /**
+     * Fetches a single course preview by documentId.
+     * @param {string} documentId
+     * @returns {Promise<object>} Raw course data from API.
+     */
+    async getPreview(documentId) {
+        const previewEndpoint = import.meta.env.VITE_API_PREVIEW_COURSE;
+        const response = await this.apiClient.get(`${previewEndpoint}/${documentId}`);
+        return response?.data || response;
+    }
 }

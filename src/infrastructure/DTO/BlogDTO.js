@@ -1,5 +1,7 @@
 import { BaseContentDTO } from './BaseContentDTO';
-import { MediaDTO, UserDTO } from './SharedDTOs';
+import { MediaDTO } from './SharedDTOs';
+import { UserDTO } from './UserDTO';
+// import { UserDTO } from './UserDTO';
 
 export class BlogDTO extends BaseContentDTO {
     constructor(data = {}) {

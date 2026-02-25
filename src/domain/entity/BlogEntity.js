@@ -12,6 +12,7 @@ export class BlogEntity extends ContentEntity {
      */
     constructor(props = {}) {
         super(props);
+        this.title = props.title;
         this.description = props.description;
         this.image = props.image;
         this.author = props.author;

@@ -11,6 +11,26 @@ export class RecommendationRepository extends IRecommendationAccess {
         this.apiClient = apiClient;
         this.coursesEndpoint = import.meta.env.VITE_API_COURSES;
         this.eventsEndpoint = import.meta.env.VITE_API_EVENTS;
+        this.blogsEndpoint = import.meta.env.VITE_API_BLOG;
+        this.articlesEndpoint = import.meta.env.VITE_API_ARTICLE;
+    }
+
+    /**
+     * @param {number} [limit=20]
+     * @returns {Promise<object[]>} Raw article data from recommendation API.
+     */
+    async getArticles(limit = 20) {
+        const response = await this.apiClient.get(this.articlesEndpoint, { limit });
+        return response?.data || response || [];
+    }
+
+    /**
+     * @param {number} [limit=20]
+     * @returns {Promise<object[]>} Raw blog data from recommendation API.
+     */
+    async getBlogs(limit = 20) {
+        const response = await this.apiClient.get(this.blogsEndpoint, { limit });
+        return response?.data || response || [];
     }
 
     /**

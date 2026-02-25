@@ -29,4 +29,24 @@ export class IContentInteraction extends IInteraction {
     async comment(contentId, contentType, commentData) {
         throw new Error("Method 'comment' must be implemented.");
     }
+
+    /**
+     * @param {string|number} docId
+     * @param {string} contentType
+     * @param {object} params
+     * @returns {Promise<any>}
+     */
+    async getComments(docId, contentType, params = {}) {
+        throw new Error("Method 'getComments' must be implemented.");
+    }
+
+    /**
+     * @param {string|number} docId
+     * @param {string} contentType
+     * @param {object} reportData
+     * @returns {Promise<any>}
+     */
+    async report(docId, contentType, reportData) {
+        throw new Error("Method 'report' must be implemented.");
+    }
 }
