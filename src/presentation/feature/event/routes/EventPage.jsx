@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { EventCard } from '../components/EventCard';
 import { EventFilters } from '../components/EventFilters';
-import { useFetchRecommendedEvents } from '@domain/useCase/useFetchRecommendedEvents';
+import { useFetchRecommendedEventsForPage } from '@domain/useCase/useFetchRecommendedEventsForPage';
 import { Loader2, AlertTriangle } from 'lucide-react';
 
 /**
@@ -9,7 +9,7 @@ import { Loader2, AlertTriangle } from 'lucide-react';
  */
 const EventPage = () => {
     const [filter, setFilter] = useState('all');
-    const { fetchEvents, events, loading, error } = useFetchRecommendedEvents();
+    const { fetchEvents, events, loading, error } = useFetchRecommendedEventsForPage();
 
     useEffect(() => {
         fetchEvents();

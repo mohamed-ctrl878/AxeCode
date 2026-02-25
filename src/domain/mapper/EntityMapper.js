@@ -2,7 +2,7 @@ import { MediaEntity } from '../entity/MediaEntity';
 import { UserEntity } from '../entity/UserEntity';
 import { PostEntity } from '../entity/PostEntity';
 import { LessonEntity } from '../entity/LessonEntity';
-import { CourseEntity, CardCourseEntity } from '../entity/CourseEntity';
+import { CourseEntity, CardCourseEntity, CoursePreviewEntity } from '../entity/CourseEntity';
 import { BlogEntity } from '../entity/BlogEntity';
 import { EventEntity, CardEventEntity } from '../entity/EventEntity';
 import { ProblemEntity, CardProblemEntity } from '../entity/ProblemEntity';
@@ -64,6 +64,9 @@ export class EntityMapper {
             publishedAt: dto.publishedAt,
             engagementScore: dto.engagementScore,
             tags: dto.tags,
+            likesCount: dto.likesCount,
+            commentsCount: dto.commentsCount,
+            isLiked: dto.isLiked,
             caption: dto.caption,
             author: this.toUser(dto.author),
             media: Array.from(dto.media?.values() || []).map(m => this.toMedia(m)),
@@ -85,6 +88,9 @@ export class EntityMapper {
             publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
             engagementScore: data.engagementScore || data.engagement_score || 0,
             tags: data.tags || [],
+            likesCount: data.likesCount || 0,
+            commentsCount: data.commentsCount || 0,
+            isLiked: !!data.isLikedByMe,
             content: data.content,
             author: this.toUser(data.users_permissions_user || data.author),
             title: data.title
@@ -104,6 +110,9 @@ export class EntityMapper {
             publishedAt: dto.publishedAt,
             engagementScore: dto.engagementScore,
             tags: dto.tags,
+            likesCount: dto.likesCount,
+            commentsCount: dto.commentsCount,
+            isLiked: dto.isLiked,
             title: dto.title,
             type: dto.typeOfLesson,
             isCompleted: dto.isCompleted,
@@ -127,6 +136,9 @@ export class EntityMapper {
             publishedAt: dto.publishedAt,
             engagementScore: dto.engagementScore,
             tags: dto.tags,
+            likesCount: dto.likesCount,
+            commentsCount: dto.commentsCount,
+            isLiked: dto.isLiked,
             title: dto.title,
             description: dto.description,
             thumbnail: this.toMedia(dto.picture),
@@ -136,7 +148,7 @@ export class EntityMapper {
             hasAccess: dto.hasAccess,
             instructor: this.toUser(dto.instructor),
             weeks: Array.from(dto.weeks?.values() || []),
-            rating: dto.interactions?.rating || 0 // Mapping from interactions if available
+            rating: dto.interactions?.rating?.average || 0 // Mapping from interactions if available
         });
     }
 
@@ -153,6 +165,9 @@ export class EntityMapper {
             publishedAt: dto.publishedAt,
             engagementScore: dto.engagementScore,
             tags: dto.tags,
+            likesCount: dto.likesCount,
+            commentsCount: dto.commentsCount,
+            isLiked: dto.isLiked,
             description: dto.description,
             image: this.toMedia(dto.image),
             author: this.toUser(dto.author)
@@ -172,6 +187,9 @@ export class EntityMapper {
             publishedAt: dto.publishedAt,
             engagementScore: dto.engagementScore,
             tags: dto.tags,
+            likesCount: dto.likesCount,
+            commentsCount: dto.commentsCount,
+            isLiked: dto.isLiked,
             title: dto.title,
             type: dto.type,
             startDate: dto.startDate,
@@ -202,7 +220,49 @@ export class EntityMapper {
             entitlementsId: dto.entitlementsId,
             instructor: dto.instructor?.username || dto.instructor,
             weeks: Array.from(dto.weeks?.values() || []),
-            rating: dto.interactions?.rating || 0
+            rating: dto.interactions?.rating?.average || 0
+        });
+    }
+
+    /**
+     * Maps a CourseDTO to CoursePreviewEntity (full preview for details page).
+     * Deeply maps weeks → lessons via toLesson().
+     * @param {CourseDTO} dto
+     * @returns {CoursePreviewEntity|null}
+     */
+    static toCoursePreview(dto) {
+        if (!dto) return null;
+
+        const weeks = Array.from(dto.weeks?.values() || []).map(week => ({
+            id: week.id,
+            documentId: week.documentId,
+            title: week.title,
+            lessons: Array.from(week.lessons?.values() || []).map(lesson => this.toLesson(lesson))
+        }));
+
+        return new CoursePreviewEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt,
+            publishedAt: dto.publishedAt,
+            engagementScore: dto.engagementScore,
+            tags: dto.tags,
+            likesCount: dto.likesCount,
+            commentsCount: dto.commentsCount,
+            isLiked: dto.isLiked,
+            title: dto.title,
+            description: dto.description,
+            thumbnail: this.toMedia(dto.picture),
+            difficulty: dto.difficulty,
+            contentType: dto.contentType,
+            price: dto.price,
+            studentCount: dto.studentCount,
+            hasAccess: dto.hasAccess,
+            entitlementsId: dto.entitlementsId,
+            instructor: this.toUser(dto.instructor),
+            weeks,
+            rating: dto.interactions?.rating?.average || 0
         });
     }
 
@@ -264,6 +324,56 @@ export class EntityMapper {
             status: dto.submissionStatus || 'New',
             points: dto.points || dto.engagement_score || 0,
             tags: Array.isArray(dto.tags) ? dto.tags.map(t => t.name || t) : [],
+        });
+    }
+
+    /**
+     * Maps a BlogDTO to BlogEntity.
+     * @param {BlogDTO} dto
+     * @returns {BlogEntity|null}
+     */
+    static toBlog(dto) {
+        if (!dto) return null;
+        return new BlogEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt,
+            publishedAt: dto.publishedAt,
+            engagementScore: dto.engagementScore,
+            tags: dto.tags,
+            likesCount: dto.likesCount,
+            commentsCount: dto.commentsCount,
+            isLiked: dto.isLiked,
+            title: dto.title,
+            description: dto.description,
+            image: dto.image ? this.toMedia(dto.image) : null,
+            author: dto.publisher
+                ? { username: dto.publisher.username, avatar: dto.publisher.avatar ? this.toMedia(dto.publisher.avatar) : null }
+                : null,
+        });
+    }
+
+    /**
+     * Maps an ArticleDTO to ArticleEntity.
+     * @param {ArticleDTO} dto
+     * @returns {ArticleEntity|null}
+     */
+    static toArticle(dto) {
+        if (!dto) return null;
+        return new ArticleEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt,
+            publishedAt: dto.publishedAt,
+            engagementScore: dto.engagementScore,
+            tags: dto.tags,
+            title: dto.title,
+            content: dto.contentBlocks,
+            author: dto.author
+                ? { username: dto.author.username, avatar: dto.author.avatar ? this.toMedia(dto.author.avatar) : null }
+                : null,
         });
     }
 

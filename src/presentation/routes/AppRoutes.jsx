@@ -20,6 +20,7 @@ const FeedPage = lazy(() => import('../feature/feed/routes/FeedPage'));
 const ArticlePage = lazy(() => import('../feature/article/routes/ArticlePage'));
 const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
+const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
 const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
 
@@ -46,7 +47,7 @@ export const AppRoutes = () => {
                 <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />
 
 
-                <Route path={PATHS.ROADMAPS} element={<PlaceholderPage title="Learning Paths" />} />
+                <Route path={PATHS.ROADMAPS} element={<RoadmapsPage />} />
 
                 {/* Management */}
                 <Route path={PATHS.CONTENT_MANAGEMENT} element={<CMSPage />} />

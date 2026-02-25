@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CreatePost } from '../components/CreatePost';
 import { FeedItem } from '../components/FeedItem';
 import { EventAds } from '../components/EventAds';
 import { FeedFilters } from '../components/FeedFilters';
-import { BlogEntity } from '@domain/entity/BlogEntity';
+import { useFetchBlogs } from '@domain/useCase/useFetchBlogs';
 
 /**
  * FeedPage: Assembly of social and knowledge components.
@@ -11,25 +11,11 @@ import { BlogEntity } from '@domain/entity/BlogEntity';
  */
 const FeedPage = () => {
     const [activeFilter, setActiveFilter] = useState('latest');
+    const { fetchBlogs, blogs, loading, error } = useFetchBlogs();
 
-    // Mock data for initial render
-    const mockBlogs = [
-        new BlogEntity({
-            id: 1,
-            title: "Mastering Clean Architecture with React 19",
-            description: "Deep dive into solid principles and how they transform your codebase into a scalable engine.",
-            readingTime: "5 min",
-            author: { username: "Hussein.js" },
-            image: { url: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80" }
-        }),
-        new BlogEntity({
-            id: 2,
-            title: "Antigravity Design: The Future of SaaS UI",
-            description: "Why we chose perfect black and bento grids for the next generation of developer platforms.",
-            readingTime: "8 min",
-            author: { username: "ArtisanUI" }
-        })
-    ];
+    useEffect(() => {
+        fetchBlogs();
+    }, [fetchBlogs]);
 
     return (
         <React.Fragment>
@@ -37,8 +23,20 @@ const FeedPage = () => {
             <div className="md:col-span-9 flex flex-col gap-6">
                 <CreatePost />
                 
+                {loading && (
+                    <div className="flex justify-center py-12">
+                        <div className="w-8 h-8 border-2 border-accent-primary border-t-transparent rounded-full animate-spin" />
+                    </div>
+                )}
+
+                {error && (
+                    <div className="bento-card p-4 border border-red-500/30 bg-red-500/5 rounded-2xl text-sm text-red-400">
+                        Failed to load feed. Please try again later.
+                    </div>
+                )}
+
                 <div className="flex flex-col gap-6">
-                    {mockBlogs.map(blog => (
+                    {blogs?.map(blog => (
                         <FeedItem key={blog.id} blog={blog} />
                     ))}
                 </div>

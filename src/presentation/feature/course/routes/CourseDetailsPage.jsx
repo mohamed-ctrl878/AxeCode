@@ -1,56 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Loader2, AlertTriangle } from 'lucide-react';
 import { CourseHero } from '../components/CourseHero';
 import { CourseAbout } from '../components/CourseAbout';
 import { CourseCurriculum } from '../components/CourseCurriculum';
 import { CourseActionSidebar } from '../components/CourseActionSidebar';
-import { CourseEntity } from '@domain/entity/CourseEntity';
-import { UserEntity } from '@domain/entity/UserEntity';
+import { useFetchCoursePreview } from '@domain/useCase/useFetchCoursePreview';
 
 /**
  * CourseDetailsPage: Assembly of course details components.
+ * Fetches real course data via useFetchCoursePreview use case.
  * Follows SRP by delegating rendering to specialized sub-components.
  */
 const CourseDetailsPage = () => {
     const { documentId } = useParams();
     const navigate = useNavigate();
+    const { fetchCoursePreview, coursePreview, loading, error } = useFetchCoursePreview();
 
-    // Mock data for initial presentation
-    const course = new CourseEntity({
-        id: 1,
-        uid: documentId || 'demo-uid',
-        title: "Advanced Agentic Coding with React & AI",
-        description: [
-            { type: 'paragraph', children: [{ text: "Master the art of building powerful AI-driven coding assistants and automated workflows using React 19 and the latest LLM orchestration patterns." }] },
-            { type: 'heading', level: 3, children: [{ text: "What you will learn" }] },
-            { type: 'paragraph', children: [{ text: "From clean architecture principles to real-time agentic tool-calling, this course covers everything needed to build production-ready developer tools." }] }
-        ],
-        difficulty: "Advanced",
-        price: 99,
-        studentCount: 1240,
-        hasAccess: false,
-        rating: 4.9,
-        instructor: new UserEntity({ username: "Hussein.js", firstname: "Hussein", lastname: "Elhussein" }),
-        weeks: [
-            {
-                id: 1,
-                title: "Week 1: Fundamentals of AI Agents",
-                lessons: [
-                    { id: 101, title: "Introduction to Agentic UX", type: "video", isPublic: true },
-                    { id: 102, title: "LLM Orchestration Patterns", type: "article", isPublic: false }
-                ]
-            },
-            {
-                id: 2,
-                title: "Week 2: Advanced Tool Calling",
-                lessons: [
-                    { id: 201, title: "Implementing Dynamic Function Injection", type: "video", isPublic: false },
-                    { id: 202, title: "Handling Concurrent Tool Executions", type: "video", isPublic: false }
-                ]
-            }
-        ]
-    });
+    useEffect(() => {
+        if (documentId) {
+            fetchCoursePreview(documentId);
+        }
+    }, [documentId]);
+
+    if (loading) {
+        return (
+            <div className="md:col-span-12 flex items-center justify-center min-h-[60vh]">
+                <Loader2 size={40} className="animate-spin text-accent-primary" />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="md:col-span-12 flex flex-col items-center justify-center min-h-[60vh] gap-4">
+                <AlertTriangle size={48} className="text-red-400" />
+                <p className="text-text-muted text-center">{error}</p>
+                <button
+                    onClick={() => fetchCoursePreview(documentId)}
+                    className="px-6 py-2 bg-accent-primary text-white rounded-lg hover:opacity-90 transition-opacity font-mono text-sm uppercase tracking-wider"
+                >
+                    Retry
+                </button>
+            </div>
+        );
+    }
+
+    if (!coursePreview) return null;
 
     return (
         <div className="md:col-span-12 flex flex-col gap-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -68,14 +64,14 @@ const CourseDetailsPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Scrollable Content Section */}
                 <div className="lg:col-span-8 flex flex-col gap-10">
-                    <CourseHero course={course} />
-                    <CourseAbout description={course.description} />
-                    <CourseCurriculum weeks={course.weeks} hasAccess={course.hasAccess} />
+                    <CourseHero course={coursePreview} />
+                    <CourseAbout description={coursePreview.description} />
+                    <CourseCurriculum weeks={coursePreview.weeks} hasAccess={coursePreview.hasAccess} />
                 </div>
 
                 {/* Sticky Action Section */}
                 <aside className="lg:col-span-4">
-                    <CourseActionSidebar course={course} />
+                    <CourseActionSidebar course={coursePreview} />
                 </aside>
             </div>
         </div>
@@ -83,3 +79,4 @@ const CourseDetailsPage = () => {
 };
 
 export default CourseDetailsPage;
+

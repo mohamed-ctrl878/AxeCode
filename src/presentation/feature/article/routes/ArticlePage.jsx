@@ -1,47 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArticleCard } from '../components/ArticleCard';
 import { ArticleFilters } from '../components/ArticleFilters';
-import { ArticleEntity } from '@domain/entity/ArticleEntity';
+import { useFetchArticles } from '@domain/useCase/useFetchArticles';
 
 /**
  * ArticlePage: Full-screen layout with side filtration and vertical content list.
  */
 const ArticlePage = () => {
     const [filter, setFilter] = useState('explore');
+    const { fetchArticles, articles, loading, error } = useFetchArticles();
 
-    // Mock data for initial presentation
-    const mockArticles = [
-        new ArticleEntity({
-            id: 1,
-            title: "Scaling Distributed Systems: A Deep Dive",
-            content: "Modern distributed systems require more than just load balancing. They demand a fundamental shift in how we handle state, consistency, and network partitions.",
-            author: { username: "Hussein.Dev" }
-        }),
-        new ArticleEntity({
-            id: 2,
-            title: "The Aesthetics of Zero-Gravity UI",
-            content: "Design is not just what it looks like, but how it feels. 'Zero-Gravity' is our philosophy for interface design, focusing on weightlessness and clarity.",
-            author: { username: "Artisan_UX" }
-        }),
-        new ArticleEntity({
-            id: 3,
-            title: "React 19: Transforming the Frontend Landscape",
-            content: "The latest internal release of React has changed the game. From server components to advanced hydration strategies.",
-            author: { username: "Frontend_Lead" }
-        })
-    ];
+    useEffect(() => {
+        fetchArticles();
+    }, [fetchArticles]);
 
     return (
         <React.Fragment>
-            {/* Sidebar Column (Options) */}
-
-
             {/* Main Content Column (Articles) */}
             <div className="md:col-span-9 lg:col-span-9 order-1 md:order-2 flex flex-col gap-8">
-                {mockArticles.map(article => (
+                {loading && (
+                    <div className="flex justify-center py-12">
+                        <div className="w-8 h-8 border-2 border-accent-primary border-t-transparent rounded-full animate-spin" />
+                    </div>
+                )}
+
+                {error && (
+                    <div className="bento-card p-4 border border-red-500/30 bg-red-500/5 rounded-2xl text-sm text-red-400">
+                        Failed to load articles. Please try again later.
+                    </div>
+                )}
+
+                {articles?.map(article => (
                     <ArticleCard key={article.id} article={article} />
                 ))}
             </div>
+
+            {/* Sidebar Column (Options) */}
             <aside className="md:col-span-3 lg:col-span-3 order-2 md:order-1">
                 <ArticleFilters activeFilter={filter} onFilterChange={setFilter} />
             </aside>

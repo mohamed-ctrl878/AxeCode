@@ -18,8 +18,8 @@ export const EventCard = ({ event, className }) => {
         )}>
             {/* Cover / Visual Header */}
             <div className="relative h-48 bg-surface-dark overflow-hidden">
-                {event.cover?.url ? (
-                    <img src={event.cover.url} alt={event.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                {(typeof event.cover === 'string' ? event.cover : event.cover?.url) ? (
+                    <img src={typeof event.cover === 'string' ? event.cover : event.cover.url} alt={event.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-surface to-background border-b border-border-subtle">
                         <Calendar size={48} className="text-border-subtle opacity-50" />

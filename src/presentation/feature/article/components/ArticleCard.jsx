@@ -8,11 +8,22 @@ import { cn } from '@core/utils/cn';
 export const ArticleCard = ({ article, className }) => {
     if (!article) return null;
 
+    /**
+     * Formats a Date/string to a short human-readable date.
+     * @param {Date|string|null} date
+     * @returns {string}
+     */
+    const formatDate = (date) => {
+        if (!date) return '';
+        const d = date instanceof Date ? date : new Date(date);
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    };
+
     return (
         <div className={cn(
             "relative flex flex-col gap-5 p-6 bg-background border border-border-subtle rounded-3xl",
             "transition-all duration-500 hover:border-accent-primary/30",
-            "shadow-[0_10px_30px_-15px_rgba(0,0,0,0.5)]", // Subtle bottom shadow
+            "shadow-[0_10px_30px_-15px_rgba(0,0,0,0.5)]",
             className
         )}>
             {/* Header: Publisher Info (Top-Left) */}
@@ -22,7 +33,7 @@ export const ArticleCard = ({ article, className }) => {
                         <img src={article.author.avatar.url} alt={article.author.username} className="w-full h-full object-cover" />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center text-[10px] font-mono text-text-muted bg-surface-dark">
-                            {article.author?.username?.substring(0, 2).toUpperCase() || 'AX'}
+                            {(article.author?.username || 'AX').substring(0, 2).toUpperCase()}
                         </div>
                     )}
                 </div>
@@ -31,7 +42,7 @@ export const ArticleCard = ({ article, className }) => {
                         {article.author?.username || 'Core Architect'}
                     </span>
                     <span className="text-[10px] text-text-muted font-mono mt-1 uppercase tracking-tighter">
-                        {article.createdAt || 'Feb 15, 2026'}
+                        {formatDate(article.createdAt)}
                     </span>
                 </div>
             </div>

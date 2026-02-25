@@ -16,6 +16,11 @@ export class ContentEntity extends BaseEntity {
         this.engagementScore = props.engagementScore || 0;
         this.tags = props.tags || [];
         this.publishedAt = props.publishedAt;
+
+        // Interaction Metadata
+        this.likesCount = props.likesCount || 0;
+        this.commentsCount = props.commentsCount || 0;
+        this.isLiked = !!props.isLiked;
     }
 
     /**

@@ -9,10 +9,10 @@ import { EntityMapper } from '@domain/mapper/EntityMapper';
  * Pipeline: API → EventDTO → EntityMapper.toCardEvent → CardEventEntity[]
  * @returns {{ fetchEvents: Function, events: CardEventEntity[]|null, loading: boolean, error: string|null }}
  */
-export const useFetchRecommendedEvents = () => {
+export const useFetchRecommendedEventsForPage = () => {
     const repository = new RecommendationRepository();
 
-    const fetchLogic = useCallback(async (limit = 3) => {
+    const fetchLogic = useCallback(async (limit = 20) => {
         const rawData = await repository.getEvents(limit);
         const items = Array.isArray(rawData) ? rawData : [];
         return items

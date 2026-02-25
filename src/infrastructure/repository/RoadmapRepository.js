@@ -22,4 +22,14 @@ export class RoadmapRepository extends IRoadmapInteraction {
         const request = new RoadmapRequest(data);
         return await this.apiClient.put(this.endpoint, id, request);
     }
+
+    /**
+     * Fetches all roadmaps.
+     * @param {object} [params] - Optional query params (filters, pagination, etc.)
+     * @returns {Promise<object[]>} Raw roadmap data array.
+     */
+    async getAll(params = {}) {
+        const response = await this.apiClient.get(this.endpoint, params);
+        return response?.data || response || [];
+    }
 }

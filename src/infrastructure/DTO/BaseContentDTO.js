@@ -9,8 +9,13 @@ export class BaseContentDTO {
         this.publishedAt = data.publishedAt ? new Date(data.publishedAt) : null; // {Date | null}
         this.documentId = data.documentId; // {string}
         this.engagementScore = data.engagement_score || 0; // {number}
-        this.tags = Array.isArray(data.tags) 
-            ? data.tags.map(tag => tag) 
+        this.tags = Array.isArray(data.tags)
+            ? data.tags.map(tag => tag)
             : []; // {Array<string | object>}
+
+        // Interaction Metadata from API Enrichment
+        this.likesCount = typeof data.likesCount === 'number' ? data.likesCount : 0; // {number}
+        this.commentsCount = typeof data.commentsCount === 'number' ? data.commentsCount : 0; // {number}
+        this.isLiked = !!data.isLikedByMe; // {boolean}
     }
 }
