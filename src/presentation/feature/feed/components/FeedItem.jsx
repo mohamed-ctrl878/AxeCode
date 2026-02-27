@@ -112,15 +112,15 @@ export const FeedItem = ({ blog, className }) => {
                 </p>
 
                 {blog.image?.url && (
-                    <div className="rounded-2xl overflow-hidden border border-border-subtle aspect-video">
-                        <img src={blog.image.url} alt="Feature" className="w-full h-full object-cover" />
+                    <div className="rounded-2xl overflow-hidden border border-border-subtle">
+                        <img src={blog.image.url} alt="Feature" className="w-full h-auto object-contain" />
                     </div>
                 )}
             </div>
 
             {/* Interaction Footer */}
             <InteractionBar 
-                docId={blog.documentId || blog.id} 
+                docId={blog.uid || blog.id} 
                 contentType="blog" 
                 initialLikes={blog.likesCount || blog.displayEngagement || 0}
                 initialComments={blog.commentsCount || 0}

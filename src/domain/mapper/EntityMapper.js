@@ -34,6 +34,22 @@ export class EntityMapper {
     }
 
     /**
+     * Maps an UploadMediaDTO to MediaEntity.
+     */
+    static toUploadMedia(dto) {
+        if (!dto) return null;
+        return new MediaEntity({
+            id: dto.id,
+            url: dto.url,
+            name: dto.name || dto.alternativeText || 'media_file',
+            mime: dto.mime,
+            size: dto.size * 1024, // Assuming strapi returns size in KB, but if bytes, remove * 1024
+            width: dto.width,
+            height: dto.height
+        });
+    }
+
+    /**
      * Maps a UserDTO or raw user object to UserEntity.
      */
     static toUser(data) {
