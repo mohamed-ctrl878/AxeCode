@@ -19,7 +19,7 @@ export const LikeButton = ({ docId, contentType, initialLikes = 0, initialIsLike
         const previousLikesCount = likesCount;
 
         setIsLiked(!isLiked);
-        setLikesCount(prev => isLiked ? Math.max(0, prev - 1) : prev + 1);
+        setLikesCount(prev => isLiked ? Math.max(0, Number(prev) - 1) : Number(prev) + 1);
 
         try {
             const result = await toggleLike(docId, contentType);

@@ -10,7 +10,7 @@ class RepositoryRegistry {
         this._sharedInteractionRepository = new SharedInteractionRepository(this._apiClient);
     }
 
-    get apiClient() {
+    get apiClient() {   
         return this._apiClient;
     }
 

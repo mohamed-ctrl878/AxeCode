@@ -33,6 +33,16 @@ export class IApiClient {
 
     /**
      * @param {string} endpoint 
+     * @param {FormData} formData 
+     * @param {function} onProgress - Callback for tracking integer progress 0-100
+     * @returns {Promise<any>}
+     */
+    async uploadWithProgress(endpoint, formData, onProgress) {
+        throw new Error("Method 'uploadWithProgress' must be implemented.");
+    }
+
+    /**
+     * @param {string} endpoint 
      * @param {object} params 
      * @returns {Promise<any>}
      */

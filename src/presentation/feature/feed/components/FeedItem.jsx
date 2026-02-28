@@ -3,32 +3,19 @@ import { cn } from '@core/utils/cn';
 import { MoreHorizontal, Clock } from 'lucide-react';
 import { InteractionBar } from '@presentation/shared/components/interactions/InteractionBar';
 import { ReportAction } from '@presentation/shared/components/interactions/ReportAction';
+import { RichBlocksPreviewer } from '@presentation/shared/components/RichBlocksPreviewer';
 
 /**
  * FeedItem: Individual content card in the feed.
  * Displays data mapped from BlogEntity.
  */
-export const FeedItem = ({ blog, className }) => {
+export const FeedItem = ({ blog, className, rank }) => {
     const [showOptions, setShowOptions] = useState(false);
+    console.log(blog);
 
     if (!blog) return null;
 
-    /**
-     * Extracts plain text preview from Strapi block content.
-     * @param {object|array|string} description
-     * @returns {string}
-     */
-    const getDescriptionPreview = (description) => {
-        if (typeof description === 'string') return description;
-        if (Array.isArray(description)) {
-            return description
-                .flatMap(block => block?.children || [])
-                .map(child => child?.text || '')
-                .join(' ')
-                .slice(0, 200);
-        }
-        return '';
-    };
+
 
     /**
      * Formats a Date/string to a human-friendly relative or short date.
@@ -49,11 +36,28 @@ export const FeedItem = ({ blog, className }) => {
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     };
 
+    // Determine Podium Styles
+    let podiumStyles = "border-border-subtle bg-surface-dark";
+    let badge = null;
+
+    if (rank === 1) {
+        podiumStyles = "border-yellow-500/50 bg-yellow-500/5 shadow-[0_0_30px_rgba(234,179,8,0.15)]";
+        badge = <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-600 flex items-center justify-center text-background font-bold shadow-lg border-2 border-background">1</div>;
+    } else if (rank === 2) {
+        podiumStyles = "border-gray-300/50 bg-gray-300/5 shadow-[0_0_20px_rgba(209,213,219,0.1)]";
+        badge = <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center text-background font-bold shadow-lg border-2 border-background">2</div>;
+    } else if (rank === 3) {
+        podiumStyles = "border-amber-700/50 bg-amber-700/5 shadow-[0_0_15px_rgba(180,83,9,0.1)]";
+        badge = <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-800 flex items-center justify-center text-background font-bold shadow-lg border-2 border-background">3</div>;
+    }
+
     return (
         <div className={cn(
-            "bento-card p-6 flex flex-col gap-6 bg-surface-dark border border-border-subtle rounded-3xl",
+            "bento-card p-6 flex flex-col gap-6 rounded-3xl relative transition-all duration-300 max-w-3xl mx-auto w-full",
+            podiumStyles,
             className
         )}>
+            {badge}
             {/* Header: Author & Meta */}
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
@@ -103,17 +107,29 @@ export const FeedItem = ({ blog, className }) => {
 
             {/* Content Body */}
             <div className="flex flex-col gap-4">
-                <h2 className="text-xl font-bold leading-tight hover:text-accent-primary transition-colors cursor-pointer">
-                    {blog.title || 'Untitled Knowledge Drop'}
-                </h2>
+
                 
-                <p className="text-text-muted text-sm leading-relaxed line-clamp-3">
-                    {getDescriptionPreview(blog.description) || 'Exploring the depths of clean architecture and futuristic design systems...'}
-                </p>
+                {/* Constrained Rich Text Preview */}
+                <div className="relative max-h-32 overflow-hidden after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 after:bg-gradient-to-t after:from-surface-dark after:to-transparent">
+                    {blog.description ? (
+                        <RichBlocksPreviewer 
+                            content={blog.description} 
+                            className="text-text-muted text-sm" 
+                        />
+                    ) : (
+                        <p className="text-text-muted text-sm leading-relaxed">
+                            Exploring the depths of clean architecture and futuristic design systems...
+                        </p>
+                    )}
+                </div>
 
                 {blog.image?.url && (
-                    <div className="rounded-2xl overflow-hidden border border-border-subtle">
-                        <img src={blog.image.url} alt="Feature" className="w-full h-auto object-contain" />
+                    <div className="rounded-2xl overflow-hidden border border-border-subtle flex justify-center bg-black">
+                        <img 
+                            src={blog.image.url} 
+                            alt="Feature" 
+                            className="w-full max-h-[500px] object-contain" 
+                        />
                     </div>
                 )}
             </div>
@@ -122,8 +138,8 @@ export const FeedItem = ({ blog, className }) => {
             <InteractionBar 
                 docId={blog.uid || blog.id} 
                 contentType="blog" 
-                initialLikes={blog.likesCount || blog.displayEngagement || 0}
-                initialComments={blog.commentsCount || 0}
+                initialLikes={blog.likesCount ?? blog.displayEngagement ?? 0}
+                initialComments={blog.commentsCount ?? 0}
                 initialIsLiked={blog.isLiked || false}
                 contentTitle={blog.title}
             />

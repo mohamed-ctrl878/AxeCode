@@ -10,7 +10,7 @@ export class BlogRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_BLOG;
+        this.endpoint = import.meta.env.VITE_API_BLOG_BASE;
     }
 
     async create(data) {

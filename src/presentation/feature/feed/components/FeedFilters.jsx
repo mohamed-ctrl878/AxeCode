@@ -1,16 +1,15 @@
 import React from 'react';
 import { cn } from '@core/utils/cn';
-import { Flame, Clock, Users } from 'lucide-react';
+import { Sparkles, Flame } from 'lucide-react';
 
 /**
  * FeedFilters: Sidebar navigation for feed discovery.
  * Minimalist design with interactive states.
  */
-export const FeedFilters = ({ activeFilter = 'latest', onFilterChange, className }) => {
+export const FeedFilters = ({ activeFilter = 'recommend', onFilterChange, className }) => {
     const filters = [
-        { id: 'trending', label: 'Trending', icon: Flame },
-        { id: 'latest', label: 'Latest', icon: Clock },
-        { id: 'following', label: 'Following', icon: Users },
+        { id: 'recommend', label: 'Recommend', icon: Sparkles },
+        { id: 'trend', label: 'Trend', icon: Flame },
     ];
 
     return (

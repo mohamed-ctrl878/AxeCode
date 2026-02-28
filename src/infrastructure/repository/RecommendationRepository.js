@@ -18,40 +18,44 @@ export class RecommendationRepository extends IRecommendationAccess {
     /**
      * @param {number} [limit=20]
      * @param {string[]} [excludeIds=[]] IDs to exclude from results to prevent duplicates
+     * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw article data from recommendation API.
      */
-    async getArticles(limit = 20, excludeIds = []) {
-        const response = await this.apiClient.get(this.articlesEndpoint, { limit, excludeIds: excludeIds.join(',') });
+    async getArticles(limit = 20, excludeIds = [], feedType = 'recommend') {
+        const response = await this.apiClient.get(this.articlesEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
         return response?.data || response || [];
     }
 
     /**
      * @param {number} [limit=20]
      * @param {string[]} [excludeIds=[]] IDs to exclude from results to prevent duplicates
+     * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw blog data from recommendation API.
      */
-    async getBlogs(limit = 20, excludeIds = []) {
-        const response = await this.apiClient.get(this.blogsEndpoint, { limit, excludeIds: excludeIds.join(',') });
+    async getBlogs(limit = 20, excludeIds = [], feedType = 'recommend') {
+        const response = await this.apiClient.get(this.blogsEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
         return response?.data || response || [];
     }
 
     /**
      * @param {number} [limit=20]
      * @param {string[]} [excludeIds=[]] IDs to exclude from results to prevent duplicates
+     * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw course data from recommendation API.
      */
-    async getCourses(limit = 20, excludeIds = []) {
-        const response = await this.apiClient.get(this.coursesEndpoint, { limit, excludeIds: excludeIds.join(',') });
+    async getCourses(limit = 20, excludeIds = [], feedType = 'recommend') {
+        const response = await this.apiClient.get(this.coursesEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
         return response?.data || response || [];
     }
 
     /**
      * @param {number} [limit=20]
      * @param {string[]} [excludeIds=[]] IDs to exclude from results to prevent duplicates
+     * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw event data from recommendation API.
      */
-    async getEvents(limit = 20, excludeIds = []) {
-        const response = await this.apiClient.get(this.eventsEndpoint, { limit, excludeIds: excludeIds.join(',') });
+    async getEvents(limit = 20, excludeIds = [], feedType = 'recommend') {
+        const response = await this.apiClient.get(this.eventsEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
         return response?.data || response || [];
     }
 
