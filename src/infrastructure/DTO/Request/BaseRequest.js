@@ -7,9 +7,9 @@ export class BaseRequest {
     /**
      * Standard method to format the payload for Strapi.
      * Also applies security sanitization to prevent XSS and injections.
-     * @returns {object} - { data: { ... } }
+     * @returns {object} - Raw fields sanitized
      */
-    toPayload() {
+    toJSON() {
         const payload = {};
         Object.keys(this).forEach(key => {
             if (this[key] !== undefined) {
@@ -17,7 +17,7 @@ export class BaseRequest {
                 payload[key] = SecurityUtils.sanitizeData(this[key]);
             }
         });
-        return { data: payload };
+        return payload;
     }
 
     /**

@@ -1,5 +1,6 @@
 import { IApiClient } from '../../domain/interface/IApiClient';
 import { fetchWrapper } from '../../core/API/fetchWrapper';
+import { uploadWrapper } from '../../core/API/uploadWrapper';
 import qs from 'qs';
 
 /**
@@ -43,10 +44,15 @@ export class BaseRepository extends IApiClient {
         return await fetchWrapper(url, true, null, 'POST', formData);
     }
 
+    async uploadWithProgress(endpoint, formData, onProgress) {
+        const url = this.#buildUrl(endpoint);
+        return await uploadWrapper(url, true, formData, onProgress);
+    }
+
     async get(endpoint, params = {}) {
         console.log("params")
         console.log(params);
-        
+
         console.log(endpoint);
         let url = this.#buildUrl(endpoint);
 

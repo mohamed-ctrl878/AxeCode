@@ -18,7 +18,7 @@ export const useFetchBlogs = () => {
     const blogsRef = useRef([]);
     const loadingRef = useRef(false);
 
-    const fetchBlogs = useCallback(async (isInitial = true, limit = 20) => {
+    const fetchBlogs = useCallback(async (isInitial = true, limit = 20, feedType = 'recommend') => {
         if (loadingRef.current) return;
 
         try {
@@ -28,7 +28,7 @@ export const useFetchBlogs = () => {
 
             const excludeIds = isInitial ? [] : blogsRef.current.map(b => b.uid || b.id?.toString()).filter(Boolean);
 
-            const rawData = await repository.getBlogs(limit, excludeIds);
+            const rawData = await repository.getBlogs(limit, excludeIds, feedType);
             const items = Array.isArray(rawData) ? rawData : [];
 
             let newBlogs = items
@@ -50,7 +50,12 @@ export const useFetchBlogs = () => {
                 }
             }
 
-            setHasMore(items.length === limit); // Use raw items length to judge hasMore, not deduplicated
+            // Trend strictly returns up to 20, no pagination.
+            if (feedType === 'trend') {
+                setHasMore(false);
+            } else {
+                setHasMore(items.length === limit); // Use raw items length to judge hasMore, not deduplicated
+            }
 
         } catch (err) {
             setError(err.message || 'Failed to fetch blogs');
@@ -60,11 +65,24 @@ export const useFetchBlogs = () => {
         }
     }, []); // Stable identity
 
+    /**
+     * Immediately resets all blog state.
+     * Called before switching filters to unmount stale data and show a loader.
+     */
+    const resetBlogs = useCallback(() => {
+        blogsRef.current = [];
+        setBlogs([]);
+        setHasMore(true);
+        setError(null);
+        setLoading(true);
+    }, []);
+
     return {
         fetchBlogs,
         blogs,
         loading,
         error,
-        hasMore
+        hasMore,
+        resetBlogs
     };
 };

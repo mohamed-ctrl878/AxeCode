@@ -10,20 +10,22 @@ export class ArticleRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_ARTICLE;
+        this.endpoint = import.meta.env.VITE_API_ARTICLE_BASE;
     }
 
     async create(data) {
         const request = new ArticleRequest(data);
+        request.validate(); // Ensure security validation passes before sending
         return await this.apiClient.post(this.endpoint, request);
     }
 
     async update(id, data) {
         const request = new ArticleRequest(data);
+        request.validate();
         return await this.apiClient.put(this.endpoint, id, request);
     }
 
-    async like(contentId, contentType) {}
-    async comment(contentId, contentType, commentData) {}
-    async trackEngagement(contentId) {}
+    async like(contentId, contentType) { }
+    async comment(contentId, contentType, commentData) { }
+    async trackEngagement(contentId) { }
 }

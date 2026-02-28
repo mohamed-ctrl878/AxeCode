@@ -18,11 +18,13 @@ const CourseDetailsPage = lazy(() => import('../feature/course/routes/CourseDeta
 const ProblemPage = lazy(() => import('../feature/problem/routes/ProblemPage'));
 const FeedPage = lazy(() => import('../feature/feed/routes/FeedPage'));
 const ArticlePage = lazy(() => import('../feature/article/routes/ArticlePage'));
+const WriteArticlePage = lazy(() => import('../feature/article/routes/WriteArticlePage'));
 const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
 const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
+const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
 
 /**
  * AppRoutes: Centralized router.
@@ -55,6 +57,7 @@ export const AppRoutes = () => {
                 {/* Community */}
                 <Route path={PATHS.FEED} element={<FeedPage />} />
                 <Route path={PATHS.ARTICLES} element={<ArticlePage />} />
+                <Route path={`${PATHS.ARTICLES}/write`} element={<WriteArticlePage />} />
                 <Route path={PATHS.EVENTS} element={<EventPage />} />
 
                 {/* Resources */}
@@ -70,6 +73,9 @@ export const AppRoutes = () => {
 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />
+                
+                {/* Testing & Sandbox */}
+                <Route path="/flow-sandbox" element={<FlowSandboxPage />} />
             </Routes>
         </Suspense>
     );

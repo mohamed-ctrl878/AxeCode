@@ -47,6 +47,37 @@ export class UploadMediaRepository extends IUploadMediaAccess {
     }
 
     /**
+     * Uploads files with progress tracking and returns an array of MediaEntity.
+     * @param {File | FileList | Array<File>} files 
+     * @param {function} onProgress - Callback receiving integer (0-100)
+     * @returns {Promise<import('../../domain/entity/MediaEntity').MediaEntity[]>} Array of prepared Media entities.
+     */
+    async uploadFilesWithProgress(files, onProgress) {
+        this.#validateFiles(files);
+
+        const formData = new FormData();
+        const fileList = files instanceof FileList || Array.isArray(files)
+            ? Array.from(files)
+            : [files];
+
+        fileList.forEach(file => {
+            formData.append('files', file);
+        });
+
+        // Use the new API Client method that supports progress tracking
+        const results = await this.apiClient.uploadWithProgress(this.endpoint, formData, onProgress);
+
+        let dtos = [];
+        if (!Array.isArray(results)) {
+            dtos = [new UploadMediaDTO(results)];
+        } else {
+            dtos = results.map(media => new UploadMediaDTO(media));
+        }
+
+        return dtos.map(dto => EntityMapper.toUploadMedia(dto));
+    }
+
+    /**
      * Internal validation for media files.
      * @private
      */

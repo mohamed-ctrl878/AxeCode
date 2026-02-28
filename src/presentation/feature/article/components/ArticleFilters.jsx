@@ -1,6 +1,8 @@
 import React from 'react';
 import { cn } from '@core/utils/cn';
 import { TrendingUp, Compass, UserCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * ArticleFilters: Side panel for categorizing and filtering formal content.
@@ -59,9 +61,9 @@ export const ArticleFilters = ({ activeFilter = 'explore', onFilterChange, class
                     <p className="text-xs text-text-muted leading-relaxed">
                         Share your knowledge with the AxCode community.
                     </p>
-                    <button className="w-full bg-white text-black py-2 rounded-xl text-xs font-bold hover:scale-[1.02] transition-transform">
+                    <Link to={`${PATHS.ARTICLES}/write`} className="w-full bg-white text-black py-2 flex justify-center items-center rounded-xl text-xs font-bold hover:scale-[1.02] transition-transform">
                         Write Article
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
