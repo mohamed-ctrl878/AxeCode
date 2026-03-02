@@ -9,12 +9,16 @@ export class ArticleEntity extends ContentEntity {
      * @param {object|array} props.content - Blocks format
      * @param {UserEntity|null} props.author
      * @param {string} props.title
+     * @param {{ average: number, count: number }} props.rating - Overall rating stats
+     * @param {number} props.myRating - Current user's rating (0 if not rated)
      */
     constructor(props = {}) {
         super(props);
         this.content = props.content;
         this.author = props.author;
         this.title = props.title;
+        this.rating = props.rating || { average: 0, count: 0 };
+        this.myRating = props.myRating || 0;
     }
 
     /**

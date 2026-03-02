@@ -1,11 +1,15 @@
 import React from 'react';
 import { cn } from '@core/utils/cn';
+import { Link } from 'react-router-dom';
+import { MessageSquare, Star } from 'lucide-react';
+import { StarRating } from '@presentation/shared/components/StarRating';
 
 /**
  * ArticleCard: Formal content component with background-matching aesthetics.
- * Features a publisher header and a bottom-faded content preview.
+ * Features a publisher header, content preview, and interaction stats.
  */
 export const ArticleCard = ({ article, className }) => {
+    console.log(article)
     if (!article) return null;
 
     /**
@@ -20,7 +24,7 @@ export const ArticleCard = ({ article, className }) => {
     };
 
     return (
-        <div className={cn(
+        <Link to={article?.uid} className={cn(
             "relative flex flex-col gap-5 p-6 bg-background border border-border-subtle rounded-3xl",
             "transition-all duration-500 hover:border-accent-primary/30",
             "shadow-[0_10px_30px_-15px_rgba(0,0,0,0.5)]",
@@ -55,15 +59,26 @@ export const ArticleCard = ({ article, className }) => {
             {/* Content Preview with Fade-out */}
             <div className="relative overflow-hidden max-h-48">
                 <div className="text-sm text-text-muted leading-relaxed whitespace-pre-line">
-                    {article.summary || article.content || 'Detailed technical analysis of modern software architectures, focusing on the integration of clean principles and the Antigravity design system to achieve maximum scalability and maintainable codebases for high-frequency platforms...'}
+                    {article.summary || article.content || 'Detailed technical analysis of modern software architectures...'}
                 </div>
                 
-                {/* Fade-out Overlay (Simulates "There is something else but there is fog") */}
+                {/* Fade-out Overlay */}
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
             </div>
 
-            {/* Optional: Visual Indicator for 'more' within the shadow */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-border-subtle/30 rounded-full blur-[1px]" />
-        </div>
+            {/* Interaction Stats Footer */}
+            <div className="flex items-center justify-between pt-3 border-t border-border-subtle/50">
+                <div className="flex items-center gap-1.5">
+                    <StarRating value={article.rating?.average || 0} size="sm" />
+                    {article.rating?.count > 0 && (
+                        <span className="text-[10px] font-mono text-text-muted">({article.rating.count})</span>
+                    )}
+                </div>
+                <span className="flex items-center gap-1 text-xs text-text-muted font-mono">
+                    <MessageSquare size={12} /> {article.commentsCount || 0}
+                </span>
+            </div>
+        </Link>
     );
 };
+

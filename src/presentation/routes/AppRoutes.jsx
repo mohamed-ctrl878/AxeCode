@@ -18,6 +18,7 @@ const CourseDetailsPage = lazy(() => import('../feature/course/routes/CourseDeta
 const ProblemPage = lazy(() => import('../feature/problem/routes/ProblemPage'));
 const FeedPage = lazy(() => import('../feature/feed/routes/FeedPage'));
 const ArticlePage = lazy(() => import('../feature/article/routes/ArticlePage'));
+const ArticleDetailsPage = lazy(() => import('../feature/article/routes/ArticleDetailsPage'));
 const WriteArticlePage = lazy(() => import('../feature/article/routes/WriteArticlePage'));
 const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
@@ -57,6 +58,7 @@ export const AppRoutes = () => {
                 {/* Community */}
                 <Route path={PATHS.FEED} element={<FeedPage />} />
                 <Route path={PATHS.ARTICLES} element={<ArticlePage />} />
+                <Route path={PATHS.ARTICLE_DETAILS} element={<ArticleDetailsPage />} />
                 <Route path={`${PATHS.ARTICLES}/write`} element={<WriteArticlePage />} />
                 <Route path={PATHS.EVENTS} element={<EventPage />} />
 
