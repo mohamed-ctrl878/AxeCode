@@ -15,6 +15,7 @@ export const useFetchArticles = () => {
     const fetchLogic = useCallback(async (limit = 20) => {
         const rawData = await repository.getArticles(limit);
         const items = Array.isArray(rawData) ? rawData : [];
+        // console.log(items)
         return items
             .map(item => new ArticleDTO(item))
             .map(dto => EntityMapper.toArticle(dto))

@@ -91,29 +91,6 @@ export class EntityMapper {
     }
 
     /**
-     * Maps an ArticleDTO or raw article object to ArticleEntity.
-     */
-    static toArticle(data) {
-        if (!data) return null;
-        // Check if it's a DTO or raw object
-        return new ArticleEntity({
-            id: data.id,
-            uid: data.documentId,
-            createdAt: data.createdAt ? new Date(data.createdAt) : null,
-            updatedAt: data.updatedAt ? new Date(data.updatedAt) : null,
-            publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
-            engagementScore: data.engagementScore || data.engagement_score || 0,
-            tags: data.tags || [],
-            likesCount: data.likesCount || 0,
-            commentsCount: data.commentsCount || 0,
-            isLiked: !!data.isLikedByMe,
-            content: data.content,
-            author: this.toUser(data.users_permissions_user || data.author),
-            title: data.title
-        });
-    }
-
-    /**
      * Maps a LessonDTO to LessonEntity.
      */
     static toLesson(dto) {
@@ -377,6 +354,7 @@ export class EntityMapper {
      */
     static toArticle(dto) {
         if (!dto) return null;
+        // console.log("dto", dto)
         return new ArticleEntity({
             id: dto.id,
             uid: dto.documentId,
@@ -387,6 +365,9 @@ export class EntityMapper {
             tags: dto.tags,
             title: dto.title,
             content: dto.contentBlocks,
+            commentsCount: dto.interactions?.commentsCount || dto.commentsCount || 0,
+            rating: dto.interactions?.rating || { average: 0, count: 0 },
+            myRating: dto.interactions?.myRating || 0,
             author: dto.author
                 ? { username: dto.author.username, avatar: dto.author.avatar ? this.toMedia(dto.author.avatar) : null }
                 : null,

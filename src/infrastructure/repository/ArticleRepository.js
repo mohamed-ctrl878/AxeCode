@@ -13,6 +13,10 @@ export class ArticleRepository extends IContentInteraction {
         this.endpoint = import.meta.env.VITE_API_ARTICLE_BASE;
     }
 
+    async getById(id) {
+        return await this.apiClient.get(`${this.endpoint}/${id}?populate=*`);
+    }
+
     async create(data) {
         const request = new ArticleRequest(data);
         request.validate(); // Ensure security validation passes before sending

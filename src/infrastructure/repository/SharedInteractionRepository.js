@@ -88,6 +88,22 @@ export class SharedInteractionRepository extends IContentInteraction {
     }
 
     /**
+     * Submits or toggles a rating for content.
+     * Endpoint: POST /api/rates (Upsert/Toggle logic on backend)
+     * @param {string|number} docId
+     * @param {string} contentType - e.g. 'article', 'course'
+     * @param {number} rateValue - 1 to 5
+     */
+    async rate(docId, contentType, rateValue) {
+        const body = {
+            content_types: contentType,
+            docId: docId.toString(),
+            rate: Number(rateValue)
+        };
+        return await this.apiClient.post('/api/rates', body);
+    }
+
+    /**
      * Submits a report
      * Endpoint: POST /api/reports
      * @param {string|number} docId
