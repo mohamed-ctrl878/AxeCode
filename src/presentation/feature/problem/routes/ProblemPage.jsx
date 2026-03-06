@@ -5,6 +5,8 @@ import { CourseCard } from '../../course/components/CourseCard';
 import { useFetchProblems } from '@domain/useCase/useFetchProblems';
 import { useFetchRecommendedCourses } from '@domain/useCase/useFetchRecommendedCourses';
 import { Code2, Sparkles, Filter, List, Loader2, AlertCircle } from 'lucide-react';
+import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
+import { ProblemRowSkeleton } from '@presentation/shared/components/skeletons/ProblemRowSkeleton';
 
 /**
  * ProblemPage: Coding challenges hub.
@@ -55,8 +57,8 @@ export const ProblemPage = () => {
                 </div>
 
                 {coursesLoading ? (
-                    <div className="flex items-center justify-center py-12">
-                        <Loader2 size={24} className="animate-spin text-accent-primary" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[1, 2, 3, 4].map(i => <CourseCardSkeleton key={i} />)}
                     </div>
                 ) : coursesError ? (
                     <div className="flex items-center gap-2 p-4 text-sm text-red-400 bg-red-500/10 rounded-sm border border-red-500/20">
@@ -86,7 +88,7 @@ export const ProblemPage = () => {
                         <h2 className="font-bold tracking-wide uppercase text-xs">All Challenges</h2>
                     </div>
                     <div className="text-[10px] text-text-muted font-bold uppercase tracking-widest">
-                        {problemsLoading ? 'Loading...' : `Showing ${displayProblems.length} Problems`}
+                        {problemsLoading ? 'Loading Challenges...' : `Showing ${displayProblems.length} Problems`}
                     </div>
                 </div>
 
@@ -109,8 +111,8 @@ export const ProblemPage = () => {
 
                     <div className="p-2 flex flex-col gap-1">
                         {problemsLoading ? (
-                            <div className="flex items-center justify-center py-16">
-                                <Loader2 size={24} className="animate-spin text-accent-primary" />
+                            <div className="flex flex-col gap-1">
+                                {[1, 2, 3, 4, 5].map(i => <ProblemRowSkeleton key={i} />)}
                             </div>
                         ) : problemsError ? (
                             <div className="flex items-center justify-center gap-2 py-16 text-sm text-red-400">

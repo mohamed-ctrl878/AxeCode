@@ -7,6 +7,7 @@ import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
 import { useUI } from '../provider/UIProvider';
 import { PATHS } from '../../routes/paths';
+import AxeIcon from '../components/AxeIcon';
 
 /**
  * MainLayout: Implements the Bento Grid and core structural boundaries.
@@ -34,20 +35,24 @@ export const MainLayout = ({ children, className }) => {
         <div className="min-h-screen bg-background text-text-primary overflow-x-hidden">
             {/* Global Main Loader UI */}
             {authLoading && (
-                <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background/80 backdrop-blur-md">
-                    <div className="flex flex-col items-center gap-6 p-8 rounded-3xl bento-card glass-morphism border-accent-primary/20">
-                        <div className="relative w-16 h-16">
-                            <div className="absolute inset-0 rounded-full border-4 border-accent-primary/20" />
-                            <div className="absolute inset-0 rounded-full border-4 border-t-accent-primary animate-spin" />
-                        </div>
-                        <div className="flex flex-col items-center gap-2">
-                            <span className="text-accent-primary font-mono text-xs tracking-[0.3em] uppercase animate-pulse">
-                                Restoring Session
+                <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background">
+                    <div className="flex flex-col items-center gap-12 relative">
+                        <AxeIcon size="120px" className="animate-pulse" />
+                        
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="flex flex-col items-center gap-2">
+                                <span className="text-accent-primary font-mono text-sm tracking-[0.4em] uppercase animate-pulse">
+                                    Restoring Session
+                                </span>
+                                <div className="h-[1px] w-32 bg-gradient-to-r from-transparent via-accent-primary/50 to-transparent" />
+                            </div>
+                            <span className="text-text-muted text-[10px] font-medium uppercase tracking-[0.2em] opacity-40">
+                                Powered by Axe Engine
                             </span>
-                            <span className="text-text-muted text-[10px] font-medium uppercase tracking-widest opacity-60">
-                                Verifying Security Identity
-                            </span>
                         </div>
+
+                        {/* Background Aura */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent-primary/5 blur-[120px] rounded-full -z-10" />
                     </div>
                 </div>
             )}

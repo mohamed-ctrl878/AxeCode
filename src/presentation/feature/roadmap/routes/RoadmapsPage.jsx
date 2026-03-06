@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { RoadmapCard } from '../components/RoadmapCard';
 import { useFetchRoadmaps } from '@domain/useCase/useFetchRoadmaps';
-import { Loader2, AlertTriangle, Map } from 'lucide-react';
+import { AlertTriangle, Map } from 'lucide-react';
+import { RoadmapCardSkeleton } from '@presentation/shared/components/skeletons/RoadmapCardSkeleton';
 
 /**
  * RoadmapsPage: Displays all learning path roadmaps.
@@ -33,9 +34,8 @@ const RoadmapsPage = () => {
 
             {/* Content */}
             {loading ? (
-                <div className="flex items-center justify-center py-20 gap-2 text-text-muted">
-                    <Loader2 size={20} className="animate-spin text-accent-primary" />
-                    <span className="text-sm font-mono">Loading roadmaps...</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map(i => <RoadmapCardSkeleton key={i} />)}
                 </div>
             ) : error ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-4">

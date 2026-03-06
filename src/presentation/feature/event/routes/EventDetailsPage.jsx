@@ -7,6 +7,7 @@ import { EventSchedule } from '../components/EventSchedule';
 import { EventSpeakers } from '../components/EventSpeakers';
 import { RichBlocksPreviewer } from '@presentation/shared/components/RichBlocksPreviewer';
 import { InteractionBar } from '@presentation/shared/components/interactions/InteractionBar';
+import { EventDetailsSkeleton } from '@presentation/shared/components/skeletons/EventDetailsSkeleton';
 
 /**
  * EventDetailsPage - Main compositor for the single event view.
@@ -23,12 +24,7 @@ const EventDetailsPage = () => {
     }, [id, fetchEvent]);
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <div className="w-12 h-12 border-4 border-accent-primary border-t-transparent rounded-full animate-spin" />
-                <p className="text-sm font-bold text-text-muted tracking-widest uppercase">Initializing Event Data...</p>
-            </div>
-        );
+        return <EventDetailsSkeleton />;
     }
 
     if (error || !event) {

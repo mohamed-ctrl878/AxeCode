@@ -14,6 +14,7 @@ import { ArticleContentRenderer } from '../components/ArticleContentRenderer';
 import { ArticleRatingFooter } from '../components/ArticleRatingFooter';
 import { InlineComments } from '@presentation/shared/components/interactions/InlineComments';
 import { MessageSquare } from 'lucide-react';
+import { ArticleDetailsSkeleton } from '@presentation/shared/components/skeletons/ArticleDetailsSkeleton';
 
 /**
  * ArticleDetailsPage - Page-level compositor.
@@ -68,11 +69,7 @@ const ArticleDetailsPage = () => {
 
     // --- Render States ---
     if (loading) {
-        return (
-            <div className="md:col-span-12 flex justify-center py-20">
-                <div className="w-8 h-8 rounded-full border-2 border-accent-primary border-t-transparent animate-spin" />
-            </div>
-        );
+        return <ArticleDetailsSkeleton />;
     }
 
     if (error) {
