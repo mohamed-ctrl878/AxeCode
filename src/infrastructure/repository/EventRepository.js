@@ -11,17 +11,22 @@ export class EventRepository extends IEventInteraction {
         super();
         this.apiClient = apiClient;
         this.endpoint = import.meta.env.VITE_API_EVENTS;
+        this.endpointBase = import.meta.env.VITE_API_EVENTS_BASE;
     }
 
     async create(data) {
         const request = new EventRequest(data);
-        return await this.apiClient.post(this.endpoint, request);
+        return await this.apiClient.post(this.endpointBase, request);
+    }
+
+    async getById(id) {
+        return await this.apiClient.get(`${this.endpointBase}/${id}?populate=*`);
     }
 
     async update(id, data) {
         const request = new EventRequest(data);
-        return await this.apiClient.put(this.endpoint, id, request);
+        return await this.apiClient.put(this.endpointBase, id, request);
     }
 
-    async registerForEvent(eventId) {}
+    async registerForEvent(eventId) { }
 }

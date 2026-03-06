@@ -180,17 +180,38 @@ export class EntityMapper {
             publishedAt: dto.publishedAt,
             engagementScore: dto.engagementScore,
             tags: dto.tags,
-            likesCount: dto.likesCount,
-            commentsCount: dto.commentsCount,
-            isLiked: dto.isLiked,
+            likesCount: dto.interactions?.likesCount || dto.likesCount || 0,
+            commentsCount: dto.interactions?.commentsCount || dto.commentsCount || 0,
+            isLiked: dto.interactions?.isLikedByMe || dto.interactions?.isLiked || dto.isLikedByMe || false,
+            rating: dto.interactions?.rating || { average: 0, count: 0 },
+            myRating: dto.interactions?.myRating || 0,
             title: dto.title,
-            type: dto.type,
-            startDate: dto.startDate,
-            endDate: dto.endDate,
+            type: dto.onsite && dto.live_streaming ? 'Hybrid' : dto.onsite ? 'Onsite' : dto.live_streaming ? 'Live' : 'Event',
+            startDate: dto.date, // Note: dto.date handles startDate
+            endDate: dto.date,   // Assuming one day event mostly based on Strapi response, could be enhanced
             location: dto.location,
-            cover: this.toMedia(dto.cover),
+            cover: dto.images?.size > 0 ? this.toMedia(Array.from(dto.images.values())[0]) : null,
+            images: Array.from(dto.images?.values() || []).map(img => this.toMedia(img)),
             price: dto.price,
-            registeredCount: dto.registeredCount
+            registeredCount: dto.studentCount,
+            hasAccess: dto.hasAccess,
+            description: dto.description,
+            duration: dto.duration,
+            entitlementsId: dto.entitlementsId,
+            speakers: Array.from(dto.speakers?.values() || []).map(s => ({
+                id: s.id,
+                name: s.name,
+                title: s.title,
+                linkedin: s.linkedin,
+                avatar: s.userId ? null : null // Currently SpeakerDTO doesn't have avatar extracted directly without relationship mapping
+            })),
+            activities: Array.from(dto.event_activities?.values() || []).map(a => ({
+                id: a.id,
+                title: a.title,
+                description: a.description,
+                time: a.time
+            })),
+            organizer: dto.organizer ? this.toUser(dto.organizer) : null
         });
     }
 
@@ -295,8 +316,43 @@ export class EntityMapper {
             engagementScore: dto.engagementScore,
             tags: dto.tags,
             title: dto.title,
+            slug: dto.slug,
             difficulty: dto.difficulty,
             description: dto.description,
+            constraints: dto.constraints,
+            examples: dto.examples,
+            hints: dto.hints,
+            functionName: dto.functionName,
+            functionParams: dto.functionParams,
+            returnType: dto.returnType,
+            timeLimit: dto.timeLimit,
+            memoryLimit: dto.memoryLimit,
+            submissionStatus: dto.submissionStatus || 'New',
+
+            // Nested relations
+            testCases: Array.from(dto.test_cases?.values?.() || []).map(tc => ({
+                id: tc.id,
+                input: tc.input,
+                expectedOutput: tc.expectedOutput,
+                isHidden: tc.isHidden,
+                order: tc.order
+            })),
+            codeTemplates: Array.from(dto.code_templates?.values?.() || []).map(tpl => ({
+                id: tpl.id,
+                language: tpl.language,
+                starterCode: tpl.starterCode,
+                wrapperCode: tpl.wrapperCode
+            })),
+            problemTypes: Array.from(dto.problem_types?.values?.() || []).map(pt => ({
+                id: pt.id,
+                name: pt.name || pt.title
+            })),
+
+            // Interactions
+            likesCount: dto.interactions?.likesCount || 0,
+            isLiked: dto.interactions?.isLikedByMe || false,
+            commentsCount: dto.interactions?.commentsCount || 0,
+
             availableLanguages: dto.availableLanguages,
             points: dto.points
         });

@@ -7,12 +7,18 @@ import { useFetchArticles } from '@domain/useCase/useFetchArticles';
  * ArticlePage: Full-screen layout with side filtration and vertical content list.
  */
 const ArticlePage = () => {
-    const [filter, setFilter] = useState('explore');
+    const [filter, setFilter] = useState('related');
     const { fetchArticles, articles, loading, error } = useFetchArticles();
 
     useEffect(() => {
-        fetchArticles();
-    }, [fetchArticles]);
+        // Map UI filter to backend feedType
+        const feedMap = {
+            'explore': 'trend',
+            'related': 'recommend',
+            'top': 'top'
+        };
+        fetchArticles(20, feedMap[filter] || 'recommend');
+    }, [filter, fetchArticles]);
 
     return (
         <React.Fragment>

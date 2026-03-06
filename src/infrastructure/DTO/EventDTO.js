@@ -14,7 +14,7 @@ export class EventDTO extends BaseContentDTO {
         if (Array.isArray(data.image)) {
             data.image.forEach(img => this.images.set(img.id, new MediaDTO(img)));
         }
-        
+
         this.date = data.date ? new Date(data.date) : null; // {Date | null}
         this.onsite = !!data.onsite; // {boolean}
         this.live_streaming = !!data.live_streaming; // {boolean}
@@ -24,6 +24,7 @@ export class EventDTO extends BaseContentDTO {
         this.studentCount = data.student_count || 0; // {number}
         this.hasAccess = data.hasAccess || false; // {boolean}
         this.entitlementsId = data.entitlementsId; // {string | null}
+        this.interactions = data.interactions || {}; // {object} - from InteractionFacade
 
         // Detailed Entitlement
         this.entitlement = data.entitlement ? new EntitlementDTO(data.entitlement) : null; // {EntitlementDTO | null}

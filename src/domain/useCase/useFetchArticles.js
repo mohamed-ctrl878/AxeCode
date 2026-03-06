@@ -12,8 +12,8 @@ import { EntityMapper } from '@domain/mapper/EntityMapper';
 export const useFetchArticles = () => {
     const repository = new RecommendationRepository();
 
-    const fetchLogic = useCallback(async (limit = 20) => {
-        const rawData = await repository.getArticles(limit);
+    const fetchLogic = useCallback(async (limit = 20, feedType = 'recommend') => {
+        const rawData = await repository.getArticles(limit, [], feedType);
         const items = Array.isArray(rawData) ? rawData : [];
         // console.log(items)
         return items
