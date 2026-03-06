@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Play, CheckCircle2, Circle, AlertCircle } from 'lucide-react';
 import { cn } from '@core/utils/cn';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * ProblemRow: Elegant table row for coding challenges.
@@ -49,9 +51,9 @@ export const ProblemRow = ({ problem }) => {
                     {difficulty}
                 </span>
 
-                <button className="w-10 h-10 rounded-xl bg-surface-dark border border-white/5 flex items-center justify-center text-text-muted hover:text-accent-primary hover:border-accent-primary/50 transition-all active:scale-90">
+                <Link to={`${PATHS.PROBLEMS}/${problem.documentId}`} className="w-10 h-10 rounded-xl bg-surface-dark border border-white/5 flex items-center justify-center text-text-muted hover:text-accent-primary hover:border-accent-primary/50 transition-all active:scale-90">
                     <Play size={16} fill="currentColor" className="ml-0.5" />
-                </button>
+                </Link>
             </div>
         </div>
     );

@@ -16,11 +16,13 @@ const PlaceholderPage = ({ title }) => (
 const CoursePage = lazy(() => import('../feature/course/routes/CoursePage'));
 const CourseDetailsPage = lazy(() => import('../feature/course/routes/CourseDetailsPage'));
 const ProblemPage = lazy(() => import('../feature/problem/routes/ProblemPage'));
+const ProblemPreviewPage = lazy(() => import('../feature/problem/routes/ProblemPreviewPage'));
 const FeedPage = lazy(() => import('../feature/feed/routes/FeedPage'));
 const ArticlePage = lazy(() => import('../feature/article/routes/ArticlePage'));
 const ArticleDetailsPage = lazy(() => import('../feature/article/routes/ArticleDetailsPage'));
 const WriteArticlePage = lazy(() => import('../feature/article/routes/WriteArticlePage'));
 const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
+const EventDetailsPage = lazy(() => import('../feature/event/routes/EventDetailsPage'));
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
@@ -48,6 +50,7 @@ export const AppRoutes = () => {
                 <Route path={PATHS.COURSES} element={<CoursePage />} />
                 <Route path={`${PATHS.COURSES}/:documentId`} element={<CourseDetailsPage />} />
                 <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />
+                <Route path={`${PATHS.PROBLEMS}/:id`} element={<ProblemPreviewPage />} />
 
 
                 <Route path={PATHS.ROADMAPS} element={<RoadmapsPage />} />
@@ -61,6 +64,7 @@ export const AppRoutes = () => {
                 <Route path={PATHS.ARTICLE_DETAILS} element={<ArticleDetailsPage />} />
                 <Route path={`${PATHS.ARTICLES}/write`} element={<WriteArticlePage />} />
                 <Route path={PATHS.EVENTS} element={<EventPage />} />
+                <Route path={`${PATHS.EVENTS}/:id`} element={<EventDetailsPage />} />
 
                 {/* Resources */}
                 <Route path={PATHS.MEDIA} element={<PlaceholderPage title="Media Assets" />} />

@@ -16,6 +16,8 @@ export class ProblemDTO extends BaseContentDTO {
         this.timeLimit = data.timeLimit || 2000; // {number}
         this.memoryLimit = data.memoryLimit || 256000; // {number}
         this.public = !!data.public; // {boolean}
+        this.interactions = data.interactions || {}; // {object} - from InteractionFacade
+        this.submissionStatus = data.submissionStatus || 'New'; // {string} - Derived server-side
 
         /**
          * Relationships

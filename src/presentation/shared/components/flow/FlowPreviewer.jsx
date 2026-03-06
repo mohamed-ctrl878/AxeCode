@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { ReactFlow, Controls, Background, MiniMap } from '@xyflow/react';
+import { ReactFlow, Controls, Background, MiniMap, ReactFlowProvider } from '@xyflow/react';
+import '@xyflow/react/dist/style.css'; // CRITICAL: Missing CSS on details page
 import { RichTextNode } from './nodes/RichTextNode';
 
 const nodeTypes = {
@@ -14,7 +15,7 @@ const nodeTypes = {
  * @param {Array} edges - ReactFlow edges array
  * @param {string} className - Optional container styling
  */
-export const FlowPreviewer = ({ nodes = [], edges = [], className }) => {
+const FlowPreviewerInner = ({ nodes = [], edges = [], className }) => {
     
     // Inject safeguards into nodes to prevent them from entering Edit mode on double click
     const lockedNodes = useMemo(() => {
@@ -50,3 +51,9 @@ export const FlowPreviewer = ({ nodes = [], edges = [], className }) => {
         </div>
     );
 };
+
+export const FlowPreviewer = (props) => (
+    <ReactFlowProvider>
+        <FlowPreviewerInner {...props} />
+    </ReactFlowProvider>
+);

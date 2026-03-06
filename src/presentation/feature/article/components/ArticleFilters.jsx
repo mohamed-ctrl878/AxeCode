@@ -8,7 +8,7 @@ import { PATHS } from '@presentation/routes/paths';
  * ArticleFilters: Side panel for categorizing and filtering formal content.
  * Follows Antigravity minimalist aesthetic with clear active states.
  */
-export const ArticleFilters = ({ activeFilter = 'explore', onFilterChange, className }) => {
+export const ArticleFilters = ({ activeFilter = 'related', onFilterChange, className }) => {
     const filters = [
         { id: 'top', label: 'Top Rated', icon: TrendingUp },
         { id: 'explore', label: 'Explore', icon: Compass },

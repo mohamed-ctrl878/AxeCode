@@ -25,6 +25,24 @@ export class EventEntity extends ContentEntity {
         this.cover = props.cover;
         this.price = props.price;
         this.registeredCount = props.registeredCount || 0;
+        this.hasAccess = props.hasAccess || false;
+
+        // Detailed fields
+        this.description = props.description; // rich text blocks
+        this.duration = props.duration;
+        this.entitlementsId = props.entitlementsId;
+        this.entitlement = props.entitlement; // EntitlementEntity
+        this.speakers = props.speakers || [];
+        this.activities = props.activities || [];
+        this.organizer = props.organizer;
+        this.images = props.images || []; // all gallery images
+
+        // Interactions
+        this.likesCount = props.likesCount || 0;
+        this.commentsCount = props.commentsCount || 0;
+        this.isLiked = props.isLiked || false;
+        this.rating = props.rating || { average: 0, count: 0 };
+        this.myRating = props.myRating || 0;
     }
 
     /**
