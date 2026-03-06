@@ -3,8 +3,9 @@ import { CourseCard } from '../components/CourseCard';
 import { EventRecommendedCard } from '../components/EventRecommendedCard';
 import { useFetchRecommendedCourses } from '@domain/useCase/useFetchRecommendedCourses';
 import { useFetchRecommendedEvents } from '@domain/useCase/useFetchRecommendedEvents';
-import { Search, ChevronRight, Sparkles, Map, BookOpen, Loader2, AlertTriangle } from 'lucide-react';
-
+import { Search, ChevronRight, Sparkles, Map, BookOpen, AlertTriangle } from 'lucide-react';
+import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
+import { EventRecommendedCardSkeleton } from '@presentation/shared/components/skeletons/EventRecommendedCardSkeleton';
 
 /**
  * CoursePage: Dashboard for learning content.
@@ -50,9 +51,12 @@ export const CoursePage = () => {
                     </div>
 
                     {eventsLoading ? (
-                        <div className="flex items-center justify-center py-8 gap-2 text-text-muted">
-                            <Loader2 size={16} className="animate-spin text-accent-blue" />
-                            <span className="text-xs font-mono">Loading events...</span>
+                        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="min-w-[280px]">
+                                    <EventRecommendedCardSkeleton />
+                                </div>
+                            ))}
                         </div>
                     ) : eventsError ? (
                         <div className="flex items-center justify-center py-8 gap-2 text-accent-rose">
@@ -103,11 +107,11 @@ export const CoursePage = () => {
                 </div>
 
                 {coursesLoading ? (
-                    <div className="flex items-center justify-center py-12 gap-2 text-text-muted">
-                        <Loader2 size={20} className="animate-spin text-accent-blue" />
-                        <span className="text-sm font-mono">Loading courses...</span>
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                        {[1, 2, 3, 4, 5].map(i => <CourseCardSkeleton key={i} />)}
                     </div>
-                ) : coursesError ? (
+                ) :
+ coursesError ? (
                     <div className="flex items-center justify-center py-12 gap-2 text-accent-rose">
                         <AlertTriangle size={20} />
                         <span className="text-sm font-mono">Failed to load courses</span>

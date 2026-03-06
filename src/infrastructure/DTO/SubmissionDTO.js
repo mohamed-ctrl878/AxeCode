@@ -9,7 +9,11 @@ export class SubmissionDTO extends BaseContentDTO {
         this.verdict = data.verdict || 'pending'; // {string}
         this.executionTime = data.executionTime; // {number}
         this.memoryUsed = data.memoryUsed; // {number}
-        this.judgeOutput = data.judgeOutput; // {object}
+        /**
+         * @type {object} 
+         * @property {Array<{actualOutput: any, userStdout: string, verdict: string, expectedOutput: any}>} results
+         */
+        this.judgeOutput = data.judgeOutput;
         this.testCasesPassed = data.testCasesPassed || 0; // {number}
         this.totalTestCases = data.totalTestCases || 0; // {number}
 

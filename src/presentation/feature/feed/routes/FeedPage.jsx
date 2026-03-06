@@ -5,6 +5,7 @@ import { EventAds } from '../components/EventAds';
 import { FeedFilters } from '../components/FeedFilters';
 import { CreateBlogModal } from '../components/CreateBlogModal';
 import { useFetchBlogs } from '@domain/useCase/useFetchBlogs';
+import { FeedItemSkeleton } from '@presentation/shared/components/skeletons/FeedItemSkeleton';
 
 /**
  * FeedPage: Assembly of social and knowledge components.
@@ -72,13 +73,12 @@ const FeedPage = () => {
             <div className="md:col-span-9 flex flex-col gap-6">
                 <CreatePost onClick={() => setIsCreateModalOpen(true)} />
                 
-                {/* Full-screen loader shown only during initial load / filter switch */}
+                {/* Content skeletons shown during initial load / filter switch */}
                 {isInitialLoad && (
-                    <div className="flex flex-col items-center justify-center py-20 gap-4">
-                        <div className="w-10 h-10 border-2 border-accent-primary border-t-transparent rounded-full animate-spin" />
-                        <span className="text-xs text-text-muted font-mono uppercase tracking-widest animate-pulse">
-                            Loading {activeFilter === 'trend' ? 'Trending' : 'Recommended'} feed...
-                        </span>
+                    <div className="flex flex-col gap-6">
+                        {[1, 2, 3].map((i) => (
+                            <FeedItemSkeleton key={i} />
+                        ))}
                     </div>
                 )}
 

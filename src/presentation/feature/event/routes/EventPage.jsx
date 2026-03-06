@@ -3,6 +3,7 @@ import { EventCard } from '../components/EventCard';
 import { EventFilters } from '../components/EventFilters';
 import { useFetchRecommendedEventsForPage } from '@domain/useCase/useFetchRecommendedEventsForPage';
 import { Loader2, AlertTriangle } from 'lucide-react';
+import { EventCardSkeleton } from '@presentation/shared/components/skeletons/EventCardSkeleton';
 
 /**
  * EventPage: Core layout for exploring and registering for events.
@@ -20,9 +21,8 @@ const EventPage = () => {
             {/* Main Content (9 cols) - Responsive Grid */}
             <div className="md:col-span-9 order-1">
                 {loading ? (
-                    <div className="flex items-center justify-center py-16 gap-2 text-text-muted">
-                        <Loader2 size={20} className="animate-spin text-accent-primary" />
-                        <span className="text-sm font-mono">Loading events...</span>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                        {[1, 2, 3, 4, 5, 6].map(i => <EventCardSkeleton key={i} />)}
                     </div>
                 ) : error ? (
                     <div className="flex items-center justify-center py-16 gap-2 text-red-400">

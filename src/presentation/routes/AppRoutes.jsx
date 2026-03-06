@@ -25,6 +25,7 @@ const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
 const EventDetailsPage = lazy(() => import('../feature/event/routes/EventDetailsPage'));
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
+const RoadmapDetailsPage = lazy(() => import('../feature/roadmap/routes/RoadmapDetailsPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
 const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
 const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
@@ -54,6 +55,7 @@ export const AppRoutes = () => {
 
 
                 <Route path={PATHS.ROADMAPS} element={<RoadmapsPage />} />
+                <Route path={PATHS.ROADMAP_DETAILS} element={<RoadmapDetailsPage />} />
 
                 {/* Management */}
                 <Route path={PATHS.CONTENT_MANAGEMENT} element={<CMSPage />} />

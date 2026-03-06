@@ -6,6 +6,7 @@ import { CourseAbout } from '../components/CourseAbout';
 import { CourseCurriculum } from '../components/CourseCurriculum';
 import { CourseActionSidebar } from '../components/CourseActionSidebar';
 import { useFetchCoursePreview } from '@domain/useCase/useFetchCoursePreview';
+import { CourseDetailsSkeleton } from '@presentation/shared/components/skeletons/CourseDetailsSkeleton';
 
 /**
  * CourseDetailsPage: Assembly of course details components.
@@ -24,11 +25,7 @@ const CourseDetailsPage = () => {
     }, [documentId]);
 
     if (loading) {
-        return (
-            <div className="md:col-span-12 flex items-center justify-center min-h-[60vh]">
-                <Loader2 size={40} className="animate-spin text-accent-primary" />
-            </div>
-        );
+        return <CourseDetailsSkeleton />;
     }
 
     if (error) {

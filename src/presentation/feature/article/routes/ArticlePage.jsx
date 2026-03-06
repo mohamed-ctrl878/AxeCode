@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArticleCard } from '../components/ArticleCard';
 import { ArticleFilters } from '../components/ArticleFilters';
 import { useFetchArticles } from '@domain/useCase/useFetchArticles';
+import { ArticleCardSkeleton } from '@presentation/shared/components/skeletons/ArticleCardSkeleton';
 
 /**
  * ArticlePage: Full-screen layout with side filtration and vertical content list.
@@ -25,8 +26,8 @@ const ArticlePage = () => {
             {/* Main Content Column (Articles) */}
             <div className="md:col-span-9 lg:col-span-9 order-1 md:order-2 flex flex-col gap-8">
                 {loading && (
-                    <div className="flex justify-center py-12">
-                        <div className="w-8 h-8 border-2 border-accent-primary border-t-transparent rounded-full animate-spin" />
+                    <div className="flex flex-col gap-8">
+                        {[1, 2, 3].map(i => <ArticleCardSkeleton key={i} />)}
                     </div>
                 )}
 

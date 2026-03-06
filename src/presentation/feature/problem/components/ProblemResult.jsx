@@ -32,8 +32,8 @@ const renderJudgeOutput = (output) => {
                                     Test Case {i + 1}: {res.verdict?.replace(/_/g, ' ')}
                                 </span>
                                 <div className="flex items-center gap-4 text-[10px] text-text-muted">
-                                    <span className="flex items-center gap-1"><Clock size={10} /> {res.time}s</span>
-                                    <span>{res.memory} KB</span>
+                                    <span className="flex items-center gap-1"><Clock size={10} /> {res.time}ms</span>
+                                    <span>{res.memory >= 1024 ? `${(res.memory / 1024).toFixed(1)}MB` : `${res.memory}KB`}</span>
                                 </div>
                             </div>
 
@@ -44,25 +44,44 @@ const renderJudgeOutput = (output) => {
                                 </div>
                             )}
 
-                            {/* Show Difference if Wrong Answer */}
-                            {!isPass && res.verdict === 'wrong_answer' && (
-                                <div className="flex flex-col gap-2 mt-1">
-                                    <div className="space-y-1">
-                                        <div className="text-[10px] text-text-muted uppercase tracking-wider">Expected:</div>
-                                        <div className="p-2 bg-[#1e1e2e] rounded text-xs font-mono">{JSON.stringify(res.expectedOutput)}</div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="text-[10px] text-text-muted uppercase tracking-wider">Actual:</div>
-                                        <div className="p-2 bg-red-500/10 border border-red-500/20 text-red-300 rounded text-xs font-mono">{JSON.stringify(res.actualOutput)}</div>
+                            {/* Actual Return Value (Result) */}
+                            {res.actualOutput !== undefined && res.actualOutput !== null && (
+                                <div className="space-y-1 mt-1">
+                                    <div className="text-[10px] text-text-muted uppercase tracking-wider flex items-center gap-1">Result:</div>
+                                    <div className={cn(
+                                        "p-2 bg-[#1e1e2e] rounded text-xs font-mono border",
+                                        isPass ? "border-green-500/20 text-green-300" : "border-red-500/20 text-red-300"
+                                    )}>
+                                        {JSON.stringify(res.actualOutput)}
                                     </div>
                                 </div>
                             )}
 
-                            {/* Standard Output Logs */}
-                            {res.stdout && typeof res.stdout === 'string' && res.stdout.trim() !== '' && (
+                            {/* Standard Output Logs (User Prints) */}
+                            {res.userStdout && typeof res.userStdout === 'string' && res.userStdout.trim() !== '' && (
                                 <div className="space-y-1 mt-1">
                                     <div className="text-[10px] text-text-muted uppercase tracking-wider flex items-center gap-1"><FileText size={10} /> Stdout:</div>
-                                    <div className="p-2 bg-[#1e1e2e] rounded text-[10px] text-text-primary font-mono whitespace-pre-wrap max-h-24 overflow-y-auto custom-scrollbar">
+                                    <div className="p-2 bg-text-primary/5 rounded text-[10px] text-text-muted font-mono whitespace-pre-wrap max-h-24 overflow-y-auto custom-scrollbar">
+                                        {res.userStdout}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Expected Output */}
+                            {res.expectedOutput !== undefined && res.expectedOutput !== null && (
+                                <div className="space-y-1 mt-1">
+                                    <div className="text-[10px] text-text-muted uppercase tracking-wider flex items-center gap-1">Expected:</div>
+                                    <div className="p-2 bg-white/5 rounded text-xs font-mono border border-white/5 text-text-muted">
+                                        {JSON.stringify(res.expectedOutput)}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Fallback for legacy stdout if userStdout is missing */}
+                            {!res.userStdout && res.stdout && typeof res.stdout === 'string' && res.stdout.trim() !== '' && !res.stdout.includes('AXECODE') && (
+                                <div className="space-y-1 mt-1">
+                                    <div className="text-[10px] text-text-muted uppercase tracking-wider flex items-center gap-1"><FileText size={10} /> Stdout:</div>
+                                    <div className="p-2 bg-text-primary/5 rounded text-[10px] text-text-muted font-mono whitespace-pre-wrap max-h-24 overflow-y-auto custom-scrollbar">
                                         {res.stdout}
                                     </div>
                                 </div>
@@ -150,7 +169,11 @@ export const ProblemResult = ({ result = null, isLoading = false }) => {
                 {result.memoryUsed != null && (
                     <div className="flex items-center gap-2 text-xs">
                         <span className="text-text-muted">Memory:</span>
-                        <span className="font-bold text-text-primary">{Math.round(result.memoryUsed / 1024)}KB</span>
+                        <span className="font-bold text-text-primary">
+                            {result.memoryUsed >= 1024 
+                                ? `${(result.memoryUsed / 1024).toFixed(1)}MB` 
+                                : `${result.memoryUsed}KB`}
+                        </span>
                     </div>
                 )}
             </div>
