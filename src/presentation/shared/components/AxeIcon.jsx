@@ -2,17 +2,21 @@ import React from 'react';
 
 /**
  * AxeIcon - A premium, animated SVG component representing a glowing axe with veins.
- * Used as a decorative icon or brand element across the application.
+ * This version features:
+ * 1. Bidirectional "Pulsing Flow" animation: Light flows from the jewel to the tips and back.
+ * 2. Optional hover-only animation trigger.
+ * 3. Enhanced glow and premium whole-body pulse.
  * 
  * @param {Object} props
  * @param {string} [props.className] - Optional CSS classes
  * @param {string|number} [props.size] - Optional size (applied to container)
+ * @param {boolean} [props.playOnHover] - If true, animations only run when hovered
  * @returns {JSX.Element}
  */
-const AxeIcon = ({ className = '', size = '100%' }) => {
+const AxeIcon = ({ className = '', size = '100%', playOnHover = false }) => {
   return (
     <div 
-      className={`axe-icon-container ${className}`} 
+      className={`axe-icon-container ${playOnHover ? 'play-on-hover' : ''} ${className}`} 
       style={{ 
         width: size, 
         height: size, 
@@ -25,7 +29,7 @@ const AxeIcon = ({ className = '', size = '100%' }) => {
       <style>
         {`
           .axe-icon-container {
-            overflow: hidden;
+            overflow: visible;
           }
 
           /* Vein Styles */
@@ -34,79 +38,54 @@ const AxeIcon = ({ className = '', size = '100%' }) => {
               fill: none;
               stroke-linecap: round;
               stroke-linejoin: round;
-              filter: url(#axe-glow);
-              animation: axe-pulse-vein 2s infinite alternate ease-in-out;
+              filter: url(#axe-strongGlow);
+              stroke-dasharray: 1000;
+              stroke-dashoffset: 1000;
+              stroke-width: 3.5px;
+              animation: axe-bidirectional-flow 4s ease-in-out infinite;
           }
 
           .vein-core {
               stroke: #ffffff;
               fill: none;
               stroke-linecap: round;
-              animation: axe-pulse-core 2s infinite alternate ease-in-out;
+              stroke-dasharray: 1000;
+              stroke-dashoffset: 1000;
+              stroke-width: 1.5px;
+              animation: axe-bidirectional-flow 4s ease-in-out infinite;
           }
 
-          /* Blue Flame Styles */
-          .flame-outer {
-              fill: #0066ff;
-              filter: url(#axe-strongGlow);
-              animation: axe-flicker 0.6s infinite alternate ease-in-out;
-              opacity: 0.7;
-              transform-origin: center;
+          /* Sequential Delays starting from Jewel outwards */
+          .vein-handle { animation-delay: 0.2s; }
+          .vein-inner { animation-delay: 0s; }
+          .vein-outer { animation-delay: 0.5s; }
+
+          @keyframes axe-bidirectional-flow {
+              0% { stroke-dashoffset: 1000; opacity: 0.2; }
+              45%, 55% { stroke-dashoffset: 0; opacity: 1; }
+              100% { stroke-dashoffset: 1000; opacity: 0.2; }
           }
 
-          .flame-inner {
-              fill: #00e5ff;
-              filter: url(#axe-glow);
-              animation: axe-flicker-fast 0.3s infinite alternate ease-in-out;
-              transform-origin: center;
-          }
-
-          /* Pulsing Crystal Core */
+          /* Crystal Core (Jewel) */
           .crystal-core {
-              fill: #e0ffff;
-              filter: url(#axe-intenseGlow);
-              animation: axe-pulse-crystal 1.5s infinite alternate;
-          }
-
-          /* Floating Embers */
-          .ember {
               fill: #00e5ff;
-              filter: url(#axe-glow);
-              animation: axe-float-up 3s infinite linear;
-              opacity: 0;
+              filter: url(#axe-intenseGlow);
+              animation: axe-pulse-crystal 2s infinite alternate ease-in-out;
           }
 
-          /* Animation Keyframes */
-          @keyframes axe-pulse-vein {
-              0% { stroke-width: 2px; opacity: 0.6; filter: url(#axe-glow) drop-shadow(0 0 5px #00e5ff); }
-              100% { stroke-width: 4px; opacity: 1; filter: url(#axe-strongGlow) drop-shadow(0 0 15px #00e5ff); }
-          }
-
-          @keyframes axe-pulse-core {
-              0% { stroke-width: 0.5px; opacity: 0.5; }
-              100% { stroke-width: 2px; opacity: 1; }
+          .crystal-shimmer {
+              fill: #ffffff;
+              animation: axe-pulse-crystal 2s infinite alternate-reverse ease-in-out;
           }
 
           @keyframes axe-pulse-crystal {
-              0% { transform: scale(0.95); opacity: 0.8; }
-              100% { transform: scale(1.05); opacity: 1; }
+              0% { transform: scale(0.85); opacity: 0.6; filter: blur(1px) drop-shadow(0 0 10px #00e5ff); }
+              100% { transform: scale(1.15); opacity: 1; filter: blur(0px) drop-shadow(0 0 35px #00e5ff); }
           }
-
-          @keyframes axe-flicker {
-              0% { opacity: 0.5; transform: scale(0.98) rotate(-1deg); }
-              100% { opacity: 0.9; transform: scale(1.02) rotate(1deg); }
-          }
-
-          @keyframes axe-flicker-fast {
-              0% { opacity: 0.7; transform: scale(0.95); }
-              100% { opacity: 1; transform: scale(1.05); }
-          }
-
-          @keyframes axe-float-up {
-              0% { transform: translateY(0) scale(1); opacity: 0; }
-              20% { opacity: 1; }
-              80% { opacity: 0.8; }
-              100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+          
+          .jewel-group {
+              transform-origin: center;
+              transform-box: fill-box;
           }
 
           .axe-svg-root {
@@ -114,19 +93,42 @@ const AxeIcon = ({ className = '', size = '100%' }) => {
               height: 100%;
               max-width: 900px;
               max-height: 95vh;
-              filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.1));
+              filter: drop-shadow(0 0 50px rgba(0, 229, 255, 0.25));
+              animation: axe-body-pulse 6s infinite ease-in-out;
+          }
+
+          @keyframes axe-body-pulse {
+              0%, 100% { transform: scale(1); filter: drop-shadow(0 0 40px rgba(0, 229, 255, 0.15)); }
+              50% { transform: scale(1.015); filter: drop-shadow(0 0 70px rgba(0, 229, 255, 0.4)); }
+          }
+
+          /* Hover Only Logic */
+          .play-on-hover .vein,
+          .play-on-hover .vein-core,
+          .play-on-hover .crystal-core,
+          .play-on-hover .crystal-shimmer,
+          .play-on-hover .axe-svg-root {
+              animation-play-state: paused;
+          }
+
+          .play-on-hover:hover .vein,
+          .play-on-hover:hover .vein-core,
+          .play-on-hover:hover .crystal-core,
+          .play-on-hover:hover .crystal-shimmer,
+          .play-on-hover:hover .axe-svg-root {
+              animation-play-state: running;
           }
         `}
       </style>
       
       <svg 
-        viewBox="-50 0 1000 1050" 
+        viewBox="-50 -50 1100 1200" 
         xmlns="http://www.w3.org/2000/svg"
         className="axe-svg-root"
       >
         <defs>
           <filter id="axe-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feGaussianBlur stdDeviation="8" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -134,9 +136,9 @@ const AxeIcon = ({ className = '', size = '100%' }) => {
           </filter>
 
           <filter id="axe-strongGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="12" result="blur" />
+            <feGaussianBlur stdDeviation="15" result="blur" />
             <feComponentTransfer in="blur" result="glow">
-              <feFuncA type="linear" slope="1.5" />
+              <feFuncA type="linear" slope="2.5" />
             </feComponentTransfer>
             <feMerge>
               <feMergeNode in="glow" />
@@ -145,8 +147,8 @@ const AxeIcon = ({ className = '', size = '100%' }) => {
           </filter>
 
           <filter id="axe-intenseGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="20" result="blur1" />
-            <feGaussianBlur stdDeviation="8" result="blur2" />
+            <feGaussianBlur stdDeviation="25" result="blur1" />
+            <feGaussianBlur stdDeviation="10" result="blur2" />
             <feMerge>
               <feMergeNode in="blur1" />
               <feMergeNode in="blur2" />
@@ -186,8 +188,9 @@ const AxeIcon = ({ className = '', size = '100%' }) => {
           <path d="M 375 450 L 425 460 L 425 480 L 375 470 Z" fill="#222" stroke="#444"/>
           <path d="M 375 700 L 425 710 L 425 730 L 375 720 Z" fill="#222" stroke="#444"/>
           
-          <polygon points="380,900 420,900 400,980" fill="url(#metalMain)" stroke="#3a404d"/>
-          <polygon points="400,900 420,900 400,980" fill="url(#metalDark)" />
+          {/* Handle Tip */}
+          <polygon points="380,900 420,900 400,1020" fill="url(#metalMain)" stroke="#3a404d" strokeWidth="2"/>
+          <polygon points="400,900 420,900 400,1020" fill="url(#metalDark)" />
 
           {/* Axe Head Base */}
           <polygon points="350,230 450,230 470,470 330,470" fill="#15171a" stroke="#2a3038" strokeWidth="3"/>
@@ -205,67 +208,37 @@ const AxeIcon = ({ className = '', size = '100%' }) => {
           <path d="M 80 340 L 240 380 L 270 370 L 180 340 Z" fill="url(#edgeHighlight)"/>
 
           {/* Veins */}
-          <path className="vein" d="M 440 320 Q 520 280 600 240 T 730 190" />
-          <path className="vein-core" d="M 440 320 Q 520 280 600 240 T 730 190" />
-          <path className="vein" d="M 450 350 Q 550 340 650 370 T 770 370" />
-          <path className="vein-core" d="M 450 350 Q 550 340 650 370 T 770 370" />
-          <path className="vein" d="M 440 380 Q 520 440 580 490 T 670 590" />
-          <path className="vein-core" d="M 440 380 Q 520 440 580 490 T 670 590" />
-          <path className="vein" d="M 560 260 Q 610 200 660 145" />
-          <path className="vein-core" d="M 560 260 Q 610 200 660 145" />
-          <path className="vein" d="M 610 360 Q 640 420 700 460" />
-          <path className="vein-core" d="M 610 360 Q 640 420 700 460" />
+          <path className="vein vein-inner" d="M 440 320 Q 520 280 600 240 T 730 190" />
+          <path className="vein-core vein-inner" d="M 440 320 Q 520 280 600 240 T 730 190" />
+          
+          <path className="vein vein-inner" d="M 450 350 Q 550 340 650 370 T 770 370" />
+          <path className="vein-core vein-inner" d="M 450 350 Q 550 340 650 370 T 770 370" />
+          
+          <path className="vein vein-inner" d="M 440 380 Q 520 440 580 490 T 670 590" />
+          <path className="vein-core vein-inner" d="M 440 380 Q 520 440 580 490 T 670 590" />
+          
+          <path className="vein vein-outer" d="M 560 260 Q 610 200 660 145" />
+          <path className="vein-core vein-outer" d="M 560 260 Q 610 200 660 145" />
+          
+          <path className="vein vein-outer" d="M 610 360 Q 640 420 700 460" />
+          <path className="vein-core vein-outer" d="M 610 360 Q 640 420 700 460" />
 
-          {/* Left Spike Veins */}
-          <path className="vein" d="M 360 330 Q 280 310 200 330 T 110 345" />
-          <path className="vein-core" d="M 360 330 Q 280 310 200 330 T 110 345" />
-          <path className="vein" d="M 360 380 Q 280 410 220 460" />
-          <path className="vein-core" d="M 360 380 Q 280 410 220 460" />
+          {/* Left Spike */}
+          <path className="vein vein-inner" d="M 360 330 Q 280 310 200 330 T 110 345" />
+          <path className="vein-core vein-inner" d="M 360 330 Q 280 310 200 330 T 110 345" />
+          
+          <path className="vein vein-inner" d="M 360 380 Q 280 410 220 460" />
+          <path className="vein-core vein-inner" d="M 360 380 Q 280 410 220 460" />
 
-          {/* Handle Veins */}
-          <path className="vein" d="M 400 460 Q 380 550 415 650 T 395 850" />
-          <path className="vein-core" d="M 400 460 Q 380 550 415 650 T 395 850" />
+          {/* Handle Vein */}
+          <path className="vein vein-handle" d="M 400 460 Q 380 550 415 650 T 400 850" />
+          <path className="vein-core vein-handle" d="M 400 460 Q 380 550 415 650 T 400 850" />
 
-          {/* Crystal Core */}
-          <g transform="translate(400, 350)">
-              <polygon points="0,-45 35,0 0,45 -35,0" fill="#00e5ff" className="crystal-core" />
-              <polygon points="0,-30 15,0 0,30 -15,0" fill="#ffffff" />
+          {/* Crystal Core (Jewel) at center of axe head */}
+          <g transform="translate(400, 350)" className="jewel-group">
+              <polygon points="-35,0 0,-45 35,0 0,45" className="crystal-core" />
+              <polygon points="-15,0 0,-20 15,0 0,20" className="crystal-shimmer" />
           </g>
-
-          {/* Flames */}
-          <g transform="translate(680, 110)">
-              <path className="flame-outer" d="M 0 0 Q 30 -40 -10 -80 Q 40 -60 50 -100 Q 40 -50 70 -30 Z" />
-              <path className="flame-inner" d="M 10 -10 Q 20 -30 0 -60 Q 25 -40 30 -70 Q 25 -30 45 -20 Z" />
-          </g>
-
-          <g transform="translate(775, 345) rotate(45)">
-              <path className="flame-outer" d="M 0 0 Q 40 -30 10 -90 Q 50 -60 70 -110 Q 50 -40 80 -10 Z" />
-              <path className="flame-inner" d="M 10 -10 Q 25 -25 5 -65 Q 35 -40 45 -80 Q 35 -25 55 -5 Z" />
-          </g>
-
-          <g transform="translate(605, 640) rotate(120)">
-              <path className="flame-outer" d="M 0 0 Q 30 -40 -10 -80 Q 40 -60 50 -100 Q 40 -50 70 -30 Z" />
-              <path className="flame-inner" d="M 10 -10 Q 20 -30 0 -60 Q 25 -40 30 -70 Q 25 -30 45 -20 Z" />
-          </g>
-
-          <g transform="translate(85, 340) rotate(-60)">
-              <path className="flame-outer" d="M 0 0 Q 30 -40 -20 -90 Q 40 -60 40 -110 Q 30 -40 60 -20 Z" />
-              <path className="flame-inner" d="M 10 -10 Q 20 -30 -10 -60 Q 25 -40 25 -80 Q 20 -30 40 -10 Z" />
-          </g>
-
-          <g transform="translate(400, 220) rotate(-10)">
-              <path className="flame-outer" d="M 0 0 Q 20 -50 -20 -100 Q 40 -70 30 -130 Q 30 -60 60 -40 Z" />
-              <path className="flame-inner" d="M 5 -10 Q 15 -35 -10 -70 Q 25 -50 20 -90 Q 20 -40 40 -25 Z" />
-          </g>
-
-          {/* Embers */}
-          <circle cx="680" cy="80" r="3" className="ember" style={{ animationDelay: '0s', animationDuration: '2s' }} />
-          <circle cx="750" cy="250" r="4" className="ember" style={{ animationDelay: '1s', animationDuration: '3.5s' }} />
-          <circle cx="800" cy="400" r="2" className="ember" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }} />
-          <circle cx="650" cy="680" r="5" className="ember" style={{ animationDelay: '2s', animationDuration: '4s' }} />
-          <circle cx="50" cy="300" r="3" className="ember" style={{ animationDelay: '1.5s', animationDuration: '3s' }} />
-          <circle cx="150" cy="200" r="4" className="ember" style={{ animationDelay: '0.2s', animationDuration: '2.8s' }} />
-          <circle cx="420" cy="150" r="3" className="ember" style={{ animationDelay: '0.8s', animationDuration: '3.2s' }} />
         </g>
       </svg>
     </div>
