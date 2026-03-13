@@ -21,6 +21,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PATHS } from '../../../routes/paths';
 import { useUI } from '@presentation/shared/provider/UIProvider';
 import { cn } from '@core/utils/cn';
+import AxeIcon from '@presentation/shared/components/AxeIcon';
 
 const NavItem = ({ icon: Icon, label, path, collapsed }) => {
     const location = useLocation();
@@ -62,20 +63,17 @@ export const Sidebar = () => {
         )}>
 
             {/* Header / Brand */}
-            <div className="p-6 flex items-center justify-between">
-                {isSidebarOpen && (
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-accent-primary flex items-center justify-center">
-                            <Code2 size={20} className="text-background" />
-                        </div>
-                        <span className="font-bold text-lg tracking-tight">AXE CODE</span>
+            <div className="p-6 flex items-center justify-center">
+                <Link to={PATHS.DASHBOARD} className="flex items-center gap-3 no-underline group">
+                    <div className="w-14 h-14 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+                        <AxeIcon size={56} playOnHover={true} />
                     </div>
-                )}
-                {!isSidebarOpen && (
-                    <div className="w-8 h-8 rounded-lg bg-accent-primary flex items-center justify-center mx-auto">
-                        <Code2 size={20} className="text-background" />
-                    </div>
-                )}
+                    {isSidebarOpen && (
+                        <span className="font-black text-xl tracking-[0.2em] text-text-primary group-hover:text-accent-primary transition-colors duration-300">
+                             AXE
+                        </span>
+                    )}
+                </Link>
             </div>
 
             {/* Toggle Button */}

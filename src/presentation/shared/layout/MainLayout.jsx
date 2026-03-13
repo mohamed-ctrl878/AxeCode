@@ -34,10 +34,13 @@ export const MainLayout = ({ children, className }) => {
     return (
         <div className="min-h-screen bg-background text-text-primary overflow-x-hidden">
             {/* Global Main Loader UI */}
-            {authLoading && (
+            {
+            authLoading 
+            &&
+             (
                 <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background">
                     <div className="flex flex-col items-center gap-12 relative">
-                        <AxeIcon size="120px" className="animate-pulse" />
+                    <AxeIcon size="120px" className="animate-pulse" />
                         
                         <div className="flex flex-col items-center gap-4">
                             <div className="flex flex-col items-center gap-2">
