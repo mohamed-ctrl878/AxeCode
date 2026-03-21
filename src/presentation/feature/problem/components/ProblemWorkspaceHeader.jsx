@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Play, Send, Flag, ChevronDown } from 'lucide-react';
+import { Play, Send, Flag, ChevronDown, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { UserMenu } from '../../../shared/components/layout/header/UserMenu';
 import { cn } from '@core/utils/cn';
 
 /**
@@ -20,16 +23,26 @@ export const ProblemWorkspaceHeader = ({
     isSubmitting = false
 }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const navigate = useNavigate();
+    const user = useSelector(state => state.auth.user);
 
     return (
-        <div className="w-full h-12 bg-surface border-b border-border-subtle flex items-center justify-between px-4 shrink-0 z-50">
-            {/* Left: Problem Title Dropdown */}
-            <div className="relative">
-                <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-2 text-sm font-bold text-text-primary hover:text-accent-primary transition-colors"
+        <div className="w-full h-14 bg-surface border-b border-border-subtle flex items-center justify-between px-4 shrink-0 z-50">
+            {/* Left: Back Button + Problem Title Dropdown */}
+            <div className="relative flex items-center gap-4">
+                <button 
+                    onClick={() => navigate(-1)}
+                    className="p-2 hover:bg-white/5 rounded-lg transition-colors text-text-muted hover:text-text-primary"
+                    title="Go Back"
                 >
-                    <span className="truncate max-w-[200px]">{title || 'Select Problem'}</span>
+                    <ArrowLeft size={18} />
+                </button>
+                <div className="relative">
+                    <button
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        className="flex items-center gap-2 text-sm font-bold text-text-primary hover:text-accent-primary transition-colors"
+                    >
+                        <span className="truncate max-w-[200px]">{title || 'Select Problem'}</span>
                     <ChevronDown size={14} className={cn(
                         "transition-transform",
                         dropdownOpen && "rotate-180"
@@ -57,7 +70,8 @@ export const ProblemWorkspaceHeader = ({
                             </button>
                         ))}
                     </div>
-                )}
+                    )}
+                </div>
             </div>
 
             {/* Center: Run + Submit + Report */}
@@ -97,8 +111,10 @@ export const ProblemWorkspaceHeader = ({
                 </button>
             </div>
 
-            {/* Right spacer for balance */}
-            <div className="w-[200px]" />
+            {/* Right: User Profile Dropdown */}
+            <div className="flex items-center justify-end w-[200px]">
+                <UserMenu user={user} />
+            </div>
         </div>
     );
 };

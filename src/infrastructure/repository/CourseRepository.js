@@ -10,7 +10,7 @@ export class CourseRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_COURSES;
+        this.endpoint = import.meta.env.VITE_API_COURSE_BASE;
     }
 
     async create(data) {
@@ -34,7 +34,7 @@ export class CourseRepository extends IContentInteraction {
      * @returns {Promise<object>} Raw course data from API.
      */
     async getPreview(documentId) {
-        const previewEndpoint = import.meta.env.VITE_API_PREVIEW_COURSE;
+        const previewEndpoint = import.meta.env.VITE_API_COURSE_BASE;
         const response = await this.apiClient.get(`${previewEndpoint}/${documentId}`);
         return response?.data || response;
     }
