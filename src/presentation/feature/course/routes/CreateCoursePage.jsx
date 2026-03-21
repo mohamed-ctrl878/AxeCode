@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCreateCourse } from '@domain/useCase/useCreateCourse';
 import { useUploadMedia } from '@domain/useCase/useUploadMedia';
+import { useFetchCategorizations } from '@domain/useCase/useFetchCategorizations';
 import { CourseForm } from '../components/CourseForm';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import { PATHS } from '@presentation/routes/paths';
@@ -14,6 +15,7 @@ const CreateCoursePage = () => {
     const navigate = useNavigate();
     const { createCourse, inProgress: isCreating, error: createError } = useCreateCourse();
     const { uploadMedia, isUploading, error: uploadError } = useUploadMedia();
+    const { courseTypes, problemTypes, isLoading: isTypesLoading } = useFetchCategorizations();
     
     // Local processing state
     const [isProcessing, setIsProcessing] = useState(false);
@@ -64,7 +66,7 @@ const CreateCoursePage = () => {
     const activeError = createError || uploadError;
 
     return (
-        <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 relative z-10 w-full">
+        <div className="md:col-span-12 min-h-screen pt-24 pb-12 px-4 sm:px-6 relative z-10 w-full">
             {/* Background Effects */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-primary/5 rounded-full blur-[120px] pointer-events-none" />
             
@@ -87,6 +89,9 @@ const CreateCoursePage = () => {
                 <CourseForm 
                     onSubmit={handleSubmit} 
                     isLoading={isBusy} 
+                    courseTypes={courseTypes}
+                    problemTypes={problemTypes}
+                    isTypesLoading={isTypesLoading}
                 />
             </div>
         </div>
