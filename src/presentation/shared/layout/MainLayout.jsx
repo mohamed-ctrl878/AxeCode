@@ -28,8 +28,8 @@ export const MainLayout = ({ children, className }) => {
         }
     }, []); // Run once on boot
 
-    // Determine if we are in Focus Mode (e.g., CMS)
-    const isFocusMode = location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT);
+    // Determine if we are in Focus Mode (e.g., CMS or Problem Details workspace)
+    const isFocusMode = location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT) || location.pathname.includes('/problems/');
 
     return (
         <div className="min-h-screen bg-background text-text-primary overflow-x-hidden">
@@ -55,22 +55,23 @@ export const MainLayout = ({ children, className }) => {
                         </div>
 
                         {/* Background Aura */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent-primary/5 blur-[120px] rounded-full -z-10" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-accent-primary/20 blur-[100px] rounded-full -z-10" />
                     </div>
                 </div>
             )}
 
             {!isFocusMode && <Sidebar />}
-            <Header />
+            {!isFocusMode && <Header />}
             
             <main className={cn(
                 "transition-all duration-500 ease-in-out px-4 pb-4 md:px-8 md:pb-8 grid gap-4 md:gap-6",
                 "grid-cols-1 md:grid-cols-12",
-                "pt-24", // Header is now always visible, so constant top padding
                 !isFocusMode ? [
+                    "pt-24", // Header is now always visible, so constant top padding
                     "ml-0 md:ml-20",
                     isSidebarOpen && "md:ml-64"
                 ] : [
+                    "p-0 m-0 w-full h-full", // Full screen for focus mode (Problem Workspace)
                     "ml-0"
                 ],
                 className

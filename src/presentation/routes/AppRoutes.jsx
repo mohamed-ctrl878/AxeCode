@@ -14,6 +14,7 @@ const PlaceholderPage = ({ title }) => (
 );
 
 const CoursePage = lazy(() => import('../feature/course/routes/CoursePage'));
+const CreateCoursePage = lazy(() => import('../feature/course/routes/CreateCoursePage'));
 const CourseDetailsPage = lazy(() => import('../feature/course/routes/CourseDetailsPage'));
 const ProblemPage = lazy(() => import('../feature/problem/routes/ProblemPage'));
 const ProblemPreviewPage = lazy(() => import('../feature/problem/routes/ProblemPreviewPage'));
@@ -36,10 +37,7 @@ const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
  */
 export const AppRoutes = () => {
     return (
-        <Suspense fallback={<div className="text-accent-primary p-20 text-center flex flex-col items-center gap-4">
-            <div className="w-8 h-8 rounded-full border-2 border-accent-primary border-t-transparent animate-spin" />
-            <span className="font-mono text-xs tracking-widest uppercase">Initializing Core Module...</span>
-        </div>}>
+        <Suspense fallback={null}>
             <Routes>
                 <Route path={PATHS.DASHBOARD} element={<PlaceholderPage title="Dashboard Feed" />} />
                 
@@ -49,6 +47,7 @@ export const AppRoutes = () => {
                 
                 {/* Learning */}
                 <Route path={PATHS.COURSES} element={<CoursePage />} />
+                <Route path={`${PATHS.COURSES}/create`} element={<CreateCoursePage />} />
                 <Route path={`${PATHS.COURSES}/:documentId`} element={<CourseDetailsPage />} />
                 <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />
                 <Route path={`${PATHS.PROBLEMS}/:id`} element={<ProblemPreviewPage />} />

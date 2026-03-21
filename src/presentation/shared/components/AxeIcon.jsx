@@ -79,8 +79,8 @@ const AxeIcon = ({ className = '', size = '100%', playOnHover = false }) => {
           }
 
           @keyframes axe-pulse-crystal {
-              0% { transform: scale(0.85); opacity: 0.6; filter: blur(1px) drop-shadow(0 0 10px #00e5ff); }
-              100% { transform: scale(1.15); opacity: 1; filter: blur(0px) drop-shadow(0 0 35px #00e5ff); }
+              0% { transform: scale(0.85); opacity: 0.8; filter: blur(1px) drop-shadow(0 0 20px #00e5ff); }
+              100% { transform: scale(1.15); opacity: 1; filter: blur(0px) drop-shadow(0 0 60px #00e5ff); }
           }
           
           .jewel-group {
@@ -93,31 +93,46 @@ const AxeIcon = ({ className = '', size = '100%', playOnHover = false }) => {
               height: 100%;
               max-width: 900px;
               max-height: 95vh;
-              filter: drop-shadow(0 0 50px rgba(0, 229, 255, 0.25));
+              filter: drop-shadow(0 0 60px rgba(0, 229, 255, 0.4));
               animation: axe-body-pulse 6s infinite ease-in-out;
           }
 
           @keyframes axe-body-pulse {
-              0%, 100% { transform: scale(1); filter: drop-shadow(0 0 40px rgba(0, 229, 255, 0.15)); }
-              50% { transform: scale(1.015); filter: drop-shadow(0 0 70px rgba(0, 229, 255, 0.4)); }
+              0%, 100% { transform: scale(1); filter: drop-shadow(0 0 50px rgba(0, 229, 255, 0.3)); }
+              50% { transform: scale(1.015); filter: drop-shadow(0 0 90px rgba(0, 229, 255, 0.7)); }
           }
 
-          /* Hover Only Logic */
+          /* Hover Only Logic (Restarts from 0 upon hover start) */
           .play-on-hover .vein,
           .play-on-hover .vein-core,
           .play-on-hover .crystal-core,
           .play-on-hover .crystal-shimmer,
           .play-on-hover .axe-svg-root {
-              animation-play-state: paused;
+              animation: none; /* No animation by default */
+              opacity: 0.2; /* Default state matching frame 0 or base line where applicable */
+          }
+          
+          .play-on-hover .crystal-core, 
+          .play-on-hover .crystal-shimmer {
+              opacity: 0.8;
+              transform: scale(0.85);
           }
 
-          .play-on-hover:hover .vein,
-          .play-on-hover:hover .vein-core,
-          .play-on-hover:hover .crystal-core,
-          .play-on-hover:hover .crystal-shimmer,
-          .play-on-hover:hover .axe-svg-root {
-              animation-play-state: running;
+          .play-on-hover .axe-svg-root {
+              opacity: 1;
           }
+
+          /* Applying the keyframes again ONLY when hovered, forcing it to start from 0 */
+          .play-on-hover:hover .vein { animation: axe-bidirectional-flow 4s ease-in-out infinite; }
+          .play-on-hover:hover .vein-core { animation: axe-bidirectional-flow 4s ease-in-out infinite; }
+          .play-on-hover:hover .crystal-core { animation: axe-pulse-crystal 2s infinite alternate ease-in-out; }
+          .play-on-hover:hover .crystal-shimmer { animation: axe-pulse-crystal 2s infinite alternate-reverse ease-in-out; }
+          .play-on-hover:hover .axe-svg-root { animation: axe-body-pulse 6s infinite ease-in-out; }
+          
+          /* Preserve sequential delays for veins */
+          .play-on-hover:hover .vein-handle { animation-delay: 0.2s; }
+          .play-on-hover:hover .vein-inner { animation-delay: 0s; }
+          .play-on-hover:hover .vein-outer { animation-delay: 0.5s; }
         `}
       </style>
       
@@ -138,7 +153,7 @@ const AxeIcon = ({ className = '', size = '100%', playOnHover = false }) => {
           <filter id="axe-strongGlow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="15" result="blur" />
             <feComponentTransfer in="blur" result="glow">
-              <feFuncA type="linear" slope="2.5" />
+              <feFuncA type="linear" slope="3.5" />
             </feComponentTransfer>
             <feMerge>
               <feMergeNode in="glow" />
