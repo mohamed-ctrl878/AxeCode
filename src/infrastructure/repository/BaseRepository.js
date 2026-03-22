@@ -65,4 +65,9 @@ export class BaseRepository extends IApiClient {
 
         return await fetchWrapper(url, true, 'application/json', 'GET');
     }
+
+    async delete(endpoint) {
+        const url = this.#buildUrl(endpoint);
+        return await fetchWrapper(url, true, 'application/json', 'DELETE');
+    }
 }

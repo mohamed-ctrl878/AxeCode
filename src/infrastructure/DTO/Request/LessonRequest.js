@@ -8,12 +8,14 @@ export class LessonRequest extends BaseRequest {
         super();
         this.title = data.title;
         this.type_of_lesson = data.type || 'video'; // Enum: video, article
-        this.video = data.videoId; // {id}
+        this.video = data.videoId || null; // {id}
         this.description = data.description; // {blocks}
-        this.week = data.weekId; // {id}
+        this.week = data.weekId; // {id | documentId}
         this.public = !!data.public;
-        this.course_types = data.courseTypeIds || [];
-        this.problem_types = data.problemTypeIds || [];
+        
+        // Strapi v4/v5 relationship arrays
+        this.course_types = data.courseTypeIds; 
+        this.problem_types = data.problemTypeIds;
     }
 
     validate() {

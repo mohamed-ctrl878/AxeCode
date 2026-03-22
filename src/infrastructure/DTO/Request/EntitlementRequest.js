@@ -1,28 +1,43 @@
-import { BaseRequest } from './BaseRequest';
-
 /**
- * Request DTO for Entitlement creation/update.
+ * Request DTO for creating an Entitlement (Access Rule).
  */
-export class EntitlementRequest extends BaseRequest {
-    constructor(formData = {}) {
-        super();
-        this.title = formData.title;
-        this.description = formData.description;
-        this.price = formData.price;
-        this.currency = formData.currency || 'USD';
-        this.content_types = formData.contentType;
-        this.decision = formData.decision ?? true;
-        this.duration = formData.duration;
-        this.itemId = formData.itemId;
+export class EntitlementRequest {
+    constructor({
+        title = '',
+        description = '',
+        price = 0,
+        currency = 'USD',
+        decision = true,
+        duration = null,
+        itemId = '',
+        contentType = 'course',
+        userId = null
+    } = {}) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.currency = currency;
+        this.decision = decision;
+        this.duration = duration;
+        this.itemId = itemId;
+        this.content_types = contentType;
+        this.users_permissions_user = userId;
     }
 
-    validate() {
-        super.validate();
-        if (!this.price && this.price !== 0) {
-            throw new Error("Price is required for entitlement.");
-        }
-        if (!this.content_types) {
-            throw new Error("Content type is required for entitlement.");
-        }
+    /**
+     * Converts to JSON for Strapi body.
+     */
+    toJSON() {
+        return {
+            title: this.title,
+            description: this.description,
+            price: this.price,
+            currency: this.currency,
+            decision: this.decision,
+            duration: this.duration,
+            itemId: this.itemId,
+            content_types: this.content_types,
+            users_permissions_user: this.users_permissions_user
+        };
     }
 }

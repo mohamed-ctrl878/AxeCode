@@ -8,19 +8,12 @@ import RichTextInput from '@presentation/shared/components/RichTextEditor/RichTe
  * Captures core fields including rich text blocks.
  *
  * @param {object} props
- * @param {object} props.initialData - Pre-filled data for editing (optional)
  * @param {boolean} props.isLoading - Submission state
- * @param {Array} props.courseTypes - List of available course types from DB
- * @param {Array} props.problemTypes - List of available problem types from DB
- * @param {boolean} props.isTypesLoading - Fetching categorizations state
  * @param {Function} props.onSubmit - Triggered on valid form submit (formData, file)
  */
 export const CourseForm = ({ 
     initialData = {}, 
     isLoading = false, 
-    courseTypes = [], 
-    problemTypes = [], 
-    isTypesLoading = false,
     onSubmit 
 }) => {
     // Form State
@@ -30,13 +23,6 @@ export const CourseForm = ({
     
     // Arrays & Relations 
     const [tagsInput, setTagsInput] = useState((initialData.tags || []).join(', '));
-    const [selectedCourseTypes, setSelectedCourseTypes] = useState(initialData.course_types || []);
-    const [selectedProblemTypes, setSelectedProblemTypes] = useState(initialData.problem_types || []);
-
-    const toggleSelection = (id, currentList, setter) => {
-        if (currentList.includes(id)) setter(currentList.filter(i => i !== id));
-        else setter([...currentList, id]);
-    };
 
     // Image Upload State
     const [imageFile, setImageFile] = useState(null);
@@ -69,8 +55,6 @@ export const CourseForm = ({
             description,
             difficulty,
             tags,
-            courseTypeIds: selectedCourseTypes,
-            problemTypeIds: selectedProblemTypes,
             // existing picture ID mapped if not changed, else omitted
             picture: initialData.picture?.id || null 
         };
@@ -187,71 +171,6 @@ export const CourseForm = ({
                             className="bg-background border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-accent-primary transition-colors"
                         />
                     </div>
-                    
-                    {/* Course Types */}
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Target Audiences (Course Types)</label>
-                        {isTypesLoading ? (
-                            <div className="text-xs animate-pulse text-text-muted">Loading types...</div>
-                        ) : (
-                            <div className="flex flex-wrap gap-2">
-                                {courseTypes.map(type => {
-                                    const id = type.id || type.documentId;
-                                    const name = type.attributes?.name || type.name;
-                                    const isSelected = selectedCourseTypes.includes(id);
-                                    
-                                    return (
-                                        <button
-                                            key={id}
-                                            type="button"
-                                            onClick={() => toggleSelection(id, selectedCourseTypes, setSelectedCourseTypes)}
-                                            className={cn(
-                                                "px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border",
-                                                isSelected 
-                                                ? "bg-accent-primary/20 border-accent-primary text-accent-primary" 
-                                                : "bg-[#1e1e2e] border-border-subtle hover:border-text-muted text-text-secondary"
-                                            )}
-                                        >
-                                            {name}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Problem Types */}
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Core Domains (Problem Types)</label>
-                        {isTypesLoading ? (
-                            <div className="text-xs animate-pulse text-text-muted">Loading types...</div>
-                        ) : (
-                            <div className="flex flex-wrap gap-2">
-                                {problemTypes.map(type => {
-                                    const id = type.id || type.documentId;
-                                    const name = type.attributes?.name || type.name;
-                                    const isSelected = selectedProblemTypes.includes(id);
-                                    
-                                    return (
-                                        <button
-                                            key={id}
-                                            type="button"
-                                            onClick={() => toggleSelection(id, selectedProblemTypes, setSelectedProblemTypes)}
-                                            className={cn(
-                                                "px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border",
-                                                isSelected 
-                                                ? "bg-purple-500/20 border-purple-500 text-purple-400" 
-                                                : "bg-[#1e1e2e] border-border-subtle hover:border-text-muted text-text-secondary"
-                                            )}
-                                        >
-                                            {name}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
-
                 </div>
             </div>
         </form>

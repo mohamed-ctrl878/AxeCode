@@ -1,6 +1,6 @@
 import { useAsyncUseCase } from './useAsyncUseCase';
 import { LessonRepository } from '../../infrastructure/repository/LessonRepository';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 /**
  * UseCase hook for creating a lesson.
@@ -8,9 +8,9 @@ import { useMemo } from 'react';
 export const useCreateLesson = () => {
     const repository = useMemo(() => new LessonRepository(), []);
 
-    const { execute, returnedData, inProgress, error } = useAsyncUseCase(
-        (data) => repository.create(data)
-    );
+    const createLogic = useCallback((data) => repository.create(data), [repository]);
+
+    const { execute, returnedData, inProgress, error } = useAsyncUseCase(createLogic);
 
     return {
         createLesson: execute,

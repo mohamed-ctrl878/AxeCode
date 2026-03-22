@@ -1,5 +1,6 @@
 import { BaseRepository } from './BaseRepository';
 import { repositoryRegistry } from './RepositoryRegistry';
+import { CategorizationResponse } from '../DTO/Response/CategorizationResponse';
 
 export class CategorizationRepository extends BaseRepository {
     constructor(apiClient = repositoryRegistry.apiClient) {
@@ -10,12 +11,14 @@ export class CategorizationRepository extends BaseRepository {
     async getCourseTypes() {
         const endpoint = import.meta.env.VITE_API_COURSE_TYPES;
         const response = await this.apiClient.get(endpoint);
-        return response?.data || response;
+        const data = response?.data || [];
+        return CategorizationResponse.fromArray(data);
     }
 
     async getProblemTypes() {
         const endpoint = import.meta.env.VITE_API_PROBLEM_TYPES;
         const response = await this.apiClient.get(endpoint);
-        return response?.data || response;
+        const data = response?.data || [];
+        return CategorizationResponse.fromArray(data);
     }
 }

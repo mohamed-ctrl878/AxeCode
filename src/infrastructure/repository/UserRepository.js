@@ -32,4 +32,24 @@ export class UserRepository extends BaseRepository {
             throw error;
         }
     }
+
+    /**
+     * Searches for a user by email.
+     * @param {string} email - The email to search for.
+     * @returns {Promise<object | null>} - The user object if found, else null.
+     */
+    async searchByEmail(email) {
+        try {
+            const params = QueryBuilder.buildFilterObject('email', email);
+            const response = await this.get(this.endpoint, params);
+
+            if (Array.isArray(response) && response.length > 0) {
+                return response[0];
+            }
+            return null;
+        } catch (error) {
+            console.error('[UserRepository] Search failed:', error);
+            throw error;
+        }
+    }
 }

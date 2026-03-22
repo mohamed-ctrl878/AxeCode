@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { 
     FileText, 
     BookOpen, 
@@ -10,6 +10,7 @@ import {
 import { CMSSidebar } from '../components/CMSSidebar';
 import { CMSActionBar } from '../components/CMSActionBar';
 import { CMSResourceTable } from '../components/CMSResourceTable';
+import { useFetchAdminCourses } from '@domain/useCase/useFetchAdminCourses';
 
 /**
  * CMSPage: Orchestrates the modular management interface.
@@ -17,10 +18,15 @@ import { CMSResourceTable } from '../components/CMSResourceTable';
  */
 export const CMSPage = () => {
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState('Courses');
+    const { section } = useParams();
+    
+    // Normalize URL param (e.g. 'courses' => 'Courses')
+    const activeSection = section ? section.charAt(0).toUpperCase() + section.slice(1) : 'Courses';
+
+    const { courses, isLoading: isCoursesLoading } = useFetchAdminCourses();
 
     const sections = [
-        { name: 'Courses', icon: BookOpen, count: 12 },
+        { name: 'Courses', icon: BookOpen, count: courses?.length || 0 },
         { name: 'Articles', icon: FileText, count: 142 },
         { name: 'Problems', icon: Code2, count: 58 },
         { name: 'Events', icon: Calendar, count: 24 },
@@ -28,6 +34,16 @@ export const CMSPage = () => {
     ];
 
     const currentSection = sections.find(s => s.name === activeSection);
+
+    let items = [];
+    let isLoading = false;
+    
+    if (activeSection === 'Courses') {
+        items = courses || [];
+        isLoading = isCoursesLoading;
+    } else {
+        items = [1, 2, 3, 4, 5]; // Placeholder
+    }
 
     return (
         <div className="md:col-span-12 animation-fade-in flex flex-col h-[calc(100vh-4rem)]">
@@ -37,13 +53,13 @@ export const CMSPage = () => {
                 <CMSSidebar 
                     sections={sections} 
                     activeSection={activeSection} 
-                    onSectionChange={setActiveSection} 
                 />
 
                 <div className="flex-1 p-8 overflow-y-auto bg-surface-dark/30 scrollbar-hide">
                     <CMSResourceTable 
                         sectionName={activeSection}
-                        items={[1, 2, 3, 4, 5]}
+                        items={items}
+                        isLoading={isLoading}
                         icon={currentSection.icon}
                     />
                 </div>
