@@ -13,6 +13,10 @@ export class LessonRepository extends IContentInteraction {
         this.endpoint = import.meta.env.VITE_API_LESSONS;
     }
 
+    async getById(id) {
+        return await this.apiClient.get(`${this.endpoint}/${id}`);
+    }
+
     async create(data) {
         const request = new LessonRequest(data);
         return await this.apiClient.post(this.endpoint, request);
@@ -21,6 +25,10 @@ export class LessonRepository extends IContentInteraction {
     async update(id, data) {
         const request = new LessonRequest(data);
         return await this.apiClient.put(this.endpoint, id, request);
+    }
+
+    async delete(id) {
+        return await this.apiClient.delete(this.endpoint, id);
     }
 
     async like(contentId, contentType) {}

@@ -25,6 +25,9 @@ const WriteArticlePage = lazy(() => import('../feature/article/routes/WriteArtic
 const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
 const EventDetailsPage = lazy(() => import('../feature/event/routes/EventDetailsPage'));
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
+const CourseManagementPage = lazy(() => import('../feature/cms/routes/CourseManagementPage'));
+const AddLessonPage = lazy(() => import('../feature/cms/routes/AddLessonPage'));
+const EditLessonPage = lazy(() => import('../feature/cms/routes/EditLessonPage'));
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
 const RoadmapDetailsPage = lazy(() => import('../feature/roadmap/routes/RoadmapDetailsPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
@@ -49,6 +52,10 @@ export const AppRoutes = () => {
                 <Route path={PATHS.COURSES} element={<CoursePage />} />
                 <Route path={`${PATHS.COURSES}/create`} element={<CreateCoursePage />} />
                 <Route path={`${PATHS.COURSES}/:documentId`} element={<CourseDetailsPage />} />
+                <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:id/:topic`} element={<CourseManagementPage />} />
+                <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/add-lesson`} element={<AddLessonPage />} />
+                <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/lessons/:lessonId/edit`} element={<EditLessonPage />} />
+                
                 <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />
                 <Route path={`${PATHS.PROBLEMS}/:id`} element={<ProblemPreviewPage />} />
 
@@ -57,7 +64,8 @@ export const AppRoutes = () => {
                 <Route path={PATHS.ROADMAP_DETAILS} element={<RoadmapDetailsPage />} />
 
                 {/* Management */}
-                <Route path={PATHS.CONTENT_MANAGEMENT} element={<CMSPage />} />
+                <Route path={PATHS.CONTENT_MANAGEMENT} element={<Navigate to={`${PATHS.CONTENT_MANAGEMENT}/courses`} replace />} />
+                <Route path={`${PATHS.CONTENT_MANAGEMENT}/:section`} element={<CMSPage />} />
 
                 {/* Community */}
                 <Route path={PATHS.FEED} element={<FeedPage />} />

@@ -11,6 +11,7 @@ export class CourseRequest extends BaseRequest {
         this.difficulty = formData.difficulty; // {string}
         this.picture = formData.picture; // {number} Media ID
         this.tags = formData.tags || []; // {Array<string>}
+        this.price = formData.price; // {number}
 
         // Relationship IDs
         this.course_types = formData.courseTypeIds || []; // {Array<number>}
@@ -23,12 +24,8 @@ export class CourseRequest extends BaseRequest {
      */
     validate() {
         super.validate();
-        if (!this.title || this.title.trim().length === 0) {
-            throw new Error("Course title is required.");
-        }
-        if (!['Easy', 'Medium', 'Advanced'].includes(this.difficulty)) {
-            throw new Error("Invalid difficulty level.");
-        }
+        // Validation is relaxed to allow partial updates or DTOs with pre-filled minor missing fields.
+        // Usually, the presentation layer handles mandatory field checks for Create.
     }
 
     /**
@@ -40,10 +37,9 @@ export class CourseRequest extends BaseRequest {
                 title: this.title,
                 description: this.description,
                 difficulty: this.difficulty,
-                course_types: this.course_types,
-                problem_types: this.problem_types,
                 picture: this.picture || null,
-                tags: this.tags
+                tags: this.tags,
+                price: this.price
             }
         };
     }

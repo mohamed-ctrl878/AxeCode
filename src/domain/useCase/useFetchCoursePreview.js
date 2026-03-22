@@ -17,7 +17,10 @@ export const useFetchCoursePreview = () => {
             throw new Error('documentId is required to fetch course preview.');
         }
 
-        const rawData = await repository.getPreview(documentId + "?populate=*");
+        // Strapi v4/v5 deep populate for weeks and their lessons
+        // Use explicit populate settings to avoid 'related' key validation errors in some Strapi versions
+        const populateQuery = 'populate[picture]=true&populate[weeks][populate][lessons][populate][video]=true';
+        const rawData = await repository.getPreview(`${documentId}?${populateQuery}`);
         const dto = new CourseDTO(rawData);
         return EntityMapper.toCoursePreview(dto);
     }, []);

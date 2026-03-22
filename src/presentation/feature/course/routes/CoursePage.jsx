@@ -4,6 +4,7 @@ import { EventRecommendedCard } from '../components/EventRecommendedCard';
 import { useFetchRecommendedCourses } from '@domain/useCase/useFetchRecommendedCourses';
 import { useFetchRecommendedEvents } from '@domain/useCase/useFetchRecommendedEvents';
 import { Search, ChevronRight, Sparkles, Map, BookOpen, AlertTriangle } from 'lucide-react';
+import { PATHS } from '@presentation/routes/paths';
 import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
 import { EventRecommendedCardSkeleton } from '@presentation/shared/components/skeletons/EventRecommendedCardSkeleton';
 
@@ -29,7 +30,7 @@ export const CoursePage = () => {
                     <p className="text-xs text-text-muted">Master the art of coding with guided learning paths.</p>
                 </div>
                 
-                <div className="flex gap-2">
+                <div className="flex items-center gap-3">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
                         <input 
