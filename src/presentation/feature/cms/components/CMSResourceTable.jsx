@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
 import { Plus, Activity, Settings, ChevronRight, Edit2, Calendar, ShieldCheck } from 'lucide-react';
+import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
 
 /**
  * CMSResourceTable: Reusable table for management resources.
  */
-export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon }) => {
+export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, onRefresh }) => {
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const dropdownRef = useRef(null);
+    const { deleteEvent, inProgress: isDeleting } = useDeleteEvent();
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -22,9 +24,24 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon }) 
     }, []);
 
     const getCreateRoute = () => {
-        if (sectionName === 'Courses') return `${PATHS.COURSES}/create`;
+        if (sectionName === 'Courses') return PATHS.COURSE_CREATE;
         if (sectionName === 'Articles') return `${PATHS.ARTICLES}/write`;
+        if (sectionName === 'Events') return PATHS.EVENT_CREATE;
         return '#/create';
+    };
+
+    const handleRemove = async (id, title) => {
+        if (window.confirm(`Are you sure you want to permanently remove "${title}"? This action cannot be undone.`)) {
+            try {
+                if (sectionName === 'Events') {
+                    await deleteEvent(id);
+                }
+                // Notify parent to refresh
+                if (onRefresh) onRefresh();
+            } catch (err) {
+                console.error("Removal failed:", err);
+            }
+        }
     };
 
     return (
@@ -112,7 +129,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon }) 
                                                 <Settings size={14} />
                                             </button>
                                             
-                                            {/* Dropdown Menu */}
+                                            {/* Dropdown Menu - Courses */}
                                             {openDropdownId === id && sectionName === 'Courses' && (
                                                 <div className="absolute right-0 top-full mt-2 w-56 bg-surface-dark border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animation-fade-in origin-top-right">
                                                     <div className="p-2 space-y-1">
@@ -137,6 +154,47 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon }) 
                                                             <ShieldCheck size={14} />
                                                             Manage entitlement
                                                         </Link>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Dropdown Menu - Events */}
+                                            {openDropdownId === id && sectionName === 'Events' && (
+                                                <div className="absolute right-0 top-full mt-2 w-56 bg-surface-dark border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animation-fade-in origin-top-right">
+                                                    <div className="p-2 space-y-1">
+                                                        <Link 
+                                                            to={`${PATHS.CONTENT_MANAGEMENT}/events/${id}/entitlement`} 
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                                                        >
+                                                            <ShieldCheck size={14} />
+                                                            Manage entitlement
+                                                        </Link>
+                                                        <Link 
+                                                            to={`${PATHS.CONTENT_MANAGEMENT}/events/${id}/subscription-analysis`} 
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                                                        >
+                                                            <Activity size={14} />
+                                                            Subscription analysis
+                                                        </Link>
+                                                        <Link 
+                                                            to={`${PATHS.CONTENT_MANAGEMENT}/events/${id}/edit`} 
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                                                        >
+                                                            <Edit2 size={14} />
+                                                            Edit
+                                                        </Link>
+                                                        <div className="h-[1px] bg-white/5 my-1" />
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleRemove(id, title);
+                                                            }}
+                                                            disabled={isDeleting}
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
+                                                        >
+                                                            <Plus size={14} className="rotate-45" />
+                                                            Remove
+                                                        </button>
                                                     </div>
                                                 </div>
                                             )}

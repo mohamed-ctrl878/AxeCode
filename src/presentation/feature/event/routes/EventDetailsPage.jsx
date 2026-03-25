@@ -19,6 +19,7 @@ const EventDetailsPage = () => {
 
     useEffect(() => {
         if (id) {
+            console.log("id",id);
             fetchEvent(id);
         }
     }, [id, fetchEvent]);

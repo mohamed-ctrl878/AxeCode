@@ -7,6 +7,7 @@ export const PATHS = {
 
     // Learning
     COURSES: '/courses',
+    COURSE_CREATE: '/cms/courses/create',
     COURSE_DETAILS: '/courses/:id',
     PROBLEMS: '/problems',
     PROBLEM_DETAILS: '/problems/:id',
@@ -18,6 +19,7 @@ export const PATHS = {
     ARTICLES: '/articles',
     ARTICLE_DETAILS: '/articles/:id',
     EVENTS: '/events',
+    EVENT_CREATE: '/cms/events/create',
     EVENT_DETAILS: '/events/:id',
 
     // Resources

@@ -23,9 +23,11 @@ const ArticlePage = lazy(() => import('../feature/article/routes/ArticlePage'));
 const ArticleDetailsPage = lazy(() => import('../feature/article/routes/ArticleDetailsPage'));
 const WriteArticlePage = lazy(() => import('../feature/article/routes/WriteArticlePage'));
 const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
+const CreateEventPage = lazy(() => import('../feature/event/routes/CreateEventPage'));
 const EventDetailsPage = lazy(() => import('../feature/event/routes/EventDetailsPage'));
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
 const CourseManagementPage = lazy(() => import('../feature/cms/routes/CourseManagementPage'));
+const EventManagementPage = lazy(() => import('../feature/cms/routes/EventManagementPage'));
 const AddLessonPage = lazy(() => import('../feature/cms/routes/AddLessonPage'));
 const EditLessonPage = lazy(() => import('../feature/cms/routes/EditLessonPage'));
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
@@ -50,7 +52,7 @@ export const AppRoutes = () => {
                 
                 {/* Learning */}
                 <Route path={PATHS.COURSES} element={<CoursePage />} />
-                <Route path={`${PATHS.COURSES}/create`} element={<CreateCoursePage />} />
+                <Route path={PATHS.COURSE_CREATE} element={<CreateCoursePage />} />
                 <Route path={`${PATHS.COURSES}/:documentId`} element={<CourseDetailsPage />} />
                 <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:id/:topic`} element={<CourseManagementPage />} />
                 <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/add-lesson`} element={<AddLessonPage />} />
@@ -73,7 +75,9 @@ export const AppRoutes = () => {
                 <Route path={PATHS.ARTICLE_DETAILS} element={<ArticleDetailsPage />} />
                 <Route path={`${PATHS.ARTICLES}/write`} element={<WriteArticlePage />} />
                 <Route path={PATHS.EVENTS} element={<EventPage />} />
+                <Route path={PATHS.EVENT_CREATE} element={<CreateEventPage />} />
                 <Route path={`${PATHS.EVENTS}/:id`} element={<EventDetailsPage />} />
+                <Route path={`${PATHS.CONTENT_MANAGEMENT}/events/:id/:topic`} element={<EventManagementPage />} />
 
                 {/* Resources */}
                 <Route path={PATHS.MEDIA} element={<PlaceholderPage title="Media Assets" />} />

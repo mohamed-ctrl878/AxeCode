@@ -19,4 +19,12 @@ export class IInteraction {
     async update(id, data) {
         throw new Error("Method 'update' must be implemented.");
     }
+
+    /**
+     * @param {string|number} id 
+     * @returns {Promise<any>}
+     */
+    async delete(id) {
+        throw new Error("Method 'delete' must be implemented.");
+    }
 }

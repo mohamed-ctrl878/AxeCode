@@ -49,8 +49,8 @@ const CreateCoursePage = () => {
             const createdCourse = response?.data || response;
 
             if (createdCourse && createdCourse.documentId) {
-                // Navigate to the newly created course profile
-                navigate(`${PATHS.COURSES}/${createdCourse.documentId}`);
+                // Navigate back to CMS course management
+                navigate(`${PATHS.CONTENT_MANAGEMENT}/courses`);
             }
 
         } catch (err) {
@@ -70,7 +70,7 @@ const CreateCoursePage = () => {
             
             <div className="max-w-7xl mx-auto mb-8 w-full">
                 <button 
-                    onClick={() => navigate(PATHS.COURSES)}
+                    onClick={() => navigate(`${PATHS.CONTENT_MANAGEMENT}/courses`)}
                     className="flex items-center gap-2 text-text-muted hover:text-white transition-colors mb-4 group"
                 >
                     <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
