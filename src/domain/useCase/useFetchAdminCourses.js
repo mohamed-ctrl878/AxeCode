@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 export const useFetchAdminCourses = () => {
     const userId = useSelector((state) => state.auth?.user?.id);
     const repository = useMemo(() => new CourseRepository(), []);
-    
+
     // Pass userId up to the filter
     const { execute, returnedData: courses, inProgress: isLoading, error } = useAsyncUseCase(
         () => repository.getAll(userId)
@@ -25,6 +25,7 @@ export const useFetchAdminCourses = () => {
     return {
         courses: courses || [],
         isLoading,
-        error
+        error,
+        fetch: execute
     };
 };

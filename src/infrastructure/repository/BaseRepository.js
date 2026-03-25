@@ -21,21 +21,21 @@ export class BaseRepository extends IApiClient {
         return `${this.baseUrl}${path}`;
     }
 
-    async post(endpoint, requestDto) {
+    async post(endpoint, requestDto, wrap = true) {
         if (requestDto && typeof requestDto.validate === 'function') {
             requestDto.validate();
         }
         const url = this.#buildUrl(endpoint);
-        const body = { data: requestDto };
+        const body = wrap ? { data: requestDto } : requestDto;
         return await fetchWrapper(url, true, 'application/json', 'POST', body);
     }
 
-    async put(endpoint, id, requestDto) {
+    async put(endpoint, id, requestDto, wrap = true) {
         if (requestDto && typeof requestDto.validate === 'function') {
             requestDto.validate();
         }
         const url = this.#buildUrl(`${endpoint}/${id}`);
-        const body = { data: requestDto };
+        const body = wrap ? { data: requestDto } : requestDto;
         return await fetchWrapper(url, true, 'application/json', 'PUT', body);
     }
 

@@ -6,9 +6,10 @@ export class IApiClient {
     /**
      * @param {string} endpoint 
      * @param {object} data 
+     * @param {boolean} wrap - Whether to wrap the data in a { data: ... } property (default: true)
      * @returns {Promise<any>}
      */
-    async post(endpoint, data) {
+    async post(endpoint, data, wrap = true) {
         throw new Error("Method 'post' must be implemented.");
     }
 

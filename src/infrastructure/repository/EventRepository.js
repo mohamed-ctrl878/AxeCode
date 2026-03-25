@@ -16,16 +16,24 @@ export class EventRepository extends IEventInteraction {
 
     async create(data) {
         const request = new EventRequest(data);
-        return await this.apiClient.post(this.endpointBase, request);
+        return await this.apiClient.post(this.endpointBase, request, false);
     }
 
     async getById(id) {
+        console.log(`${this.endpointBase}/${id}?populate=*`)
         return await this.apiClient.get(`${this.endpointBase}/${id}?populate=*`);
+    }
+    async getAll() {
+        return await this.apiClient.get(`${this.endpointBase}?populate=*`);
     }
 
     async update(id, data) {
         const request = new EventRequest(data);
-        return await this.apiClient.put(this.endpointBase, id, request);
+        return await this.apiClient.put(this.endpointBase, id, request, false);
+    }
+
+    async delete(id) {
+        return await this.apiClient.delete(this.endpointBase, id);
     }
 
     async registerForEvent(eventId) { }

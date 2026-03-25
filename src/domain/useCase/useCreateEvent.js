@@ -1,20 +1,23 @@
 import { useAsyncUseCase } from './useAsyncUseCase';
 import { EventRepository } from '../../infrastructure/repository/EventRepository';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 
 /**
- * UseCase hook for creating an event.
+ * UseCase hook for creating a new Event.
+ * Atomic operation including entitlement creation on the backend.
  */
 export const useCreateEvent = () => {
     const repository = useMemo(() => new EventRepository(), []);
 
-    const { execute, returnedData, inProgress, error } = useAsyncUseCase(
-        (data) => repository.create(data)
-    );
+    const createLogic = useCallback(async (eventData, entitlementData = null) => {
+        return await repository.create({ ...eventData, entitlementData });
+    }, [repository]);
+
+    const { execute, returnedData, inProgress, error } = useAsyncUseCase(createLogic);
 
     return {
         createEvent: execute,
-        event: returnedData,
+        createdEvent: returnedData,
         inProgress,
         error
     };
