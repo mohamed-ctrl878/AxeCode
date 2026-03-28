@@ -28,6 +28,8 @@ const EventDetailsPage = lazy(() => import('../feature/event/routes/EventDetails
 const CMSPage = lazy(() => import('../feature/cms/routes/CMSPage'));
 const CourseManagementPage = lazy(() => import('../feature/cms/routes/CourseManagementPage'));
 const EventManagementPage = lazy(() => import('../feature/cms/routes/EventManagementPage'));
+const ProblemManagementPage = lazy(() => import('../feature/cms/routes/ProblemManagementPage'));
+const CreateProblemPage = lazy(() => import('../feature/cms/routes/CreateProblemPage'));
 const AddLessonPage = lazy(() => import('../feature/cms/routes/AddLessonPage'));
 const EditLessonPage = lazy(() => import('../feature/cms/routes/EditLessonPage'));
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
@@ -59,7 +61,9 @@ export const AppRoutes = () => {
                 <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/lessons/:lessonId/edit`} element={<EditLessonPage />} />
                 
                 <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />
+                <Route path={PATHS.PROBLEM_CREATE} element={<CreateProblemPage />} />
                 <Route path={`${PATHS.PROBLEMS}/:id`} element={<ProblemPreviewPage />} />
+                <Route path={`${PATHS.CONTENT_MANAGEMENT}/problems/:id/:topic`} element={<ProblemManagementPage />} />
 
 
                 <Route path={PATHS.ROADMAPS} element={<RoadmapsPage />} />

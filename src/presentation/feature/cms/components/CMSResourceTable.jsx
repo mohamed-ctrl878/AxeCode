@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
-import { Plus, Activity, Settings, ChevronRight, Edit2, Calendar, ShieldCheck } from 'lucide-react';
 import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
+import { useDeleteProblem } from '@domain/useCase/useDeleteProblem';
+import { Activity, ChevronRight, Database, Edit2, Layout, Plus, Settings, Trash2 } from 'lucide-react';
 
 /**
  * CMSResourceTable: Reusable table for management resources.
@@ -10,7 +11,9 @@ import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
 export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, onRefresh }) => {
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const dropdownRef = useRef(null);
-    const { deleteEvent, inProgress: isDeleting } = useDeleteEvent();
+    const { deleteEvent, inProgress: isDeletingEvent } = useDeleteEvent();
+    const { deleteProblem, inProgress: isDeletingProblem } = useDeleteProblem();
+    const isDeleting = isDeletingEvent || isDeletingProblem;
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -27,6 +30,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
         if (sectionName === 'Courses') return PATHS.COURSE_CREATE;
         if (sectionName === 'Articles') return `${PATHS.ARTICLES}/write`;
         if (sectionName === 'Events') return PATHS.EVENT_CREATE;
+        if (sectionName === 'Problems') return PATHS.PROBLEM_CREATE;
         return '#/create';
     };
 
@@ -35,6 +39,8 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
             try {
                 if (sectionName === 'Events') {
                     await deleteEvent(id);
+                } else if (sectionName === 'Problems') {
+                    await deleteProblem(id);
                 }
                 // Notify parent to refresh
                 if (onRefresh) onRefresh();
@@ -158,8 +164,8 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                                                 </div>
                                             )}
 
-                                            {/* Dropdown Menu - Events */}
-                                            {openDropdownId === id && sectionName === 'Events' && (
+                                             {/* Dropdown Menu - Events */}
+                                             {openDropdownId === id && sectionName === 'Events' && (
                                                 <div className="absolute right-0 top-full mt-2 w-56 bg-surface-dark border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animation-fade-in origin-top-right">
                                                     <div className="p-2 space-y-1">
                                                         <Link 
@@ -192,19 +198,61 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                                                             disabled={isDeleting}
                                                             className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
                                                         >
-                                                            <Plus size={14} className="rotate-45" />
-                                                            Remove
+                                                            <Trash2 size={14} />
+                                                            Remove Event
                                                         </button>
                                                     </div>
                                                 </div>
                                             )}
+
+                                             {/* Dropdown Menu - Problems */}
+                                            {openDropdownId === id && sectionName === 'Problems' && (
+                                                <div className="absolute right-0 top-full mt-2 w-56 bg-surface-dark border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animation-fade-in origin-top-right">
+                                                    <div className="p-2 space-y-1">
+                                                        <Link 
+                                                            to={`${PATHS.CONTENT_MANAGEMENT}/problems/${id}/edit`} 
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                                                        >
+                                                            <Edit2 size={14} />
+                                                            Configure Signature
+                                                        </Link>
+                                                        <Link 
+                                                            to={`${PATHS.CONTENT_MANAGEMENT}/problems/${id}/test-cases`} 
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                                                        >
+                                                            <Database size={14} />
+                                                            Manage Test Cases
+                                                        </Link>
+                                                        <Link 
+                                                            to={`${PATHS.CONTENT_MANAGEMENT}/problems/${id}/analysis`} 
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                                                        >
+                                                            <Activity size={14} />
+                                                            Submission Analysis
+                                                        </Link>
+                                                        <div className="h-[1px] bg-white/5 my-1" />
+                                                        <button 
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleRemove(id, title);
+                                                            }}
+                                                            disabled={isDeleting}
+                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
+                                                        >
+                                                            <Trash2 size={14} />
+                                                            Remove Problem
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                                <ChevronRight size={14} className="text-text-muted/30 group-hover:text-accent-primary transition-colors" />
+                                            </div>
                                         </div>
-                                        <ChevronRight size={14} className="text-text-muted/30 group-hover:text-accent-primary transition-colors" />
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
                 </div>
             </div>
         </div>

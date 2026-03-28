@@ -7,11 +7,15 @@ import {
     Calendar, 
     Image
 } from 'lucide-react';
-import { CMSSidebar } from '../components/CMSSidebar';
-import { CMSActionBar } from '../components/CMSActionBar';
-import { CMSResourceTable } from '../components/CMSResourceTable';
+// import { CMSSidebar } from '@presentation/cms/components/CMSSidebar';
+// import { CMSActionBar } from '@presentation/cms/components/CMSActionBar';
+// import { CMSResourceTable } from '@presentation/cms/components/CMSResourceTable';
 import { useFetchAdminCourses } from '@domain/useCase/useFetchAdminCourses';
 import { useFetchAdminEvents } from '@domain/useCase/useFetchAdminEvents';
+import { useFetchAdminProblems } from '@domain/useCase/useFetchAdminProblems';
+import { CMSResourceTable } from '../components/CMSResourceTable';
+import { CMSSidebar } from '../components/CMSSidebar';
+import { CMSActionBar } from '../components/CMSActionBar';
 
 /**
  * CMSPage: Orchestrates the modular management interface.
@@ -23,6 +27,7 @@ export const CMSPage = () => {
     
     const { courses, isLoading: isCoursesLoading, fetch: fetchCourses } = useFetchAdminCourses();
     const { events, isLoading: isEventsLoading, fetch: fetchEvents } = useFetchAdminEvents();
+    const { problems, isLoading: isProblemsLoading, fetch: fetchProblems } = useFetchAdminProblems();
     
     // Normalize URL param (e.g. 'courses' => 'Courses')
     const activeSection = section ? section.charAt(0).toUpperCase() + section.slice(1) : 'Courses';
@@ -30,7 +35,7 @@ export const CMSPage = () => {
     const sections = [
         { name: 'Courses', icon: BookOpen, count: courses?.length || 0 },
         { name: 'Articles', icon: FileText, count: 0 },
-        { name: 'Problems', icon: Code2, count: 0 },
+        { name: 'Problems', icon: Code2, count: problems?.length || 0 },
         { name: 'Events', icon: Calendar, count: events?.length || 0 },
         { name: 'Media', icon: Image, count: 0 }
     ];
@@ -40,7 +45,7 @@ export const CMSPage = () => {
     let items = [];
     let isLoading = false;
     let refreshFn = () => {};
-    
+    console.log(activeSection);
     if (activeSection === 'Courses') {
         items = courses || [];
         isLoading = isCoursesLoading;
@@ -49,6 +54,10 @@ export const CMSPage = () => {
         items = events || [];
         isLoading = isEventsLoading;
         refreshFn = fetchEvents;
+    } else if (activeSection === 'Problems') {
+        items = problems || [];
+        isLoading = isProblemsLoading;
+        refreshFn = fetchProblems;
     } else {
         items = []; 
     }
