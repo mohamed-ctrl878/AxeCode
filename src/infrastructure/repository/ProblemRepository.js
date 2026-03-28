@@ -1,56 +1,93 @@
-import { IProblemInteraction } from '../../domain/interface/IProblemInteraction';
-import { ProblemRequest } from '../DTO/Request/ProblemRequest';
-import { repositoryRegistry } from './RepositoryRegistry';
+import { BaseRepository } from './BaseRepository';
+import qs from 'qs';
 
 /**
- * ProblemRepository implementing IProblemInteraction + IProblemAccess.
- * Depends on IApiClient (abstracted technical layer).
+ * ProblemRepository: Handles algorithmic problem data.
  */
-export class ProblemRepository extends IProblemInteraction {
-    constructor(apiClient = repositoryRegistry.apiClient) {
+export class ProblemRepository extends BaseRepository {
+    constructor() {
         super();
-        this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_PROBLEMS;
-        this.createEndpoint = import.meta.env.VITE_API_PROBLEM_ADD;
+        this.endpoint = '/api/problems';
     }
 
     /**
-     * Fetch all problems with optional filters and pagination.
-     * @param {object} params - { filters, page, pageSize }
-     * @returns {Promise<{data: Array, meta: object}>}
+     * Fetches admin-owned problems or all problems if authorized.
      */
-    async getAll(params = {}) {
-        const queryParams = {};
-        if (params.filters) {
-            queryParams.filters = params.filters;
+    async getAll() {
+        try {
+            const query = qs.stringify({
+                populate: ['problem_types'],
+                sort: ['createdAt:desc']
+            }, { encodeValuesOnly: true });
+
+            const response = await this.get(`${this.endpoint}?${query}`);
+            return response.data || [];
+        } catch (error) {
+            console.error('[ProblemRepository] Fetch admin failed:', error);
+            throw error;
         }
-        if (params.page) {
-            queryParams.pagination = { page: params.page, pageSize: params.pageSize || 25 };
-        }
-        queryParams.populate = ['problem_types'];
-        return await this.apiClient.get(this.endpoint, { params: queryParams });
     }
 
     /**
-     * Fetch a single problem by documentId with full relations.
-     * @param {string} id - documentId
-     * @returns {Promise<{data: object}>}
+     * Fetches a single problem with full details for management.
      */
     async getById(id) {
-        return await this.apiClient.get(`${this.endpoint}/${id}`, {
-            params: { populate: ['problem_types', 'test_cases', 'code_templates'] }
-        });
+        try {
+            const query = qs.stringify({
+                populate: {
+                    problem_types: true,
+                    test_cases: {
+                        sort: ['order:asc']
+                    },
+                    code_templates: true
+                }
+            }, { encodeValuesOnly: true });
+
+            const response = await this.get(`${this.endpoint}/${id}?${query}`);
+            return response.data;
+        } catch (error) {
+            console.error('[ProblemRepository] GetById failed:', error);
+            throw error;
+        }
     }
 
+    /**
+     * Creates a new problem.
+     * Note: Backend lifecycles will handle auto-generation of code templates.
+     */
     async create(data) {
-        const request = new ProblemRequest(data);
-        return await this.apiClient.post(this.createEndpoint, request);
+        try {
+            const response = await this.post(this.endpoint, data);
+            return response.data;
+        } catch (error) {
+            console.error('[ProblemRepository] Create failed:', error);
+            throw error;
+        }
     }
 
+    /**
+     * Updates problem metadata or technical signature.
+     */
     async update(id, data) {
-        const request = new ProblemRequest(data);
-        return await this.apiClient.put(this.createEndpoint, id, request);
+        try {
+            const response = await this.put(this.endpoint, id, data);
+            return response.data;
+        } catch (error) {
+            console.error('[ProblemRepository] Update failed:', error);
+            throw error;
+        }
     }
 
-    async submitSolution(problemId, solution) { }
+    /**
+     * Deletes a problem.
+     */
+    async delete(id) {
+        try {
+            await super.delete(`${this.endpoint}/${id}`);
+            return true;
+        } catch (error) {
+            console.error('[ProblemRepository] Delete failed:', error);
+            throw error;
+        }
+    }
 }

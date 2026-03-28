@@ -10,6 +10,7 @@ export const PATHS = {
     COURSE_CREATE: '/cms/courses/create',
     COURSE_DETAILS: '/courses/:id',
     PROBLEMS: '/problems',
+    PROBLEM_CREATE: '/cms/problems/create',
     PROBLEM_DETAILS: '/problems/:id',
     ROADMAPS: '/roadmaps',
     ROADMAP_DETAILS: '/roadmaps/:id',

@@ -11,6 +11,9 @@ import { CommentEntity } from '../entity/CommentEntity';
 import { RoadmapEntity } from '../entity/RoadmapEntity';
 import { ConversationEntity } from '../entity/ConversationEntity';
 import { MessageEntity } from '../entity/MessageEntity';
+import { TestCaseEntity } from '../entity/TestCaseEntity';
+import { TestCaseDTO } from '@infrastructure/DTO/TestCaseDTO';
+import { SubmissionEntity } from '../entity/SubmissionEntity';
 
 /**
  * EntityMapper utility for converting DTOs to Domain Entities.
@@ -332,6 +335,7 @@ export class EntityMapper {
             // Nested relations
             testCases: Array.from(dto.test_cases?.values?.() || []).map(tc => ({
                 id: tc.id,
+                documentId: tc.documentId,
                 input: tc.input,
                 expectedOutput: tc.expectedOutput,
                 isHidden: tc.isHidden,
@@ -339,6 +343,7 @@ export class EntityMapper {
             })),
             codeTemplates: Array.from(dto.code_templates?.values?.() || []).map(tpl => ({
                 id: tpl.id,
+                documentId: tpl.documentId,
                 language: tpl.language,
                 starterCode: tpl.starterCode,
                 wrapperCode: tpl.wrapperCode
@@ -511,6 +516,45 @@ export class EntityMapper {
             conversationId: dto.conversationId,
             sender: this.toUser(dto.user),
             text: dto.message
+        });
+    }
+
+    /**
+     * Maps a TestCaseDTO to TestCaseEntity.
+     */
+    static toTestCase(dto) {
+        if (!dto) return null;
+        return new TestCaseEntity({
+            id: dto.id,
+            documentId: dto.documentId,
+            input: dto.input,
+            expectedOutput: dto.expectedOutput,
+            isHidden: dto.isHidden,
+            order: dto.order,
+            problemId: dto.problemId
+        });
+    }
+
+    /**
+     * Maps a SubmissionDTO to SubmissionEntity.
+     */
+    static toSubmission(dto) {
+        if (!dto) return null;
+        return new SubmissionEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt,
+            code: dto.code,
+            language: dto.language,
+            verdict: dto.verdict,
+            executionTime: dto.executionTime,
+            memoryUsed: dto.memoryUsed,
+            judgeOutput: dto.judgeOutput,
+            testCasesPassed: dto.testCasesPassed,
+            totalTestCases: dto.totalTestCases,
+            problem: dto.problem,
+            user: dto.user,
         });
     }
 }

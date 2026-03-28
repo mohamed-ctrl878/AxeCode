@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useFetchProblem } from '@domain/useCase/useFetchProblem';
 import { useRunCode } from '@domain/useCase/useRunCode';
 import { useSubmitCode } from '@domain/useCase/useSubmitCode';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { useFetchProblemSubmissions } from '@domain/useCase/useFetchProblemSubmissions';
+import { Loader2, AlertCircle, X } from 'lucide-react';
+import { cn } from '@core/utils/cn';
 
 // Composed sub-components (SRP)
 import { ProblemWorkspaceHeader } from '../components/ProblemWorkspaceHeader';
@@ -28,12 +30,20 @@ const ProblemPreviewPage = () => {
     // --- Domain UseCases ---
     const { runCode, result: runResult, running: isRunning, error: runError } = useRunCode();
     const { submitCode, result: submitResult, submitting: isSubmitting, error: submitError } = useSubmitCode();
+    const { fetchSubmissions, submissions, loadingSubmissions } = useFetchProblemSubmissions();
 
     // --- Local UI State ---
     const [leftTab, setLeftTab] = useState('description');
     const [rightTab, setRightTab] = useState('testcases');
+    
+    // Editor code and state
     const [code, setCode] = useState('');
     const [language, setLanguage] = useState('javascript');
+    
+    // Editor UI tabs
+    const [editorTab, setEditorTab] = useState('solution'); // 'solution' | 'submission_view'
+    const [viewedSubmission, setViewedSubmission] = useState(null);
+
     const [activeTestCase, setActiveTestCase] = useState(0);
     const [displayResult, setDisplayResult] = useState(null);
 
@@ -46,17 +56,32 @@ const ProblemPreviewPage = () => {
         if (id) fetchProblem(id);
     }, [id, fetchProblem]);
 
-    // Load starter code from first template when problem loads
+    // Load starter code from local storage or templates when problem/language loads
     useEffect(() => {
-        if (problem?.codeTemplates?.length > 0) {
+        if (!problem?.uid) return;
+        
+        const localKey = `axe_code_${problem.uid}_${language}`;
+        const savedCode = localStorage.getItem(localKey);
+        
+        if (savedCode) {
+            setCode(savedCode);
+        } else if (problem?.codeTemplates?.length > 0) {
             const template = problem.codeTemplates.find(t => t.language === language)
                 || problem.codeTemplates[0];
             if (template) {
                 setCode(template.starterCode || '');
-                setLanguage(template.language || 'javascript');
+                // setLanguage(template.language || 'javascript'); // Language is already defined, keep it or let template override if not matching
             }
         }
-    }, [problem]);
+    }, [problem?.uid, language, problem?.codeTemplates]);
+
+    // Auto-save code to local storage when it changes
+    useEffect(() => {
+        if (!problem?.uid || !code) return;
+        
+        const localKey = `axe_code_${problem.uid}_${language}`;
+        localStorage.setItem(localKey, code);
+    }, [code, language, problem?.uid]);
 
     // Sync UseCase results to display state
     useEffect(() => {
@@ -64,8 +89,19 @@ const ProblemPreviewPage = () => {
     }, [runResult]);
 
     useEffect(() => {
-        if (submitResult) setDisplayResult(submitResult);
-    }, [submitResult]);
+        if (submitResult) {
+            setDisplayResult(submitResult);
+            // Re-fetch submissions when a new submission completes
+            if (problem?.uid) fetchSubmissions(problem.uid);
+        }
+    }, [submitResult, problem?.uid, fetchSubmissions]);
+
+    // Fetch submissions when problem loads or tab opens
+    useEffect(() => {
+        if (problem?.uid && leftTab === 'submissions') {
+            fetchSubmissions(problem.uid);
+        }
+    }, [problem?.uid, leftTab, fetchSubmissions]);
 
     // --- Resizable Drag Handlers ---
     const handleMouseDown = useCallback((e) => {
@@ -198,7 +234,22 @@ const ProblemPreviewPage = () => {
                             <ProblemComments problemId={problem.uid} />
                         )}
                         {leftTab === 'submissions' && (
-                            <ProblemSubmissions submissions={[]} />
+                            <div className="relative h-full">
+                                {loadingSubmissions && (
+                                    <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10 backdrop-blur-sm">
+                                        <Loader2 size={24} className="animate-spin text-accent-primary" />
+                                    </div>
+                                )}
+                                <ProblemSubmissions 
+                                    submissions={submissions} 
+                                    onLoadSubmission={(sub) => {
+                                        if (sub.code) {
+                                            setViewedSubmission(sub);
+                                            setEditorTab('submission_view');
+                                        }
+                                    }}
+                                />
+                            </div>
                         )}
                     </div>
                 </div>
@@ -214,14 +265,57 @@ const ProblemPreviewPage = () => {
                 {/* Right Column: Editor + Bottom Tabs */}
                 <div className="flex flex-col flex-1 overflow-hidden">
                     {/* Top: Code Editor (60%) */}
-                    <div className="flex-[3] overflow-hidden p-2">
-                        <ProblemEditor
-                            codeTemplates={problem.codeTemplates}
-                            code={code}
-                            language={language}
-                            onCodeChange={setCode}
-                            onLanguageChange={setLanguage}
-                        />
+                    <div className="flex-[3] flex flex-col overflow-hidden bg-surface">
+                        {/* Editor Tabs bar */}
+                        <div className="flex bg-surface-dark border-b border-border-subtle shrink-0">
+                            <button 
+                                onClick={() => setEditorTab('solution')}
+                                className={cn("px-4 py-2 text-xs font-bold transition-all border-b-2", editorTab === 'solution' ? "text-accent-primary border-accent-primary bg-accent-primary/5" : "text-text-muted border-transparent hover:bg-white/5")}
+                            >
+                                Solution
+                            </button>
+                            {viewedSubmission && (
+                                <div className={cn("flex items-center gap-2 pl-4 pr-2 py-2 text-xs font-bold transition-all border-b-2 cursor-pointer group", editorTab === 'submission_view' ? "text-accent-primary border-accent-primary bg-accent-primary/5" : "text-text-muted border-transparent hover:bg-white/5")} onClick={() => setEditorTab('submission_view')}>
+                                    <span>Submission #{viewedSubmission.id}</span>
+                                    <button 
+                                        onClick={(e) => { e.stopPropagation(); setViewedSubmission(null); setEditorTab('solution'); }}
+                                        className="p-1 rounded opacity-50 hover:opacity-100 hover:bg-red-500/20 hover:text-red-400 transition-all"
+                                        title="Close submission view"
+                                    >
+                                        <X size={12} />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Editor Content Area */}
+                        <div className="flex-1 overflow-hidden p-2">
+                            {editorTab === 'solution' ? (
+                                <ProblemEditor
+                                    codeTemplates={problem.codeTemplates}
+                                    code={code}
+                                    language={language}
+                                    onCodeChange={setCode}
+                                    onLanguageChange={setLanguage}
+                                    onResetCode={() => {
+                                        if (window.confirm('Are you sure you want to reset the code to the default template? Your current work will be lost.')) {
+                                            const template = problem.codeTemplates?.find(t => t.language === language) || problem.codeTemplates?.[0];
+                                            if (template) {
+                                                setCode(template.starterCode);
+                                                localStorage.removeItem(`axe_code_${problem?.uid}_${language}`);
+                                            }
+                                        }
+                                    }}
+                                />
+                            ) : (
+                                <ProblemEditor
+                                    codeTemplates={[]}
+                                    code={viewedSubmission?.code}
+                                    language={viewedSubmission?.language}
+                                    isReadOnly={true}
+                                />
+                            )}
+                        </div>
                     </div>
 
                     {/* Bottom: Test Cases / Result Tabs (40%) */}

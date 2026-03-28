@@ -3,19 +3,19 @@ import { ProblemRepository } from '@infrastructure/repository/ProblemRepository'
 import { useMemo, useCallback } from 'react';
 
 /**
- * UseCase hook for creating an algorithmic problem.
+ * UseCase hook for updating an algorithmic problem.
  */
-export const useCreateProblem = () => {
+export const useUpdateProblem = () => {
     const repository = useMemo(() => new ProblemRepository(), []);
 
-    const createLogic = useCallback(async (data) => {
-        return await repository.create(data);
+    const updateLogic = useCallback(async ({ id, data }) => {
+        return await repository.update(id, data);
     }, [repository]);
 
-    const { execute, returnedData, inProgress, error } = useAsyncUseCase(createLogic);
+    const { execute, returnedData, inProgress, error } = useAsyncUseCase(updateLogic);
 
     return {
-        createProblem: execute,
+        updateProblem: execute,
         problem: returnedData,
         inProgress,
         error
