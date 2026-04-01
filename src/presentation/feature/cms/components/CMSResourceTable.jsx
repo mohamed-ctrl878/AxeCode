@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
 import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
 import { useDeleteProblem } from '@domain/useCase/useDeleteProblem';
-import { Activity, ChevronRight, Database, Edit2, Layout, Plus, Settings, Trash2 } from 'lucide-react';
+import { Activity, Calendar, ChevronRight, Database, Edit2, Layout, Plus, Settings, ShieldCheck, Trash2 } from 'lucide-react';
 
 /**
  * CMSResourceTable: Reusable table for management resources.

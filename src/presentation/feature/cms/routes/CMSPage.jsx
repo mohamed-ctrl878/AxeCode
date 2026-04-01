@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { 
     FileText, 
     BookOpen, 
-    Code2, 
-    Calendar, 
+    Code2,
+    Calendar,
     Image
 } from 'lucide-react';
 // import { CMSSidebar } from '@presentation/cms/components/CMSSidebar';
@@ -19,7 +19,7 @@ import { CMSActionBar } from '../components/CMSActionBar';
 
 /**
  * CMSPage: Orchestrates the modular management interface.
- * Follows SRP: Delegates UI logic to child components.
+ * Follows SRP: Delegates UI logic to child components. 
  */
 export const CMSPage = () => {
     const navigate = useNavigate();
@@ -45,7 +45,6 @@ export const CMSPage = () => {
     let items = [];
     let isLoading = false;
     let refreshFn = () => {};
-    console.log(activeSection);
     if (activeSection === 'Courses') {
         items = courses || [];
         isLoading = isCoursesLoading;
