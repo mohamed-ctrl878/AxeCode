@@ -536,6 +536,23 @@ export class EntityMapper {
     }
 
     /**
+     * Reverses HTML entity encoding (e.g. &amp;gt; to >) 
+     * Ensures code blocks render perfectly regardless of backend security middleware configurations
+     */
+    static decodeHtmlEntities(text) {
+        if (!text) return text;
+        const entities = {
+            '&amp;': '&',
+            '&lt;': '<',
+            '&gt;': '>',
+            '&quot;': '"',
+            '&#39;': "'",
+            '&#x2F;': '/'
+        };
+        return text.replace(/&amp;|&lt;|&gt;|&quot;|&#39;|&#x2F;/g, match => entities[match]);
+    }
+
+    /**
      * Maps a SubmissionDTO to SubmissionEntity.
      */
     static toSubmission(dto) {
@@ -545,7 +562,7 @@ export class EntityMapper {
             uid: dto.documentId,
             createdAt: dto.createdAt,
             updatedAt: dto.updatedAt,
-            code: dto.code,
+            code: EntityMapper.decodeHtmlEntities(dto.code),
             language: dto.language,
             verdict: dto.verdict,
             executionTime: dto.executionTime,
