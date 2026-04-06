@@ -4,7 +4,8 @@ import '@xyflow/react/dist/style.css'; // CRITICAL: Missing CSS on details page
 import { RichTextNode } from './nodes/RichTextNode';
 
 const nodeTypes = {
-    richText: RichTextNode
+    richText: RichTextNode,
+    custom: RichTextNode // Fallback for legacy roadmaps
 };
 
 /**

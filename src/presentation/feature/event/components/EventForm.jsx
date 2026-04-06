@@ -8,25 +8,25 @@ import RichTextInput from '@presentation/shared/components/RichTextEditor/RichTe
  * Mirrors CourseForm logic for consistency.
  */
 export const EventForm = ({ 
-    initialData = {}, 
-    isLoading = false, 
-    onSubmit 
+    initialData = {},
+    isLoading = false,
+    onSubmit
 }) => {
     // ─── Basic Metadata ──────────────────────────────────────────────────
-    const [title, setTitle] = useState(initialData.title || '');
-    const [description, setDescription] = useState(initialData.discription || []); // Backend typo 'discription'
-    const [date, setDate] = useState(initialData.date ? new Date(initialData.date).toISOString().slice(0, 16) : '');
-    const [location, setLocation] = useState(initialData.location || '');
-    const [duration, setDuration] = useState(initialData.duration || '');
+    const [title, setTitle] = useState(initialData?.title || '');
+    const [description, setDescription] = useState(initialData?.discription || []); // Backend typo 'discription'
+    const [date, setDate] = useState(initialData?.date ? new Date(initialData.date).toISOString().slice(0, 16) : '');
+    const [location, setLocation] = useState(initialData?.location || '');
+    const [duration, setDuration] = useState(initialData?.duration || '');
 
     // ─── Toggles & Modes ─────────────────────────────────────────────────
-    const [onsite, setOnsite] = useState(initialData.onsite ?? true);
-    const [liveStreaming, setLiveStreaming] = useState(initialData.live_streaming ?? false);
+    const [onsite, setOnsite] = useState(initialData?.onsite ?? true);
+    const [liveStreaming, setLiveStreaming] = useState(initialData?.live_streaming ?? false);
     
     // ─── Thumbnail Upload ───────────────────────────────────────────────
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(
-        initialData.image?.[0]?.url ? `${import.meta.env.VITE_API_BASE_URL}${initialData.image[0].url}` : null
+        initialData?.image?.[0]?.url ? `${import.meta.env.VITE_API_BASE_URL}${initialData?.image[0]?.url}` : null
     );
 
     const handleImageChange = (e) => {
@@ -69,7 +69,7 @@ export const EventForm = ({
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-8 relative z-10 transition-all">
                 <div className="space-y-1">
                     <h2 className="text-3xl font-black text-white italic tracking-tight">
-                        {initialData.documentId ? 'Refine Event Details' : 'Launch New Event'}
+                        {initialData?.documentId ? 'Refine Event Details' : 'Launch New Event'}
                     </h2>
                     <p className="text-sm text-text-muted opacity-60">Architect your next experience with Axe Code</p>
                 </div>
@@ -80,7 +80,7 @@ export const EventForm = ({
                     className="group/btn relative flex items-center justify-center gap-3 bg-white text-black font-black uppercase tracking-widest px-10 py-4 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed shadow-xl shadow-white/5"
                 >
                     {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Calendar size={18} />}
-                    {initialData.documentId ? 'Push Updates' : 'Publish Event'}
+                    {initialData?.documentId ? 'Push Updates' : 'Publish Event'}
                 </button>
             </div>
 

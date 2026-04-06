@@ -65,9 +65,9 @@ const CreateEventPage = () => {
             <div className="flex items-center justify-between">
                 <button 
                     onClick={() => navigate(`${PATHS.CONTENT_MANAGEMENT}/events`)}
-                    className="flex items-center gap-2 text-text-muted hover:text-white transition-colors group"
+                    className="flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors group"
                 >
-                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-all">
+                    <div className="w-8 h-8 rounded-full bg-border-subtle/20 flex items-center justify-center group-hover:bg-border-subtle/40 transition-all">
                         <ArrowLeft size={16} />
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-widest">Back to Management</span>
@@ -77,7 +77,7 @@ const CreateEventPage = () => {
                 {status.message && (
                     <div className={cn(
                         "flex items-center gap-3 px-6 py-3 rounded-2xl text-xs font-bold shadow-2xl transition-all animate-slide-up",
-                        status.type === 'loading' ? "bg-white/5 text-white/60 border border-white/10" :
+                        status.type === 'loading' ? "bg-surface-sunken text-text-muted border border-border-subtle" :
                         status.type === 'success' ? "bg-green-500/10 text-green-400 border border-green-500/20" :
                         "bg-red-500/10 text-red-500 border border-red-500/20"
                     )}>
@@ -99,9 +99,9 @@ const CreateEventPage = () => {
             {/* Loading Overlay for Desktop */}
             {isPending && (
                 <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] pointer-events-none">
-                    <div className="p-8 bg-surface rounded-[2rem] border border-white/10 shadow-3xl flex flex-col items-center gap-4 animate-scale-in">
+                    <div className="p-8 bg-surface rounded-[2rem] border border-border-subtle shadow-3xl flex flex-col items-center gap-4 animate-scale-in">
                         <Loader2 size={48} className="text-accent-blue animate-spin" />
-                        <p className="text-sm font-black text-white italic tracking-widest animate-pulse uppercase">{status.message}</p>
+                        <p className="text-sm font-black text-text-primary italic tracking-widest animate-pulse uppercase">{status.message}</p>
                     </div>
                 </div>
             )}

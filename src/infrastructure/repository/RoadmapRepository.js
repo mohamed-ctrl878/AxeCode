@@ -23,6 +23,10 @@ export class RoadmapRepository extends IRoadmapInteraction {
         return await this.apiClient.put(this.endpoint, id, request);
     }
 
+    async delete(id) {
+        return await this.apiClient.delete(this.endpoint, id);
+    }
+
     /**
      * Fetches all roadmaps.
      * @param {object} [params] - Optional query params (filters, pagination, etc.)

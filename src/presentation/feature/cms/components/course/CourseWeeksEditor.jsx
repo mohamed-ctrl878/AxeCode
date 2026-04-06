@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Calendar, Plus, AlertCircle } from 'lucide-react';
+import { Calendar, Plus, AlertCircle, Loader2 } from 'lucide-react';
 import { useFetchCoursePreview } from '@domain/useCase/useFetchCoursePreview';
 import { useCreateWeek } from '@domain/useCase/useCreateWeek';
 import { useUpdateWeek } from '@domain/useCase/useUpdateWeek';
@@ -97,8 +97,9 @@ export const CourseWeeksEditor = ({ courseId }) => {
     // --- Render ---
     if (isFetching && !coursePreview) {
         return (
-            <div className="flex items-center justify-center p-12 text-text-muted animate-pulse">
-                Loading course schedule...
+            <div className="flex flex-col items-center justify-center p-20 text-text-muted animate-pulse">
+                <Loader2 className="animate-spin mb-4" size={32} />
+                <p>Loading course schedule...</p>
             </div>
         );
     }
@@ -118,13 +119,13 @@ export const CourseWeeksEditor = ({ courseId }) => {
     return (
         <div className="animation-fade-in space-y-6 max-w-4xl mx-auto">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-subtle pb-4">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-accent-blue/10 text-accent-blue flex items-center justify-center">
                         <Calendar size={20} />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold tracking-tight">Schedule Weeks</h2>
+                        <h2 className="text-xl font-bold tracking-tight text-text-primary">Schedule Weeks</h2>
                         <p className="text-xs text-text-muted">
                             Manage the weekly modules that structure this course's curriculum.
                         </p>
@@ -134,7 +135,7 @@ export const CourseWeeksEditor = ({ courseId }) => {
                 <button
                     onClick={handleOpenCreate}
                     disabled={isMutating}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold bg-accent-primary hover:bg-accent-secondary text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold bg-accent-primary hover:brightness-110 text-on-accent transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                 >
                     <Plus size={16} />
                     Add Week
@@ -143,7 +144,7 @@ export const CourseWeeksEditor = ({ courseId }) => {
 
             {/* Week Counter */}
             <div className="flex items-center gap-2 text-xs text-text-muted">
-                <span className="px-2 py-0.5 rounded bg-white/5 font-mono">{weeks.length}</span>
+                <span className="px-2 py-0.5 rounded bg-surface-sunken font-mono">{weeks.length}</span>
                 <span>weeks scheduled</span>
                 {isMutating && (
                     <span className="ml-auto text-accent-primary animate-pulse text-[10px]">Saving...</span>
@@ -151,13 +152,23 @@ export const CourseWeeksEditor = ({ courseId }) => {
             </div>
 
             {/* Delegated List */}
-            <WeekList
-                courseId={courseId}
-                weeks={weeks}
-                onEdit={handleOpenEdit}
-                onDelete={handleDelete}
-                onDeleteLesson={handleDeleteLesson}
-            />
+            {weeks.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 text-center border border-border-subtle border-dashed rounded-3xl bg-surface-light/30">
+                    <div className="w-16 h-16 rounded-full bg-surface-sunken flex items-center justify-center text-text-muted/20 mb-4">
+                        <Calendar size={32} />
+                    </div>
+                    <p className="text-text-primary text-sm font-bold">No weeks scheduled yet.</p>
+                    <p className="text-text-muted text-xs mt-1 max-w-[200px]">Start building your curriculum by adding the first week.</p>
+                </div>
+            ) : (
+                <WeekList
+                    courseId={courseId}
+                    weeks={weeks}
+                    onEdit={handleOpenEdit}
+                    onDelete={handleDelete}
+                    onDeleteLesson={handleDeleteLesson}
+                />
+            )}
 
             {/* Week Modal */}
             <WeekFormModal
@@ -170,3 +181,5 @@ export const CourseWeeksEditor = ({ courseId }) => {
         </div>
     );
 };
+
+export default CourseWeeksEditor;

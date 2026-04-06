@@ -69,13 +69,13 @@ export const CourseEntitlementEditor = ({ courseId }) => {
     return (
         <div className="animation-fade-in space-y-10 pb-20">
             {/* Context Header */}
-            <div className="flex items-center justify-between border-b border-white/5 pb-6">
+            <div className="flex items-center justify-between border-b border-border-subtle pb-6">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-400 flex items-center justify-center shadow-inner">
                         <ShieldCheck size={24} />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black tracking-tight text-white italic">Entitlement Management</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary italic">Entitlement Management</h2>
                         <p className="text-xs text-text-muted mt-1 uppercase tracking-widest opacity-60">Revenue & Governance Engine</p>
                     </div>
                 </div>
@@ -93,13 +93,13 @@ export const CourseEntitlementEditor = ({ courseId }) => {
 
             <div className="max-w-xl mx-auto">
                 {/* Pricing Controls */}
-                <div className="bg-surface-dark/40 border border-white/5 rounded-3xl p-10 space-y-8 backdrop-blur-sm shadow-2xl relative overflow-hidden group">
+                <div className="bg-surface border border-border-subtle rounded-3xl p-10 space-y-8 backdrop-blur-sm shadow-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
                         <CreditCard size={120} />
                     </div>
                     
                     <div className="space-y-2 relative z-10">
-                        <h3 className="text-sm font-black text-white/90 uppercase tracking-[0.2em]">Course Valuation</h3>
+                        <h3 className="text-sm font-black text-text-primary/90 uppercase tracking-[0.2em]">Course Valuation</h3>
                         <p className="text-xs text-text-muted italic">Configure the financial barrier for this asset. Changes will be reflected after backend synchronization.</p>
                     </div>
 
@@ -112,7 +112,7 @@ export const CourseEntitlementEditor = ({ courseId }) => {
                                     type="number"
                                     value={price}
                                     onChange={(e) => setPrice(e.target.value)}
-                                    className="w-full bg-background/50 border border-white/10 rounded-2xl pl-12 pr-6 py-5 text-3xl font-black text-white focus:border-accent-primary/50 outline-none transition-all shadow-inner"
+                                    className="w-full bg-background border border-border-subtle rounded-2xl pl-12 pr-6 py-5 text-3xl font-black text-text-primary focus:border-accent-primary/50 outline-none transition-all shadow-inner"
                                     placeholder="0.00"
                                 />
                                 {Number(price) === 0 && (
@@ -126,7 +126,7 @@ export const CourseEntitlementEditor = ({ courseId }) => {
                         <button 
                             onClick={handleUpdatePrice}
                             disabled={isCreating}
-                            className="w-full h-16 bg-gradient-to-r from-accent-primary to-accent-secondary text-primary font-black uppercase text-xs tracking-[0.2em] rounded-2xl shadow-[0_10px_40px_rgba(52,211,153,0.3)] hover:shadow-accent-primary/60 active:scale-95 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
+                            className="w-full h-16 bg-accent-primary text-on-accent font-black uppercase text-xs tracking-[0.2em] rounded-2xl shadow-[0_10px_40px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
                         >
                             {isCreating ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} className="group-hover:rotate-12 transition-transform" />}
                             Commit Pricing Change
@@ -134,7 +134,7 @@ export const CourseEntitlementEditor = ({ courseId }) => {
                     </div>
                 </div>
 
-                <div className="mt-8 p-6 bg-white/[0.02] border border-white/5 rounded-2xl text-center">
+                <div className="mt-8 p-6 bg-surface-sunken border border-border-subtle rounded-2xl text-center">
                     <p className="text-[10px] text-text-muted uppercase tracking-widest leading-relaxed">
                         Note: This operation creates an immutable entitlement record.<br/>
                         A backend service will automatically propagate this price to the course directory.

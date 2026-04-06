@@ -5,7 +5,8 @@ import {
     BookOpen, 
     Code2, 
     Calendar, 
-    Image 
+    Image,
+    Map
 } from 'lucide-react';
 import { CMSSidebar } from '../components/CMSSidebar';
 import { CMSActionBar } from '../components/CMSActionBar';
@@ -19,6 +20,7 @@ const CMS_SECTIONS = [
     { name: 'Courses', icon: BookOpen },
     { name: 'Articles', icon: FileText },
     { name: 'Problems', icon: Code2 },
+    { name: 'Roadmaps', icon: Map },
     { name: 'Events', icon: Calendar },
     { name: 'Media', icon: Image }
 ];

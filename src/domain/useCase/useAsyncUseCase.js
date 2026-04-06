@@ -20,10 +20,10 @@ export const useAsyncUseCase = (asyncFunction) => {
         } catch (err) {
             const errorMessage = err.message || 'An unexpected error occurred';
             setError(errorMessage);
-            console.error('[UseCase Error]:', err);
+            // console.error('[UseCase Error]:', err);
             throw err;
         } finally {
-            console.log(error)
+            // console.log(error)
             setInProgress(false);
         }
     }, [asyncFunction]);

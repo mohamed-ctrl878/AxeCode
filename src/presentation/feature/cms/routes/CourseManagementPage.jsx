@@ -49,13 +49,13 @@ export const CourseManagementPage = () => {
                 <div className="flex items-center gap-4">
                     <button 
                         onClick={() => navigate(`${PATHS.CONTENT_MANAGEMENT}/courses`)}
-                        className="w-10 h-10 rounded-full border border-white/5 flex items-center justify-center text-text-muted hover:border-accent-primary/30 hover:bg-accent-primary/5 hover:text-accent-primary transition-all group shrink-0"
+                        className="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-text-muted hover:border-accent-primary/30 hover:bg-accent-primary/5 hover:text-accent-primary transition-all group shrink-0"
                     >
                         <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                     </button>
                     <div>
                         <div className="flex items-center gap-2">
-                            <h1 className="text-2xl font-black tracking-tight text-white">Course Orchestration</h1>
+                            <h1 className="text-2xl font-black tracking-tight text-text-primary">Course Orchestration</h1>
                             <span className="px-2 py-0.5 rounded text-[8px] font-mono border border-accent-primary/20 bg-accent-primary/10 text-accent-primary uppercase tracking-widest mt-1">ID: {id}</span>
                         </div>
                         <p className="text-text-muted text-xs tracking-wide">Configure comprehensive properties for this learning module.</p>
@@ -63,15 +63,15 @@ export const CourseManagementPage = () => {
                 </div>
 
                 {/* Optional Status Bubble */}
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-dark border border-white/5 text-[10px] font-mono text-text-muted">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-dark border border-border-subtle text-[10px] font-mono text-text-muted">
                     <Activity size={12} className="text-accent-blue" />
                     <span>Focus Mode</span>
                 </div>
             </div>
 
-            <div className="flex-1 flex flex-col bg-surface-dark/30 rounded-t-3xl border border-white/5 border-b-0 overflow-hidden mx-8 shadow-2xl">
+            <div className="flex-1 flex flex-col bg-surface-sunken rounded-t-3xl border border-border-subtle border-b-0 overflow-hidden mx-8 shadow-2xl">
                 {/* Unified Tab Bar */}
-                <div className="flex items-center gap-8 border-b border-white/5 px-8 pt-2 bg-background/50 backdrop-blur-md sticky top-0 z-10">
+                <div className="flex items-center gap-8 border-b border-border-subtle px-8 pt-2 bg-background/50 backdrop-blur-md sticky top-0 z-10">
                     {tabs.map((tab) => {
                         const Icon = tab.icon;
                         const isActive = topic === tab.id;
@@ -80,8 +80,8 @@ export const CourseManagementPage = () => {
                                 key={tab.id}
                                 to={`${PATHS.CONTENT_MANAGEMENT}/courses/${id}/${tab.id}`}
                                 className={cn(
-                                    "relative px-2 py-4 flex items-center gap-2 text-sm font-bold tracking-tight transition-colors group",
-                                    isActive ? "text-white" : "text-text-muted hover:text-white/80"
+                                    "relative px-2 py-4 flex items-center gap-2 text-sm font-bold tracking-tight transition-all group",
+                                    isActive ? "text-text-primary" : "text-text-muted hover:text-text-primary/80"
                                 )}
                             >
                                 <Icon size={16} className={isActive ? "text-accent-primary" : "opacity-50 group-hover:opacity-100"} />

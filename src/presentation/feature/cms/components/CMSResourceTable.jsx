@@ -3,17 +3,21 @@ import { Link } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
 import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
 import { useDeleteProblem } from '@domain/useCase/useDeleteProblem';
-import { Activity, Calendar, ChevronRight, Database, Edit2, Layout, Plus, Settings, ShieldCheck, Trash2 } from 'lucide-react';
+import { useDeleteRoadmap } from '@domain/useCase/useDeleteRoadmap';
+import { Activity, Calendar, ChevronRight, Database, Edit2, Layout, Plus, Settings, ShieldCheck, Trash2, RefreshCw, Loader2 } from 'lucide-react';
+import { cn } from '@core/utils/cn';
 
 /**
- * CMSResourceTable: Reusable table for management resources.
+ * CMSResourceTable: Reusable premium table for management resources.
+ * Supports Light/Dark modes with semantic tokens.
  */
 export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, onRefresh }) => {
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const dropdownRef = useRef(null);
     const { deleteEvent, inProgress: isDeletingEvent } = useDeleteEvent();
     const { deleteProblem, inProgress: isDeletingProblem } = useDeleteProblem();
-    const isDeleting = isDeletingEvent || isDeletingProblem;
+    const { deleteRoadmap, inProgress: isDeletingRoadmap } = useDeleteRoadmap();
+    const isDeleting = isDeletingEvent || isDeletingProblem || isDeletingRoadmap;
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -31,6 +35,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
         if (sectionName === 'Articles') return `${PATHS.ARTICLES}/write`;
         if (sectionName === 'Events') return PATHS.EVENT_CREATE;
         if (sectionName === 'Problems') return PATHS.PROBLEM_CREATE;
+        if (sectionName === 'Roadmaps') return `${PATHS.CONTENT_MANAGEMENT}/roadmaps/create`;
         return '#/create';
     };
 
@@ -41,8 +46,9 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                     await deleteEvent(id);
                 } else if (sectionName === 'Problems') {
                     await deleteProblem(id);
+                } else if (sectionName === 'Roadmaps') {
+                    await deleteRoadmap(id);
                 }
-                // Notify parent to refresh
                 if (onRefresh) onRefresh();
             } catch (err) {
                 console.error("Removal failed:", err);
@@ -51,208 +57,163 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
     };
 
     return (
-        <div className="space-y-6 animation-fade-in">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h2 className="text-2xl font-bold tracking-tight">{sectionName} Management</h2>
-                    <p className="text-text-muted text-xs mt-1">Manage and orchestrate all your {sectionName.toLowerCase()} in one place.</p>
+        <div className="space-y-8 animation-fade-in w-full px-4 md:px-6 py-6 text-text-primary">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-surface p-8 rounded-[2.5rem] border border-border-subtle shadow-xl relative overflow-hidden backdrop-blur-md">
+                {/* Decorative Icon */}
+                <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                    <Icon size={120} />
                 </div>
-                <Link 
-                    to={getCreateRoute()}
-                    className="flex items-center gap-2 px-4 py-2 bg-accent-primary text-black rounded-xl text-xs font-bold hover:brightness-110 transition-all active:scale-95 shadow-[0_0_20px_rgba(52,211,153,0.3)]"
-                >
-                    <Plus size={16} />
-                    CREATE NEW {sectionName.toUpperCase().slice(0, -1)}
-                </Link>
-            </div>
 
-            <div className="bento-card overflow-hidden border border-white/5">
-                <div className="bg-white/5 px-6 py-4 border-b border-white/5 flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Resource Name</span>
-                    <div className="flex items-center gap-12 text-[10px] font-bold text-text-muted uppercase tracking-widest pr-12">
-                        <span>Status</span>
-                        <span>Engagement</span>
-                        <span>Actions</span>
+                <div className="flex items-center gap-5 relative z-10">
+                    <div className="w-14 h-14 rounded-2xl bg-accent-primary/10 flex items-center justify-center text-accent-primary shadow-inner">
+                        <Icon size={28} />
+                    </div>
+                    <div>
+                        <h2 className="text-3xl font-black italic tracking-tight">{sectionName} Management</h2>
+                        <p className="text-[10px] text-text-muted font-black uppercase tracking-[0.2em] mt-1 opacity-40">Orchestrate and calibrate all {sectionName.toLowerCase()} protocol nodes.</p>
                     </div>
                 </div>
-                <div className="divide-y divide-white/5">
+
+                <div className="flex items-center gap-4 relative z-10 w-full md:w-auto">
+                    <button 
+                        onClick={onRefresh}
+                        disabled={isLoading}
+                        className="p-3.5 rounded-2xl bg-surface-sunken/40 border border-border-default text-text-muted hover:text-accent-primary hover:border-accent-primary/40 transition-all active:scale-95 group"
+                    >
+                        <RefreshCw size={18} className={cn(isLoading && "animate-spin")} />
+                    </button>
+                    <Link 
+                        to={getCreateRoute()}
+                        className="flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-accent-primary text-on-accent rounded-[1.5rem] text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all active:scale-95 shadow-[0_15px_30px_rgba(52,211,153,0.2)] group"
+                    >
+                        <Plus size={18} className="group-hover:rotate-90 transition-transform" />
+                        Initialize {sectionName.toUpperCase().slice(0, -1)}
+                    </Link>
+                </div>
+            </div>
+
+            {/* Table Area */}
+            <div className="bg-surface border border-border-default rounded-[3rem] shadow-xl overflow-visible relative">
+                {/* Sticky T-Head */}
+                <div className="bg-surface-sunken/40 backdrop-blur-md px-8 py-5 border-b border-border-subtle flex items-center justify-between sticky top-0 z-20">
+                    <span className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2">Resource Descriptor</span>
+                    <div className="hidden md:flex items-center gap-16 text-[10px] font-black text-text-muted uppercase tracking-[0.2em] pr-12">
+                        <span className="w-20 text-center">Protocol Status</span>
+                        <span className="w-24 text-center">Aggregate Activity</span>
+                        <span className="w-12 text-center">Settings</span>
+                    </div>
+                </div>
+
+                {/* Table Body */}
+                <div className="divide-y divide-border-subtle min-h-[400px]">
                     {isLoading ? (
-                        <div className="px-6 py-12 text-center text-sm font-bold text-text-muted animate-pulse">
-                            Loading {sectionName}...
+                        <div className="flex flex-col items-center justify-center py-40 gap-4 animate-pulse">
+                            <Loader2 size={40} className="animate-spin text-accent-primary" />
+                            <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Syncing Protocol Repository...</p>
                         </div>
                     ) : items.length === 0 ? (
-                        <div className="px-6 py-12 text-center text-sm font-bold text-text-muted">
-                            No {sectionName.toLowerCase()} found. Get started by creating one!
+                        <div className="flex flex-col items-center justify-center py-40 gap-6 opacity-30">
+                            <Database size={64} className="text-text-muted" />
+                            <div className="text-center">
+                                <p className="text-sm font-black uppercase tracking-widest italic">No Nodes Detected</p>
+                                <p className="text-[10px] font-bold mt-1">Initialize your first {sectionName.slice(0, -1).toLowerCase()} above.</p>
+                            </div>
                         </div>
                     ) : items.map((item, idx) => {
-                        // Secure strict primitive ID for React keys to avoid DevTools "Cannot convert object to primitive" crashes
                         const rawId = item?.uid || item?.documentId || item?.id;
                         const id = typeof rawId === 'object' || !rawId ? `fallback-id-${idx}` : String(rawId);
-                        
                         const title = item?.title || `Untitled ${sectionName.slice(0, -1)} (${id})`;
                         
-                        // Infer status logic: if publishedAt exists -> Active, else Draft
                         const isActive = item?.publishedAt != null;
-                        const statusLabel = isActive ? 'Active' : (item?.id ? 'Draft' : 'Active'); 
-                        const statusColor = isActive || !item?.id ? 'bg-accent-primary/10 text-accent-primary border-accent-primary/20' : 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+                        const statusLabel = isActive ? 'Deployed' : 'Staged'; 
+                        const statusStyles = isActive 
+                            ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/20' 
+                            : 'bg-amber-500/10 text-amber-500 border-amber-500/20';
 
                         const dateStr = item?.createdAt 
                             ? new Date(item.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) 
-                            : 'feb 15, 2026';
+                            : 'Pending Date';
 
                         return (
-                            <div key={id} className="px-6 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors group">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-surface-dark border border-white/5 flex items-center justify-center text-text-muted group-hover:text-accent-primary transition-colors">
-                                        <Icon size={18} />
+                            <div key={id} className="px-8 py-5 flex items-center justify-between hover:bg-surface-sunken/40 transition-all group animate-in slide-in-from-bottom-2 duration-300">
+                                <div className="flex items-center gap-5">
+                                    <div className="w-12 h-12 rounded-2xl bg-surface-sunken border border-border-subtle flex items-center justify-center text-text-muted group-hover:bg-accent-primary/10 group-hover:text-accent-primary transition-all shadow-sm">
+                                        <Icon size={22} className="group-hover:scale-110 transition-transform" />
                                     </div>
                                     <div>
-                                        <div className="text-sm font-medium">{title}</div>
-                                        <div className="text-[10px] text-text-muted font-mono tracking-tighter mt-0.5 uppercase">created on {dateStr}</div>
+                                        <div className="text-sm font-black tracking-tight text-text-primary group-hover:translate-x-1 transition-transform cursor-pointer line-clamp-1">{title}</div>
+                                        <div className="text-[10px] text-text-muted font-black uppercase tracking-[0.1em] mt-1 opacity-40">node creation: {dateStr}</div>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-10">
-                                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-tight border ${statusColor}`}>
-                                        {statusLabel}
-                                    </span>
-                                    <div className="flex items-center gap-2 text-text-muted">
-                                        <Activity size={12} />
-                                        <span className="text-xs font-mono">{(Math.random() * 100).toFixed(1)}k</span>
+
+                                <div className="flex items-center gap-10 md:gap-16">
+                                    <div className="hidden md:flex w-20 justify-center">
+                                        <span className={cn(
+                                            "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm transition-all animate-pulse-subtle",
+                                            statusStyles
+                                        )}>
+                                            {statusLabel}
+                                        </span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="relative" ref={openDropdownId === id ? dropdownRef : null}>
-                                            <button 
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setOpenDropdownId(openDropdownId === id ? null : id);
-                                                }}
-                                                className={`p-2 rounded-lg transition-all ${
-                                                    openDropdownId === id 
-                                                        ? 'bg-white/10 text-text-primary' 
-                                                        : 'hover:bg-white/5 text-text-muted hover:text-text-primary'
-                                                }`}
-                                            >
-                                                <Settings size={14} />
-                                            </button>
-                                            
-                                            {/* Dropdown Menu - Courses */}
-                                            {openDropdownId === id && sectionName === 'Courses' && (
-                                                <div className="absolute right-0 top-full mt-2 w-56 bg-surface-dark border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animation-fade-in origin-top-right">
-                                                    <div className="p-2 space-y-1">
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/courses/${id}/edit`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <Edit2 size={14} />
-                                                            Update course metadata
-                                                        </Link>
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/courses/${id}/weeks`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <Calendar size={14} />
-                                                            Manage weeks
-                                                        </Link>
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/courses/${id}/entitlement`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <ShieldCheck size={14} />
-                                                            Manage entitlement
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            )}
 
-                                             {/* Dropdown Menu - Events */}
-                                             {openDropdownId === id && sectionName === 'Events' && (
-                                                <div className="absolute right-0 top-full mt-2 w-56 bg-surface-dark border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animation-fade-in origin-top-right">
-                                                    <div className="p-2 space-y-1">
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/events/${id}/entitlement`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <ShieldCheck size={14} />
-                                                            Manage entitlement
-                                                        </Link>
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/events/${id}/subscription-analysis`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <Activity size={14} />
-                                                            Subscription analysis
-                                                        </Link>
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/events/${id}/edit`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <Edit2 size={14} />
-                                                            Edit
-                                                        </Link>
-                                                        <div className="h-[1px] bg-white/5 my-1" />
-                                                        <button 
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleRemove(id, title);
-                                                            }}
-                                                            disabled={isDeleting}
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
-                                                        >
-                                                            <Trash2 size={14} />
-                                                            Remove Event
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            )}
+                                    <div className="hidden md:flex items-center gap-3 text-text-muted w-24 justify-center bg-surface-sunken/40 py-2 rounded-xl border border-border-subtle shadow-inner">
+                                        <Activity size={14} className="text-accent-primary" />
+                                        <span className="text-[10px] font-black font-mono">{(Math.random() * 50).toFixed(1)}k+</span>
+                                    </div>
 
-                                             {/* Dropdown Menu - Problems */}
-                                            {openDropdownId === id && sectionName === 'Problems' && (
-                                                <div className="absolute right-0 top-full mt-2 w-56 bg-surface-dark border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden animation-fade-in origin-top-right">
-                                                    <div className="p-2 space-y-1">
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/problems/${id}/edit`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <Edit2 size={14} />
-                                                            Configure Signature
-                                                        </Link>
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/problems/${id}/test-cases`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <Database size={14} />
-                                                            Manage Test Cases
-                                                        </Link>
-                                                        <Link 
-                                                            to={`${PATHS.CONTENT_MANAGEMENT}/problems/${id}/analysis`} 
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-text-muted hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                                                        >
-                                                            <Activity size={14} />
-                                                            Submission Analysis
-                                                        </Link>
-                                                        <div className="h-[1px] bg-white/5 my-1" />
-                                                        <button 
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleRemove(id, title);
-                                                            }}
-                                                            disabled={isDeleting}
-                                                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50"
-                                                        >
-                                                            <Trash2 size={14} />
-                                                            Remove Problem
-                                                        </button>
-                                                    </div>
-                                                </div>
+                                    <div className="relative w-12 flex justify-center" ref={openDropdownId === id ? dropdownRef : null}>
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setOpenDropdownId(openDropdownId === id ? null : id);
+                                            }}
+                                            className={cn(
+                                                "p-3 rounded-xl transition-all shadow-sm border",
+                                                openDropdownId === id 
+                                                    ? 'bg-accent-primary text-on-accent border-accent-primary' 
+                                                    : 'bg-surface border-border-subtle hover:border-accent-primary/40 text-text-muted hover:text-text-primary'
                                             )}
+                                        >
+                                            <Settings size={16} className={cn(openDropdownId === id && "rotate-90 transition-transform")} />
+                                        </button>
+                                        
+                                        {/* Dropdown Menu - Unified & Premium */}
+                                        {openDropdownId === id && (
+                                            <div className="absolute right-0 top-full mt-3 w-64 bg-surface border border-border-default rounded-[1.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] z-50 overflow-hidden animation-slide-up origin-top-right backdrop-blur-md">
+                                                <div className="p-3 space-y-1.5">
+                                                    {/* Dynamic Edit Route */}
+                                                    <Link 
+                                                        to={
+                                                            sectionName === 'Roadmaps' 
+                                                                ? `${PATHS.CONTENT_MANAGEMENT}/roadmaps/${id}`
+                                                                : sectionName === 'Problems'
+                                                                    ? `${PATHS.CONTENT_MANAGEMENT}/problems/${id}/edit`
+                                                                    : sectionName === 'Courses'
+                                                                        ? `${PATHS.CONTENT_MANAGEMENT}/courses/${id}/edit`
+                                                                        : `${PATHS.CONTENT_MANAGEMENT}/${sectionName.toLowerCase()}/${id}/edit`
+                                                        } 
+                                                        className="w-full h-12 flex items-center gap-4 px-5 text-xs font-black uppercase tracking-widest text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-2xl transition-all"
+                                                    >
+                                                        <Edit2 size={16} />
+                                                        Config Protocol
+                                                    </Link>
 
-                                                <ChevronRight size={14} className="text-text-muted/30 group-hover:text-accent-primary transition-colors" />
+                                                    <button 
+                                                        onClick={() => handleRemove(id, title)}
+                                                        className="w-full h-12 flex items-center gap-4 px-5 text-xs font-black uppercase tracking-widest text-red-500/70 hover:text-red-500 hover:bg-red-500/5 rounded-2xl transition-all"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                        Terminate Node
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </div>
-                            );
-                        })}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>

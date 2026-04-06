@@ -18,10 +18,12 @@ import {
     Database
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { PATHS } from '../../../routes/paths';
+import { PATHS } from '@presentation/routes/paths';
 import { useUI } from '@presentation/shared/provider/UIProvider';
 import { cn } from '@core/utils/cn';
 import AxeIcon from '@presentation/shared/components/AxeIcon';
+import { PermissionGate } from '@presentation/shared/components/Auth/PermissionGate';
+import { ROLE_TYPES } from '@core/constants/RoleConstants';
 
 const NavItem = ({ icon: Icon, label, path, collapsed }) => {
     const location = useLocation();
@@ -100,8 +102,10 @@ export const Sidebar = () => {
                 <NavItem icon={Image} label="Media Library" path={PATHS.MEDIA} collapsed={!isSidebarOpen} />
                 <NavItem icon={Video} label="Live Streams" path={PATHS.LIVE} collapsed={!isSidebarOpen} />
                 
-                <NavCategory label="Management" collapsed={!isSidebarOpen} />
-                <NavItem icon={Database} label="Content Management" path={PATHS.CONTENT_MANAGEMENT} collapsed={!isSidebarOpen} />
+                <PermissionGate allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                    <NavCategory label="Management" collapsed={!isSidebarOpen} />
+                    <NavItem icon={Database} label="Content Management" path={PATHS.CONTENT_MANAGEMENT} collapsed={!isSidebarOpen} />
+                </PermissionGate>
 
                 <NavCategory label="Social" collapsed={!isSidebarOpen} />
                 <NavItem icon={MessageSquare} label="Messages" path={PATHS.MESSAGES} collapsed={!isSidebarOpen} />

@@ -18,6 +18,7 @@ import { FlowSettingsSidebar } from './FlowSettingsSidebar';
 
 const nodeTypes = {
     richText: RichTextNode,
+    custom: RichTextNode,
 };
 
 /**

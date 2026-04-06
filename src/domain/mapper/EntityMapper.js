@@ -14,6 +14,7 @@ import { MessageEntity } from '../entity/MessageEntity';
 import { TestCaseEntity } from '../entity/TestCaseEntity';
 import { TestCaseDTO } from '@infrastructure/DTO/TestCaseDTO';
 import { SubmissionEntity } from '../entity/SubmissionEntity';
+import { NotificationEntity } from '../entity/NotificationEntity';
 
 /**
  * EntityMapper utility for converting DTOs to Domain Entities.
@@ -75,6 +76,7 @@ export class EntityMapper {
      */
     static toPost(dto) {
         if (!dto) return null;
+        console.log("dto", dto)
         return new PostEntity({
             id: dto.id,
             uid: dto.documentId,
@@ -123,6 +125,7 @@ export class EntityMapper {
      * Maps a CourseDTO to CourseEntity.
      */
     static toCourse(dto) {
+        console.log("dto", dto)
         if (!dto) return null;
         return new CourseEntity({
             id: dto.id,
@@ -572,6 +575,28 @@ export class EntityMapper {
             totalTestCases: dto.totalTestCases,
             problem: dto.problem,
             user: dto.user,
+        });
+    }
+
+    /**
+     * Maps a NotificationDTO to NotificationEntity.
+     */
+    static toNotification(dto) {
+        console.log("dto", dto)
+        if (!dto) return null;
+        return new NotificationEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            type: dto.type,
+            contentType: dto.contentType,
+            contentDocId: dto.contentDocId,
+            messageAr: dto.messageAr,
+            messageEn: dto.messageEn,
+            actionUrl: dto.actionUrl,
+            extra: dto.extra,
+            read: dto.read,
+            createdAt: dto.createdAt,
+            actor: this.toUser(dto.actor)
         });
     }
 }

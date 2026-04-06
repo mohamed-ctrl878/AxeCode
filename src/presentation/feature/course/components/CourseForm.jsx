@@ -66,13 +66,13 @@ export const CourseForm = ({
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full mx-auto p-6 lg:p-10 bg-surface rounded-2xl border border-white/5 shadow-2xl">
             <div className="flex justify-between items-center border-b border-border-subtle pb-4">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-text-primary to-text-primary/60 bg-clip-text text-transparent">
                     {initialData.documentId ? 'Edit Course' : 'Create New Course'}
                 </h2>
                 <button 
                     type="submit" 
                     disabled={isLoading} 
-                    className="flex items-center justify-center gap-2 bg-accent-primary hover:bg-accent-secondary text-primary font-bold px-8 py-2.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center justify-center gap-2 bg-accent-primary hover:bg-accent-primary/90 text-on-accent font-bold px-8 py-2.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                 >
                     {isLoading && <Loader2 size={16} className="animate-spin" />}
                     {initialData.documentId ? 'Save Changes' : 'Create Course'}
@@ -91,7 +91,7 @@ export const CourseForm = ({
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-primary transition-colors"
+                            className="bg-background border border-border-subtle rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-accent-primary transition-colors"
                             placeholder="e.g. Master Clean Architecture..."
                         />
                     </div>
@@ -99,7 +99,7 @@ export const CourseForm = ({
                     {/* Rich Text Editor */}
                     <div className="flex flex-col gap-2 relative z-0">
                         <label className="text-sm font-bold text-text-muted">Course Description</label>
-                        <div className="border border-white/10 rounded-xl overflow-hidden min-h-[300px] bg-background">
+                        <div className="border border-border-subtle rounded-xl overflow-hidden min-h-[300px] bg-background">
                             <RichTextInput
                                 value={description}
                                 onChange={setDescription}
@@ -118,7 +118,7 @@ export const CourseForm = ({
                         <label className="text-sm font-bold text-text-muted">Course Thumbnail</label>
                         <div className={cn(
                             "relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl transition-colors min-h-[160px]",
-                            imagePreview ? "border-accent-primary/50 bg-accent-primary/5" : "border-white/10 bg-background hover:bg-surface-dark"
+                            imagePreview ? "border-accent-primary/50 bg-accent-primary/5" : "border-border-subtle bg-background hover:bg-surface-sunken"
                         )}>
                             {imagePreview ? (
                                 <>
@@ -152,7 +152,7 @@ export const CourseForm = ({
                         <select
                             value={difficulty}
                             onChange={(e) => setDifficulty(e.target.value)}
-                            className="bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-primary appearance-none cursor-pointer"
+                            className="bg-background border border-border-subtle rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-accent-primary appearance-none cursor-pointer"
                         >
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
@@ -168,7 +168,7 @@ export const CourseForm = ({
                             value={tagsInput}
                             onChange={(e) => setTagsInput(e.target.value)}
                             placeholder="react, clean-code, solid"
-                            className="bg-background border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-accent-primary transition-colors"
+                            className="bg-background border border-border-subtle rounded-xl px-4 py-3 text-text-primary text-sm focus:outline-none focus:border-accent-primary transition-colors"
                         />
                     </div>
                 </div>

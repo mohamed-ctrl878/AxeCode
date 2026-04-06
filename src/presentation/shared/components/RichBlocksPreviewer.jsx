@@ -34,7 +34,7 @@ export const RichBlocksPreviewer = ({ content, className }) => {
             
             case 'paragraph':
                 return (
-                    <p key={index} className="mb-4 text-text-secondary whitespace-pre-wrap leading-relaxed">
+                    <p key={index} className="mb-4 text-text-muted whitespace-pre-wrap leading-relaxed">
                         {renderChildren()}
                     </p>
                 );
@@ -63,8 +63,8 @@ export const RichBlocksPreviewer = ({ content, className }) => {
                 const isOrdered = node.format === 'ordered';
                 const ListTag = isOrdered ? 'ol' : 'ul';
                 const listClasses = isOrdered
-                    ? "list-decimal pl-5 mb-4 space-y-2 text-text-secondary" 
-                    : "list-disc pl-5 mb-4 space-y-2 text-text-secondary";
+                    ? "list-decimal pl-5 mb-4 space-y-2 text-text-muted" 
+                    : "list-disc pl-5 mb-4 space-y-2 text-text-muted";
                     
                 return (
                     <ListTag key={index} className={listClasses}>
@@ -77,7 +77,7 @@ export const RichBlocksPreviewer = ({ content, className }) => {
             
             case 'quote':
                 return (
-                    <blockquote key={index} className="border-l-4 border-accent-primary pl-4 py-3 mb-4 bg-surface/20 italic text-text-secondary rounded-r-lg shadow-sm">
+                    <blockquote key={index} className="border-l-4 border-accent-primary pl-4 py-3 mb-4 bg-surface/20 italic text-text-muted rounded-r-lg shadow-sm">
                         {renderChildren()}
                     </blockquote>
                 );

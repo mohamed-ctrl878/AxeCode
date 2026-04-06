@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CourseCard } from '../components/CourseCard';
 import { EventRecommendedCard } from '../components/EventRecommendedCard';
 import { useFetchRecommendedCourses } from '@domain/useCase/useFetchRecommendedCourses';
 import { useFetchRecommendedEvents } from '@domain/useCase/useFetchRecommendedEvents';
-import { Search, ChevronRight, Sparkles, Map, BookOpen, AlertTriangle } from 'lucide-react';
+import { Search, ChevronRight, Sparkles, Map, BookOpen, AlertTriangle, Tag, ChevronDown } from 'lucide-react';
 import { PATHS } from '@presentation/routes/paths';
 import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
 import { EventRecommendedCardSkeleton } from '@presentation/shared/components/skeletons/EventRecommendedCardSkeleton';
@@ -15,6 +15,7 @@ import { EventRecommendedCardSkeleton } from '@presentation/shared/components/sk
 export const CoursePage = () => {
     const { fetchCourses, courses, loading: coursesLoading, error: coursesError } = useFetchRecommendedCourses();
     const { fetchEvents, events, loading: eventsLoading, error: eventsError } = useFetchRecommendedEvents();
+    const [showTags, setShowTags] = useState(false);
 
     useEffect(() => {
         fetchCourses();
@@ -101,10 +102,55 @@ export const CoursePage = () => {
 
 
             {/* Main Courses Grid - Full Width */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-2 text-text-muted">
-                    <BookOpen size={16} className="text-accent-blue" />
-                    <h2 className="font-bold tracking-wide uppercase text-[10px]">Active Courses</h2>
+            <div className="space-y-6">
+                <div className="flex flex-col gap-4">
+                    <div className="flex items-center gap-2 text-text-muted">
+                        <BookOpen size={16} className="text-accent-blue" />
+                        <h2 className="font-bold tracking-wide uppercase text-[10px]">Active Courses</h2>
+                    </div>
+                
+                    {/* Search & Tags Filter (Aligned Left & Styled like ProblemPage) */}
+                    <div className="flex flex-col gap-3 w-full max-w-2xl">
+                        <div className="flex flex-col sm:flex-row gap-2 w-full">
+                            <div className="relative flex-1 group">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-blue transition-colors" size={18} />
+                                <input 
+                                    type="text" 
+                                    placeholder="Search among active courses..." 
+                                    className="w-full bg-surface-sunken border border-border-subtle rounded-xl py-2.5 pl-10 pr-4 text-sm focus:border-accent-blue outline-none transition-all"
+                                />
+                            </div>
+                            
+                            <button 
+                                onClick={() => setShowTags(!showTags)}
+                                className={`px-4 py-2.5 rounded-xl border flex items-center justify-center gap-2 text-sm font-medium transition-all ${
+                                    showTags 
+                                        ? 'border-accent-blue text-accent-blue bg-accent-blue/5' 
+                                        : 'border-border-subtle text-text-muted hover:text-text-primary hover:bg-surface-elevated'
+                                }`}
+                            >
+                                <Tag size={16} />
+                                <span>Tags</span>
+                                <ChevronDown size={14} className={`transition-transform duration-300 ${showTags ? "rotate-180" : ""}`} />
+                            </button>
+                        </div>
+                            
+                        {/* Expandable Tags Area */}
+                        {showTags && (
+                            <div className="bg-surface shadow-md p-4 rounded-2xl border border-border-subtle animation-slide-down">
+                                <div className="flex flex-wrap gap-2">
+                                    {['Frontend', 'Backend', 'Fullstack', 'DevOps', 'Mobile', 'AI', 'UI/UX'].map(tag => (
+                                        <button 
+                                            key={tag} 
+                                            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-sunken border border-border-subtle text-text-muted hover:border-accent-blue/50 hover:text-text-primary transition-all"
+                                        >
+                                            {tag}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {coursesLoading ? (
