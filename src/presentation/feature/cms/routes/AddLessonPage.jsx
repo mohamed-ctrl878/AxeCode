@@ -76,55 +76,55 @@ export const AddLessonPage = () => {
     const goBack = () => navigate(`${PATHS.CONTENT_MANAGEMENT}/courses/${courseId}/weeks`);
 
     return (
-        <div className="md:col-span-full max-w-[1200px] mx-auto py-8 px-4 animation-fade-in">
+        <div className="md:col-span-full max-w-[1200px] mx-auto py-8 px-4 animation-fade-in text-text-primary">
             {/* Header with Glassmorphism */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 p-6 rounded-3xl bg-white/[0.02] border border-white/5 backdrop-blur-md shadow-2xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 p-8 rounded-[2.5rem] bg-surface border border-border-subtle backdrop-blur-md shadow-2xl">
                 <div className="flex items-center gap-5">
                     <button 
                         onClick={() => navigate(-1)}
-                        className="w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center text-text-muted hover:border-accent-primary/50 hover:bg-accent-primary/10 hover:text-accent-primary transition-all group shrink-0"
+                        className="w-12 h-12 rounded-2xl border border-border-default flex items-center justify-center text-text-muted hover:border-accent-primary/50 hover:bg-accent-primary/10 hover:text-accent-primary transition-all group shrink-0 bg-surface-sunken/40"
                     >
                         <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
                     </button>
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-3xl font-black tracking-tight text-white italic">Add Lesson</h1>
-                            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-accent-blue/10 border border-accent-blue/20 text-accent-blue uppercase tracking-widest mt-1">New</span>
+                            <h1 className="text-3xl font-black tracking-tight text-text-primary italic">Add Lesson</h1>
+                            <span className="px-2 py-0.5 rounded text-[10px] font-black bg-accent-blue/10 border border-accent-blue/20 text-accent-blue uppercase tracking-widest mt-1">Initiating</span>
                         </div>
-                        <p className="text-text-muted text-xs font-mono mt-1 opacity-60">COURSE: {courseId} • WEEK: {weekId}</p>
+                        <p className="text-text-muted text-[10px] font-black uppercase tracking-widest mt-1 opacity-40">Module Orchestration • {weekId}</p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                     <button
                         type="button"
                         onClick={() => navigate(-1)}
-                        className="px-6 py-3 rounded-2xl text-text-muted hover:text-white font-bold text-sm transition-all"
+                        className="px-6 py-3 rounded-2xl text-text-muted hover:text-text-primary font-black text-xs uppercase tracking-widest transition-all"
                     >
-                        Cancel
+                        Discard
                     </button>
                     <button
                         onClick={handleSubmit}
                         disabled={isSubmitting || !title}
-                        className="flex items-center justify-center gap-3 px-8 py-3 rounded-2xl bg-gradient-to-r from-accent-primary to-accent-secondary text-primary font-black text-sm uppercase tracking-wider transition-all shadow-[0_10px_30px_rgba(52,211,153,0.3)] hover:shadow-[0_15px_40px_rgba(52,211,153,0.5)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group min-w-[180px]"
+                        className="flex items-center justify-center gap-3 px-8 py-3 rounded-2xl bg-accent-primary text-on-accent font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group min-w-[200px]"
                     >
                         {isSubmitting ? (
                             <Loader2 size={18} className="animate-spin" />
                         ) : (
                             <Film size={18} className="group-hover:rotate-12 transition-transform" />
                         )}
-                        {inProgress ? 'Creating...' : 'Launch Lesson'}
+                        {inProgress ? 'Engaging...' : 'Launch Lesson'}
                     </button>
                 </div>
             </div>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 {/* Main Content Area */}
-                <div className="lg:col-span-8 space-y-8">
+                <div className="lg:col-span-8 space-y-10">
                     {/* Title Input */}
-                    <div className="space-y-3 group">
-                        <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-2">
-                            <span className="w-1 h-1 rounded-full bg-accent-primary" />
+                    <div className="space-y-4 group">
+                        <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-3">
+                            <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
                             Lesson Identifier
                         </label>
                         <div className="relative">
@@ -133,7 +133,7 @@ export const AddLessonPage = () => {
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 placeholder="Give this lesson a compelling name..."
-                                className="w-full bg-surface-dark/40 border border-white/5 rounded-3xl px-7 py-5 text-xl font-bold text-white focus:border-accent-primary/30 focus:bg-surface-dark/60 outline-none transition-all placeholder:text-text-muted/20 shadow-inner"
+                                className="w-full bg-surface-sunken/40 border border-border-subtle rounded-3xl px-8 py-6 text-2xl font-black text-text-primary focus:border-accent-primary focus:bg-surface-sunken outline-none transition-all placeholder:text-text-muted/20 shadow-inner"
                                 required
                                 autoFocus
                             />
@@ -141,13 +141,13 @@ export const AddLessonPage = () => {
                     </div>
 
                     {/* Content Editor */}
-                    <div className="space-y-6">
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full bg-accent-blue" />
-                                Lesson Curriculum (Editor)
+                    <div className="space-y-8">
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-3">
+                                <span className="w-2 h-2 rounded-full bg-accent-blue shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                Content Curriculum (Architect)
                             </label>
-                            <div className="border border-white/5 rounded-3xl overflow-hidden min-h-[300px] bg-surface-dark/40 focus-within:border-accent-blue/30 transition-all shadow-inner">
+                            <div className="border border-border-subtle rounded-[2.5rem] overflow-hidden min-h-[350px] bg-surface-sunken/40 focus-within:border-accent-blue focus-within:bg-surface-sunken transition-all shadow-inner">
                                 <RichTextInput
                                     value={description}
                                     onChange={setDescription}
@@ -157,66 +157,72 @@ export const AddLessonPage = () => {
                         </div>
 
                         {/* Live Representation / Preview */}
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full bg-accent-primary" />
-                                Live Representation (Preview)
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-3">
+                                <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                                Content Representation (Live)
                             </label>
-                            <div className="w-full bg-white/[0.02] border border-white/5 rounded-3xl p-8 min-h-[200px] backdrop-blur-sm shadow-xl">
-                                {description && description.length > 0 ? (
-                                    <RichTextBlocks blocks={description} />
-                                ) : (
-                                    <div className="h-full flex items-center justify-center text-text-muted/20 italic text-sm py-10">
-                                        Content representation will appear here as you type...
-                                    </div>
-                                )}
+                            <div className="w-full bg-surface border border-border-subtle rounded-[2.5rem] p-10 min-h-[250px] backdrop-blur-sm shadow-xl relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none text-text-muted">
+                                    <BookOpen size={150} />
+                                </div>
+                                <div className="relative z-10">
+                                    {description && description.length > 0 ? (
+                                        <RichTextBlocks blocks={description} />
+                                    ) : (
+                                        <div className="h-full flex flex-col items-center justify-center text-text-muted/20 italic text-sm py-16 gap-4">
+                                            <BookOpen size={48} className="opacity-10" />
+                                            <p className="font-bold uppercase tracking-widest text-[10px]">Real-time preview will materialize here...</p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Media Interface */}
                     {type === 'video' && (
-                        <div className="space-y-4">
-                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full bg-accent-purple" />
+                        <div className="space-y-5">
+                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-3">
+                                <span className="w-2 h-2 rounded-full bg-accent-purple shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
                                 Visual Media Component
                             </label>
                             
                             {videoPreview ? (
-                                <div className="relative rounded-[2.5rem] overflow-hidden aspect-video bg-black border border-white/10 group shadow-2xl">
+                                <div className="relative rounded-[3rem] overflow-hidden aspect-video bg-black border border-border-default group shadow-2xl">
                                     <div className="w-full h-full flex flex-col items-center justify-center bg-accent-blue/10 relative">
                                         <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent pointer-events-none" />
-                                        <div className="w-20 h-20 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue mb-4">
-                                            <Film size={32} />
+                                        <div className="w-24 h-24 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue mb-6 shadow-xl">
+                                            <Film size={40} />
                                         </div>
-                                        <span className="text-sm text-accent-blue font-bold tracking-tight">Stage: {videoPreview}</span>
-                                        <span className="text-[10px] text-text-muted mt-2 font-mono opacity-50 px-8 text-center line-clamp-1">Ready for ingestion</span>
+                                        <span className="text-lg text-accent-blue font-black tracking-tight italic">Stage: {videoPreview}</span>
+                                        <span className="text-[10px] text-text-muted mt-3 font-black uppercase tracking-widest opacity-40 px-8 text-center line-clamp-1">Asset ingestion preparation complete</span>
                                     </div>
                                     
-                                    <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex justify-end">
+                                    <div className="absolute inset-x-0 bottom-0 p-10 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-all flex justify-end">
                                         <button 
                                             type="button"
                                             onClick={removeVideo}
-                                            className="w-12 h-12 rounded-2xl bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-xl hover:scale-110 transition-all border border-white/10"
+                                            className="w-14 h-14 rounded-2xl bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all border border-white/10"
                                         >
-                                            <X size={20} />
+                                            <X size={24} />
                                         </button>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="relative group/upload h-64">
+                                <div className="relative group/upload h-72">
                                     <input 
                                         type="file" 
                                         accept="video/*"
                                         onChange={handleVideoChange}
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                     />
-                                    <div className="h-full border-2 border-dashed border-white/5 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/[0.01] hover:bg-accent-blue/[0.03] hover:border-accent-blue/30 transition-all group-hover/upload:shadow-[0_0_50px_rgba(59,130,246,0.05)]">
-                                        <div className="w-20 h-20 rounded-3xl bg-white/5 flex items-center justify-center mb-4 group-hover/upload:bg-accent-blue/10 group-hover/upload:text-accent-blue transition-all group-hover/upload:scale-110">
-                                            <Upload size={28} />
+                                    <div className="h-full border-2 border-dashed border-border-default rounded-[3rem] flex flex-col items-center justify-center bg-surface-sunken/20 hover:bg-accent-blue/[0.03] hover:border-accent-blue/40 transition-all group-hover/upload:shadow-2xl">
+                                        <div className="w-24 h-24 rounded-3xl bg-surface-sunken flex items-center justify-center mb-6 group-hover/upload:bg-accent-blue/10 group-hover/upload:text-accent-blue transition-all group-hover/upload:scale-110 shadow-sm border border-border-subtle">
+                                            <Upload size={32} />
                                         </div>
-                                        <p className="text-lg font-bold text-white tracking-tight">Upload Cinematic Content</p>
-                                        <p className="text-xs text-text-muted mt-1 opacity-50">Drag & drop or click to browse (Max 500MB)</p>
+                                        <p className="text-xl font-black text-text-primary tracking-tight italic">Upload Cinematic Asset</p>
+                                        <p className="text-[10px] text-text-muted mt-2 font-black uppercase tracking-widest opacity-40">Drag & drop or Click to iterate (Max 512MB)</p>
                                     </div>
                                 </div>
                             )}
@@ -225,34 +231,37 @@ export const AddLessonPage = () => {
                 </div>
 
                 {/* Sidebar Configuration */}
-                <div className="lg:col-span-4 space-y-8">
+                <div className="lg:col-span-4 space-y-10">
                     {/* Lesson Personality */}
-                    <div className="bg-surface-dark/40 border border-white/5 rounded-[2rem] p-6 space-y-6 backdrop-blur-sm shadow-xl">
-                        <div className="space-y-1">
-                            <h3 className="text-xs font-black text-white/90 uppercase tracking-[0.2em]">Format</h3>
-                            <p className="text-[10px] text-text-muted">Choose the primary delivery method.</p>
+                    <div className="bg-surface border border-border-subtle rounded-[2.5rem] p-8 space-y-8 shadow-xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none text-text-muted">
+                            <Video size={80} />
+                        </div>
+                        <div className="space-y-2 relative z-10">
+                            <h3 className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em]">Asset Format</h3>
+                            <p className="text-[10px] text-text-muted font-medium">Define the core instructional medium.</p>
                         </div>
                         
-                        <div className="grid grid-cols-1 gap-3">
+                        <div className="grid grid-cols-1 gap-4 relative z-10">
                             <button
                                 type="button"
                                 onClick={() => setType('video')}
                                 className={cn(
-                                    "flex items-center gap-4 p-4 rounded-2xl border transition-all text-left group",
+                                    "flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
                                     type === 'video' 
-                                        ? "bg-accent-blue/10 border-accent-blue/40 text-accent-blue shadow-[0_0_30px_rgba(59,130,246,0.1)]" 
-                                        : "bg-background/20 border-white/5 text-text-muted hover:border-white/20"
+                                        ? "bg-accent-blue/10 border-accent-blue/40 text-accent-blue shadow-lg shadow-accent-blue/5" 
+                                        : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default hover:bg-surface-sunken"
                                 )}
                             >
                                 <div className={cn(
-                                    "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shrink-0",
-                                    type === 'video' ? "bg-accent-blue text-primary" : "bg-white/5"
+                                    "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
+                                    type === 'video' ? "bg-accent-blue text-on-accent" : "bg-surface border border-border-subtle"
                                 )}>
-                                    <Video size={18} />
+                                    <Video size={20} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold uppercase tracking-wide">Video Stream</p>
-                                    <p className="text-[9px] opacity-60">High-impact visual learning.</p>
+                                    <p className="text-xs font-black uppercase tracking-widest">Video Stream</p>
+                                    <p className="text-[9px] font-medium opacity-60 mt-1">Immersive visual learning.</p>
                                 </div>
                             </button>
                             
@@ -260,53 +269,56 @@ export const AddLessonPage = () => {
                                 type="button"
                                 onClick={() => setType('article')}
                                 className={cn(
-                                    "flex items-center gap-4 p-4 rounded-2xl border transition-all text-left group",
+                                    "flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
                                     type === 'article' 
-                                        ? "bg-amber-500/10 border-amber-500/40 text-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.1)]" 
-                                        : "bg-background/20 border-white/5 text-text-muted hover:border-white/20"
+                                        ? "bg-amber-500/10 border-amber-500/40 text-amber-500 shadow-lg shadow-amber-500/5" 
+                                        : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default hover:bg-surface-sunken"
                                 )}
                             >
                                 <div className={cn(
-                                    "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shrink-0",
-                                    type === 'article' ? "bg-amber-500 text-primary" : "bg-white/5"
+                                    "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
+                                    type === 'article' ? "bg-amber-500 text-on-accent" : "bg-surface border border-border-subtle"
                                 )}>
-                                    <FileText size={18} />
+                                    <FileText size={20} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold uppercase tracking-wide">Article</p>
-                                    <p className="text-[9px] opacity-60">In-depth technical reading.</p>
+                                    <p className="text-xs font-black uppercase tracking-widest">Tech Article</p>
+                                    <p className="text-[9px] font-medium opacity-60 mt-1">Deep-dive technical brief.</p>
                                 </div>
                             </button>
                         </div>
                     </div>
 
                     {/* Visibility Settings */}
-                    <div className="bg-surface-dark/40 border border-white/5 rounded-[2rem] p-6 space-y-6 backdrop-blur-sm shadow-xl">
-                        <div className="space-y-1">
-                            <h3 className="text-xs font-black text-white/90 uppercase tracking-[0.2em]">Visibility</h3>
-                            <p className="text-[10px] text-text-muted">Control who can access this asset.</p>
+                    <div className="bg-surface border border-border-subtle rounded-[2.5rem] p-8 space-y-8 shadow-xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none text-text-muted">
+                            <Globe size={80} />
+                        </div>
+                        <div className="space-y-2 relative z-10">
+                            <h3 className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em]">Gatekeeper</h3>
+                            <p className="text-[10px] text-text-muted font-medium">Control the boundaries of access.</p>
                         </div>
 
-                        <div className="space-y-3">
+                        <div className="space-y-4 relative z-10">
                             <button
                                 type="button"
                                 onClick={() => setIsPublic(true)}
                                 className={cn(
-                                    "w-full flex items-center gap-4 p-4 rounded-2xl border transition-all text-left",
+                                    "w-full flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
                                     isPublic 
-                                        ? "bg-green-500/10 border-green-500/40 text-green-400 shadow-[0_0_30px_rgba(34,197,94,0.1)]" 
-                                        : "bg-background/20 border-white/5 text-text-muted hover:border-white/20"
+                                        ? "bg-green-500/10 border-green-500/40 text-green-500 shadow-lg shadow-green-500/5" 
+                                        : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default"
                                 )}
                             >
                                 <div className={cn(
-                                    "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shrink-0",
-                                    isPublic ? "bg-green-500 text-primary" : "bg-white/5"
+                                    "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
+                                    isPublic ? "bg-green-500 text-on-accent" : "bg-surface border border-border-subtle"
                                 )}>
-                                    <Globe size={18} />
+                                    <Globe size={20} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold uppercase tracking-wide">Public Free</p>
-                                    <p className="text-[9px] opacity-60">Available to all visitors.</p>
+                                    <p className="text-xs font-black uppercase tracking-widest">Public Asset</p>
+                                    <p className="text-[9px] font-medium opacity-60 mt-1">Visible to the ecosystem.</p>
                                 </div>
                             </button>
                             
@@ -314,54 +326,59 @@ export const AddLessonPage = () => {
                                 type="button"
                                 onClick={() => setIsPublic(false)}
                                 className={cn(
-                                    "w-full flex items-center gap-4 p-4 rounded-2xl border transition-all text-left",
+                                    "w-full flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
                                     !isPublic 
-                                        ? "bg-accent-primary/10 border-accent-primary/40 text-accent-primary shadow-[0_0_30px_rgba(52,211,153,0.1)]" 
-                                        : "bg-background/20 border-white/5 text-text-muted hover:border-white/20"
+                                        ? "bg-accent-primary/10 border-accent-primary/40 text-accent-primary shadow-lg shadow-accent-primary/5" 
+                                        : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default"
                                 )}
                             >
                                 <div className={cn(
-                                    "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shrink-0",
-                                    !isPublic ? "bg-accent-primary text-primary" : "bg-white/5"
+                                    "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
+                                    !isPublic ? "bg-accent-primary text-on-accent" : "bg-surface border border-border-subtle"
                                 )}>
-                                    <Lock size={18} />
+                                    <Lock size={20} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold uppercase tracking-wide">Restricted</p>
-                                    <p className="text-[9px] opacity-60">Requires active enrollment.</p>
+                                    <p className="text-xs font-black uppercase tracking-widest">Restricted</p>
+                                    <p className="text-[9px] font-medium opacity-60 mt-1">Requires active protocol enrollment.</p>
                                 </div>
                             </button>
                         </div>
                     </div>
 
                     {/* Hierarchy Info */}
-                    <div className="p-6 space-y-6 bg-gradient-to-br from-white/5 to-transparent border border-white/5 rounded-[2rem]">
-                        <div className="space-y-2">
-                            <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Course Node</p>
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-accent-blue/5 border border-accent-blue/20 flex items-center justify-center text-accent-blue">
+                    <div className="p-8 space-y-6 bg-surface-sunken/20 border border-border-subtle rounded-[2.5rem] shadow-sm">
+                        <div className="space-y-3">
+                            <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.2em] opacity-60">Source Vector</p>
+                            <div className="flex items-center gap-3 bg-surface p-3 rounded-xl border border-border-subtle shadow-inner">
+                                <div className="w-8 h-8 rounded-lg bg-accent-blue/5 border border-accent-blue/10 flex items-center justify-center text-accent-blue">
                                     <BookOpen size={14} />
                                 </div>
-                                <p className="text-xs text-white/80 font-mono truncate">{courseId}</p>
+                                <p className="text-[10px] text-text-primary font-black font-mono truncate">{courseId}</p>
                             </div>
                         </div>
-                        <div className="space-y-2">
-                            <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Temporal Week</p>
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-accent-purple/5 border border-accent-purple/20 flex items-center justify-center text-accent-purple">
+                        <div className="space-y-3">
+                            <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.2em] opacity-60">Module Node</p>
+                            <div className="flex items-center gap-3 bg-surface p-3 rounded-xl border border-border-subtle shadow-inner">
+                                <div className="w-8 h-8 rounded-lg bg-accent-purple/5 border border-accent-purple/10 flex items-center justify-center text-accent-purple">
                                     <Calendar size={14} />
                                 </div>
-                                <p className="text-xs text-white/80 font-mono truncate">{weekId}</p>
+                                <p className="text-[10px] text-text-primary font-black font-mono truncate">{weekId}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Error */}
+                {/* Error Interface */}
                 {error && (
-                    <div className="lg:col-span-12 p-6 bg-red-500/10 border border-red-500/20 rounded-3xl text-red-500 text-sm flex items-center gap-4 animation-slide-up">
-                        <AlertCircle size={20} />
-                        <p className="font-bold tracking-tight">{error}</p>
+                    <div className="lg:col-span-12 p-8 bg-red-500/10 border border-red-500/20 rounded-[2.5rem] text-red-500 text-xs flex items-center gap-5 animation-slide-up shadow-lg">
+                        <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center shrink-0">
+                            <AlertCircle size={24} />
+                        </div>
+                        <div>
+                            <p className="font-black uppercase tracking-widest">System Anomaly Detected</p>
+                            <p className="font-bold mt-1 opacity-80">{error}</p>
+                        </div>
                     </div>
                 )}
             </form>

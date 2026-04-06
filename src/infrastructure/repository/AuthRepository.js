@@ -66,4 +66,22 @@ export class AuthRepository extends BaseRepository {
         const { fetchWrapper } = await import('../../core/API/fetchWrapper');
         return await fetchWrapper(url, true, 'application/json', 'POST', body);
     }
+
+    /**
+     * Confirms user identity via 6-digit OTP.
+     */
+    async confirmOtp(email, code) {
+        const url = `${this.baseUrl}/api/auth/confirm-otp`;
+        const { fetchWrapper } = await import('../../core/API/fetchWrapper');
+        return await fetchWrapper(url, true, 'application/json', 'POST', { email, code });
+    }
+
+    /**
+     * Requests a new OTP for the given email.
+     */
+    async resendOtp(email) {
+        const url = `${this.baseUrl}/api/auth/resend-otp`;
+        const { fetchWrapper } = await import('../../core/API/fetchWrapper');
+        return await fetchWrapper(url, true, 'application/json', 'POST', { email });
+    }
 }

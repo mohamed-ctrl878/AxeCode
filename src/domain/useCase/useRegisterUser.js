@@ -1,40 +1,64 @@
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { useAsyncUseCase } from './useAsyncUseCase';
 import { AuthRepository } from '@infrastructure/repository/AuthRepository';
 import { UserRepository } from '@infrastructure/repository/UserRepository';
 import { RegisterRequest } from '@infrastructure/DTO/Request/RegisterRequest';
+import { UserDTO } from '@infrastructure/DTO/UserDTO';
+import { setUser, setUserData } from '@infrastructure/store/authSlice';
 
 /**
- * useRegisterUser: Orchestrates the registration flow.
- * Follows Domain Layer patterns: Pre-flight checks + Persistence.
+ * useRegisterUser: Orchestrates the registration and OTP confirmation flow.
  */
 export const useRegisterUser = () => {
+    const dispatch = useDispatch();
     const authRepository = new AuthRepository();
     const userRepository = new UserRepository();
 
-    const { execute, returnedData, inProgress, error } = useAsyncUseCase(
+    const { execute: register, inProgress: isRegistering, error: registrationError } = useAsyncUseCase(
         useCallback(async (formData) => {
-            // 1. Data Modeling & Structural Validation
             const request = new RegisterRequest(formData);
-            request.validate(); // Throws if structural issues exist
+            request.validate();
 
-            // 2. Business Logic Checks (Pre-flight availability)
-            // We do this to ensure we don't send a doomed request to the auth provider
             const isEmailAvailable = await userRepository.checkAvailability('email', request.email);
             if (!isEmailAvailable) throw new Error("Email is already registered.");
 
             const isUsernameAvailable = await userRepository.checkAvailability('username', request.username);
             if (!isUsernameAvailable) throw new Error("Username is already taken.");
 
-            // 3. Execution
             return await authRepository.register(request);
-        }, [])
+        }, [userRepository, authRepository])
+    );
+
+    const { execute: confirmOtp, inProgress: isConfirming, error: confirmationError } = useAsyncUseCase(
+        useCallback(async (email, code) => {
+            const result = await authRepository.confirmOtp(email, code);
+            
+            if (result && result.jwt) {
+                // Success: Log the user in
+                dispatch(setUser(result.jwt));
+                dispatch(setUserData(new UserDTO(result.user)));
+                return result;
+            }
+            throw new Error("Activation failed. Please check the code.");
+        }, [authRepository, dispatch])
+    );
+
+    const { execute: resendOtp, inProgress: isResending, error: resendError } = useAsyncUseCase(
+        useCallback(async (email) => {
+            return await authRepository.resendOtp(email);
+        }, [authRepository])
     );
 
     return {
-        register: execute,
-        registrationData: returnedData,
-        isRegistering: inProgress,
-        registrationError: error
+        register,
+        isRegistering,
+        registrationError,
+        confirmOtp,
+        isConfirming,
+        confirmationError,
+        resendOtp,
+        isResending,
+        resendError
     };
 };

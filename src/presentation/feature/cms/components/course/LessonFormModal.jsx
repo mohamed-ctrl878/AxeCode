@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, Loader2 } from 'lucide-react';
+import { X, Loader2, BookOpen, Plus, Globe, Lock } from 'lucide-react';
+import { cn } from '@core/utils/cn';
 
 /**
  * LessonFormModal: Modal form for creating a lesson inside a week.
@@ -29,55 +30,64 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animation-fade-in">
-            <div className="w-full max-w-md bg-surface border border-white/10 rounded-2xl shadow-2xl p-6 animation-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md animation-fade-in px-4">
+            <div className="w-full max-w-md bg-surface-elevated border border-border-default rounded-3xl shadow-2xl p-8 animation-scale-in relative overflow-hidden">
+                {/* Decorative background element */}
+                <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none text-accent-primary">
+                    <BookOpen size={120} />
+                </div>
+
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-8 relative z-10">
                     <div>
-                        <h3 className="text-lg font-bold tracking-tight text-white">Add Lesson</h3>
+                        <h3 className="text-xl font-black tracking-tight text-text-primary">Add New Lesson</h3>
                         {weekTitle && (
-                            <p className="text-[11px] text-text-muted mt-0.5">into <span className="text-accent-primary font-medium">{weekTitle}</span></p>
+                            <p className="text-[10px] text-text-muted mt-1 uppercase tracking-widest font-bold opacity-60">
+                                Target: <span className="text-accent-primary">{weekTitle}</span>
+                            </p>
                         )}
                     </div>
                     <button
                         onClick={onClose}
-                        className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-text-muted hover:text-white hover:border-white/30 transition-all"
+                        className="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-text-muted hover:text-text-primary hover:border-border-default transition-all bg-surface shadow-sm"
                     >
-                        <X size={16} />
+                        <X size={18} />
                     </button>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                     {/* Title */}
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Lesson Title *</label>
+                    <div className="flex flex-col gap-3">
+                        <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-1">Lesson Identifier</label>
                         <input
                             required
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="e.g. Introduction to Variables"
-                            className="bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-primary transition-colors"
+                            className="bg-background border border-border-subtle rounded-2xl px-5 py-4 text-sm font-bold text-text-primary focus:outline-none focus:border-accent-primary transition-all shadow-inner placeholder:text-text-muted/20"
                             autoFocus
                         />
                     </div>
 
-                    {/* Type */}
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Lesson Type</label>
+                    {/* Type Selection */}
+                    <div className="flex flex-col gap-3">
+                        <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-1">Content Type</label>
                         <div className="flex gap-3">
                             {['video', 'article'].map((t) => (
                                 <button
                                     key={t}
                                     type="button"
                                     onClick={() => setType(t)}
-                                    className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium border transition-all capitalize ${
+                                    className={cn(
+                                        "flex-1 px-4 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all flex items-center justify-center gap-2",
                                         type === t
-                                            ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary'
-                                            : 'border-white/10 bg-background text-text-muted hover:text-white'
-                                    }`}
+                                            ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary shadow-lg shadow-accent-primary/5'
+                                            : 'border-border-subtle bg-background text-text-muted hover:text-text-primary hover:border-border-default'
+                                    )}
                                 >
+                                    <div className={cn("w-2 h-2 rounded-full", type === t ? "bg-accent-primary animate-pulse" : "bg-text-muted/20")} />
                                     {t}
                                 </button>
                             ))}
@@ -85,37 +95,51 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
                     </div>
 
                     {/* Public Toggle */}
-                    <div className="flex items-center justify-between px-1">
-                        <label className="text-sm font-bold text-text-muted">Public Access</label>
+                    <div className="flex items-center justify-between px-1 bg-surface-sunken p-5 rounded-2xl border border-border-subtle">
+                        <div className="flex items-center gap-3">
+                            <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", isPublic ? "bg-green-500/10 text-green-500" : "bg-text-muted/10 text-text-muted/40")}>
+                                {isPublic ? <Globe size={20} /> : <Lock size={20} />}
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em]">Public Access</label>
+                                <p className="text-[9px] text-text-muted opacity-60">Visibility to non-enrolled users</p>
+                            </div>
+                        </div>
                         <button
                             type="button"
                             onClick={() => setIsPublic(!isPublic)}
-                            className={`w-10 h-5 rounded-full transition-colors relative ${
-                                isPublic ? 'bg-accent-primary' : 'bg-white/10'
-                            }`}
+                            className={cn(
+                                "w-12 h-6 rounded-full transition-all relative flex items-center shadow-inner border border-transparent",
+                                isPublic ? 'bg-green-500' : 'bg-surface-elevated border-border-subtle'
+                            )}
                         >
-                            <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${
-                                isPublic ? 'translate-x-5' : 'translate-x-0.5'
-                            }`} />
+                            <span className={cn(
+                                "absolute w-4 h-4 rounded-full bg-white shadow-md transition-all",
+                                isPublic ? 'translate-x-7' : 'translate-x-1'
+                            )} />
                         </button>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center justify-end gap-3 pt-2">
+                    <div className="flex items-center justify-end gap-4 pt-2">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-5 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:text-white border border-white/10 hover:border-white/20 transition-all"
+                            className="px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-text-muted hover:text-text-primary transition-all border border-transparent hover:bg-surface-sunken"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={isLoading || !title.trim()}
-                            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold bg-accent-primary hover:bg-accent-secondary text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex items-center gap-3 px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest bg-accent-primary text-on-accent shadow-[0_10px_20px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                         >
-                            {isLoading && <Loader2 size={14} className="animate-spin" />}
-                            Add Lesson
+                            {isLoading ? (
+                                <Loader2 size={16} className="animate-spin" />
+                            ) : (
+                                <Plus size={16} className="group-hover:rotate-90 transition-transform" />
+                            )}
+                            Initialize Lesson
                         </button>
                     </div>
                 </form>

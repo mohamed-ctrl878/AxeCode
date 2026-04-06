@@ -113,13 +113,13 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
     return (
         <div className="animation-fade-in space-y-10 pb-20">
             {/* Context Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-6 gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-border-subtle pb-6 gap-4">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 text-accent-blue flex items-center justify-center shadow-inner">
                         <Activity size={24} />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black tracking-tight text-white italic">Subscription Analysis</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary italic">Subscription Analysis</h2>
                         <p className="text-xs text-text-muted mt-1 uppercase tracking-widest opacity-60">
                             Ownership & Enrollment Metrics | Product ID: <span className="text-accent-blue font-mono">{coursePreview?.entitlementsId || 'N/A'}</span>
                         </p>
@@ -128,7 +128,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
 
                 <div className="flex items-center gap-4">
                     {/* Time Filters */}
-                    <div className="flex p-1 bg-white/[0.03] border border-white/5 rounded-xl">
+                    <div className="flex p-1 bg-surface-sunken border border-border-subtle rounded-xl">
                         {[
                             { id: 'all', label: 'All Time' },
                             { id: '3m', label: '3 Months' },
@@ -142,7 +142,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                                     "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
                                     activeFilter === f.id 
                                         ? "bg-accent-blue text-white shadow-lg shadow-accent-blue/20" 
-                                        : "text-text-muted hover:text-white hover:bg-white/5"
+                                        : "text-text-muted hover:text-text-primary hover:bg-border-subtle/20"
                                 )}
                             >
                                 {f.label}
@@ -168,14 +168,14 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                     <SubscriptionChart data={userEntitlements} filter={activeFilter} />
                 </div>
                 <div className="space-y-6">
-                    <div className="bg-surface-dark/40 border border-white/5 rounded-[2rem] p-6 flex items-center justify-between group hover:border-accent-blue/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
+                    <div className="bg-surface border border-border-subtle rounded-[2rem] p-6 flex items-center justify-between group hover:border-accent-blue/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
                         <div>
                             <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">Active Subscribers</p>
-                            <p className="text-3xl font-black text-white">{userEntitlements.length}</p>
+                            <p className="text-3xl font-black text-text-primary">{userEntitlements.length}</p>
                         </div>
                         <Users size={32} className="text-accent-blue opacity-20 group-hover:opacity-40 transition-opacity" />
                     </div>
-                    <div className="bg-surface-dark/40 border border-white/5 rounded-[2rem] p-6 flex items-center justify-between group hover:border-green-500/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
+                    <div className="bg-surface border border-border-subtle rounded-[2rem] p-6 flex items-center justify-between group hover:border-green-500/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
                         <div>
                             <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">Status</p>
                             <p className="text-2xl font-black text-green-400 uppercase tracking-tighter">Healthy</p>
@@ -187,12 +187,12 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
 
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
                 {/* Grant New Enrollment */}
-                <div className="bg-surface-dark/40 border border-white/5 rounded-3xl p-8 space-y-6 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                <div className="bg-surface border border-border-subtle rounded-3xl p-8 space-y-6 backdrop-blur-sm shadow-xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                         <UserPlus size={120} />
                     </div>
                     <div className="space-y-1 relative z-10">
-                        <h3 className="text-xs font-black text-white/90 uppercase tracking-[0.2em]">Manual Enrollment Ledger</h3>
+                        <h3 className="text-xs font-black text-text-primary/90 uppercase tracking-[0.2em]">Manual Enrollment Ledger</h3>
                         <p className="text-[10px] text-text-muted italic">Bestow access via direct product ID association.</p>
                     </div>
 
@@ -206,7 +206,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                                 value={emailSearch}
                                 onChange={(e) => setEmailSearch(e.target.value)}
                                 placeholder="Enter student email address..."
-                                className="w-full bg-background/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-white focus:border-accent-blue/50 outline-none transition-all shadow-inner"
+                                className="w-full bg-background border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-text-primary focus:border-accent-blue/50 outline-none transition-all shadow-inner"
                             />
                             {isSearching && (
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -227,40 +227,40 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                 </div>
 
                 {/* Active Enrollment List */}
-                <div className="bg-surface-dark/40 border border-white/5 rounded-3xl overflow-hidden backdrop-blur-sm shadow-xl min-h-[400px]">
-                    <div className="px-8 py-6 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
+                <div className="bg-surface border border-border-subtle rounded-3xl overflow-hidden backdrop-blur-sm shadow-xl min-h-[400px]">
+                    <div className="px-8 py-6 border-b border-border-subtle bg-surface-sunken/50 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <Search size={16} className="text-text-muted" />
-                            <h3 className="text-xs font-black text-white/90 uppercase tracking-[0.2em]">Ownership ledger</h3>
+                            <h3 className="text-xs font-black text-text-primary/90 uppercase tracking-[0.2em]">Ownership ledger</h3>
                         </div>
                         <span className="text-[10px] font-mono text-text-muted/40 uppercase">Total: {userEntitlements.length}</span>
                     </div>
 
                     <div className="overflow-x-auto">
                         <table className="w-full border-collapse">
-                            <thead className="bg-white/[0.01]">
+                            <thead className="bg-surface-sunken">
                                 <tr>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Student Identity</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Status</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Start Date</th>
-                                    <th className="px-8 py-4 text-right text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Directives</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Student Identity</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Status</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Start Date</th>
+                                    <th className="px-8 py-4 text-right text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Directives</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-white/5">
+                            <tbody className="divide-y divide-border-subtle">
                                 {userEntitlements.map((entry) => {
                                     const user = entry?.user;
                                     const userLabel = user?.username || user?.email || `ID: ${user?.id}`;
                                     const userEmail = user?.email || '';
                                     
                                     return (
-                                        <tr key={entry.id} className="group hover:bg-white/[0.02] transition-colors">
+                                        <tr key={entry.id} className="group hover:bg-surface-sunken/40 transition-colors">
                                             <td className="px-8 py-5">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center text-white/40">
+                                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-border-subtle to-transparent flex items-center justify-center text-text-muted/40 font-bold">
                                                         <User size={16} />
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-bold text-white group-hover:text-accent-blue transition-colors">{userLabel}</p>
+                                                        <p className="text-sm font-bold text-text-primary group-hover:text-accent-blue transition-colors">{userLabel}</p>
                                                         <p className="text-[10px] text-text-muted opacity-60 font-mono italic">{userEmail || 'System Entity'}</p>
                                                     </div>
                                                 </div>
@@ -284,7 +284,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                                                 <button 
                                                     onClick={() => handleRevokeAccess(entry.documentId || entry.id)}
                                                     disabled={isDeleting}
-                                                    className="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg active:scale-95 disabled:opacity-20"
+                                                    className="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-on-accent transition-all shadow-lg active:scale-95 disabled:opacity-20"
                                                     title="Revoke Enrollment"
                                                 >
                                                     <Trash2 size={16} />

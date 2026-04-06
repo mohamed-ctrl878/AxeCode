@@ -20,13 +20,13 @@ export const CMSSidebar = ({ sections, activeSection }) => {
                             className={cn(
                                 "w-full flex items-center justify-between py-1.5 px-2 transition-all duration-300 group relative",
                                 activeSection === section.name 
-                                    ? "text-white" 
+                                    ? "text-text-primary" 
                                     : "text-text-muted hover:text-text-primary"
                             )}
                         >
                             <span className={cn(
                                 "text-sm font-bold tracking-tight",
-                                activeSection === section.name && "underline decoration-[1px] underline-offset-4 decoration-white/80"
+                                activeSection === section.name && "underline decoration-[1px] underline-offset-4 decoration-text-primary/80"
                             )}>
                                 {section.name}
                             </span>

@@ -1,6 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { PATHS } from './paths';
+import { ProtectedRoute } from '@presentation/shared/components/Auth/ProtectedRoute';
+import { ROLE_TYPES } from '@core/constants/RoleConstants';
 
 // Placeholder/Lazy Loaded Pages for now
 // We can use a generic placeholder for initial setup
@@ -44,6 +46,7 @@ const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage')
 const RoadmapDetailsPage = lazy(() => import('../feature/roadmap/routes/RoadmapDetailsPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
 const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
+const CMSRoadmapsPage = lazy(() => import('../feature/cms/routes/CMSRoadmapsPage'));
 const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
 
 /**
@@ -73,7 +76,14 @@ export const AppRoutes = () => {
                 <Route path={PATHS.ROADMAP_DETAILS} element={<RoadmapDetailsPage />} />
 
                 {/* ═══ CMS Management (Nested Routing) ═══ */}
-                <Route path={PATHS.CONTENT_MANAGEMENT} element={<CMSLayout />}>
+                <Route 
+                    path={PATHS.CONTENT_MANAGEMENT} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <CMSLayout />
+                        </ProtectedRoute>
+                    }
+                >
                     {/* Default redirect: /cms → /cms/courses */}
                     <Route index element={<Navigate to="courses" replace />} />
 
@@ -81,16 +91,68 @@ export const AppRoutes = () => {
                     <Route path="courses" element={<CMSCoursesPage />} />
                     <Route path="events" element={<CMSEventsPage />} />
                     <Route path="problems" element={<CMSProblemsPage />} />
+                    <Route path="roadmaps" element={<CMSRoadmapsPage />} />
                     <Route path="articles" element={<PlaceholderPage title="Articles Management" />} />
                     <Route path="media" element={<PlaceholderPage title="Media Management" />} />
                 </Route>
 
                 {/* CMS Deep Management Routes (outside layout — full-page views) */}
-                <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:id/:topic`} element={<CourseManagementPage />} />
-                <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/add-lesson`} element={<AddLessonPage />} />
-                <Route path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/lessons/:lessonId/edit`} element={<EditLessonPage />} />
-                <Route path={`${PATHS.CONTENT_MANAGEMENT}/events/:id/:topic`} element={<EventManagementPage />} />
-                <Route path={`${PATHS.CONTENT_MANAGEMENT}/problems/:id/:topic`} element={<ProblemManagementPage />} />
+                <Route 
+                    path={`${PATHS.CONTENT_MANAGEMENT}/courses/:id/:topic`} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <CourseManagementPage />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/add-lesson`} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <AddLessonPage />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/lessons/:lessonId/edit`} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <EditLessonPage />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path={`${PATHS.CONTENT_MANAGEMENT}/events/:id/:topic`} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <EventManagementPage />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path={`${PATHS.CONTENT_MANAGEMENT}/problems/:id/:topic`} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <ProblemManagementPage />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path={`${PATHS.CONTENT_MANAGEMENT}/roadmaps/create`} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <FlowSandboxPage />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path={`${PATHS.CONTENT_MANAGEMENT}/roadmaps/:id/edit`} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <FlowSandboxPage />
+                        </ProtectedRoute>
+                    } 
+                />
 
                 {/* Community */}
                 <Route path={PATHS.FEED} element={<FeedPage />} />
@@ -111,9 +173,6 @@ export const AppRoutes = () => {
                 {/* User */}
                 <Route path={PATHS.PROFILE} element={<PlaceholderPage title="User Profile" />} />
                 <Route path={PATHS.SETTINGS} element={<PlaceholderPage title="Account Settings" />} />
-
-                {/* Testing & Sandbox */}
-                <Route path="/flow-sandbox" element={<FlowSandboxPage />} />
 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />

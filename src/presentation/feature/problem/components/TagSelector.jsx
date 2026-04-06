@@ -22,7 +22,7 @@ export const TagSelector = ({ onSearch, onTagSelect, selectedTags = [] }) => {
                     <input 
                         type="text" 
                         placeholder="Search for a specific challenge..." 
-                        className="w-full bg-surface-dark border border-border-subtle rounded-xl py-2.5 pl-10 pr-4 text-sm focus:border-accent-primary outline-none transition-all"
+                        className="w-full bg-surface-sunken border border-border-subtle rounded-xl py-2.5 pl-10 pr-4 text-sm focus:border-accent-primary outline-none transition-all"
                         onChange={(e) => onSearch?.(e.target.value)}
                     />
                 </div>
@@ -30,7 +30,7 @@ export const TagSelector = ({ onSearch, onTagSelect, selectedTags = [] }) => {
                     onClick={() => setIsOpen(!isOpen)}
                     className={cn(
                         "px-4 py-2.5 rounded-xl border flex items-center gap-2 text-sm font-medium transition-all transition-colors",
-                        isOpen || selectedTags.length > 0 ? "border-accent-primary text-accent-primary bg-accent-primary/5" : "border-border-subtle text-text-muted hover:text-text-primary hover:bg-white/5"
+                        isOpen || selectedTags.length > 0 ? "border-accent-primary text-accent-primary bg-accent-primary/5" : "border-border-subtle text-text-muted hover:text-text-primary hover:bg-surface-elevated"
                     )}
                 >
                     <Tag size={16} />
@@ -41,7 +41,7 @@ export const TagSelector = ({ onSearch, onTagSelect, selectedTags = [] }) => {
 
             {/* Expandable Tags Area */}
             {isOpen && (
-                <div className="glass p-4 rounded-2xl border-white/5 animation-slide-down">
+                <div className="bg-surface shadow-md p-4 rounded-2xl border border-border-subtle animation-slide-down">
                     <div className="flex flex-wrap gap-2">
                         {availableTags.map((tag) => {
                             const isSelected = selectedTags.includes(tag);
@@ -52,8 +52,8 @@ export const TagSelector = ({ onSearch, onTagSelect, selectedTags = [] }) => {
                                     className={cn(
                                         "px-3 py-1.5 rounded-lg text-xs font-medium transition-all",
                                         isSelected 
-                                            ? "bg-accent-primary text-black" 
-                                            : "bg-surface-dark border border-border-subtle text-text-muted hover:border-accent-primary/50 hover:text-text-primary"
+                                            ? "bg-accent-primary text-white" 
+                                            : "bg-surface-sunken border border-border-subtle text-text-muted hover:border-accent-primary/50 hover:text-text-primary"
                                     )}
                                 >
                                     {tag}

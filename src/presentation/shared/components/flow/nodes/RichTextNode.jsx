@@ -29,8 +29,13 @@ export const RichTextNode = ({ id, data, selected }) => {
     };
 
     // Default colors picking up from design system, or overridden by data.color/borderColor
-    const bgColor = data.color || "bg-surface";
+    let bgColor = data.color || "bg-surface";
     const borderColor = data.borderColor || "border-border-subtle";
+    
+    // Normalize legacy/hardcoded colors to adaptive theme tokens
+    if (bgColor === 'bg-surface-dark') bgColor = 'bg-surface-sunken';
+    if (bgColor === 'bg-white' || bgColor === '#ffffff' || bgColor === '#fff') bgColor = 'bg-surface';
+
     const selectedRing = selected ? "ring-2 ring-accent-primary ring-offset-2 ring-offset-background" : "";
 
     const activeShapeClass = shapeStyles[data.shape] || shapeStyles.rectangle;
@@ -46,7 +51,7 @@ export const RichTextNode = ({ id, data, selected }) => {
             />
             <div 
                 className={cn(
-                    "relative transition-all duration-200 shadow-sm w-full h-full border-2",
+                    "relative transition-all duration-200 shadow-sm w-full h-full border-2 text-text-primary",
                     bgColor,
                     borderColor,
                     activeShapeClass,

@@ -10,6 +10,8 @@ import { PATHS } from '../../../routes/paths';
 import { SearchTerminal } from './header/SearchTerminal';
 import { UserMenu } from './header/UserMenu';
 import { GuestActions } from './header/GuestActions';
+import { NotificationBell } from '@presentation/feature/notification/components/NotificationBell';
+// import { NotificationBell } from '../../../../feature/notification/components/NotificationBell';
 
 /**
  * Header: Global navigation and action bar.
@@ -46,10 +48,7 @@ export const Header = () => {
                 </button>
 
                 {/* Notifications */}
-                <button className="relative p-2 text-text-muted hover:text-text-primary hover:bg-surface-dark rounded-xl transition-all group">
-                    <Bell size={20} />
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-background" />
-                </button>
+                <NotificationBell />
 
                 {/* Divider */}
                 <div className="w-px h-6 bg-border-subtle mx-2" />

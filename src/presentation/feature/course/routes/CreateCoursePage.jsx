@@ -71,7 +71,7 @@ const CreateCoursePage = () => {
             <div className="max-w-7xl mx-auto mb-8 w-full">
                 <button 
                     onClick={() => navigate(`${PATHS.CONTENT_MANAGEMENT}/courses`)}
-                    className="flex items-center gap-2 text-text-muted hover:text-white transition-colors mb-4 group"
+                    className="flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors mb-4 group"
                 >
                     <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                     <span className="text-sm font-medium">Back to Courses</span>

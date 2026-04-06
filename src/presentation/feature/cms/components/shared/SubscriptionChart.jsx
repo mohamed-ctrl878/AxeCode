@@ -102,23 +102,23 @@ export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'va
   }, [points, height, padding]);
 
   return (
-    <div className="relative w-full bg-surface-dark/20 border border-white/5 rounded-[2rem] p-8 backdrop-blur-md overflow-hidden group/chart animation-fade-in shadow-xl">
+    <div className="relative w-full bg-surface border border-border-subtle rounded-[2rem] p-8 backdrop-blur-md overflow-hidden group/chart animation-fade-in shadow-xl">
       {/* Glossy Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
       
       <div className="flex items-center justify-between mb-8 relative z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 text-white/40 group-hover/chart:text-accent-blue transition-colors" style={{ color: hoveredPoint ? accentColor : undefined }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-surface-sunken text-text-muted/40 group-hover/chart:text-accent-blue transition-colors" style={{ color: hoveredPoint ? accentColor : undefined }}>
             <TrendingUp size={20} />
           </div>
           <div>
-            <h4 className="text-sm font-black text-white uppercase tracking-widest">Growth Analytics</h4>
+            <h4 className="text-sm font-black text-text-primary uppercase tracking-widest">Growth Analytics</h4>
             <p className="text-[10px] text-text-muted opacity-60">Subscriber density over time</p>
           </div>
         </div>
 
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-black text-white">{data.length}</span>
+          <span className="text-2xl font-black text-text-primary">{data.length}</span>
           <span className="text-[10px] font-bold text-text-muted uppercase tracking-tighter">Subscribers</span>
         </div>
       </div>
@@ -151,8 +151,8 @@ export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'va
               y1={height - padding - p * chartHeight}
               x2={width - padding}
               y2={height - padding - p * chartHeight}
-              stroke="white"
-              strokeOpacity="0.05"
+              stroke="currentColor"
+              strokeOpacity="0.1"
               strokeDasharray="4 4"
             />
           ))}
@@ -227,11 +227,11 @@ export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'va
               transform: 'translate(-50%, -120%)'
             }}
           >
-            <div className="bg-surface-dark border border-white/10 rounded-xl p-3 shadow-2xl min-w-[120px] backdrop-blur-xl">
+            <div className="bg-surface-elevated border border-border-default rounded-xl p-3 shadow-2xl min-w-[120px] backdrop-blur-xl">
               <p className="text-[10px] font-black uppercase mb-1" style={{ color: accentColor }}>{hoveredPoint.data.label}</p>
               <div className="flex items-center justify-between gap-4">
-                <span className="text-xs font-bold text-white">Enrollments</span>
-                <span className="text-sm font-black text-white">{hoveredPoint.data.value}</span>
+                <span className="text-xs font-bold text-text-primary">Enrollments</span>
+                <span className="text-sm font-black text-text-primary">{hoveredPoint.data.value}</span>
               </div>
               <p className="text-[8px] text-text-muted mt-2 opacity-50 tabular-nums">{hoveredPoint.data.fullDate}</p>
             </div>
