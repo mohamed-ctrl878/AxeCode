@@ -46,16 +46,16 @@ const CMSLayout = () => {
     }));
 
     return (
-        <div className="md:col-span-12 animation-fade-in flex flex-col h-[calc(100vh-4rem)]">
+        <div className="md:col-span-12 animation-fade-in flex flex-col min-h-[calc(100vh-4rem)]">
             <CMSActionBar onExit={() => navigate(-1)} />
 
-            <div className="flex-1 flex gap-0 border border-white/5 rounded-3xl overflow-hidden glass h-full">
+            <div className="flex-1 flex gap-0 border border-border-subtle rounded-3xl glass mx-4 mb-4 md:mx-0 md:mb-0">
                 <CMSSidebar
                     sections={sections}
                     activeSection={activeSection}
                 />
 
-                <div className="flex-1 p-8 overflow-y-auto bg-surface-dark/30 scrollbar-hide">
+                <div className="flex-1 p-8 bg-surface-dark/30 rounded-r-3xl">
                     <Outlet />
                 </div>
             </div>

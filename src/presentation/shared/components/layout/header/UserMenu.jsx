@@ -46,7 +46,7 @@ export const UserMenu = ({ user }) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className={cn(
                     "flex items-center gap-3 p-1.5 pr-3 rounded-2xl transition-all group",
-                    isOpen ? "bg-surface-dark ring-1 ring-accent-primary/20" : "hover:bg-surface-dark"
+                    isOpen ? "bg-surface-sunken ring-1 ring-accent-primary/30" : "hover:bg-surface-sunken"
                 )}
             >
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/20 flex items-center justify-center text-accent-primary shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-300">
@@ -98,7 +98,7 @@ export const UserMenu = ({ user }) => {
                         <Link 
                             to={PATHS.PROFILE} 
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-3 w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-white/5 rounded-xl transition-all group"
+                            className="flex items-center gap-3 w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-surface-hover rounded-xl transition-all group"
                         >
                             <User size={16} className="group-hover:text-accent-primary" />
                             My Profile
@@ -107,7 +107,7 @@ export const UserMenu = ({ user }) => {
                         <Link 
                             to={PATHS.SETTINGS} 
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-3 w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-white/5 rounded-xl transition-all group"
+                            className="flex items-center gap-3 w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-surface-hover rounded-xl transition-all group"
                         >
                             <Settings size={16} className="group-hover:text-accent-primary" />
                             System Settings
@@ -115,7 +115,7 @@ export const UserMenu = ({ user }) => {
 
                         <button 
                             onClick={toggleTheme}
-                            className="flex items-center justify-between w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-white/5 rounded-xl transition-all group"
+                            className="flex items-center justify-between w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-surface-hover rounded-xl transition-all group"
                         >
                             <div className="flex items-center gap-3">
                                 {theme === 'dark' ? (
@@ -125,10 +125,10 @@ export const UserMenu = ({ user }) => {
                                 )}
                                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                             </div>
-                            <div className="relative w-8 h-4 bg-surface-dark rounded-full border border-border-subtle">
+                            <div className="relative w-8 h-4 bg-surface-sunken rounded-full border border-border-subtle">
                                 <div className={cn(
                                     "absolute top-0.5 w-[10px] h-[10px] rounded-full transition-all duration-300",
-                                    theme === 'dark' ? "right-1 bg-yellow-400" : "left-1 bg-violet-400"
+                                    theme === 'dark' ? "right-1 bg-accent-amber shadow-[0_0_8px_var(--accent-amber)]" : "left-1 bg-accent-primary shadow-[0_0_8px_var(--accent-primary)]"
                                 )} />
                             </div>
                         </button>

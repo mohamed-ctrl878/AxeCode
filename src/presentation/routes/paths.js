@@ -9,6 +9,7 @@ export const PATHS = {
     COURSES: '/courses',
     COURSE_CREATE: '/cms/courses/create',
     COURSE_DETAILS: '/courses/:id',
+    COURSE_LEARN: '/courses/:courseId/learn/lesson/:lessonId',
     PROBLEMS: '/problems',
     PROBLEM_CREATE: '/cms/problems/create',
     PROBLEM_DETAILS: '/problems/:id',
@@ -40,4 +41,7 @@ export const PATHS = {
     // Auth
     LOGIN: '/login',
     REGISTER: '/register',
+    FORGOT_PASSWORD: '/forgot-password',
+    RESET_PASSWORD: '/reset-password',
+    GITHUB_CALLBACK: '/auth/github/callback',
 };

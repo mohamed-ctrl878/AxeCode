@@ -42,13 +42,13 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
             <div className="bg-surface border border-border-subtle rounded-2xl w-full max-w-3xl flex flex-col max-h-[90vh] overflow-hidden shadow-2xl">
                 
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-border-subtle">
                     <h2 className="text-xl font-semibold text-text-primary">Create Blog Post</h2>
-                    <button onClick={onClose} className="p-2 text-text-muted hover:text-text-primary rounded-full hover:bg-surface-dark transition-colors" disabled={loading}>
+                    <button onClick={onClose} className="p-2 text-text-muted hover:text-text-primary rounded-full hover:bg-surface-sunken transition-colors" disabled={loading}>
                         <X size={20} />
                     </button>
                 </div>
@@ -67,8 +67,8 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
                         ) : (
                             <div className="relative w-full h-48 rounded-xl overflow-hidden group border border-border-subtle">
                                 <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <label className="cursor-pointer bg-black/70 text-white px-4 py-2 rounded-lg text-sm hover:bg-black transition-colors shadow-lg">
+                                <div className="absolute inset-0 bg-surface-sunken/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <label className="cursor-pointer bg-surface/90 text-text-primary px-4 py-2 rounded-lg text-sm hover:bg-surface transition-colors shadow-lg border border-border-subtle">
                                         Change Image
                                         <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} disabled={loading} />
                                     </label>
@@ -87,7 +87,7 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
                     />
 
                     {error && (
-                        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm">
+                        <div className="p-3 bg-status-error/10 border border-status-error/20 rounded-lg text-status-error text-sm">
                             {error}
                         </div>
                     )}
@@ -102,7 +102,7 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
                                     <span>Uploading Media...</span>
                                     <span>{uploadProgress}%</span>
                                 </div>
-                                <div className="h-2 bg-surface-dark border border-border-subtle rounded-full overflow-hidden">
+                                <div className="h-2 bg-surface-sunken border border-border-subtle rounded-full overflow-hidden">
                                     <div 
                                         className="h-full bg-accent-primary transition-all duration-300 ease-out"
                                         style={{ width: `${uploadProgress}%` }}
@@ -122,7 +122,7 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
                             type="button" 
                             onClick={onClose} 
                             disabled={loading}
-                            className="px-6 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-surface-dark transition-colors font-medium border border-transparent hover:border-border-subtle"
+                            className="px-6 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-surface-sunken transition-colors font-medium border border-transparent hover:border-border-subtle"
                         >
                             Cancel
                         </button>

@@ -4,7 +4,8 @@ import { LoginForm } from '../components/LoginForm';
 import { LoginRequest } from '@infrastructure/DTO/Request/LoginRequest';
 import { useLoginUser } from '@domain/useCase/useLoginUser';
 import { PATHS } from '@presentation/routes/paths';
-import { KeyRound, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { KeyRound, ArrowRight, AlertCircle, Loader2, Github } from 'lucide-react';
+import { useGithubLogin } from '@domain/useCase/useGithubLogin';
 
 /**
  * LoginPage: Unified Entry Orchestrator for Authentication.
@@ -14,6 +15,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const recaptchaRef = React.useRef(null);
     const [formData, setFormData] = useState(new LoginRequest());
+    const { getGithubUrl } = useGithubLogin();
 
     const { login, isLoggingIn, loginError } = useLoginUser();
 
@@ -44,7 +46,7 @@ const LoginPage = () => {
 
     return (
         <div className="md:col-span-12 min-h-[calc(100vh-8rem)] flex items-center justify-center p-4">
-            <div className="max-w-md w-full glass border border-white/5 rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden">
+            <div className="max-w-md w-full glass border border-border-subtle rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden">
                 {/* Decorative Background */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl -ml-10 -mb-10" />
@@ -76,7 +78,7 @@ const LoginPage = () => {
                     />
 
                     {/* Submit Bar */}
-                    <div className="mt-10 pt-4 border-t border-white/5">
+                    <div className="mt-10 pt-4 border-t border-border-subtle">
                         <button 
                             type="submit"
                             disabled={!isFormValid || isLoggingIn}
@@ -84,7 +86,7 @@ const LoginPage = () => {
                                 w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-bold transition-all duration-300
                                 ${isFormValid && !isLoggingIn
                                     ? 'bg-accent-primary text-text-on-accent shadow-[0_8px_25px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_rgba(255,255,255,0.15)] hover:scale-[1.02] active:scale-[0.98]' 
-                                    : 'bg-white/5 text-text-muted cursor-not-allowed'}
+                                    : 'bg-surface-elevated text-text-muted cursor-not-allowed'}
                             `}
                         >
                             {isLoggingIn ? (
@@ -96,14 +98,35 @@ const LoginPage = () => {
                                 </>
                             )}
                         </button>
+                        
+                        <button 
+                            type="button"
+                            onClick={() => navigate(PATHS.FORGOT_PASSWORD)}
+                            className="w-full mt-4 py-3 rounded-2xl flex items-center justify-center gap-3 text-[11px] font-bold uppercase tracking-[0.15em] text-accent-primary hover:text-text-primary transition-all duration-300 bg-accent-primary/5 hover:bg-accent-primary/20 border border-accent-primary/10"
+                        >
+                            Forgot Protocol? [Identify Recovery]
+                        </button>
                     </div>
                 </form>
+
+                <div className="relative my-8 text-center">
+                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border-subtle"></div></div>
+                    <span className="relative px-4 text-[9px] uppercase tracking-[0.25em] text-text-muted bg-surface-dark/50 backdrop-blur-md rounded-full py-1">External Authorization</span>
+                </div>
+
+                <button 
+                    onClick={() => window.location.href = getGithubUrl()}
+                    className="w-full py-4 rounded-2xl flex items-center justify-center gap-3 bg-surface hover:bg-surface-light border border-border-subtle hover:border-text-muted transition-all duration-300 group"
+                >
+                    <Github className="group-hover:scale-110 transition-transform" size={18} />
+                    <span className="text-xs font-bold uppercase tracking-widest">Authorize via GitHub</span>
+                </button>
 
                 {/* Footer Link */}
                 <div className="mt-8 text-center">
                     <p className="text-[10px] text-text-muted uppercase tracking-widest">
                         New entity in the network? {' '}
-                        <button onClick={() => navigate('/register')} className="text-accent-primary font-bold hover:underline">Request Node</button>
+                        <button onClick={() => navigate(PATHS.REGISTER)} className="text-accent-primary font-bold hover:underline">Request Node</button>
                     </p>
                 </div>
             </div>

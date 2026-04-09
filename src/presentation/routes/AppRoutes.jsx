@@ -18,6 +18,7 @@ const PlaceholderPage = ({ title }) => (
 const CoursePage = lazy(() => import('../feature/course/routes/CoursePage'));
 const CreateCoursePage = lazy(() => import('../feature/course/routes/CreateCoursePage'));
 const CourseDetailsPage = lazy(() => import('../feature/course/routes/CourseDetailsPage'));
+const LearnCoursePage = lazy(() => import('../feature/course/routes/LearnCoursePage'));
 const ProblemPage = lazy(() => import('../feature/problem/routes/ProblemPage'));
 const ProblemPreviewPage = lazy(() => import('../feature/problem/routes/ProblemPreviewPage'));
 const FeedPage = lazy(() => import('../feature/feed/routes/FeedPage'));
@@ -46,6 +47,9 @@ const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage')
 const RoadmapDetailsPage = lazy(() => import('../feature/roadmap/routes/RoadmapDetailsPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
 const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
+const ForgotPasswordPage = lazy(() => import('../feature/auth/forgot-password/routes/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('../feature/auth/reset-password/routes/ResetPasswordPage'));
+const GithubCallbackPage = lazy(() => import('../feature/auth/login/routes/GithubCallbackPage'));
 const CMSRoadmapsPage = lazy(() => import('../feature/cms/routes/CMSRoadmapsPage'));
 const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
 
@@ -62,10 +66,14 @@ export const AppRoutes = () => {
                 {/* Auth */}
                 <Route path={PATHS.REGISTER} element={<RegisterPage />} />
                 <Route path={PATHS.LOGIN} element={<LoginPage />} />
+                <Route path={PATHS.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+                <Route path={PATHS.RESET_PASSWORD} element={<ResetPasswordPage />} />
+                <Route path={PATHS.GITHUB_CALLBACK} element={<GithubCallbackPage />} />
                 
                 {/* Learning */}
                 <Route path={PATHS.COURSES} element={<CoursePage />} />
                 <Route path={PATHS.COURSE_CREATE} element={<CreateCoursePage />} />
+                <Route path={PATHS.COURSE_LEARN} element={<LearnCoursePage />} />
                 <Route path={`${PATHS.COURSES}/:documentId`} element={<CourseDetailsPage />} />
                 
                 <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />

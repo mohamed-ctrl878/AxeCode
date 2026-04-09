@@ -33,5 +33,17 @@ export class LessonRepository extends IContentInteraction {
 
     async like(contentId, contentType) {}
     async comment(contentId, contentType, commentData) {}
-    async trackEngagement(contentId) {}
+    async trackEngagement(lessonId, courseId, status = 'completed', lastWatched = 0) {
+        const payload = {
+            data: {
+                lessonId,
+                courseId,
+                status,
+                lastWatched
+            }
+        };
+        // The repository should only wrap once. If apiClient also wraps, we'll see it in logs.
+        // But the previous log showed { data: { data: ... } }, so we remove one layer from our code.
+        return await this.apiClient.post('/api/user-progress/update', payload.data);
+    }
 }

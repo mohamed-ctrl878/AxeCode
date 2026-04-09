@@ -79,9 +79,46 @@ export class AuthRepository extends BaseRepository {
     /**
      * Requests a new OTP for the given email.
      */
+    /**
+     * Requests a new OTP for the given email.
+     */
     async resendOtp(email) {
         const url = `${this.baseUrl}/api/auth/resend-otp`;
         const { fetchWrapper } = await import('../../core/API/fetchWrapper');
         return await fetchWrapper(url, true, 'application/json', 'POST', { email });
+    }
+
+    /**
+     * Requests a password reset OTP for the given email.
+     */
+    async forgotPassword(email) {
+        const url = `${this.baseUrl}/api/auth/forgot-password`;
+        const { fetchWrapper } = await import('../../core/API/fetchWrapper');
+        return await fetchWrapper(url, true, 'application/json', 'POST', { email });
+    }
+
+    /**
+     * Resets user password using OTP code.
+     */
+    async resetPassword(email, code, password) {
+        const url = `${this.baseUrl}/api/auth/reset-password`;
+        const { fetchWrapper } = await import('../../core/API/fetchWrapper');
+        return await fetchWrapper(url, true, 'application/json', 'POST', { email, code, password });
+    }
+
+    /**
+     * Returns the GitHub login URL.
+     */
+    getGithubLoginUrl() {
+        return `${this.baseUrl}/api/connect/github`;
+    }
+
+    /**
+     * Exchanges a GitHub JWT for an HttpOnly cookie.
+     */
+    async githubExchange(jwt) {
+        const url = `${this.baseUrl}/api/auth/github-exchange`;
+        const { fetchWrapper } = await import('../../core/API/fetchWrapper');
+        return await fetchWrapper(url, true, 'application/json', 'POST', { jwt });
     }
 }

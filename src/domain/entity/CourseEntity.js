@@ -31,6 +31,7 @@ export class CourseEntity extends ContentEntity {
         this.instructor = props.instructor || null;
         this.weeks = props.weeks || [];
         this.rating = props.rating || 0;
+        this.completedLessonsCount = props.completedLessonsCount || 0;
     }
 
     /**
@@ -66,6 +67,7 @@ export class CardCourseEntity {
         this.instructor = props.instructor || null;
         this.weeks = props.weeks || [];
         this.rating = props.rating || 0;
+        this.completedLessonsCount = props.completedLessonsCount || 0;
     }
 }
 
@@ -104,6 +106,7 @@ export class CoursePreviewEntity extends ContentEntity {
         this.instructor = props.instructor || null;
         this.weeks = props.weeks || [];
         this.rating = props.rating || 0;
+        this.completedLessonsCount = props.completedLessonsCount || 0;
     }
 
     /**

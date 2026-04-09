@@ -115,13 +115,13 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
             {/* Context Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-border-subtle pb-6 gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 text-accent-blue flex items-center justify-center shadow-inner">
+                    <div className="w-12 h-12 rounded-2xl bg-accent-primary/10 text-accent-primary flex items-center justify-center shadow-inner">
                         <Activity size={24} />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black tracking-tight text-text-primary italic">Subscription Analysis</h2>
+                        <h2 className="text-2xl font-serif font-medium tracking-tight text-text-primary">Subscription Analysis</h2>
                         <p className="text-xs text-text-muted mt-1 uppercase tracking-widest opacity-60">
-                            Ownership & Enrollment Metrics | Product ID: <span className="text-accent-blue font-mono">{coursePreview?.entitlementsId || 'N/A'}</span>
+                            Ownership & Enrollment Metrics | Product ID: <span className="text-accent-primary font-mono">{coursePreview?.entitlementsId || 'N/A'}</span>
                         </p>
                     </div>
                 </div>
@@ -139,10 +139,10 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                                 key={f.id}
                                 onClick={() => setActiveFilter(f.id)}
                                 className={cn(
-                                    "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
+                                    "px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all",
                                     activeFilter === f.id 
-                                        ? "bg-accent-blue text-white shadow-lg shadow-accent-blue/20" 
-                                        : "text-text-muted hover:text-text-primary hover:bg-border-subtle/20"
+                                        ? "bg-accent-primary text-on-accent shadow-sm" 
+                                        : "text-text-muted hover:text-text-primary hover:bg-surface-hover"
                                 )}
                             >
                                 {f.label}
@@ -153,7 +153,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                     {statusMessage.text && (
                         <div className={cn(
                             "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold animation-slide-up",
-                            statusMessage.type === 'success' ? "bg-green-500/10 text-green-400 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                            statusMessage.type === 'success' ? "bg-status-success/10 text-status-success border border-status-success/20" : "bg-status-error/10 text-status-error border border-status-error/20"
                         )}>
                             {statusMessage.type === 'success' ? <CheckCircle size={14} /> : <AlertCircle size={14} />}
                             {statusMessage.text}
@@ -165,40 +165,40 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
             {/* Analytics Section */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 <div className="lg:col-span-3">
-                    <SubscriptionChart data={userEntitlements} filter={activeFilter} />
+                    <SubscriptionChart data={userEntitlements} filter={activeFilter} accentColor="var(--color-accent-primary)" />
                 </div>
                 <div className="space-y-6">
-                    <div className="bg-surface border border-border-subtle rounded-[2rem] p-6 flex items-center justify-between group hover:border-accent-blue/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
+                    <div className="bg-surface border border-border-subtle rounded-2xl p-6 flex items-center justify-between group hover:border-accent-primary/20 transition-all backdrop-blur-sm h-full max-h-[110px] shadow-whisper">
                         <div>
-                            <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">Active Subscribers</p>
-                            <p className="text-3xl font-black text-text-primary">{userEntitlements.length}</p>
+                            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Active Subscribers</p>
+                            <p className="text-3xl font-bold text-text-primary">{userEntitlements.length}</p>
                         </div>
-                        <Users size={32} className="text-accent-blue opacity-20 group-hover:opacity-40 transition-opacity" />
+                        <Users size={32} className="text-accent-primary opacity-20 group-hover:opacity-40 transition-opacity" />
                     </div>
-                    <div className="bg-surface border border-border-subtle rounded-[2rem] p-6 flex items-center justify-between group hover:border-green-500/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
+                    <div className="bg-surface border border-border-subtle rounded-2xl p-6 flex items-center justify-between group hover:border-status-success/20 transition-all backdrop-blur-sm h-full max-h-[110px] shadow-whisper">
                         <div>
-                            <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">Status</p>
-                            <p className="text-2xl font-black text-green-400 uppercase tracking-tighter">Healthy</p>
+                            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Status</p>
+                            <p className="text-2xl font-bold text-status-success uppercase tracking-tighter">Healthy</p>
                         </div>
-                        <Activity size={32} className="text-green-400 opacity-20 group-hover:opacity-40 transition-opacity" />
+                        <Activity size={32} className="text-status-success opacity-20 group-hover:opacity-40 transition-opacity" />
                     </div>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
                 {/* Grant New Enrollment */}
-                <div className="bg-surface border border-border-subtle rounded-3xl p-8 space-y-6 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                <div className="bg-surface border border-border-subtle rounded-3xl p-8 space-y-6 backdrop-blur-sm shadow-whisper relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                         <UserPlus size={120} />
                     </div>
                     <div className="space-y-1 relative z-10">
-                        <h3 className="text-xs font-black text-text-primary/90 uppercase tracking-[0.2em]">Manual Enrollment Ledger</h3>
+                        <h3 className="text-xs font-bold text-text-primary/90 uppercase tracking-[0.2em]">Manual Enrollment Ledger</h3>
                         <p className="text-[10px] text-text-muted italic">Bestow access via direct product ID association.</p>
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-4 relative z-10">
                         <div className="flex-1 relative group">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-blue transition-colors">
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-primary transition-colors">
                                 <Mail size={18} />
                             </div>
                             <input 
@@ -206,11 +206,11 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                                 value={emailSearch}
                                 onChange={(e) => setEmailSearch(e.target.value)}
                                 placeholder="Enter student email address..."
-                                className="w-full bg-background border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-text-primary focus:border-accent-blue/50 outline-none transition-all shadow-inner"
+                                className="w-full bg-background border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-text-primary focus:border-accent-primary/50 outline-none transition-all shadow-inner"
                             />
                             {isSearching && (
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                                    <Loader2 size={16} className="animate-spin text-accent-blue" />
+                                    <Loader2 size={16} className="animate-spin text-accent-primary" />
                                 </div>
                             )}
                         </div>
@@ -218,7 +218,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                         <button 
                             onClick={handleGrantAccess}
                             disabled={isCreating || !emailSearch || !coursePreview?.entitlementsId}
-                            className="h-14 px-10 bg-accent-blue text-white font-black uppercase text-xs tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:shadow-accent-blue/50 active:scale-95 transition-all flex items-center justify-center gap-2 group disabled:opacity-20"
+                            className="h-14 px-10 bg-accent-primary text-on-accent font-bold uppercase text-xs tracking-widest rounded-2xl shadow-sm hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 group disabled:opacity-20"
                         >
                             <UserPlus size={18} className="group-hover:scale-110 transition-transform" />
                             Grant Instant Access
@@ -227,11 +227,11 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                 </div>
 
                 {/* Active Enrollment List */}
-                <div className="bg-surface border border-border-subtle rounded-3xl overflow-hidden backdrop-blur-sm shadow-xl min-h-[400px]">
+                <div className="bg-surface border border-border-subtle rounded-3xl overflow-hidden backdrop-blur-sm shadow-whisper min-h-[400px]">
                     <div className="px-8 py-6 border-b border-border-subtle bg-surface-sunken/50 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <Search size={16} className="text-text-muted" />
-                            <h3 className="text-xs font-black text-text-primary/90 uppercase tracking-[0.2em]">Ownership ledger</h3>
+                            <h3 className="text-xs font-bold text-text-primary/90 uppercase tracking-[0.2em]">Ownership ledger</h3>
                         </div>
                         <span className="text-[10px] font-mono text-text-muted/40 uppercase">Total: {userEntitlements.length}</span>
                     </div>
@@ -240,10 +240,10 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                         <table className="w-full border-collapse">
                             <thead className="bg-surface-sunken">
                                 <tr>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Student Identity</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Status</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Start Date</th>
-                                    <th className="px-8 py-4 text-right text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Directives</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Student Identity</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Status</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Start Date</th>
+                                    <th className="px-8 py-4 text-right text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Directives</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-border-subtle">
@@ -260,17 +260,17 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                                                         <User size={16} />
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-bold text-text-primary group-hover:text-accent-blue transition-colors">{userLabel}</p>
+                                                        <p className="text-sm font-bold text-text-primary group-hover:text-accent-primary transition-colors">{userLabel}</p>
                                                         <p className="text-[10px] text-text-muted opacity-60 font-mono italic">{userEmail || 'System Entity'}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-8 py-5">
                                                 <span className={cn(
-                                                    "px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border",
-                                                    entry.status === 'successed' ? "bg-green-500/10 text-green-400 border-green-500/20" : 
-                                                    entry.status === 'pinding' ? "bg-yellow-500/10 text-yellow-500 border-yellow-500/20" : 
-                                                    "bg-red-500/10 text-red-500 border-red-500/20"
+                                                    "px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest border",
+                                                    entry.status === 'successed' ? "bg-status-success/10 text-status-success border-status-success/20" : 
+                                                    entry.status === 'pinding' ? "bg-status-warning/10 text-status-warning border-status-warning/20" : 
+                                                    "bg-status-error/10 text-status-error border-status-error/20"
                                                 )}>
                                                     {entry.status === 'successed' ? 'Enrolled' : entry.status}
                                                 </span>
@@ -284,7 +284,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                                                 <button 
                                                     onClick={() => handleRevokeAccess(entry.documentId || entry.id)}
                                                     disabled={isDeleting}
-                                                    className="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-on-accent transition-all shadow-lg active:scale-95 disabled:opacity-20"
+                                                    className="p-2.5 rounded-xl bg-status-error/10 text-status-error hover:bg-status-error hover:text-on-accent transition-all shadow-lg active:scale-95 disabled:opacity-20"
                                                     title="Revoke Enrollment"
                                                 >
                                                     <Trash2 size={16} />

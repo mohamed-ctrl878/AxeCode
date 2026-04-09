@@ -62,7 +62,7 @@ export const FlowSandboxPage = () => {
 
     if (id && !initialLoadDone) {
         return (
-            <div className="md:col-span-12 w-full h-[calc(100vh-100px)] min-h-[600px] flex items-center justify-center bg-surface-dark rounded-2xl border border-border-subtle shadow-2xl">
+            <div className="md:col-span-12 w-full h-[calc(100vh-100px)] min-h-[600px] flex items-center justify-center bg-surface-sunken rounded-2xl border border-border-subtle shadow-2xl">
                 <Loader size={48} className="animate-spin text-accent-primary opacity-50" />
             </div>
         );
@@ -77,7 +77,7 @@ export const FlowSandboxPage = () => {
                         {savedData && (
                             <button 
                                 onClick={handleUploadClick}
-                                className="px-3 py-1 flex items-center gap-1.5 bg-accent-primary/10 text-accent-primary border border-accent-primary/20 hover:bg-accent-primary hover:text-background transition-all text-xs rounded-full cursor-pointer"
+                                className="px-3 py-1 flex items-center gap-1.5 bg-accent-primary/10 text-accent-primary border border-accent-primary/20 hover:bg-accent-primary hover:text-background transition-all text-[10px] uppercase font-black tracking-widest rounded-full cursor-pointer"
                             >
                                 <CloudUpload size={14} /> {id ? 'Save Changes' : 'Upload to Server'}
                             </button>
@@ -102,7 +102,7 @@ export const FlowSandboxPage = () => {
                 </div>
             </div>
 
-            <div className="flex-1 relative w-full h-full bg-surface-dark">
+            <div className="flex-1 relative w-full h-full bg-surface-sunken">
                 {mode === 'edit' ? (
                     <FlowBuilder 
                         key={id ? `edit-${id}` : 'create'} // Force remount if ID changes to reset initial nodes
@@ -129,7 +129,7 @@ export const FlowSandboxPage = () => {
             </div>
 
             {savedData && (
-                <div className="mt-8 p-6 bg-surface-dark border border-border-subtle rounded-2xl overflow-auto">
+                <div className="mt-8 p-6 bg-surface-sunken border border-border-subtle rounded-2xl overflow-auto">
                     <h3 className="font-bold mb-4 text-accent-primary">Exported JSON State</h3>
                     <pre className="text-xs font-mono text-text-muted">
                         {JSON.stringify(savedData, null, 2)}

@@ -35,7 +35,7 @@ export const ProblemSubmissions = ({ submissions = [], onLoadSubmission }) => {
                 return (
                     <div
                         key={sub.id || i}
-                        className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all text-sm cursor-pointer group"
+                        className="flex items-center justify-between p-3 rounded-xl hover:bg-surface-hover border border-transparent hover:border-border-subtle transition-all text-sm cursor-pointer group"
                         onClick={() => onLoadSubmission && onLoadSubmission(sub)}
                         title="Click to load this submission's code"
                     >

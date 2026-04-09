@@ -19,6 +19,7 @@ export class CourseDTO extends BaseContentDTO {
         this.studentCount = data.student_count || 0; // {number}
         this.hasAccess = data.hasAccess || false; // {boolean}
         this.entitlementsId = data.entitlementsId || null; // {string | null}
+        this.completedLessonsCount = data.completedLessonsCount || 0; // {number}
 
         // Detailed Entitlement
         this.entitlement = data.entitlement ? new EntitlementDTO(data.entitlement) : null; // {EntitlementDTO | null}

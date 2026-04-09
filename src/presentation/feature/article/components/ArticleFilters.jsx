@@ -61,7 +61,7 @@ export const ArticleFilters = ({ activeFilter = 'related', onFilterChange, class
                     <p className="text-xs text-text-muted leading-relaxed">
                         Share your knowledge with the AxCode community.
                     </p>
-                    <Link to={`${PATHS.ARTICLES}/write`} className="w-full bg-white text-black py-2 flex justify-center items-center rounded-xl text-xs font-bold hover:scale-[1.02] transition-transform">
+                    <Link to={`${PATHS.ARTICLES}/write`} className="w-full btn-primary text-xs justify-center uppercase tracking-widest">
                         Write Article
                     </Link>
                 </div>

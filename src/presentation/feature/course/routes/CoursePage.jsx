@@ -27,7 +27,7 @@ export const CoursePage = () => {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Knowledge Hub</h1>
+                    <h1 className="text-2xl tracking-tight">Knowledge Hub</h1>
                     <p className="text-xs text-text-muted">Master the art of coding with guided learning paths.</p>
                 </div>
                 
@@ -44,12 +44,12 @@ export const CoursePage = () => {
             </div>
 
             {/* Top Row: Events (Left) + Roadmap (Right) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 lg:gap-0 items-stretch border border-border-subtle rounded-sm overflow-hidden bg-surface">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 lg:gap-0 items-stretch border border-border-subtle rounded-xl overflow-hidden bg-surface">
                 {/* Recommended Events Section */}
                 <div className="lg:col-span-9 p-4 lg:p-6 lg:border-r border-border-subtle">
-                    <div className="flex items-center gap-2 mb-4 text-accent-blue">
+                    <div className="flex items-center gap-2 mb-4 text-accent-primary">
                         <Sparkles size={16} />
-                        <h2 className="font-bold tracking-wide uppercase text-[10px]">Featured Opportunities</h2>
+                        <h2 className="tracking-wide uppercase text-[10px]">Featured Opportunities</h2>
                     </div>
 
                     {eventsLoading ? (
@@ -72,28 +72,28 @@ export const CoursePage = () => {
                                     <EventRecommendedCard event={event} />
                                 </div>
                             ))}
-                            <button className="min-w-[100px] flex flex-col items-center justify-center gap-2 bg-surface-sunken rounded-sm hover:bg-surface-elevated transition-colors duration-200 text-text-muted hover:text-accent-blue">
+                            <button className="min-w-[100px] flex flex-col items-center justify-center gap-2 bg-surface-sunken rounded-lg hover:bg-surface-elevated transition-colors duration-200 text-text-muted hover:text-accent-primary">
                                 <div className="w-8 h-8 rounded-full border border-current flex items-center justify-center">
                                     <ChevronRight size={16} />
                                 </div>
-                                <span className="text-[10px] font-bold uppercase">View All</span>
+                                <span className="text-[10px] font-medium uppercase">View All</span>
                             </button>
                         </div>
                     )}
                 </div>
 
                 {/* AI Roadmap Section */}
-                <div className="lg:col-span-3 p-4 lg:p-6 bg-gradient-to-br from-accent-violet/8 to-transparent flex flex-col justify-center">
-                    <div className="flex items-center gap-2 mb-3 text-accent-violet">
+                <div className="lg:col-span-3 p-4 lg:p-6 bg-accent-primary/5 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-3 text-accent-primary">
                         <Map size={16} />
-                        <h2 className="font-bold tracking-wide uppercase text-[10px]">Your Roadmap</h2>
+                        <h2 className="tracking-wide uppercase text-[10px]">Your Roadmap</h2>
                     </div>
                     <div>
-                        <h3 className="font-bold text-[11px] mb-1">AI Path-finding</h3>
+                        <h3 className="font-medium text-[11px] mb-1">AI Path-finding</h3>
                         <p className="text-[9px] text-text-muted mb-4 leading-relaxed">
                             Generate your specialized learning path now.
                         </p>
-                        <button className="w-full py-2.5 btn-primary rounded-lg text-[10px] font-bold">
+                        <button className="w-full py-2.5 btn-primary rounded-lg text-[10px] font-medium">
                             GENERATE ROADMAP
                         </button>
                     </div>
@@ -105,8 +105,8 @@ export const CoursePage = () => {
             <div className="space-y-6">
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2 text-text-muted">
-                        <BookOpen size={16} className="text-accent-blue" />
-                        <h2 className="font-bold tracking-wide uppercase text-[10px]">Active Courses</h2>
+                        <BookOpen size={16} className="text-accent-primary" />
+                        <h2 className="tracking-wide uppercase text-[10px]">Active Courses</h2>
                     </div>
                 
                     {/* Search & Tags Filter (Aligned Left & Styled like ProblemPage) */}
@@ -142,7 +142,7 @@ export const CoursePage = () => {
                                     {['Frontend', 'Backend', 'Fullstack', 'DevOps', 'Mobile', 'AI', 'UI/UX'].map(tag => (
                                         <button 
                                             key={tag} 
-                                            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-sunken border border-border-subtle text-text-muted hover:border-accent-blue/50 hover:text-text-primary transition-all"
+                                            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-sunken border border-border-subtle text-text-muted hover:border-accent-primary/50 hover:text-text-primary transition-all"
                                         >
                                             {tag}
                                         </button>

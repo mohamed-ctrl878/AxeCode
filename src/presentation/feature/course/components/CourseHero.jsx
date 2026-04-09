@@ -9,7 +9,7 @@ export const CourseHero = ({ course }) => {
         <div className="flex flex-col gap-6">
             {/* Visual Hero */}
             <div className="relative group">
-                <div className="aspect-video w-full rounded-3xl overflow-hidden border border-border-subtle bg-surface-dark shadow-2xl">
+                <div className="aspect-video w-full rounded-3xl overflow-hidden border border-border-subtle bg-surface-sunken shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
                      <img 
                         src={course.thumbnail?.url || 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&q=80'} 
                         alt={course.title} 
@@ -29,13 +29,13 @@ export const CourseHero = ({ course }) => {
                     <span className="px-3 py-1 bg-accent-primary/10 text-accent-primary rounded-full text-[10px] font-mono uppercase border border-accent-primary/20">
                         {course.difficulty}
                     </span>
-                    <div className="flex items-center gap-1.5 text-amber-400">
+                    <div className="flex items-center gap-1.5 text-accent-amber">
                         <Star size={14} fill="currentColor" />
-                        <span className="text-sm font-bold text-text-primary">{course.rating}</span>
+                        <span className="text-sm font-medium text-text-primary">{course.rating}</span>
                         <span className="text-xs text-text-muted font-mono">(1.2k reviews)</span>
                     </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary leading-[1.1]">
+                <h1 className="text-4xl md:text-5xl font-serif tracking-tight text-text-primary leading-[1.10]">
                     {course.title}
                 </h1>
                 <div className="flex items-center gap-4 py-2">
@@ -44,7 +44,7 @@ export const CourseHero = ({ course }) => {
                     </div>
                     <div className="flex flex-col">
                         <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest">Instructor</span>
-                        <span className="text-sm font-bold text-text-primary">{course.instructor?.displayName || 'Axe Architect'}</span>
+                        <span className="text-sm font-medium text-text-primary">{course.instructor?.displayName || 'Axe Architect'}</span>
                     </div>
                 </div>
             </div>

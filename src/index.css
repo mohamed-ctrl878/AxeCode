@@ -1,1 +1,226 @@
-@import "./presentation/styles/globals.css";
+@import "tailwindcss";
+
+@theme {
+  /* ── Claude Colors ── */
+  --color-parchment: #f5f4ed; /* Main Background (Light) */
+  --color-ivory: #faf9f5;     /* Surface/Card (Light) */
+  --color-terracotta: #c96442; /* Primary Action */
+  --color-near-black: #141413; /* Text Primary (Light) / Background (Dark) */
+  --color-olive-gray: #5e5d59; /* Text Muted */
+  --color-warm-charcoal: #30302e; /* Surface (Dark) */
+  --color-coral: #d97757;      /* Primary Action (Dark) */
+
+  /* ── Functional Tokens (Mode Adaptive) ── */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-card: var(--card);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-accent-primary: var(--accent-primary);
+  --color-on-accent: var(--text-on-accent);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+
+  /* ── Fixed Accents ── */
+  --color-accent-blue: #3898ec;
+  --color-accent-emerald: #47b881;
+  --color-accent-rose: #b53333;
+  --color-accent-amber: #f59e0b;
+  --color-accent-violet: #8b5cf6;
+  --color-surface-dark: var(--surface-sunken);
+
+  /* ── Semantic Status Tokens ── */
+  --color-status-success: #47b881; /* Emerald */
+  --color-status-error: #b53333;   /* Rose */
+  --color-status-warning: #f59e0b; /* Amber */
+  --color-status-info: #3898ec;    /* Blue */
+
+  /* ── Typography ── */
+  --font-serif: "Georgia", "Times New Roman", Times, serif;
+  --font-sans: "Arial", ui-sans-serif, system-ui, sans-serif;
+  
+  /* ── Radius & Shadows ── */
+  --radius-bento: 12px;
+  --shadow-halo: 0 0 0 1px var(--border-subtle), 0 4px 24px -2px rgba(0,0,0,0.05);
+  --shadow-whisper: rgba(0,0,0,0.05) 0 4px 24px;
+  --shadow-ring: 0 0 0 1px var(--ring-warm);
+}
+
+:root {
+  --background: #f5f4ed;
+  --surface: #faf9f5;
+  --surface-elevated: #ffffff;
+  --surface-sunken: #e8e6dc;
+  --card: #faf9f5;
+  --border-subtle: #f0eee6;
+  --border-default: #e8e6dc;
+  --accent-primary: #c96442;
+  --text-primary: #141413;
+  --text-muted: #5e5d59;
+  --text-on-accent: #ffffff;
+  --ring-warm: #d1cfc5;
+}
+
+.dark {
+  --background: #141413;
+  --surface: #30302e;
+  --surface-elevated: #3d3d3a;
+  --surface-sunken: #1a1a19;
+  --card: #30302e;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-default: #4d4c48;
+  --accent-primary: #d97757;
+  --text-primary: #faf9f5;
+  --text-muted: #b0aea5;
+  --text-on-accent: #141413;
+  --ring-warm: #4d4c48;
+}
+
+/* ═══════════════════════════════════════════
+   TAILWIND V4 TOP-LEVEL UTILITIES
+   ═══════════════════════════════════════════ */
+
+@utility btn-base {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none text-[15px];
+}
+
+@utility input-field {
+  @apply w-full bg-surface border border-border-default rounded-xl px-4 py-2.5 text-[15px] outline-none transition-all placeholder:text-text-muted/50;
+}
+
+@utility input-field-focus {
+  @apply border-accent-primary ring-4 ring-accent-primary/10 bg-surface-elevated;
+}
+
+@utility bento-card {
+  @apply bg-surface rounded-bento border border-border-subtle p-6 transition-all duration-300;
+  box-shadow: var(--shadow-halo);
+}
+
+@utility shadow-whisper {
+  box-shadow: var(--shadow-whisper);
+}
+
+@utility shadow-ring {
+  box-shadow: var(--shadow-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border-subtle;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+    @apply transition-colors duration-300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-medium;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Custom Scrollbar ── */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-text-muted/30 rounded-full hover:bg-text-muted/60 transition-colors;
+  }
+}
+
+@layer components {
+  /* ═══════════════════════════════════════════
+     BUTTONS (The Claude Suite)
+     ═══════════════════════════════════════════ */
+
+  /* Terracotta Primary */
+  .btn-primary {
+    @apply btn-base bg-accent-primary text-on-accent shadow-sm;
+    box-shadow: 0 0 0 1px var(--accent-primary);
+  }
+  .btn-primary:hover {
+    @apply brightness-110 shadow-md;
+  }
+
+  /* Ivory Secondary */
+  .btn-secondary {
+    @apply btn-base bg-surface-sunken text-text-primary border border-border-default;
+  }
+  .btn-secondary:hover {
+    @apply bg-surface border-text-muted;
+  }
+
+  /* Outline Elegant */
+  .btn-outline {
+    @apply btn-base border border-border-default text-text-primary bg-transparent;
+  }
+  .btn-outline:hover {
+    @apply bg-surface-sunken border-text-muted;
+  }
+
+  /* Ghost Minimal */
+  .btn-ghost {
+    @apply btn-base text-text-muted bg-transparent;
+  }
+  .btn-ghost:hover {
+    @apply bg-surface-sunken text-text-primary;
+  }
+
+  /* Emerald Success */
+  .btn-success {
+    @apply btn-base bg-accent-emerald text-white;
+    box-shadow: 0 0 0 1px var(--color-accent-emerald);
+  }
+  .btn-success:hover {
+    @apply brightness-110;
+  }
+
+  /* Dark Charcoal */
+  .btn-dark {
+    @apply btn-base bg-warm-charcoal text-ivory border border-warm-charcoal;
+    box-shadow: 0 0 0 1px var(--color-warm-charcoal);
+  }
+  .btn-dark:hover {
+    @apply brightness-110;
+  }
+
+  /* ═══════════════════════════════════════════
+     BADGES
+     ═══════════════════════════════════════════ */
+
+  .badge {
+    @apply px-2.5 py-0.5 rounded-full text-[12px] font-semibold uppercase tracking-wider;
+  }
+  .badge-soft {
+    @apply bg-accent-primary/10 text-accent-primary;
+  }
+  .badge-blue {
+    @apply bg-accent-blue/10 text-accent-blue;
+  }
+
+  /* ═══════════════════════════════════════════
+     ANIMATIONS & UTILS
+     ═══════════════════════════════════════════ */
+
+  .shimmer {
+    @apply relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent;
+  }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }

@@ -27,7 +27,7 @@ export const RegisterAction = ({
                     <button 
                         onClick={onBack}
                         disabled={isLoading}
-                        className="flex-1 py-3 border border-border-subtle rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-all disabled:opacity-50"
+                        className="flex-1 py-3 border border-border-subtle rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-surface-light transition-all disabled:opacity-50"
                     >
                         Return
                     </button>

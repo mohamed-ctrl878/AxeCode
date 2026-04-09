@@ -82,7 +82,7 @@ export const WeekList = ({ courseId, weeks = [], onEdit, onDelete, onDeleteLesso
                                     </button>
                                     <button
                                         onClick={(e) => { e.stopPropagation(); onDelete(week); }}
-                                        className="w-8 h-8 rounded-lg border border-border-default flex items-center justify-center text-text-muted hover:text-red-500 hover:border-red-500/30 hover:bg-red-500/5 transition-all shadow-sm bg-surface"
+                                        className="w-8 h-8 rounded-lg border border-border-default flex items-center justify-center text-text-muted hover:text-status-error hover:border-status-error/30 hover:bg-status-error/5 transition-all shadow-sm bg-surface"
                                         title="Delete week"
                                     >
                                         <Trash2 size={12} />
@@ -161,8 +161,8 @@ const LessonRow = ({ lesson, index, courseId, weekId, onDelete }) => {
                 <div className={cn(
                     "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm",
                     lesson.type === 'video'
-                        ? "bg-blue-500/10 text-blue-500"
-                        : "bg-amber-500/10 text-amber-500"
+                        ? "bg-status-info/10 text-status-info"
+                        : "bg-status-warning/10 text-status-warning"
                 )}>
                     <TypeIcon size={14} />
                 </div>
@@ -184,7 +184,7 @@ const LessonRow = ({ lesson, index, courseId, weekId, onDelete }) => {
                 <div className={cn(
                     "flex items-center gap-1.5 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border",
                     lesson.isPublic 
-                        ? "bg-green-500/5 text-green-500 border-green-500/10" 
+                        ? "bg-status-success/10 text-status-success border-status-success/20" 
                         : "bg-text-muted/5 text-text-muted/40 border-border-subtle"
                 )}>
                     <AccessIcon size={10} />
@@ -202,7 +202,7 @@ const LessonRow = ({ lesson, index, courseId, weekId, onDelete }) => {
                     </Link>
                     <button
                         onClick={(e) => { e.stopPropagation(); onDelete(lesson); }}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-red-500 hover:bg-red-500/10 transition-all border border-border-subtle bg-surface"
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-status-error hover:bg-status-error/10 transition-all border border-border-subtle bg-surface"
                     >
                         <Trash2 size={13} />
                     </button>

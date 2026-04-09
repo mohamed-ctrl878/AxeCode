@@ -97,7 +97,7 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
                     {/* Public Toggle */}
                     <div className="flex items-center justify-between px-1 bg-surface-sunken p-5 rounded-2xl border border-border-subtle">
                         <div className="flex items-center gap-3">
-                            <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", isPublic ? "bg-green-500/10 text-green-500" : "bg-text-muted/10 text-text-muted/40")}>
+                            <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", isPublic ? "bg-status-success/10 text-status-success" : "bg-text-muted/10 text-text-muted/40")}>
                                 {isPublic ? <Globe size={20} /> : <Lock size={20} />}
                             </div>
                             <div>
@@ -109,8 +109,8 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
                             type="button"
                             onClick={() => setIsPublic(!isPublic)}
                             className={cn(
-                                "w-12 h-6 rounded-full transition-all relative flex items-center shadow-inner border border-transparent",
-                                isPublic ? 'bg-green-500' : 'bg-surface-elevated border-border-subtle'
+                                "w-12 h-6 rounded-full relative transition-colors duration-300 shadow-inner",
+                                isPublic ? 'bg-status-success' : 'bg-surface-elevated border-border-subtle'
                             )}
                         >
                             <span className={cn(

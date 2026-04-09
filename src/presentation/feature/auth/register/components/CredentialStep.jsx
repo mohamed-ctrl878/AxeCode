@@ -145,7 +145,7 @@ export const CredentialStep = ({ formData, onUpdate }) => {
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className={cn(
                                 "h-1 flex-1 rounded-full transition-colors",
-                                formData.password?.length >= i * 2 ? "bg-accent-primary" : "bg-white/5"
+                                formData.password?.length >= i * 2 ? "bg-accent-primary" : "bg-border-subtle"
                             )} />
                         ))}
                     </div>

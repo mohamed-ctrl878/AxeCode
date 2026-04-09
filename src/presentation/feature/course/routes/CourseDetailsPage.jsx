@@ -31,11 +31,11 @@ const CourseDetailsPage = () => {
     if (error) {
         return (
             <div className="md:col-span-12 flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <AlertTriangle size={48} className="text-red-400" />
+                <AlertTriangle size={48} className="text-accent-rose" />
                 <p className="text-text-muted text-center">{error}</p>
                 <button
                     onClick={() => fetchCoursePreview(documentId)}
-                    className="px-6 py-2 bg-accent-primary text-white rounded-lg hover:opacity-90 transition-opacity font-mono text-sm uppercase tracking-wider"
+                    className="btn-primary"
                 >
                     Retry
                 </button>
@@ -68,7 +68,10 @@ const CourseDetailsPage = () => {
 
                 {/* Sticky Action Section */}
                 <aside className="lg:col-span-4">
-                    <CourseActionSidebar course={coursePreview} />
+                    <CourseActionSidebar 
+                        course={coursePreview} 
+                        onRefresh={() => fetchCoursePreview(documentId)} 
+                    />
                 </aside>
             </div>
         </div>

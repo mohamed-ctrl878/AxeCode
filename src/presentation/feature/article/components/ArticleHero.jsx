@@ -25,7 +25,7 @@ export const ArticleHero = ({ article, onCommentClick }) => {
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            <h1 className="text-4xl md:text-5xl font-serif font-medium leading-tight">
                 {article.title}
             </h1>
 

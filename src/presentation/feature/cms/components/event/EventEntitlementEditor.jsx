@@ -67,13 +67,13 @@ export const EventEntitlementEditor = ({ eventId }) => {
     return (
         <div className="animation-fade-in space-y-10 pb-20">
             {/* Context Header */}
-            <div className="flex items-center justify-between border-b border-white/5 pb-6">
+            <div className="flex items-center justify-between border-b border-border-subtle pb-6">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 text-accent-blue flex items-center justify-center shadow-inner">
                         <ShieldCheck size={24} />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black tracking-tight text-white italic">Event Entitlement</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary italic">Event Entitlement</h2>
                         <p className="text-xs text-text-muted mt-1 uppercase tracking-widest opacity-60">Revenue & Governance Engine</p>
                     </div>
                 </div>
@@ -90,13 +90,13 @@ export const EventEntitlementEditor = ({ eventId }) => {
             </div>
 
             <div className="max-w-xl mx-auto">
-                <div className="bg-surface-dark/40 border border-white/5 rounded-3xl p-10 space-y-8 backdrop-blur-sm shadow-2xl relative overflow-hidden group">
+                <div className="bg-surface-dark/40 border border-border-subtle rounded-3xl p-10 space-y-8 backdrop-blur-sm shadow-2xl relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
                         <CreditCard size={120} />
                     </div>
                     
                     <div className="space-y-2 relative z-10">
-                        <h3 className="text-sm font-black text-white/90 uppercase tracking-[0.2em]">Ticket Valuation</h3>
+                        <h3 className="text-sm font-black text-text-primary/90 uppercase tracking-[0.2em]">Ticket Valuation</h3>
                         <p className="text-xs text-text-muted italic">Configure the access fee for this event. Free events attract wider engagement.</p>
                     </div>
 
@@ -109,7 +109,7 @@ export const EventEntitlementEditor = ({ eventId }) => {
                                     type="number"
                                     value={price}
                                     onChange={(e) => setPrice(e.target.value)}
-                                    className="w-full bg-background/50 border border-white/10 rounded-2xl pl-12 pr-6 py-5 text-3xl font-black text-white focus:border-accent-blue/50 outline-none transition-all shadow-inner"
+                                    className="w-full bg-background/50 border border-border-subtle rounded-2xl pl-12 pr-6 py-5 text-3xl font-black text-text-primary focus:border-accent-blue/50 outline-none transition-all shadow-inner"
                                     placeholder="0.00"
                                 />
                                 {Number(price) === 0 && (

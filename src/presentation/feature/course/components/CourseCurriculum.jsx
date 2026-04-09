@@ -16,7 +16,7 @@ export const CourseCurriculum = ({ weeks = [], hasAccess = false }) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <h2 className="text-xl font-bold px-4">Curriculum</h2>
+            <h2 className="text-2xl font-serif px-4 text-text-primary leading-[1.20]">Curriculum</h2>
             <div className="flex flex-col gap-3">
                 {weeks.map((week, wIndex) => (
                     <div key={week.id} className="bg-surface/50 rounded-2xl border border-border-subtle overflow-hidden transition-all duration-300">
@@ -26,7 +26,7 @@ export const CourseCurriculum = ({ weeks = [], hasAccess = false }) => {
                         >
                             <div className="flex items-center gap-4">
                                 <span className="text-xs font-mono text-accent-primary">0{wIndex + 1}</span>
-                                <span className="font-bold text-sm tracking-wide">{week.title}</span>
+                                <span className="font-medium text-sm tracking-wide">{week.title}</span>
                             </div>
                             {expandedWeeks.includes(wIndex) ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
                         </button>

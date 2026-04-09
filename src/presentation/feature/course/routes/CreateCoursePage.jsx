@@ -13,7 +13,7 @@ import { PATHS } from '@presentation/routes/paths';
 const CreateCoursePage = () => {
     const navigate = useNavigate();
     const { createCourse, inProgress: isCreating, error: createError } = useCreateCourse();
-    const { uploadMedia, isUploading, error: uploadError } = useUploadMedia();
+    const { uploadMedia, inProgress: isUploading, error: uploadError } = useUploadMedia();
     
     // Local processing state
     const [isProcessing, setIsProcessing] = useState(false);
@@ -24,17 +24,13 @@ const CreateCoursePage = () => {
             // Step 1: Upload image if provided
             let mediaId = null;
             if (imageFile) {
-                const uploadResult = await uploadMedia({
-                    file: imageFile,
-                    ref: 'api::course.course',
-                    field: 'picture'
-                });
+                const uploadResult = await uploadMedia(imageFile);
                 
                 // Assuming useUploadMedia returns an array of uploaded objects or a single object
                 if (Array.isArray(uploadResult) && uploadResult.length > 0) {
-                    mediaId = uploadResult[0].id;
-                } else if (uploadResult?.id) {
-                    mediaId = uploadResult.id;
+                    mediaId = uploadResult[0];
+                } else if (uploadResult && !Array.isArray(uploadResult)) {
+                    mediaId = uploadResult;
                 }
             }
 
@@ -78,7 +74,7 @@ const CreateCoursePage = () => {
                 </button>
 
                 {activeError && (
-                    <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-400">
+                    <div className="mb-6 p-4 bg-accent-rose/10 border border-accent-rose/20 rounded-xl flex items-center gap-3 text-accent-rose">
                         <AlertCircle size={20} className="shrink-0" />
                         <span className="text-sm">{activeError.message || typeof activeError === 'string' ? activeError : "An unexpected error occurred."}</span>
                     </div>

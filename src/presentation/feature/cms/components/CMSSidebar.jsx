@@ -9,9 +9,10 @@ import { cn } from '@core/utils/cn';
  */
 export const CMSSidebar = ({ sections, activeSection }) => {
     return (
-        <div className="w-72 border-r border-white/5 bg-background flex flex-col p-6">
-            <div className="mb-8">
-                <h3 className="text-[10px] uppercase tracking-widest text-text-muted/50 font-black mb-6 px-2">Management Modules</h3>
+        <div className="w-72 border-r border-border-subtle bg-background">
+            <div className="flex flex-col p-6 sticky top-8 h-[calc(100vh-4rem)] overflow-y-auto scrollbar-hide">
+                <div className="mb-8">
+                    <h3 className="text-[10px] uppercase tracking-widest text-text-muted/50 font-bold mb-6 px-2">Management Modules</h3>
                 <div className="space-y-[7px]">
                     {sections.map((section) => (
                         <Link
@@ -34,7 +35,7 @@ export const CMSSidebar = ({ sections, activeSection }) => {
                                 "text-[9px] font-mono px-1.5 py-0.5 rounded border transition-colors",
                                 activeSection === section.name 
                                     ? "bg-accent-primary/10 border-accent-primary/20 text-accent-primary" 
-                                    : "bg-white/5 border-white/5 text-text-muted/50 group-hover:text-accent-primary"
+                                    : "bg-surface-elevated border-border-subtle text-text-muted/50 group-hover:text-accent-primary"
                             )}>
                                 {section.count}
                             </span>
@@ -46,11 +47,12 @@ export const CMSSidebar = ({ sections, activeSection }) => {
             <div className="mt-auto space-y-4">
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-accent-primary/10 to-transparent border border-accent-primary/10">
                     <h4 className="text-[10px] font-bold text-accent-primary uppercase mb-1">System Health</h4>
-                    <div className="w-full bg-white/5 h-1 rounded-full overflow-hidden mb-2">
+                    <div className="w-full bg-surface-elevated h-1 rounded-full overflow-hidden mb-2">
                         <div className="bg-accent-primary h-full w-[84%]" />
                     </div>
                     <p className="text-[9px] text-text-muted leading-relaxed">Storage: 42.8GB of 500GB used</p>
                 </div>
+            </div>
             </div>
         </div>
     );

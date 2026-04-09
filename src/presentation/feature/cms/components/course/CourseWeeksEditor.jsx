@@ -106,7 +106,7 @@ export const CourseWeeksEditor = ({ courseId }) => {
 
     if (fetchError) {
         return (
-            <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 flex items-center gap-3">
+            <div className="p-6 bg-status-error/10 border border-status-error/20 rounded-xl text-status-error flex items-center gap-3">
                 <AlertCircle size={20} />
                 <p>Failed to load course data: {fetchError}</p>
             </div>
@@ -121,11 +121,11 @@ export const CourseWeeksEditor = ({ courseId }) => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-subtle pb-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-accent-blue/10 text-accent-blue flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-accent-primary/10 text-accent-primary flex items-center justify-center">
                         <Calendar size={20} />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold tracking-tight text-text-primary">Schedule Weeks</h2>
+                        <h2 className="text-xl font-bold tracking-tight text-text-primary">Schedule Weeks (Updated)</h2>
                         <p className="text-xs text-text-muted">
                             Manage the weekly modules that structure this course's curriculum.
                         </p>

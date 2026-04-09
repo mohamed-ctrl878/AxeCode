@@ -23,7 +23,7 @@ const renderJudgeOutput = (output) => {
                 {output.results.map((res, i) => {
                     const isPass = res.verdict === 'accepted';
                     return (
-                        <div key={i} className="flex flex-col gap-2 p-3 bg-surface border border-white/5 rounded-lg">
+                        <div key={i} className="flex flex-col gap-2 p-3 bg-surface border border-border-subtle rounded-lg">
                             <div className="flex items-center justify-between border-b border-border-subtle pb-2 mb-1">
                                 <span className={cn(
                                     "text-xs font-bold uppercase",
@@ -71,7 +71,7 @@ const renderJudgeOutput = (output) => {
                             {res.expectedOutput !== undefined && res.expectedOutput !== null && (
                                 <div className="space-y-1 mt-1">
                                     <div className="text-[10px] text-text-muted uppercase tracking-wider flex items-center gap-1">Expected:</div>
-                                    <div className="p-2 bg-white/5 rounded text-xs font-mono border border-white/5 text-text-muted">
+                                    <div className="p-2 bg-surface-elevated rounded text-xs font-mono border border-border-subtle text-text-muted">
                                         {JSON.stringify(res.expectedOutput)}
                                     </div>
                                 </div>
