@@ -21,18 +21,21 @@ export const flattenStrapi = (data) => {
     if (data.id !== undefined) result.id = data.id;
     if (data.documentId !== undefined) result.documentId = data.documentId;
 
-    const attributes = data.attributes || data;
+    const attributes = data.attributes || {};
+    const rootFields = { ...data };
+    delete rootFields.attributes;
+    delete rootFields.data;
 
-    if (attributes && typeof attributes === 'object' && !Array.isArray(attributes)) {
-        Object.keys(attributes).forEach(key => {
-            const value = attributes[key];
-            if (value !== null && typeof value === 'object') {
-                result[key] = flattenStrapi(value);
-            } else {
-                result[key] = value;
-            }
-        });
-    }
+    const combined = { ...rootFields, ...attributes };
+
+    Object.keys(combined).forEach(key => {
+        const value = combined[key];
+        if (value !== null && typeof value === 'object') {
+            result[key] = flattenStrapi(value);
+        } else {
+            result[key] = value;
+        }
+    });
 
     return result;
 };

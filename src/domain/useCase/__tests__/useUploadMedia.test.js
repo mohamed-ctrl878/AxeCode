@@ -28,7 +28,7 @@ describe('useUploadMedia Hook', () => {
         const { result } = renderHook(() => useUploadMedia());
 
         await act(async () => {
-            await result.current.upload(mockFile);
+            await result.current.uploadMedia(mockFile);
         });
 
         expect(result.current.inProgress).toBe(false);

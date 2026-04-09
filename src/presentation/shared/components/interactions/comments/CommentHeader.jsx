@@ -18,13 +18,13 @@ export const CommentHeader = ({ total, sortOrder, onSortChange, className }) => 
                 Comments <span className="text-text-muted font-mono text-sm">({total})</span>
             </h3>
 
-            <div className="flex bg-surface rounded-xl p-1 border border-border-subtle shadow-inner">
+            <div className="flex bg-surface-sunken rounded-xl p-1 border border-border-subtle shadow-inner">
                 <button
                     onClick={() => onSortChange('desc')}
                     className={cn(
                         "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all",
                         sortOrder === 'desc' 
-                            ? "bg-accent-primary text-white shadow-sm" 
+                            ? "bg-accent-primary text-background shadow-sm" 
                             : "text-text-muted hover:text-text-primary"
                     )}
                 >
@@ -35,7 +35,7 @@ export const CommentHeader = ({ total, sortOrder, onSortChange, className }) => 
                     className={cn(
                         "flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all",
                         sortOrder === 'asc' 
-                            ? "bg-accent-primary text-white shadow-sm" 
+                            ? "bg-accent-primary text-background shadow-sm" 
                             : "text-text-muted hover:text-text-primary"
                     )}
                 >

@@ -34,7 +34,7 @@ export const EventHero = ({ event }) => {
                     </div>
                 )}
                 {/* Gradient Overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
             </div>
 
             {/* Content Layer */}
@@ -42,9 +42,9 @@ export const EventHero = ({ event }) => {
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                     <span className={cn(
                         "flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-white shadow-lg backdrop-blur-md",
-                        event.type === 'Onsite' ? "bg-blue-500/80 border border-blue-400/30" :
-                        event.type === 'Live' ? "bg-green-500/80 border border-green-400/30" :
-                        "bg-purple-500/80 border border-purple-400/30"
+                        event.type === 'Onsite' ? "bg-accent-blue/80 border border-accent-blue/30" :
+                        event.type === 'Live' ? "bg-status-success/80 border border-status-success/30" :
+                        "bg-accent-primary/80 border border-accent-primary/30"
                     )}>
                         {EVENT_TYPE_ICONS[event.type] || <Calendar size={16} />}
                         {event.type}

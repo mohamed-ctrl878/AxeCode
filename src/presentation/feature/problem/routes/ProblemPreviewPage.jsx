@@ -217,7 +217,7 @@ const ProblemPreviewPage = () => {
                                 className={`px-4 py-2.5 text-xs font-bold transition-all border-b-2 ${
                                     leftTab === tab.id
                                         ? 'text-accent-primary border-accent-primary bg-accent-primary/5'
-                                        : 'text-text-muted border-transparent hover:text-text-primary hover:bg-white/5'
+                                        : 'text-text-muted border-transparent hover:text-text-primary hover:bg-surface-light'
                                 }`}
                             >
                                 {tab.label}
@@ -270,12 +270,12 @@ const ProblemPreviewPage = () => {
                         <div className="flex bg-surface-dark border-b border-border-subtle shrink-0">
                             <button 
                                 onClick={() => setEditorTab('solution')}
-                                className={cn("px-4 py-2 text-xs font-bold transition-all border-b-2", editorTab === 'solution' ? "text-accent-primary border-accent-primary bg-accent-primary/5" : "text-text-muted border-transparent hover:bg-white/5")}
+                                className={cn("px-4 py-2 text-xs font-bold transition-all border-b-2", editorTab === 'solution' ? "text-accent-primary border-accent-primary bg-accent-primary/5" : "text-text-muted border-transparent hover:bg-surface-light")}
                             >
                                 Solution
                             </button>
                             {viewedSubmission && (
-                                <div className={cn("flex items-center gap-2 pl-4 pr-2 py-2 text-xs font-bold transition-all border-b-2 cursor-pointer group", editorTab === 'submission_view' ? "text-accent-primary border-accent-primary bg-accent-primary/5" : "text-text-muted border-transparent hover:bg-white/5")} onClick={() => setEditorTab('submission_view')}>
+                                <div className={cn("flex items-center gap-2 pl-4 pr-2 py-2 text-xs font-bold transition-all border-b-2 cursor-pointer group", editorTab === 'submission_view' ? "text-accent-primary border-accent-primary bg-accent-primary/5" : "text-text-muted border-transparent hover:bg-surface-light")} onClick={() => setEditorTab('submission_view')}>
                                     <span>Submission #{viewedSubmission.id}</span>
                                     <button 
                                         onClick={(e) => { e.stopPropagation(); setViewedSubmission(null); setEditorTab('solution'); }}
@@ -329,7 +329,7 @@ const ProblemPreviewPage = () => {
                                     className={`px-4 py-2 text-xs font-bold transition-all border-b-2 ${
                                         rightTab === tab.id
                                             ? 'text-accent-primary border-accent-primary bg-accent-primary/5'
-                                            : 'text-text-muted border-transparent hover:text-text-primary hover:bg-white/5'
+                                            : 'text-text-muted border-transparent hover:text-text-primary hover:bg-surface-light'
                                     }`}
                                 >
                                     {tab.label}

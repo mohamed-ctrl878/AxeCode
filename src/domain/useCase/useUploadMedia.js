@@ -14,7 +14,7 @@ export const useUploadMedia = () => {
     );
 
     return {
-        upload: execute,
+        uploadMedia: execute,
         uploadedIds: returnedData,
         inProgress,
         error

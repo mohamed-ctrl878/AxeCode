@@ -77,7 +77,7 @@ const EditLessonPage = () => {
             if (videoFile) {
                 const uploadResult = await uploadMedia(videoFile);
                 if (uploadResult && uploadResult[0]) {
-                    finalVideoId = uploadResult[0].id;
+                    finalVideoId = uploadResult[0];
                 }
             }
 

@@ -99,7 +99,7 @@ const ArticleDetailsPage = () => {
         <div className="md:col-span-12 max-w-4xl mx-auto w-full flex flex-col gap-6 animate-fade-in pb-32">
 
             {/* Navigation Bar */}
-            <div className="sticky top-24 z-20 flex items-center justify-between bg-background/80 backdrop-blur-md p-4 rounded-2xl border border-border-subtle shadow-sm">
+            <div className="sticky top-24 z-20 flex items-center justify-between bg-background/80 backdrop-blur-md p-4 rounded-2xl border border-border-subtle shadow-whisper">
                 <button
                     onClick={() => navigate(PATHS.ARTICLES)}
                     className="flex items-center gap-2 text-sm font-bold text-text-muted hover:text-text-primary transition-colors"

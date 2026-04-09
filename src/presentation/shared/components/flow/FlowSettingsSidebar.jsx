@@ -41,7 +41,7 @@ export const FlowSettingsSidebar = ({
     ];
 
     return (
-        <aside className="w-80 h-full border-l border-border-subtle bg-surface-light flex flex-col pt-4 overflow-y-auto">
+        <aside className="w-80 h-full border-l border-border-subtle bg-surface flex flex-col pt-4 overflow-y-auto">
             <div className="px-6 pb-4 border-b border-border-subtle flex justify-between items-center">
                 <div className="flex items-center gap-2 text-text-primary">
                     <Settings size={18} className="text-accent-primary" />
@@ -114,7 +114,7 @@ export const FlowSettingsSidebar = ({
                                                 "w-full aspect-square rounded-full border-2 transition-transform hover:scale-110",
                                                 color.bg,
                                                 color.border,
-                                                isActive ? "ring-2 ring-accent-primary ring-offset-2 ring-offset-surface-light" : ""
+                                                isActive ? "ring-2 ring-accent-primary ring-offset-2 ring-offset-surface-hover" : ""
                                             )}
                                         />
                                     );
@@ -166,18 +166,18 @@ export const FlowSettingsSidebar = ({
                         {/* Animated Toggle */}
                         <div className="flex items-center justify-between p-4 bg-background border border-border-subtle rounded-xl mt-4">
                             <span className="text-sm font-semibold text-text-primary">Animated Flow</span>
-                            <button 
+                            <div 
                                 onClick={() => onEdgeUpdate(element.id, { animated: !element.animated })}
                                 className={cn(
-                                    "w-12 h-6 rounded-full relative transition-colors duration-300",
-                                    element.animated ? "bg-accent-primary" : "bg-surface-dark"
+                                    "w-12 h-6 rounded-full relative transition-colors duration-300 cursor-pointer",
+                                    element.animated ? "bg-accent-primary" : "bg-surface-sunken"
                                 )}
                             >
                                 <div className={cn(
                                     "w-4 h-4 rounded-full bg-white absolute top-1 transition-transform duration-300 shadow-sm",
                                     element.animated ? "translate-x-7" : "translate-x-1"
                                 )} />
-                            </button>
+                            </div>
                         </div>
 
                         {/* Edge Label */}

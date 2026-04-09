@@ -9,11 +9,11 @@ import { Send } from 'lucide-react';
 export const CreatePost = ({ className, onClick }) => {
     return (
         <div className={cn(
-            "bento-card p-6 flex flex-col gap-4 bg-surface-dark border border-border-subtle rounded-3xl",
+            "bento-card p-6 flex flex-col gap-4 bg-surface border border-border-subtle rounded-3xl",
             className
         )}>
             <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-border-subtle flex-shrink-0" />
+                <div className="w-10 h-10 rounded-full bg-surface-sunken flex-shrink-0 border border-border-subtle/50" />
                 <input 
                     type="text" 
                     placeholder="What's in your mind?" 
@@ -21,7 +21,7 @@ export const CreatePost = ({ className, onClick }) => {
                 />
                 <button 
                     onClick={onClick}
-                    className="bg-white text-black px-6 py-2 rounded-full font-medium hover:scale-105 transition-transform duration-300 flex items-center gap-2"
+                    className="btn-primary px-8"
                 >
                     <Send size={16} />
                     <span>Create</span>

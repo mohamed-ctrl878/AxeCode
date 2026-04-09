@@ -28,7 +28,7 @@ export const ProblemRow = ({ problem }) => {
     };
 
     return (
-        <div className="group flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all duration-300">
+        <div className="group flex items-center justify-between p-4 rounded-2xl hover:bg-surface-hover border border-transparent hover:border-border-subtle transition-all duration-300">
             <div className="flex items-center gap-4 flex-1">
                 <div className="shrink-0">
                     {getStatusIcon(status)}
@@ -51,7 +51,7 @@ export const ProblemRow = ({ problem }) => {
                     {difficulty}
                 </span>
 
-                <Link to={`${PATHS.PROBLEMS}/${problem.documentId}`} className="w-10 h-10 rounded-xl bg-surface-dark border border-white/5 flex items-center justify-center text-text-muted hover:text-accent-primary hover:border-accent-primary/50 transition-all active:scale-90">
+                <Link to={`${PATHS.PROBLEMS}/${problem.documentId}`} className="w-10 h-10 rounded-xl bg-surface-dark border border-border-subtle flex items-center justify-center text-text-muted hover:text-accent-primary hover:border-accent-primary/50 transition-all active:scale-90">
                     <Play size={16} fill="currentColor" className="ml-0.5" />
                 </Link>
             </div>

@@ -18,7 +18,7 @@ import { cn } from '@core/utils/cn';
  * SubscriptionChart: A high-end custom SVG Area Chart for enrollment analytics.
  * Reusable across Courses and Events.
  */
-export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'var(--color-accent-blue)' }) => {
+export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'var(--color-accent-primary)' }) => {
   const [hoveredPoint, setHoveredPoint] = useState(null);
 
   // ─── Data Processing ──────────────────────────────────────────────────
@@ -104,11 +104,11 @@ export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'va
   return (
     <div className="relative w-full bg-surface border border-border-subtle rounded-[2rem] p-8 backdrop-blur-md overflow-hidden group/chart animation-fade-in shadow-xl">
       {/* Glossy Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-surface-hover to-transparent pointer-events-none" />
       
       <div className="flex items-center justify-between mb-8 relative z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-surface-sunken text-text-muted/40 group-hover/chart:text-accent-blue transition-colors" style={{ color: hoveredPoint ? accentColor : undefined }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-surface-sunken text-text-muted/40 group-hover/chart:text-accent-primary transition-colors" style={{ color: hoveredPoint ? accentColor : undefined }}>
             <TrendingUp size={20} />
           </div>
           <div>
@@ -131,7 +131,7 @@ export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'va
         >
           <defs>
             <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={accentColor} stopOpacity="0.3" />
+              <stop offset="0%" stopColor={accentColor} stopOpacity="0.15" />
               <stop offset="100%" stopColor={accentColor} stopOpacity="0" />
             </linearGradient>
             <filter id="glow">
@@ -192,8 +192,8 @@ export const SubscriptionChart = ({ data = [], filter = 'all', accentColor = 'va
                 r={hoveredPoint?.index === p.index ? 6 : 4} 
                 fill={accentColor}
                 className={cn(
-                    "transition-all duration-300 pointer-events-none shadow-2xl",
-                    hoveredPoint?.index === p.index ? "opacity-100" : "opacity-0"
+                    "transition-all duration-300 pointer-events-none shadow-whisper",
+                    hoveredPoint?.index === p.index ? "opacity-100 scale-125" : "opacity-0"
                 )}
               />
             </g>

@@ -67,7 +67,7 @@ const RegisterPage = () => {
 
     return (
         <div className="md:col-span-12 min-h-[calc(100vh-8rem)] flex items-center justify-center p-4">
-            <div className="max-w-md w-full glass border border-white/5 rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden transition-all duration-500">
+            <div className="max-w-md w-full glass border border-border-subtle rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden transition-all duration-500">
                 {/* Decorative Background */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl -ml-10 -mb-10" />
@@ -101,9 +101,9 @@ const RegisterPage = () => {
 
                 {/* Progress Bar */}
                 <div className="flex gap-2 mb-8">
-                    <div className={`h-1 flex-1 rounded-full transition-all duration-700 ${step >= 1 ? 'bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-white/5'}`} />
-                    <div className={`h-1 flex-1 rounded-full transition-all duration-700 ${step >= 2 ? 'bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-white/5'}`} />
-                    <div className={`h-1 flex-1 rounded-full transition-all duration-700 ${step >= 3 ? 'bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-white/5'}`} />
+                    <div className={`h-1 flex-1 rounded-full transition-all duration-700 ${step >= 1 ? 'bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-border-subtle'}`} />
+                    <div className={`h-1 flex-1 rounded-full transition-all duration-700 ${step >= 2 ? 'bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-border-subtle'}`} />
+                    <div className={`h-1 flex-1 rounded-full transition-all duration-700 ${step >= 3 ? 'bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]' : 'bg-border-subtle'}`} />
                 </div>
 
                 {/* Steps Content */}

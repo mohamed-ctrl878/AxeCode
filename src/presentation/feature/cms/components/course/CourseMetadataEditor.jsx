@@ -8,7 +8,7 @@ import { CourseForm } from '@presentation/feature/course/components/CourseForm';
 export const CourseMetadataEditor = ({ courseId }) => {
     const { fetchCoursePreview, coursePreview, loading: isFetching, error: fetchError } = useFetchCoursePreview();
     const { updateCourse, inProgress: isUpdating, error: updateError } = useUpdateCourse();
-    const { upload, inProgress: isUploading } = useUploadMedia();
+    const { uploadMedia, inProgress: isUploading } = useUploadMedia();
     
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -24,9 +24,9 @@ export const CourseMetadataEditor = ({ courseId }) => {
 
         // 1. Upload new image if provided
         if (imageFile) {
-            const uploadResult = await upload([imageFile]);
+            const uploadResult = await uploadMedia([imageFile]);
             if (uploadResult && uploadResult.length > 0) {
-                finalPictureId = uploadResult[0].id;
+                finalPictureId = uploadResult[0];
             }
         }
 
@@ -55,7 +55,7 @@ export const CourseMetadataEditor = ({ courseId }) => {
 
     if (fetchError) {
         return (
-            <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 flex items-center gap-3">
+            <div className="p-6 bg-status-error/10 border border-status-error/20 rounded-xl text-status-error flex items-center gap-3">
                 <AlertCircle size={20} />
                 <p>Failed to load course: {fetchError}</p>
             </div>
@@ -78,7 +78,7 @@ export const CourseMetadataEditor = ({ courseId }) => {
                 </div>
                 
                 {successMessage && (
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-xs font-medium animation-fade-in">
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-status-success/10 border border-status-success/20 text-status-success rounded-lg text-xs font-medium animation-fade-in">
                         <CheckCircle size={14} />
                         {successMessage}
                     </div>
@@ -92,7 +92,7 @@ export const CourseMetadataEditor = ({ courseId }) => {
             />
             
             {updateError && (
-                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm flex items-center gap-3">
+                <div className="p-4 bg-status-error/10 border border-status-error/20 rounded-xl text-status-error text-sm flex items-center gap-3">
                     <AlertCircle size={16} />
                     <p>{updateError}</p>
                 </div>

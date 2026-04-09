@@ -64,15 +64,15 @@ export const CourseForm = ({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full mx-auto p-6 lg:p-10 bg-surface rounded-2xl border border-white/5 shadow-2xl">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full mx-auto p-6 lg:p-10 bg-surface rounded-2xl border border-border-subtle shadow-2xl">
             <div className="flex justify-between items-center border-b border-border-subtle pb-4">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-text-primary to-text-primary/60 bg-clip-text text-transparent">
+                <h2 className="text-2xl">
                     {initialData.documentId ? 'Edit Course' : 'Create New Course'}
                 </h2>
                 <button 
                     type="submit" 
                     disabled={isLoading} 
-                    className="flex items-center justify-center gap-2 bg-accent-primary hover:bg-accent-primary/90 text-on-accent font-bold px-8 py-2.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                    className="btn-primary"
                 >
                     {isLoading && <Loader2 size={16} className="animate-spin" />}
                     {initialData.documentId ? 'Save Changes' : 'Create Course'}
@@ -85,21 +85,21 @@ export const CourseForm = ({
                     
                     {/* Title */}
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Course Title *</label>
+                        <label className="text-sm font-medium text-text-muted">Course Title *</label>
                         <input
                             required
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="bg-background border border-border-subtle rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-accent-primary transition-colors"
+                            className="input-field"
                             placeholder="e.g. Master Clean Architecture..."
                         />
                     </div>
 
                     {/* Rich Text Editor */}
                     <div className="flex flex-col gap-2 relative z-0">
-                        <label className="text-sm font-bold text-text-muted">Course Description</label>
-                        <div className="border border-border-subtle rounded-xl overflow-hidden min-h-[300px] bg-background">
+                        <label className="text-sm font-medium text-text-muted">Course Description</label>
+                        <div className="border border-border-subtle rounded-xl overflow-hidden min-h-[300px] bg-surface-sunken">
                             <RichTextInput
                                 value={description}
                                 onChange={setDescription}
@@ -115,10 +115,10 @@ export const CourseForm = ({
                     
                     {/* Thumbnail Upload */}
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Course Thumbnail</label>
+                        <label className="text-sm font-medium text-text-muted">Course Thumbnail</label>
                         <div className={cn(
                             "relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl transition-colors min-h-[160px]",
-                            imagePreview ? "border-accent-primary/50 bg-accent-primary/5" : "border-border-subtle bg-background hover:bg-surface-sunken"
+                            imagePreview ? "border-accent-primary/50 bg-accent-primary/5" : "border-border-subtle bg-surface-sunken hover:bg-surface-hover"
                         )}>
                             {imagePreview ? (
                                 <>
@@ -126,7 +126,7 @@ export const CourseForm = ({
                                     <button
                                         type="button"
                                         onClick={removeImage}
-                                        className="absolute -top-3 -right-3 w-8 h-8 flex items-center justify-center bg-red-500 hover:bg-red-400 text-white rounded-full z-10 transition-colors shadow-lg"
+                                        className="absolute -top-3 -right-3 w-8 h-8 flex items-center justify-center bg-accent-rose hover:bg-accent-rose/90 text-white rounded-full z-10 transition-colors shadow-sm"
                                     >
                                         <X size={16} />
                                     </button>
@@ -148,11 +148,11 @@ export const CourseForm = ({
 
                     {/* Difficulty */}
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Difficulty</label>
+                        <label className="text-sm font-medium text-text-muted">Difficulty</label>
                         <select
                             value={difficulty}
                             onChange={(e) => setDifficulty(e.target.value)}
-                            className="bg-background border border-border-subtle rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-accent-primary appearance-none cursor-pointer"
+                            className="input-field appearance-none cursor-pointer"
                         >
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
@@ -162,13 +162,13 @@ export const CourseForm = ({
 
                     {/* Tags */}
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-bold text-text-muted">Tags (CSV)</label>
+                        <label className="text-sm font-medium text-text-muted">Tags (CSV)</label>
                         <input
                             type="text"
                             value={tagsInput}
                             onChange={(e) => setTagsInput(e.target.value)}
                             placeholder="react, clean-code, solid"
-                            className="bg-background border border-border-subtle rounded-xl px-4 py-3 text-text-primary text-sm focus:outline-none focus:border-accent-primary transition-colors"
+                            className="input-field text-sm"
                         />
                     </div>
                 </div>

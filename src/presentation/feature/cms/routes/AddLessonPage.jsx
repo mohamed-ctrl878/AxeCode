@@ -16,7 +16,7 @@ export const AddLessonPage = () => {
     const { courseId, weekId } = useParams();
     const navigate = useNavigate();
     const { createLesson, inProgress, error } = useCreateLesson();
-    const { upload, inProgress: isUploading } = useUploadMedia();
+    const { uploadMedia, inProgress: isUploading } = useUploadMedia();
 
     // Form State
     const [title, setTitle] = useState('');
@@ -50,9 +50,9 @@ export const AddLessonPage = () => {
 
             // Upload video if type is video and file is selected
             if (type === 'video' && videoFile) {
-                const uploadResult = await upload([videoFile]);
+                const uploadResult = await uploadMedia([videoFile]);
                 if (uploadResult && uploadResult.length > 0) {
-                    videoId = uploadResult[0].id;
+                    videoId = uploadResult[0];
                 }
             }
 

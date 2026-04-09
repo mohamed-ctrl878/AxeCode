@@ -32,7 +32,7 @@ export const MainLayout = ({ children, className }) => {
     const isFocusMode = location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT) || location.pathname.includes('/problems/');
 
     return (
-        <div className="min-h-screen bg-background text-text-primary overflow-x-hidden">
+        <div className="min-h-screen bg-background text-text-primary">
             {/* Global Main Loader UI */}
             {
             authLoading 
@@ -71,7 +71,7 @@ export const MainLayout = ({ children, className }) => {
                     "ml-0 md:ml-20",
                     isSidebarOpen && "md:ml-64"
                 ] : [
-                    "p-0 m-0 w-full h-full", // Full screen for focus mode (Problem Workspace)
+                    "p-0 m-0 w-full min-h-screen", // Full width, natural height for focus mode
                     "ml-0"
                 ],
                 className

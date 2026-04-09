@@ -9,7 +9,7 @@ import { RichTextBlocks } from '@presentation/shared/components/RichTextBlocks';
 export const CourseAbout = ({ description = [] }) => {
     return (
         <div className="flex flex-col gap-6 p-8 bg-surface/30 rounded-3xl border border-border-subtle">
-            <h2 className="text-xl font-bold">About this course</h2>
+            <h2 className="text-2xl font-serif text-text-primary leading-[1.20]">About this course</h2>
             <RichTextBlocks blocks={description} />
         </div>
     );

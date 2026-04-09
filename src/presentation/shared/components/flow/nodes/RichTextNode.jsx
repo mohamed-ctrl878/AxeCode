@@ -67,7 +67,7 @@ export const RichTextNode = ({ id, data, selected }) => {
             <Handle 
                 type="target" 
                 position={Position.Top} 
-                className="w-3 h-3 bg-text-muted border-2 border-background" 
+                className="w-3 h-3 bg-text-muted border-2 border-background shadow-sm" 
             />
 
             {/* Internal Content Wrapper - reverse rotation if diamond to keep text straight */}
@@ -108,7 +108,7 @@ export const RichTextNode = ({ id, data, selected }) => {
             <Handle 
                 type="source" 
                 position={Position.Bottom} 
-                className="w-3 h-3 bg-accent-primary border-2 border-background" 
+                className="w-3 h-3 bg-accent-primary border-2 border-background shadow-sm" 
             />
             </div>
         </>

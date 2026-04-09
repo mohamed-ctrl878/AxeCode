@@ -61,14 +61,14 @@ export const EventForm = ({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-full mx-auto p-6 lg:p-10 bg-surface rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-full mx-auto p-6 lg:p-10 bg-surface rounded-[2.5rem] border border-border-subtle shadow-2xl relative overflow-hidden group">
             {/* Background Decorative Element */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent-blue/5 blur-[100px] pointer-events-none" />
 
             {/* Header section with Actions */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-8 relative z-10 transition-all">
                 <div className="space-y-1">
-                    <h2 className="text-3xl font-black text-white italic tracking-tight">
+                    <h2 className="text-3xl font-black text-text-primary italic tracking-tight">
                         {initialData?.documentId ? 'Refine Event Details' : 'Launch New Event'}
                     </h2>
                     <p className="text-sm text-text-muted opacity-60">Architect your next experience with Axe Code</p>
@@ -77,7 +77,7 @@ export const EventForm = ({
                 <button 
                     type="submit" 
                     disabled={isLoading} 
-                    className="group/btn relative flex items-center justify-center gap-3 bg-white text-black font-black uppercase tracking-widest px-10 py-4 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed shadow-xl shadow-white/5"
+                    className="group/btn relative flex items-center justify-center gap-3 bg-text-primary text-background font-black uppercase tracking-widest px-10 py-4 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed shadow-xl shadow-text-primary/10"
                 >
                     {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Calendar size={18} />}
                     {initialData?.documentId ? 'Push Updates' : 'Publish Event'}
@@ -99,7 +99,7 @@ export const EventForm = ({
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-lg font-bold text-white focus:outline-none focus:border-accent-blue/50 focus:bg-white/[0.05] transition-all placeholder:text-white/20"
+                            className="w-full bg-surface-sunken border border-border-subtle rounded-2xl px-6 py-4 text-lg font-bold text-text-primary focus:outline-none focus:border-accent-blue/50 focus:bg-surface-hover transition-all placeholder:text-text-muted/30"
                             placeholder="e.g. Clean Code Summit 2024"
                         />
                     </div>
@@ -109,7 +109,7 @@ export const EventForm = ({
                         <label className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-[0.2em] ml-1">
                             Event Narrative
                         </label>
-                        <div className="border border-white/10 rounded-[2rem] overflow-hidden min-h-[400px] bg-white/[0.02] backdrop-blur-sm transition-all focus-within:border-accent-blue/30">
+                        <div className="border border-border-subtle rounded-[2rem] overflow-hidden min-h-[400px] bg-surface-sunken backdrop-blur-sm transition-all focus-within:border-accent-blue/30">
                             <RichTextInput
                                 value={description}
                                 onChange={setDescription}
@@ -144,11 +144,11 @@ export const EventForm = ({
                                 </>
                             ) : (
                                 <div className="flex flex-col items-center text-center p-6 cursor-pointer relative">
-                                    <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 transition-all group-hover/upload:scale-110">
+                                    <div className="w-16 h-16 rounded-2xl bg-surface-sunken flex items-center justify-center mb-4 transition-all group-hover/upload:scale-110">
                                         <Image size={32} className="text-text-muted opacity-40" />
                                     </div>
                                     <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest leading-loose">
-                                        Drop Cinematic Asset <br/> <span className="text-white/20 italic font-mono">16:9 Aspect Ratio</span>
+                                        Drop Cinematic Asset <br/> <span className="text-text-muted/30 italic font-mono">16:9 Aspect Ratio</span>
                                     </span>
                                     <input
                                         type="file"
@@ -174,7 +174,7 @@ export const EventForm = ({
                                 type="datetime-local"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
-                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent-blue/50 outline-none transition-all tabular-nums"
+                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-blue/50 outline-none transition-all tabular-nums"
                             />
                         </div>
 
@@ -187,12 +187,12 @@ export const EventForm = ({
                                         onClick={() => setOnsite(!onsite)}
                                         className={cn(
                                             "w-10 h-6 rounded-full transition-all relative flex items-center px-1",
-                                            onsite ? "bg-accent-blue" : "bg-white/10"
+                                            onsite ? "bg-accent-blue" : "bg-surface-sunken"
                                         )}
                                     >
                                         <div className={cn("w-4 h-4 rounded-full bg-white transition-all shadow-md", onsite ? "ml-4" : "ml-0")} />
                                     </div>
-                                    <span className="text-[10px] font-black text-white uppercase tracking-widest">Onsite</span>
+                                    <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">Onsite</span>
                                 </label>
                                 
                                 <label className="flex items-center gap-3 cursor-pointer group/toggle">
@@ -200,12 +200,12 @@ export const EventForm = ({
                                         onClick={() => setLiveStreaming(!liveStreaming)}
                                         className={cn(
                                             "w-10 h-6 rounded-full transition-all relative flex items-center px-1",
-                                            liveStreaming ? "bg-accent-blue" : "bg-white/10"
+                                            liveStreaming ? "bg-accent-blue" : "bg-surface-sunken"
                                         )}
                                     >
                                         <div className={cn("w-4 h-4 rounded-full bg-white transition-all shadow-md", liveStreaming ? "ml-4" : "ml-0")} />
                                     </div>
-                                    <span className="text-[10px] font-black text-white uppercase tracking-widest">Live</span>
+                                    <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">Live</span>
                                 </label>
                             </div>
                         </div>
@@ -219,7 +219,7 @@ export const EventForm = ({
                                 type="text"
                                 value={location}
                                 onChange={(e) => setLocation(e.target.value)}
-                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent-blue/50 outline-none transition-all"
+                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-blue/50 outline-none transition-all"
                                 placeholder={onsite ? "e.g. Cairo Arena" : "e.g. Zoom Link"}
                             />
                         </div>
@@ -233,7 +233,7 @@ export const EventForm = ({
                                 type="number"
                                 value={duration}
                                 onChange={(e) => setDuration(e.target.value)}
-                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent-blue/50 outline-none transition-all"
+                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-blue/50 outline-none transition-all"
                                 placeholder="e.g. 120"
                             />
                         </div>

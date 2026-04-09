@@ -71,7 +71,7 @@ export const CourseEntitlementEditor = ({ courseId }) => {
             {/* Context Header */}
             <div className="flex items-center justify-between border-b border-border-subtle pb-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-400 flex items-center justify-center shadow-inner">
+                    <div className="w-12 h-12 rounded-2xl bg-status-warning/10 text-status-warning flex items-center justify-center shadow-inner">
                         <ShieldCheck size={24} />
                     </div>
                     <div>
@@ -83,7 +83,7 @@ export const CourseEntitlementEditor = ({ courseId }) => {
                 {statusMessage.text && (
                     <div className={cn(
                         "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold animation-slide-up",
-                        statusMessage.type === 'success' ? "bg-green-500/10 text-green-400 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                        statusMessage.type === 'success' ? "bg-status-success/10 text-status-success border border-status-success/20" : "bg-status-error/10 text-status-error border border-status-error/20"
                     )}>
                         {statusMessage.type === 'success' ? <CheckCircle size={14} /> : <AlertCircle size={14} />}
                         {statusMessage.text}
@@ -117,7 +117,7 @@ export const CourseEntitlementEditor = ({ courseId }) => {
                                 />
                                 {Number(price) === 0 && (
                                     <div className="absolute right-6 top-1/2 -translate-y-1/2">
-                                        <span className="px-3 py-1 rounded-full text-[10px] font-black bg-green-500/20 text-green-400 uppercase border border-green-500/20 shadow-lg shadow-green-500/10">Free Access</span>
+                                        <span className="px-3 py-1 rounded-full text-[10px] font-black bg-status-success/20 text-status-success uppercase border border-status-success/20 shadow-lg shadow-status-success/10">Free Access</span>
                                     </div>
                                 )}
                             </div>
@@ -126,7 +126,7 @@ export const CourseEntitlementEditor = ({ courseId }) => {
                         <button 
                             onClick={handleUpdatePrice}
                             disabled={isCreating}
-                            className="w-full h-16 bg-accent-primary text-on-accent font-black uppercase text-xs tracking-[0.2em] rounded-2xl shadow-[0_10px_40px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
+                            className="w-full h-16 bg-accent-primary text-on-accent font-black uppercase text-xs tracking-[0.2em] rounded-2xl shadow-whisper hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
                         >
                             {isCreating ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} className="group-hover:rotate-12 transition-transform" />}
                             Commit Pricing Change

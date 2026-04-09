@@ -77,10 +77,13 @@ const EventDetailsPage = () => {
                     </div>
                 </div>
 
-                {/* Sidebar Column */}
-                <div className="lg:col-span-4 order-1 lg:order-2">
-                    <EventInfoSidebar event={event} />
-                </div>
+                {/* Sticky Side Info */}
+                <aside className="lg:col-span-4">
+                    <EventInfoSidebar 
+                        event={event} 
+                        onRefresh={() => fetchEvent(id)} 
+                    />
+                </aside>
             </div>
         </div>
     );

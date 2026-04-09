@@ -14,7 +14,7 @@ import { cn } from '@core/utils/cn';
 const CreateEventPage = () => {
     const navigate = useNavigate();
     const { createEvent, inProgress: isCreating, error: createError } = useCreateEvent();
-    const { upload: uploadMedia, inProgress: isUploading } = useUploadMedia();
+    const { uploadMedia, inProgress: isUploading } = useUploadMedia();
     
     const [status, setStatus] = useState({ type: '', message: '' });
 

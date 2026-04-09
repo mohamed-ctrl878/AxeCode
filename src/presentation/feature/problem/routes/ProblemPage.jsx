@@ -70,7 +70,7 @@ export const ProblemPage = () => {
                         {displayCourses.map((course, idx) => (
                             <CourseCard key={course.uid || idx} course={course} />
                         ))}
-                        <div className="hidden lg:flex bento-card border-dashed border-white/10 items-center justify-center p-6 text-center group cursor-pointer hover:border-accent-primary/50 transition-colors">
+                        <div className="hidden lg:flex bento-card border-dashed border-border-subtle items-center justify-center p-6 text-center group cursor-pointer hover:border-accent-primary/50 transition-colors">
                             <div className="flex flex-col items-center gap-2">
                                 <Filter size={24} className="text-text-muted group-hover:text-accent-primary transition-colors" />
                                 <span className="text-[10px] font-bold text-text-muted group-hover:text-text-primary uppercase tracking-widest">Find More Tracks</span>
@@ -101,7 +101,7 @@ export const ProblemPage = () => {
                 </div>
 
                 <div className="bento-card overflow-hidden">
-                    <div className="bg-white/5 px-6 py-3 border-b border-white/5 flex items-center text-[10px] font-bold text-text-muted uppercase tracking-widest">
+                    <div className="bg-surface-elevated px-6 py-3 border-b border-border-subtle flex items-center text-[10px] font-bold text-text-muted uppercase tracking-widest">
                         <div className="flex-1">Challenge Name</div>
                         <div className="flex items-center gap-8 pr-14">
                             <span>Difficulty</span>

@@ -27,7 +27,7 @@ export const ArticleCard = ({ article, className }) => {
         <Link to={article?.uid} className={cn(
             "relative flex flex-col gap-5 p-6 bg-background border border-border-subtle rounded-3xl",
             "transition-all duration-500 hover:border-accent-primary/30",
-            "shadow-[0_10px_30px_-15px_rgba(0,0,0,0.5)]",
+            "shadow-whisper",
             className
         )}>
             {/* Header: Publisher Info (Top-Left) */}
@@ -52,7 +52,7 @@ export const ArticleCard = ({ article, className }) => {
             </div>
 
             {/* Title */}
-            <h3 className="text-xl font-bold leading-tight line-clamp-2 hover:text-accent-primary transition-colors cursor-pointer">
+            <h3 className="text-xl font-serif font-medium leading-tight line-clamp-2 hover:text-accent-primary transition-colors cursor-pointer">
                 {article.title || 'Modular Systems in Modern Engineering'}
             </h3>
 

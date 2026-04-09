@@ -32,7 +32,7 @@ const NavItem = ({ icon: Icon, label, path, collapsed }) => {
     return (
         <Link to={path} className={cn(
             "flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 group no-underline",
-            active ? "bg-accent-primary/10 text-accent-primary" : "text-text-muted hover:bg-surface-dark hover:text-text-primary",
+            active ? "bg-accent-primary/10 text-accent-primary shadow-[0_0_0_1px_rgba(201,100,66,0.1)]" : "text-text-muted hover:bg-surface-sunken hover:text-text-primary",
             collapsed && "justify-center"
         )}>
             <Icon size={20} className={cn(
@@ -59,7 +59,7 @@ export const Sidebar = () => {
 
     return (
         <aside className={cn(
-            "fixed left-0 top-0 h-screen glass border-r border-border-subtle transition-all duration-500 z-50 flex flex-col",
+            "fixed left-0 top-0 h-screen bg-surface border-r border-border-subtle transition-all duration-500 z-50 flex flex-col",
             "transform -translate-x-full md:translate-x-0",
             isSidebarOpen ? "w-64 translate-x-0" : "w-20 md:translate-x-0"
         )}>
@@ -81,7 +81,7 @@ export const Sidebar = () => {
             {/* Toggle Button */}
             <button 
                 onClick={toggleSidebar}
-                className="absolute -right-3 top-20 w-6 h-6 rounded-full border border-border-subtle bg-surface-dark flex items-center justify-center text-text-muted hover:text-accent-primary transition-colors cursor-pointer"
+                className="absolute -right-3 top-20 w-6 h-6 rounded-full border border-border-subtle bg-surface-sunken flex items-center justify-center text-text-muted hover:text-accent-primary transition-colors cursor-pointer"
             >
                 {isSidebarOpen ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
             </button>

@@ -1,0 +1,125 @@
+.learn-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: calc(100vh - 4rem);
+  overflow: hidden;
+  background-color: var(--background);
+  animation: fade-in 0.5s ease-out;
+}
+
+.learn-sidebar {
+  background-color: var(--surface);
+  border-right: 1px border-border-subtle;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 30;
+}
+
+.learn-content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: var(--background);
+  position: relative;
+}
+
+/* Sidebar Styling */
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px border-border-subtle;
+  background-color: var(--surface- sun-ken);
+}
+
+.week-group {
+  border-bottom: 1px border-border-subtle;
+}
+
+.week-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: var(--surface);
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.week-header:hover {
+  background-color: var(--surface-elevated);
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem 0.75rem 2.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.lesson-item:hover {
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+}
+
+.lesson-item.active {
+  background-color: var(--accent-primary-transparent, rgba(201, 100, 66, 0.1));
+  color: var(--accent-primary);
+  border-right: 3px solid var(--accent-primary);
+  font-weight: 600;
+}
+
+/* Viewer Styling */
+.video-container {
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  width: 100%;
+  position: relative;
+  box-shadow: var(--shadow-halo);
+}
+
+.lesson-body {
+  padding: 2rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.navigation-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+  border-top: 1px border-border-subtle;
+  margin-top: 3rem;
+}
+
+@media (max-width: 1024px) {
+  .learn-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .learn-sidebar {
+    position: fixed;
+    left: 0;
+    top: 4rem;
+    bottom: 0;
+    width: 280px;
+    transform: translateX(-100%);
+  }
+  
+  .learn-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

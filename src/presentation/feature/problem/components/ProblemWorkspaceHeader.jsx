@@ -32,7 +32,7 @@ export const ProblemWorkspaceHeader = ({
             <div className="relative flex items-center gap-4">
                 <button 
                     onClick={() => navigate(-1)}
-                    className="p-2 hover:bg-white/5 rounded-lg transition-colors text-text-muted hover:text-text-primary"
+                    className="p-2 hover:bg-surface-light rounded-lg transition-colors text-text-muted hover:text-text-primary"
                     title="Go Back"
                 >
                     <ArrowLeft size={18} />
@@ -58,7 +58,7 @@ export const ProblemWorkspaceHeader = ({
                                     onProblemSelect?.(p.documentId);
                                     setDropdownOpen(false);
                                 }}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-white/5 border-b border-border-subtle/50 last:border-b-0 transition-colors flex items-center justify-between"
+                                className="w-full text-left px-4 py-3 text-sm hover:bg-surface-light border-b border-border-subtle/50 last:border-b-0 transition-colors flex items-center justify-between"
                             >
                                 <span className="text-text-primary truncate">{p.title}</span>
                                 <span className={cn(

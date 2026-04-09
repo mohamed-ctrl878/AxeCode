@@ -104,28 +104,28 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
     return (
         <div className="animation-fade-in space-y-10 pb-20">
             {/* Context Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-6 gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-border-subtle pb-6 gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 text-accent-blue flex items-center justify-center shadow-inner">
+                    <div className="w-12 h-12 rounded-2xl bg-accent-primary/10 text-accent-primary flex items-center justify-center shadow-inner">
                         <Activity size={24} />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black tracking-tight text-white italic">Attendee Analysis</h2>
+                        <h2 className="text-2xl font-black tracking-tight text-text-primary italic">Attendee Analysis</h2>
                         <p className="text-xs text-text-muted mt-1 uppercase tracking-widest opacity-60">
-                            Product ID: <span className="text-accent-blue font-mono">{event?.entitlementsId || 'N/A'}</span>
+                            Product ID: <span className="text-accent-primary font-mono">{event?.entitlementsId || 'N/A'}</span>
                         </p>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <div className="flex p-1 bg-white/[0.03] border border-white/5 rounded-xl">
+                    <div className="flex p-1 bg-surface border border-border-subtle rounded-xl">
                         {['all', '3m', '1m', '7d'].map((f) => (
                             <button
                                 key={f}
                                 onClick={() => setActiveFilter(f)}
                                 className={cn(
                                     "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                                    activeFilter === f ? "bg-accent-blue text-white shadow-lg shadow-accent-blue/20" : "text-text-muted hover:text-white"
+                                    activeFilter === f ? "bg-accent-primary text-on-accent shadow-sm" : "text-text-muted hover:text-text-primary"
                                 )}
                             >
                                 {f}
@@ -136,7 +136,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
                     {statusMessage.text && (
                         <div className={cn(
                             "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold animation-slide-up",
-                            statusMessage.type === 'success' ? "bg-green-500/10 text-green-400 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                            statusMessage.type === 'success' ? "bg-status-success/10 text-status-success border border-status-success/20" : "bg-status-error/10 text-status-error border border-status-error/20"
                         )}>
                             {statusMessage.type === 'success' ? <CheckCircle size={14} /> : <AlertCircle size={14} />}
                             {statusMessage.text}
@@ -147,26 +147,26 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 <div className="lg:col-span-3">
-                    <SubscriptionChart data={userEntitlements} filter={activeFilter} accentColor="var(--color-accent-blue)" />
+                    <SubscriptionChart data={userEntitlements} filter={activeFilter} accentColor="var(--color-accent-primary)" />
                 </div>
                 <div className="space-y-6">
-                    <div className="bg-surface-dark/40 border border-white/5 rounded-[2rem] p-6 flex items-center justify-between group hover:border-accent-blue/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
+                    <div className="bg-surface-sunken border border-border-subtle rounded-[2rem] p-6 flex items-center justify-between group hover:border-accent-primary/20 transition-all backdrop-blur-sm h-full max-h-[110px]">
                         <div>
                             <p className="text-[10px] font-black text-text-muted uppercase tracking-widest mb-1">Active Attendees</p>
-                            <p className="text-3xl font-black text-white">{userEntitlements.length}</p>
+                            <p className="text-3xl font-black text-text-primary">{userEntitlements.length}</p>
                         </div>
-                        <Users size={32} className="text-accent-blue opacity-20 group-hover:opacity-40 transition-opacity" />
+                        <Users size={32} className="text-accent-primary opacity-20 group-hover:opacity-40 transition-opacity" />
                     </div>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 gap-8">
-                <div className="bg-surface-dark/40 border border-white/5 rounded-3xl p-8 space-y-6 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                <div className="bg-surface-dark/40 border border-border-subtle rounded-3xl p-8 space-y-6 backdrop-blur-sm shadow-xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                         <UserPlus size={120} />
                     </div>
                     <div className="space-y-1 relative z-10">
-                        <h3 className="text-xs font-black text-white/90 uppercase tracking-[0.2em]">Manual Registration</h3>
+                        <h3 className="text-xs font-black text-text-primary/90 uppercase tracking-[0.2em]">Manual Registration</h3>
                         <p className="text-[10px] text-text-muted italic">Directly bestow attendance access.</p>
                     </div>
 
@@ -180,7 +180,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
                                 value={emailSearch}
                                 onChange={(e) => setEmailSearch(e.target.value)}
                                 placeholder="Enter attendee email..."
-                                className="w-full bg-background/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-white focus:border-accent-blue/50 outline-none transition-all shadow-inner"
+                                className="w-full bg-background/50 border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-text-primary focus:border-accent-blue/50 outline-none transition-all shadow-inner"
                             />
                             {isSearching && (
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -191,7 +191,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
                         <button 
                             onClick={handleGrantAccess}
                             disabled={isCreating || !emailSearch || !event?.entitlementsId}
-                            className="h-14 px-10 bg-accent-blue text-white font-black uppercase text-xs tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:shadow-accent-blue/50 active:scale-95 transition-all flex items-center justify-center gap-2 group disabled:opacity-20"
+                            className="h-14 px-10 bg-accent-primary text-on-accent font-black uppercase text-xs tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 group disabled:opacity-20"
                         >
                             <UserPlus size={18} className="group-hover:scale-110 transition-transform" />
                             Invite Attendee
@@ -199,44 +199,44 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
                     </div>
                 </div>
 
-                <div className="bg-surface-dark/40 border border-white/5 rounded-3xl overflow-hidden backdrop-blur-sm shadow-xl min-h-[400px]">
-                    <div className="px-8 py-6 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
+                <div className="bg-surface border border-border-subtle rounded-3xl overflow-hidden backdrop-blur-sm shadow-xl min-h-[400px]">
+                    <div className="px-8 py-6 border-b border-border-subtle bg-surface-sunken flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <Search size={16} className="text-text-muted" />
-                            <h3 className="text-xs font-black text-white/90 uppercase tracking-[0.2em]">Attendance Ledger</h3>
+                            <h3 className="text-xs font-black text-text-primary/90 uppercase tracking-[0.2em]">Attendance Ledger</h3>
                         </div>
                         <span className="text-[10px] font-mono text-text-muted/40 uppercase">Total: {userEntitlements.length}</span>
                     </div>
 
                     <div className="overflow-x-auto">
                         <table className="w-full border-collapse">
-                            <thead className="bg-white/[0.01]">
+                            <thead className="bg-surface-sunken">
                                 <tr>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Identity</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Status</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Registered</th>
-                                    <th className="px-8 py-4 text-right text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-white/5">Directives</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Identity</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Status</th>
+                                    <th className="px-8 py-4 text-left text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Registered</th>
+                                    <th className="px-8 py-4 text-right text-[10px] font-black text-text-muted uppercase tracking-widest border-b border-border-subtle">Directives</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-white/5">
+                            <tbody className="divide-y divide-border-subtle">
                                 {userEntitlements.map((entry) => {
                                     const u = entry?.user;
                                     const userLabel = u?.username || u?.email || `ID: ${u?.id}`;
                                     return (
-                                        <tr key={entry.id} className="group hover:bg-white/[0.02] transition-colors">
+                                        <tr key={entry.id} className="group hover:bg-surface-hover transition-colors">
                                             <td className="px-8 py-5">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center text-white/40">
+                                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-border-subtle to-transparent flex items-center justify-center text-text-muted/40">
                                                         <UserIcon size={16} />
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-bold text-white group-hover:text-accent-blue transition-colors">{userLabel}</p>
+                                                        <p className="text-sm font-bold text-text-primary group-hover:text-accent-blue transition-colors">{userLabel}</p>
                                                         <p className="text-[10px] text-text-muted opacity-60 font-mono italic">{u?.email || 'System Entity'}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-8 py-5">
-                                                <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border bg-green-500/10 text-green-400 border-green-500/20">
+                                                <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border bg-status-success/10 text-status-success border-status-success/20">
                                                     Registered
                                                 </span>
                                             </td>
@@ -249,7 +249,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
                                                 <button 
                                                     onClick={() => handleRevokeAccess(entry.documentId || entry.id)}
                                                     disabled={isDeleting}
-                                                    className="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg active:scale-95 disabled:opacity-20"
+                                                    className="p-2.5 rounded-xl bg-status-error/10 text-status-error hover:bg-status-error hover:text-on-accent transition-all shadow-lg active:scale-95 disabled:opacity-20"
                                                 >
                                                     <Trash2 size={16} />
                                                 </button>

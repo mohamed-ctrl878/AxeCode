@@ -29,7 +29,8 @@ export const Header = () => {
 
     return (
         <header className={cn(
-            "fixed top-0 right-0 h-16 glass border-b border-border-subtle z-40 transition-all duration-500 flex items-center px-4 md:px-6 justify-between",
+            "fixed top-0 right-0 h-16 z-40 transition-all duration-500 flex items-center px-4 md:px-6 justify-between",
+            "bg-surface/90 backdrop-blur-xl border-b border-border-subtle text-text-primary", /* Claude Adaptive Surface */
             !isFocusMode ? [
                 "left-0 md:left-20",
                 isSidebarOpen && "md:left-64"
@@ -42,7 +43,7 @@ export const Header = () => {
             {/* Actions Section */}
             <div className="flex items-center gap-4">
                 {/* Messages */}
-                <button className="relative p-2 text-text-muted hover:text-text-primary hover:bg-surface-dark rounded-xl transition-all group">
+                <button className="relative p-2 text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-xl transition-all group">
                     <MessageSquare size={20} />
                     <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-accent-primary rounded-full border-2 border-background glow-pulse" />
                 </button>
