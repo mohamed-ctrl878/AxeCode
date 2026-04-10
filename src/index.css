@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 @theme {
   /* ── Claude Colors ── */
@@ -38,8 +39,8 @@
   --color-status-info: #3898ec;    /* Blue */
 
   /* ── Typography ── */
-  --font-serif: "Georgia", "Times New Roman", Times, serif;
-  --font-sans: "Arial", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", "Georgia", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   
   /* ── Radius & Shadows ── */
   --radius-bento: 12px;
@@ -116,7 +117,8 @@
     background-color: var(--background);
     color: var(--text-primary);
     font-family: var(--font-sans);
-    line-height: 1.625;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     @apply transition-colors duration-300;
   }

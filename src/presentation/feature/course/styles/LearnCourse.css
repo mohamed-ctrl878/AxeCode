@@ -1,19 +1,17 @@
 .learn-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 4.5rem);
   overflow: hidden;
   background-color: var(--background);
-  animation: fade-in 0.5s ease-out;
 }
 
 .learn-sidebar {
   background-color: var(--surface);
-  border-right: 1px border-border-subtle;
+  box-shadow: var(--shadow-ring);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  transition: transform 0.3s ease;
   z-index: 30;
 }
 
@@ -27,13 +25,12 @@
 
 /* Sidebar Styling */
 .sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px border-border-subtle;
-  background-color: var(--surface- sun-ken);
+  padding: 2rem 1.5rem;
+  background-color: var(--surface-sunken);
 }
 
 .week-group {
-  border-bottom: 1px border-border-subtle;
+  margin-bottom: 0.5rem;
 }
 
 .week-header {
@@ -41,9 +38,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   background-color: var(--surface);
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   cursor: pointer;
 }
 
@@ -54,12 +51,13 @@
 .lesson-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1.5rem 0.75rem 2.5rem;
-  font-size: 0.875rem;
+  gap: 1rem;
+  padding: 0.875rem 1.5rem 0.875rem 2.75rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+  border-left: 2px solid transparent;
 }
 
 .lesson-item:hover {
@@ -68,35 +66,38 @@
 }
 
 .lesson-item.active {
-  background-color: var(--accent-primary-transparent, rgba(201, 100, 66, 0.1));
+  background-color: var(--surface-sunken);
   color: var(--accent-primary);
-  border-right: 3px solid var(--accent-primary);
+  border-left: 2px solid var(--accent-primary);
   font-weight: 600;
 }
 
 /* Viewer Styling */
 .video-container {
   aspect-ratio: 16 / 9;
-  background-color: #000;
+  background-color: #0b0b0a; /* Deep Scholar Black */
   width: 100%;
   position: relative;
-  box-shadow: var(--shadow-halo);
 }
 
 .lesson-body {
-  padding: 2rem 3rem;
-  max-width: 900px;
+  padding: 4rem 3rem;
+  max-width: 860px;
   margin: 0 auto;
   width: 100%;
+  font-family: var(--font-sans);
 }
 
 .navigation-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 0;
-  border-top: 1px border-border-subtle;
-  margin-top: 3rem;
+  padding: 3rem 0;
+  margin-top: 4rem;
+  background-image: linear-gradient(to right, var(--border-subtle) 33%, rgba(255,255,255,0) 0%);
+  background-position: top;
+  background-size: 12px 1px;
+  background-repeat: repeat-x;
 }
 
 @media (max-width: 1024px) {

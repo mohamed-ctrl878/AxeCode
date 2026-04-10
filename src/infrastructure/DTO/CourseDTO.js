@@ -20,6 +20,7 @@ export class CourseDTO extends BaseContentDTO {
         this.hasAccess = data.hasAccess || false; // {boolean}
         this.entitlementsId = data.entitlementsId || null; // {string | null}
         this.completedLessonsCount = data.completedLessonsCount || 0; // {number}
+        this.lessonCount = data.lessonCount || 0; // {number}
 
         // Detailed Entitlement
         this.entitlement = data.entitlement ? new EntitlementDTO(data.entitlement) : null; // {EntitlementDTO | null}

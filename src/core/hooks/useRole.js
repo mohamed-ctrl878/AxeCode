@@ -6,6 +6,7 @@ import { ROLES, ROLE_TYPES, ACCESS_LEVELS } from '../constants/RoleConstants';
  */
 export const useRole = () => {
     const user = useSelector((state) => state.auth.user);
+    const authIsAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const userRole = user?.role || null;
     
     /**
@@ -22,7 +23,8 @@ export const useRole = () => {
     const isPublisher = () => hasRole([ROLES.PUBLISHER, ROLE_TYPES.PUBLISHER]);
     const isAdmin = isPublisher; // For now, mapping publisher as Admin
     
-    const isAuthenticated = () => !!user;
+    // Rely on Redux's persisted boolean rather than object presence (which delays until fetch resolves)
+    const isAuthenticated = () => authIsAuthenticated;
 
     const canManage = () => hasRole(ACCESS_LEVELS.MANAGEMENT);
 

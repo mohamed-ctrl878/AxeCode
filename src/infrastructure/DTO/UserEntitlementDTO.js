@@ -13,6 +13,8 @@ export class UserEntitlementDTO extends BaseContentDTO {
         this.contentType = data.content_types; // {string} - Enum: course, event, live
         this.productId = data.productId; // {string}
         this.status = data.valid; // {string} - Enum: pinding, successed, expired (Note: typos 'pinding', 'successed')
+        this.content = data.content; // {object} - Enriched content from facade
+        this.targetDocumentId = data.targetDocumentId; // {string} - Item documentId for Course/Event
         
         this.isValid = this.status === 'successed';
     }
