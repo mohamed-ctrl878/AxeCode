@@ -31,15 +31,15 @@ export const LearnSidebar = ({ course, currentLessonId }) => {
     return (
         <aside className="learn-sidebar">
             <div className="sidebar-header">
-                <h2 className="text-sm font-black uppercase tracking-widest text-text-primary mb-1">Course Curriculum</h2>
-                <div className="flex items-center gap-2">
+                <h2 className="text-xl font-serif text-text-primary mb-3">Course Curriculum</h2>
+                <div className="flex items-center gap-3">
                     <div className="flex-1 h-1 bg-surface-sunken rounded-full overflow-hidden">
                         <div 
-                            className="h-full bg-accent-primary transition-all duration-500" 
+                            className="h-full bg-accent-primary transition-all duration-700" 
                             style={{ width: `${(course.completedLessonsCount / course.totalLessons) * 100}%` }}
                         />
                     </div>
-                    <span className="text-[10px] font-bold text-text-muted">
+                    <span className="text-[11px] font-sans font-bold text-accent-primary tracking-widest">
                         {course.completedLessonsCount || 0}/{course.totalLessons}
                     </span>
                 </div>
@@ -52,13 +52,13 @@ export const LearnSidebar = ({ course, currentLessonId }) => {
                             onClick={() => toggleWeek(week.id)}
                             className="week-header"
                         >
-                            <div className="flex items-center gap-3">
-                                <span className="w-6 h-6 rounded-lg bg-surface-sunken flex items-center justify-center text-[10px] font-black text-text-muted">
-                                    {String(index + 1).padStart(2, '0')}
+                            <div className="flex items-center gap-4">
+                                <span className="text-[11px] font-sans font-bold text-text-muted/40 tracking-wider">
+                                    WEEK {String(index + 1).padStart(2, '0')}
                                 </span>
-                                <span className="text-xs font-bold text-text-primary tracking-tight">{week.title}</span>
+                                <span className="text-sm font-bold text-text-primary tracking-tight font-serif">{week.title}</span>
                             </div>
-                            {expandedWeeks.has(week.id) ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                            {expandedWeeks.has(week.id) ? <ChevronDown size={14} className="opacity-50" /> : <ChevronRight size={14} className="opacity-50" />}
                         </button>
 
                         {expandedWeeks.has(week.id) && (

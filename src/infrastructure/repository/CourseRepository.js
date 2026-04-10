@@ -63,4 +63,25 @@ export class CourseRepository extends IContentInteraction {
         // Ensure data is flattened for DTO mapping
         return flattenStrapi(response);
     }
+
+    /**
+     * Fetches multiple courses by their documentIds.
+     * @param {string[]} ids 
+     * @returns {Promise<CourseDTO[]>}
+     */
+    async getByIds(ids) {
+        if (!ids || ids.length === 0) return [];
+
+        const filters = ids.map((id, index) => `filters[documentId][$in][${index}]=${id}`).join('&');
+        const endpoint = `${this.endpoint}?${filters}&populate=*`;
+        
+        const response = await this.apiClient.get(endpoint);
+        const dataArray = flattenStrapi(response) || [];
+        if (!Array.isArray(dataArray)) return [];
+
+        return dataArray.map(item => {
+            const dto = new CourseDTO(item);
+            return EntityMapper.toCardCourse(dto);
+        });
+    }
 }

@@ -83,24 +83,24 @@ export const LessonViewer = ({
             ) : null}
 
             <div className="lesson-body">
-                <div className="mb-12">
-                    <div className="flex items-center gap-2 mb-4">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-black tracking-widest uppercase bg-accent-primary/10 text-accent-primary border border-accent-primary/20">
+                <div className="mb-10">
+                    <div className="flex items-center gap-2 mb-4 opacity-80">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-sans font-bold tracking-widest uppercase bg-accent-primary/5 text-accent-primary ring-1 ring-accent-primary/10">
                             {lesson.type}
                         </span>
                         {lesson.isCompleted && (
-                            <span className="flex items-center gap-1 text-[10px] font-bold text-status-success">
+                            <span className="flex items-center gap-1 text-[10px] font-sans font-bold text-status-success">
                                 <CheckCircle size={12} /> COMPLETED
                             </span>
                         )}
                     </div>
-                    <h1 className="text-4xl font-serif font-medium text-text-primary tracking-tight leading-tight">
+                    <h1 className="text-5xl md:text-6xl font-serif text-text-primary tracking-tight leading-tight">
                         {lesson.title}
                     </h1>
                 </div>
 
                 {lesson.description && (
-                    <div className="prose prose-invert max-w-none">
+                    <div className="prose max-w-none text-[17px] leading-relaxed text-text-primary/90">
                         <ArticleContentRenderer content={lesson.description} />
                     </div>
                 )}
@@ -110,8 +110,8 @@ export const LessonViewer = ({
                         onClick={onPrev}
                         disabled={!hasPrev}
                         className={cn(
-                            "flex items-center gap-2 px-6 py-3 rounded-xl border border-border-subtle text-sm font-bold transition-all",
-                            !hasPrev ? "opacity-30 cursor-not-allowed" : "hover:bg-surface-elevated text-text-primary"
+                            "btn-outline px-6 py-3",
+                            !hasPrev && "opacity-20 cursor-not-allowed"
                         )}
                     >
                         <ArrowLeft size={16} /> Previous Lesson
@@ -121,8 +121,8 @@ export const LessonViewer = ({
                         onClick={onNext}
                         disabled={!hasNext}
                         className={cn(
-                            "flex items-center gap-2 px-8 py-3 rounded-xl bg-accent-primary text-on-accent text-sm font-black transition-all",
-                            !hasNext ? "opacity-30 cursor-not-allowed" : "hover:brightness-110 active:scale-95 shadow-halo-primary"
+                            "btn-primary px-8 py-3",
+                            !hasNext && "opacity-20 cursor-not-allowed"
                         )}
                     >
                         {hasNext ? "Next Lesson" : "End of Module"} 

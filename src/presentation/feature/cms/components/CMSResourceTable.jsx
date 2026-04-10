@@ -57,67 +57,67 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
     };
 
     return (
-        <div className="space-y-8 animation-fade-in w-full px-4 md:px-6 py-6 text-text-primary">
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-surface p-8 rounded-3xl border border-border-subtle shadow-whisper relative overflow-hidden backdrop-blur-md">
-                {/* Decorative Icon */}
-                <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-                    <Icon size={120} />
+        <div className="space-y-10 animation-fade-in w-full px-4 md:px-0 py-4 text-text-primary mb-12">
+            {/* Scholarly Header Section */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-ivory p-10 rounded-[40px] border border-border-default shadow-whisper relative overflow-hidden">
+                {/* Decorative Background Element */}
+                <div className="absolute -top-10 -right-10 opacity-[0.03] pointer-events-none transform rotate-12">
+                    <Icon size={280} />
                 </div>
 
-                <div className="flex items-center gap-5 relative z-10">
-                    <div className="w-14 h-14 rounded-2xl bg-accent-primary/10 flex items-center justify-center text-accent-primary shadow-inner">
-                        <Icon size={28} />
+                <div className="flex items-center gap-7 relative z-10">
+                    <div className="w-16 h-16 rounded-2xl bg-near-black flex items-center justify-center text-ivory shadow-lg">
+                        <Icon size={32} />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-serif font-medium tracking-tight text-text-primary">{sectionName} Management</h2>
-                        <p className="text-[10px] text-text-muted font-bold uppercase tracking-[0.2em] mt-1 opacity-60">Orchestrate and calibrate all {sectionName.toLowerCase()} protocol nodes.</p>
+                        <h2 className="text-4xl font-serif font-bold tracking-tight text-near-black">{sectionName} Archive</h2>
+                        <p className="text-[11px] text-text-muted font-serif italic tracking-wide mt-2">Curating and maintaining the higher fidelity knowledge base for {sectionName.toLowerCase()}.</p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 relative z-10 w-full md:w-auto">
+                <div className="flex items-center gap-5 relative z-10 w-full md:w-auto">
                     <button 
                         onClick={onRefresh}
                         disabled={isLoading}
-                        className="p-3.5 rounded-2xl bg-surface-sunken/40 border border-border-default text-text-muted hover:text-accent-primary hover:border-accent-primary/40 transition-all active:scale-95 group"
+                        className="p-4 rounded-2xl bg-surface-sunken border border-border-default text-text-muted hover:text-near-black hover:border-near-black transition-all active:scale-95"
                     >
-                        <RefreshCw size={18} className={cn(isLoading && "animate-spin")} />
+                        <RefreshCw size={20} className={cn(isLoading && "animate-spin")} />
                     </button>
                     <Link 
                         to={getCreateRoute()}
-                        className="btn-primary flex-1 md:flex-none uppercase tracking-widest text-[11px] h-12 px-8 flex items-center justify-center gap-3 shadow-sm group"
+                        className="btn-dark flex-1 md:flex-none font-serif tracking-normal text-[14px] h-14 px-10 flex items-center justify-center gap-4 shadow-xl active:scale-[0.97]"
                     >
-                        <Plus size={18} className="group-hover:rotate-90 transition-transform" />
-                        Initialize {sectionName.toUpperCase().slice(0, -1)}
+                        <Plus size={20} />
+                        New {sectionName.slice(0, -1)} Entry
                     </Link>
                 </div>
             </div>
 
-            {/* Table Area */}
-            <div className="bg-surface border border-border-default rounded-3xl shadow-whisper overflow-visible relative">
-                {/* Sticky T-Head */}
-                <div className="bg-surface-sunken/40 backdrop-blur-md px-8 py-5 border-b border-border-subtle flex items-center justify-between sticky top-0 z-20">
-                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em] px-2">Resource Descriptor</span>
-                    <div className="hidden md:flex items-center gap-16 text-[10px] font-bold text-text-muted uppercase tracking-[0.2em] pr-12">
-                        <span className="w-20 text-center">Protocol Status</span>
-                        <span className="w-24 text-center">Aggregate Activity</span>
-                        <span className="w-12 text-center">Settings</span>
+            {/* Repository Table Area */}
+            <div className="bg-ivory border border-border-default rounded-[40px] shadow-whisper overflow-hidden relative">
+                {/* Sticky Ledger Head */}
+                <div className="bg-parchment/80 backdrop-blur-sm px-10 py-6 border-b border-border-default flex items-center justify-between sticky top-0 z-20">
+                    <span className="text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">Manuscript Descriptor</span>
+                    <div className="hidden md:flex items-center gap-20 text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em] pr-12">
+                        <span className="w-24 text-center">Shelf Status</span>
+                        <span className="w-24 text-center">Reader Engagement</span>
+                        <span className="w-12 text-center">Edit</span>
                     </div>
                 </div>
 
-                {/* Table Body */}
-                <div className="divide-y divide-border-subtle min-h-[400px]">
+                {/* Ledger Body */}
+                <div className="divide-y divide-border-subtle/50 min-h-[400px]">
                     {isLoading ? (
-                        <div className="flex flex-col items-center justify-center py-40 gap-4 animate-pulse">
-                            <Loader2 size={40} className="animate-spin text-accent-primary" />
-                            <p className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em]">Syncing Protocol Repository...</p>
+                        <div className="flex flex-col items-center justify-center py-40 gap-6 animate-pulse">
+                            <RefreshCw size={48} className="animate-spin text-near-black/20" />
+                            <p className="text-[11px] font-bold text-near-black/40 font-serif uppercase tracking-[0.3em]">Restoring Library Indices...</p>
                         </div>
                     ) : items.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-40 gap-6 opacity-40">
-                            <Database size={64} className="text-text-muted" />
+                        <div className="flex flex-col items-center justify-center py-48 gap-8 opacity-40">
+                            <Database size={80} className="text-text-muted" />
                             <div className="text-center">
-                                <p className="text-sm font-bold uppercase tracking-widest">No Nodes Detected</p>
-                                <p className="text-[10px] font-medium mt-1">Initialize your first {sectionName.slice(0, -1).toLowerCase()} above.</p>
+                                <p className="text-lg font-serif font-bold tracking-widest text-near-black">Archive Empty</p>
+                                <p className="text-[11px] font-serif italic mt-2">Initialize your first {sectionName.slice(0, -1).toLowerCase()} entry above.</p>
                             </div>
                         </div>
                     ) : items.map((item, idx) => {
@@ -126,24 +126,24 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                         const title = item?.title || `Untitled ${sectionName.slice(0, -1)} (${id})`;
                         
                         const isActive = item?.publishedAt != null;
-                        const statusLabel = isActive ? 'Deployed' : 'Staged'; 
+                        const statusLabel = isActive ? 'Archived' : 'Drafted'; 
                         const statusStyles = isActive 
-                            ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/20' 
-                            : 'bg-amber-500/10 text-amber-500 border-amber-500/20';
+                            ? 'bg-near-black text-ivory border-near-black' 
+                            : 'bg-surface-sunken text-text-muted border-border-default';
 
                         const dateStr = item?.createdAt 
-                            ? new Date(item.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) 
-                            : 'Pending Date';
+                            ? new Date(item.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) 
+                            : 'Date Unknown';
 
                         return (
-                            <div key={id} className="px-8 py-5 flex items-center justify-between hover:bg-surface-sunken/40 transition-all group animate-in slide-in-from-bottom-2 duration-300">
-                                <div className="flex items-center gap-5">
-                                    <div className="w-12 h-12 rounded-2xl bg-surface-sunken border border-border-subtle flex items-center justify-center text-text-muted group-hover:bg-accent-primary/10 group-hover:text-accent-primary transition-all shadow-sm">
-                                        <Icon size={22} className="group-hover:scale-110 transition-transform" />
+                            <div key={id} className="px-10 py-6 flex items-center justify-between hover:bg-parchment/40 transition-all group duration-500">
+                                <div className="flex items-center gap-7">
+                                    <div className="w-14 h-14 rounded-2xl bg-surface-sunken border border-border-default flex items-center justify-center text-text-muted group-hover:bg-near-black group-hover:text-ivory transition-all shadow-sm">
+                                        <Icon size={24} />
                                     </div>
                                     <div>
-                                        <div className="text-sm font-bold tracking-tight text-text-primary group-hover:translate-x-1 transition-transform cursor-pointer line-clamp-1">{title}</div>
-                                        <div className="text-[10px] text-text-muted font-bold uppercase tracking-[0.1em] mt-1 opacity-60">node creation: {dateStr}</div>
+                                        <div className="text-lg font-serif font-bold tracking-tight text-near-black transition-transform cursor-pointer line-clamp-1 group-hover:translate-x-1 duration-300">{title}</div>
+                                        <div className="text-[11px] text-text-muted font-serif italic mt-1.5 opacity-60">Entry recorded on {dateStr}</div>
                                     </div>
                                 </div>
 
@@ -196,7 +196,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                                                         className="w-full h-12 flex items-center gap-4 px-5 text-xs font-bold uppercase tracking-widest text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-2xl transition-all"
                                                     >
                                                         <Edit2 size={16} />
-                                                        Config Protocol
+                                                        Examine Manuscript
                                                     </Link>
 
                                                     <button 
@@ -204,7 +204,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                                                         className="w-full h-12 flex items-center gap-4 px-5 text-xs font-bold uppercase tracking-widest text-accent-rose/70 hover:text-accent-rose hover:bg-accent-rose/10 rounded-2xl transition-all"
                                                     >
                                                         <Trash2 size={16} />
-                                                        Terminate Node
+                                                        Retract Entry
                                                     </button>
                                                 </div>
                                             </div>

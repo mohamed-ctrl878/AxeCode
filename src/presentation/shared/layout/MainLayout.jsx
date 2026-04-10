@@ -3,18 +3,21 @@ import { useSelector } from 'react-redux';
 import { useFetchMe } from '@domain/useCase/useFetchMe';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@core/utils/cn';
-import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
-import { useUI } from '../provider/UIProvider';
+import { GuestHeader } from '../components/layout/GuestHeader';
 import { PATHS } from '../../routes/paths';
-import AxeIcon from '../components/AxeIcon';
+
+import { GlobalFooter } from './GlobalFooter';
+import AxeCodeLogo from '../components/AxeCodeLogo';
 
 /**
  * MainLayout: Implements the Bento Grid and core structural boundaries.
- * Follows OCP: Can be extended with different header/footer configurations.
+ * 
+ * Access Control:
+ * - Unauthenticated: Header with login/register actions
+ * - Authenticated: Full Header experience
  */
 export const MainLayout = ({ children, className }) => {
-    const { isSidebarOpen } = useUI();
     const location = useLocation();
     const { fetchMe } = useFetchMe();
     
@@ -26,63 +29,58 @@ export const MainLayout = ({ children, className }) => {
         if (isAuthenticated) {
             fetchMe();
         }
-    }, []); // Run once on boot
+    }, [isAuthenticated, fetchMe]);
 
     // Determine if we are in Focus Mode (e.g., CMS or Problem Details workspace)
     const isFocusMode = location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT) || location.pathname.includes('/problems/');
 
+    // Optional: Hide header for specific full-page views (like auth pages if desired, but Header handles guest state nicely)
+    const isAuthPage = location.pathname === PATHS.LOGIN || location.pathname === PATHS.REGISTER;
+
     return (
-        <div className="min-h-screen bg-background text-text-primary">
+        <div className="min-h-screen bg-background text-text-primary flex flex-col">
             {/* Global Main Loader UI */}
-            {
-            authLoading 
-            &&
-             (
+            {authLoading && (
                 <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background">
                     <div className="flex flex-col items-center gap-12 relative">
-                    <AxeIcon size="120px" className="animate-pulse" />
+                        <AxeCodeLogo size="text-5xl" className="animate-pulse opacity-80" />
                         
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="flex flex-col items-center gap-2">
-                                <span className="text-accent-primary font-mono text-sm tracking-[0.4em] uppercase animate-pulse">
-                                    Restoring Session
-                                </span>
-                                <div className="h-[1px] w-32 bg-gradient-to-r from-transparent via-accent-primary/50 to-transparent" />
-                            </div>
-                            <span className="text-text-muted text-[10px] font-medium uppercase tracking-[0.2em] opacity-40">
-                                Powered by Axe Engine
+                        <div className="flex flex-col items-center gap-5">
+                            <div className="h-[2px] w-24 bg-accent-primary opacity-20 rounded-full" />
+                            <span className="text-accent-primary text-[11px] font-sans font-bold uppercase tracking-[0.4em] opacity-60">
+                                Restoring Scholar's Repository
                             </span>
                         </div>
 
-                        {/* Background Aura */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-accent-primary/20 blur-[100px] rounded-full -z-10" />
+                        {/* Background Aura - Scholarly Parchment Glow */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent-primary/5 blur-[120px] rounded-full -z-10" />
                     </div>
                 </div>
             )}
 
-            {!isFocusMode && <Sidebar />}
-            {!isFocusMode && <Header />}
+            {/* Layout Orchestration */}
+            {!isAuthenticated && !isAuthPage && <GuestHeader />}
+            {isAuthenticated && !isFocusMode && !isAuthPage && <Header />}
             
             <main className={cn(
-                "transition-all duration-500 ease-in-out px-4 pb-4 md:px-8 md:pb-8 grid gap-4 md:gap-6",
-                "grid-cols-1 md:grid-cols-12",
+                "transition-all duration-500 ease-in-out px-4 pb-4 md:px-8 md:pb-8 grid gap-4 md:gap-6 flex-grow",
+                "grid-cols-1 md:grid-cols-12 w-full max-w-[1440px] mx-auto",
                 !isFocusMode ? [
-                    "pt-24", // Header is now always visible, so constant top padding
-                    "ml-0 md:ml-20",
-                    isSidebarOpen && "md:ml-64"
+                    !isAuthPage ? "pt-24" : "pt-4", // Header padding if header is visible
                 ] : [
                     "p-0 m-0 w-full min-h-screen", // Full width, natural height for focus mode
-                    "ml-0"
                 ],
                 className
             )}>
-
                 {/* Base grid orchestration - pages will populate the slots */}
                 {children}
             </main>
+
+            {!isFocusMode && !isAuthPage && (
+                <div className="transition-all duration-500 w-full">
+                    <GlobalFooter />
+                </div>
+            )}
         </div>
     );
 };
-
-
-

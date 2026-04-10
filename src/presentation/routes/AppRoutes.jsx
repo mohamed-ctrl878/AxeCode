@@ -1,7 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { PATHS } from './paths';
 import { ProtectedRoute } from '@presentation/shared/components/Auth/ProtectedRoute';
+import { GuestRoute } from '@presentation/shared/components/Auth/GuestRoute';
 import { ROLE_TYPES } from '@core/constants/RoleConstants';
 
 // Placeholder/Lazy Loaded Pages for now
@@ -45,6 +47,7 @@ const EditLessonPage = lazy(() => import('../feature/cms/routes/EditLessonPage')
 
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
 const RoadmapDetailsPage = lazy(() => import('../feature/roadmap/routes/RoadmapDetailsPage'));
+const EnrolledContentPage = lazy(() => import('../feature/user/routes/EnrolledContentPage'));
 const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
 const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
 const ForgotPasswordPage = lazy(() => import('../feature/auth/forgot-password/routes/ForgotPasswordPage'));
@@ -53,35 +56,78 @@ const GithubCallbackPage = lazy(() => import('../feature/auth/login/routes/Githu
 const CMSRoadmapsPage = lazy(() => import('../feature/cms/routes/CMSRoadmapsPage'));
 const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
 
+const LandingPage = lazy(() => import('../feature/landing/routes/LandingPage'));
+
+/**
+ * AuthAwareHome: Renders the appropriate root page based on authentication state.
+ * - Guest:         LandingPage (marketing/demo)
+ * - Authenticated: Redirects to /courses
+ */
+const AuthAwareHome = () => {
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    return isAuthenticated ? <Navigate to={PATHS.COURSES} replace /> : <LandingPage />;
+};
+
 /**
  * AppRoutes: Centralized router.
  * Follows SRP: Only handles route-to-component mapping.
+ * 
+ * Access Control Strategy:
+ * - Public routes: /, /login, /register, /forgot-password, /reset-password, /coming-soon
+ * - Protected routes: All internal app routes (courses, feed, articles, etc.)
+ * - Publisher routes: CMS management routes
  */
+import ComingSoonPage from '../shared/pages/ComingSoonPage';
+
 export const AppRoutes = () => {
     return (
         <Suspense fallback={null}>
             <Routes>
-                <Route path={PATHS.DASHBOARD} element={<PlaceholderPage title="Dashboard Feed" />} />
+                {/* ═══ Public Routes (No Auth Required) ═══ */}
+                <Route path={PATHS.DASHBOARD} element={<AuthAwareHome />} />
+                <Route path={PATHS.COMING_SOON} element={<ComingSoonPage />} />
                 
                 {/* Auth */}
-                <Route path={PATHS.REGISTER} element={<RegisterPage />} />
-                <Route path={PATHS.LOGIN} element={<LoginPage />} />
-                <Route path={PATHS.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-                <Route path={PATHS.RESET_PASSWORD} element={<ResetPasswordPage />} />
-                <Route path={PATHS.GITHUB_CALLBACK} element={<GithubCallbackPage />} />
+                <Route path={PATHS.REGISTER} element={<GuestRoute><RegisterPage /></GuestRoute>} />
+                <Route path={PATHS.LOGIN} element={<GuestRoute><LoginPage /></GuestRoute>} />
+                <Route path={PATHS.FORGOT_PASSWORD} element={<GuestRoute><ForgotPasswordPage /></GuestRoute>} />
+                <Route path={PATHS.RESET_PASSWORD} element={<GuestRoute><ResetPasswordPage /></GuestRoute>} />
+                <Route path={PATHS.GITHUB_CALLBACK} element={<GuestRoute><GithubCallbackPage /></GuestRoute>} />
                 
-                {/* Learning */}
-                <Route path={PATHS.COURSES} element={<CoursePage />} />
-                <Route path={PATHS.COURSE_CREATE} element={<CreateCoursePage />} />
-                <Route path={PATHS.COURSE_LEARN} element={<LearnCoursePage />} />
-                <Route path={`${PATHS.COURSES}/:documentId`} element={<CourseDetailsPage />} />
-                
-                <Route path={PATHS.PROBLEMS} element={<ProblemPage />} />
-                <Route path={PATHS.PROBLEM_CREATE} element={<CreateProblemPage />} />
-                <Route path={`${PATHS.PROBLEMS}/:id`} element={<ProblemPreviewPage />} />
+                {/* ═══ Protected Routes (Authenticated Users Only) ═══ */}
 
-                <Route path={PATHS.ROADMAPS} element={<RoadmapsPage />} />
-                <Route path={PATHS.ROADMAP_DETAILS} element={<RoadmapDetailsPage />} />
+                {/* Learning */}
+                <Route path={PATHS.COURSES} element={
+                    <ProtectedRoute><CoursePage /></ProtectedRoute>
+                } />
+
+                {/* Learning (Protected) */}
+                <Route path={PATHS.COURSE_CREATE} element={
+                    <ProtectedRoute><CreateCoursePage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.COURSE_LEARN} element={
+                    <ProtectedRoute><LearnCoursePage /></ProtectedRoute>
+                } />
+                <Route path={`${PATHS.COURSES}/:documentId`} element={
+                    <ProtectedRoute><CourseDetailsPage /></ProtectedRoute>
+                } />
+                
+                <Route path={PATHS.PROBLEMS} element={
+                    <ProtectedRoute><ProblemPage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.PROBLEM_CREATE} element={
+                    <ProtectedRoute><CreateProblemPage /></ProtectedRoute>
+                } />
+                <Route path={`${PATHS.PROBLEMS}/:id`} element={
+                    <ProtectedRoute><ProblemPreviewPage /></ProtectedRoute>
+                } />
+
+                <Route path={PATHS.ROADMAPS} element={
+                    <ProtectedRoute><RoadmapsPage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.ROADMAP_DETAILS} element={
+                    <ProtectedRoute><RoadmapDetailsPage /></ProtectedRoute>
+                } />
 
                 {/* ═══ CMS Management (Nested Routing) ═══ */}
                 <Route 
@@ -163,24 +209,56 @@ export const AppRoutes = () => {
                 />
 
                 {/* Community */}
-                <Route path={PATHS.FEED} element={<FeedPage />} />
-                <Route path={PATHS.ARTICLES} element={<ArticlePage />} />
-                <Route path={PATHS.ARTICLE_DETAILS} element={<ArticleDetailsPage />} />
-                <Route path={`${PATHS.ARTICLES}/write`} element={<WriteArticlePage />} />
-                <Route path={PATHS.EVENTS} element={<EventPage />} />
-                <Route path={PATHS.EVENT_CREATE} element={<CreateEventPage />} />
-                <Route path={`${PATHS.EVENTS}/:id`} element={<EventDetailsPage />} />
+                <Route path={PATHS.FEED} element={
+                    <ProtectedRoute><FeedPage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.ARTICLES} element={
+                    <ProtectedRoute><ArticlePage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.ARTICLE_DETAILS} element={
+                    <ProtectedRoute><ArticleDetailsPage /></ProtectedRoute>
+                } />
+                <Route path={`${PATHS.ARTICLES}/write`} element={
+                    <ProtectedRoute><WriteArticlePage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.EVENTS} element={
+                    <ProtectedRoute><EventPage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.EVENT_CREATE} element={
+                    <ProtectedRoute><CreateEventPage /></ProtectedRoute>
+                } />
+                <Route path={`${PATHS.EVENTS}/:id`} element={
+                    <ProtectedRoute><EventDetailsPage /></ProtectedRoute>
+                } />
 
                 {/* Resources */}
-                <Route path={PATHS.MEDIA} element={<PlaceholderPage title="Media Assets" />} />
-                <Route path={PATHS.LIVE} element={<PlaceholderPage title="Live Streams" />} />
+                <Route path={PATHS.MEDIA} element={
+                    <ProtectedRoute><PlaceholderPage title="Media Assets" /></ProtectedRoute>
+                } />
+                <Route path={PATHS.LIVE} element={
+                    <ProtectedRoute><PlaceholderPage title="Live Streams" /></ProtectedRoute>
+                } />
 
                 {/* Social */}
-                <Route path={PATHS.MESSAGES} element={<PlaceholderPage title="Communication Hub" />} />
+                <Route path={PATHS.MESSAGES} element={
+                    <ProtectedRoute><PlaceholderPage title="Communication Hub" /></ProtectedRoute>
+                } />
 
                 {/* User */}
-                <Route path={PATHS.PROFILE} element={<PlaceholderPage title="User Profile" />} />
-                <Route path={PATHS.SETTINGS} element={<PlaceholderPage title="Account Settings" />} />
+                <Route path={PATHS.PROFILE} element={
+                    <ProtectedRoute><PlaceholderPage title="User Profile" /></ProtectedRoute>
+                } />
+                <Route path={PATHS.SETTINGS} element={
+                    <ProtectedRoute><PlaceholderPage title="Account Settings" /></ProtectedRoute>
+                } />
+                <Route 
+                    path={`${PATHS.ENROLLED_CONTENT}/:type?`} 
+                    element={
+                        <ProtectedRoute>
+                            <EnrolledContentPage />
+                        </ProtectedRoute>
+                    } 
+                />
 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />

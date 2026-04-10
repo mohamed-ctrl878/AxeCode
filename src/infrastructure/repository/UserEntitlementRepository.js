@@ -44,6 +44,23 @@ export class UserEntitlementRepository extends BaseRepository {
     }
 
     /**
+     * Fetches all entitlements for the currently authenticated user.
+     * @returns {Promise<Array>}
+     */
+    async getMyEntitlements() {
+        try {
+            const response = await this.get(this.endpoint);
+            const dataArray = response.data || response || [];
+            if (!Array.isArray(dataArray)) return [];
+
+            return dataArray.map(item => new UserEntitlementDTO(item));
+        } catch (error) {
+            console.error('[UserEntitlementRepository] Fetch my enrollments failed:', error);
+            throw error;
+        }
+    }
+
+    /**
      * Creates a new user enrollment record.
      * @param {object} data - Enrollment data.
      * @returns {Promise<object>}

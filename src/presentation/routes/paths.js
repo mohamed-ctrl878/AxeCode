@@ -37,6 +37,10 @@ export const PATHS = {
     // User
     PROFILE: '/profile',
     SETTINGS: '/settings',
+    ENROLLED_CONTENT: '/my-content',
+    ENROLLED_COURSES: '/my-content/courses',
+    ENROLLED_EVENTS: '/my-content/events',
+    ENROLLED_LIVES: '/my-content/live',
 
     // Auth
     LOGIN: '/login',
@@ -44,4 +48,9 @@ export const PATHS = {
     FORGOT_PASSWORD: '/forgot-password',
     RESET_PASSWORD: '/reset-password',
     GITHUB_CALLBACK: '/auth/github/callback',
+    COMING_SOON: '/coming-soon',
+
+    // Guest Navigation
+    WHATS_NEW: '/coming-soon',
+    CAREER: '/coming-soon',
 };

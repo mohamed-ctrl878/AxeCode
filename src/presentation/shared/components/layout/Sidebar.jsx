@@ -21,7 +21,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
 import { useUI } from '@presentation/shared/provider/UIProvider';
 import { cn } from '@core/utils/cn';
-import AxeIcon from '@presentation/shared/components/AxeIcon';
+import AxeCodeLogo from '@presentation/shared/components/AxeCodeLogo';
 import { PermissionGate } from '@presentation/shared/components/Auth/PermissionGate';
 import { ROLE_TYPES } from '@core/constants/RoleConstants';
 
@@ -47,10 +47,10 @@ const NavItem = ({ icon: Icon, label, path, collapsed }) => {
 
 const NavCategory = ({ label, collapsed }) => (
     <div className={cn(
-        "px-3 mt-6 mb-2 text-[10px] uppercase tracking-widest text-text-muted/50 font-bold",
+        "px-3 mt-8 mb-2 text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-text-muted/40",
         collapsed && "text-center"
     )}>
-        {collapsed ? "•••" : label}
+        {collapsed ? "••" : label}
     </div>
 );
 
@@ -59,22 +59,15 @@ export const Sidebar = () => {
 
     return (
         <aside className={cn(
-            "fixed left-0 top-0 h-screen bg-surface border-r border-border-subtle transition-all duration-500 z-50 flex flex-col",
+            "fixed left-0 top-0 h-screen bg-surface transition-all duration-500 z-50 flex flex-col shadow-ring",
             "transform -translate-x-full md:translate-x-0",
             isSidebarOpen ? "w-64 translate-x-0" : "w-20 md:translate-x-0"
         )}>
 
             {/* Header / Brand */}
-            <div className="p-6 flex items-center justify-center">
-                <Link to={PATHS.DASHBOARD} className="flex items-center gap-3 no-underline group">
-                    <div className="w-14 h-14 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
-                        <AxeIcon size={56} playOnHover={true} />
-                    </div>
-                    {isSidebarOpen && (
-                        <span className="font-black text-xl tracking-[0.2em] text-text-primary group-hover:text-accent-primary transition-colors duration-300">
-                             AXE
-                        </span>
-                    )}
+            <div className="py-8 flex items-center justify-center h-24">
+                <Link to={PATHS.DASHBOARD} className="no-underline">
+                    <AxeCodeLogo isCollapsed={!isSidebarOpen} />
                 </Link>
             </div>
 
@@ -112,7 +105,7 @@ export const Sidebar = () => {
             </div>
 
             {/* Footer / User Profile */}
-            <div className="p-3 border-t border-border-subtle">
+            <div className="p-3 border-t border-border-subtle/30">
                 <NavItem icon={UserCircle} label="Profile" path={PATHS.PROFILE} collapsed={!isSidebarOpen} />
                 <NavItem icon={Settings} label="Settings" path={PATHS.SETTINGS} collapsed={!isSidebarOpen} />
                 <NavItem icon={LogOut} label="Logout" path={PATHS.DASHBOARD} collapsed={!isSidebarOpen} />

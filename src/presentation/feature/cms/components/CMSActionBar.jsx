@@ -1,30 +1,32 @@
 import React from 'react';
-import { ChevronLeft, Database } from 'lucide-react';
+import { ChevronLeft, Library } from 'lucide-react';
+import AxeCodeLogo from '@presentation/shared/components/AxeCodeLogo';
 
 /**
  * CMSActionBar: Top navigation and status bar for Focus Mode.
  */
 export const CMSActionBar = ({ onExit }) => {
     return (
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 px-2">
             <button 
                 onClick={onExit}
-                className="flex items-center gap-2 text-text-muted hover:text-accent-primary transition-all group"
+                className="flex items-center gap-3 text-text-muted hover:text-near-black transition-all group"
             >
-                <div className="w-8 h-8 rounded-full border border-border-subtle flex items-center justify-center group-hover:border-accent-primary/30 group-hover:bg-accent-primary/5 transition-all">
+                <div className="w-10 h-10 rounded-full border border-border-default flex items-center justify-center group-hover:border-near-black group-hover:bg-near-black group-hover:text-ivory transition-all shadow-sm">
                     <ChevronLeft size={18} />
                 </div>
-                <span className="text-xs font-bold uppercase tracking-widest">Exit Management</span>
+                <span className="text-xs font-serif font-bold uppercase tracking-[0.2em]">Close Archive</span>
             </button>
 
-            <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-surface-elevated border border-border-subtle text-[10px] font-mono text-text-muted">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent-primary animate-pulse" />
-                    SYSTEM OPERATIONAL
+            <div className="flex items-center gap-6">
+                <div className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-parchment border border-border-default text-[10px] font-serif font-bold uppercase tracking-widest text-near-black shadow-inner">
+                    <div className="w-1.5 h-1.5 rounded-full bg-near-black" />
+                    Archive Active
                 </div>
-                <div className="flex items-center gap-2 text-accent-primary/50 mr-4">
-                    <Database size={16} />
-                    <span className="text-[10px] font-mono tracking-tighter">SECURE MANAGEMENT ACCESS</span>
+                
+                <div className="flex items-center gap-3 pr-2">
+                    <Library size={16} className="text-text-muted" />
+                    <AxeCodeLogo isCollapsed={true} size="text-sm" />
                 </div>
             </div>
         </div>

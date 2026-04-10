@@ -148,7 +148,8 @@ export class EntityMapper {
             instructor: this.toUser(dto.instructor),
             weeks: Array.from(dto.weeks?.values() || []),
             rating: dto.interactions?.rating?.average || 0, // Mapping from interactions if available
-            completedLessonsCount: dto.completedLessonsCount
+            completedLessonsCount: dto.completedLessonsCount,
+            lessonCount: dto.lessonCount
         });
     }
 
@@ -242,7 +243,8 @@ export class EntityMapper {
             instructor: dto.instructor?.username || dto.instructor,
             weeks: Array.from(dto.weeks?.values() || []),
             rating: dto.interactions?.rating?.average || 0,
-            completedLessonsCount: dto.completedLessonsCount
+            completedLessonsCount: dto.completedLessonsCount,
+            lessonCount: dto.lessonCount
         });
     }
 
@@ -285,7 +287,8 @@ export class EntityMapper {
             instructor: this.toUser(dto.instructor),
             weeks,
             rating: dto.interactions?.rating?.average || 0,
-            completedLessonsCount: dto.completedLessonsCount
+            completedLessonsCount: dto.completedLessonsCount,
+            lessonCount: dto.lessonCount
         });
     }
 
@@ -351,8 +354,8 @@ export class EntityMapper {
                 id: tpl.id,
                 documentId: tpl.documentId,
                 language: tpl.language,
-                starterCode: tpl.starterCode,
-                wrapperCode: tpl.wrapperCode
+                starterCode: EntityMapper.decodeHtmlEntities(tpl.starterCode),
+                wrapperCode: EntityMapper.decodeHtmlEntities(tpl.wrapperCode)
             })),
             problemTypes: Array.from(dto.problem_types?.values?.() || []).map(pt => ({
                 id: pt.id,
