@@ -4,20 +4,23 @@ import { ProblemRow } from '../components/ProblemRow';
 import { CourseCard } from '../../course/components/CourseCard';
 import { useFetchProblems } from '@domain/useCase/useFetchProblems';
 import { useFetchRecommendedCourses } from '@domain/useCase/useFetchRecommendedCourses';
-import { Code2, Sparkles, Filter, List, Loader2, AlertCircle } from 'lucide-react';
+import { useSearchProblems } from '@domain/useCase/useSearchProblems';
+import { Code2, Sparkles, Filter, List, Loader2, AlertCircle, Search } from 'lucide-react';
 import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
 import { ProblemRowSkeleton } from '@presentation/shared/components/skeletons/ProblemRowSkeleton';
 
 /**
  * ProblemPage: Coding challenges hub.
- * Orchestrates Search, Tags, Recommendations, and Challenge Table.
- * Data flows through: useFetchProblems → CardProblemEntity[] and useFetchRecommendedCourses → CardCourseEntity[]
  */
 export const ProblemPage = () => {
     const [selectedTags, setSelectedTags] = useState([]);
+    
+    // Search Integration
+    const [searchQuery, setSearchQuery] = useState('');
+    const { searchProblems, problems: searchResults, loading: searchLoading, error: searchError } = useSearchProblems();
 
     // Real data hooks
-    const { fetchProblems, problems, loading: problemsLoading, error: problemsError } = useFetchProblems();
+    const { fetchProblems, problems: defaultProblems, loading: problemsLoading, error: problemsError } = useFetchProblems();
     const { fetchCourses, courses, loading: coursesLoading, error: coursesError } = useFetchRecommendedCourses();
 
     // Fetch on mount
@@ -26,6 +29,17 @@ export const ProblemPage = () => {
         fetchCourses(4);
     }, []);
 
+    // Debounced Search Logic
+    useEffect(() => {
+        if (searchQuery.trim().length === 0) return;
+        
+        const timeoutId = setTimeout(() => {
+            searchProblems(searchQuery);
+        }, 400);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
+
     const toggleTag = (tag) => {
         setSelectedTags(prev => 
             prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
@@ -33,7 +47,9 @@ export const ProblemPage = () => {
     };
 
     // Derive display data
-    const displayProblems = problems || [];
+    const isSearching = searchQuery.trim().length > 1;
+    const displayProblems = (isSearching ? searchResults : defaultProblems) || [];
+    const isLoadingProblems = isSearching ? searchLoading : problemsLoading;
     const displayCourses = courses || [];
 
     return (
@@ -85,15 +101,33 @@ export const ProblemPage = () => {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-center gap-2 text-text-primary">
                         <List size={18} className="text-accent-primary" />
-                        <h2 className="font-bold tracking-wide uppercase text-xs">All Challenges</h2>
+                        <h2 className="font-bold tracking-wide uppercase text-xs">
+                            {isSearching ? `Search Results for "${searchQuery}"` : 'All Challenges'}
+                        </h2>
                     </div>
                     <div className="text-[10px] text-text-muted font-bold uppercase tracking-widest">
-                        {problemsLoading ? 'Loading Challenges...' : `Showing ${displayProblems.length} Problems`}
+                        {isLoadingProblems ? 'Processing...' : `Showing ${displayProblems.length} Problems`}
                     </div>
                 </div>
 
                 {/* Search Box & Tags positioned right above the table */}
-                <div className="max-w-2xl">
+                <div className="max-w-2xl flex flex-col gap-4">
+                    <div className="relative group">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-primary transition-colors" size={18} />
+                        <input 
+                            type="text" 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search challenges by name..." 
+                            className="w-full bg-surface-sunken border border-border-subtle rounded-xl py-2.5 pl-10 pr-10 text-sm focus:border-accent-primary outline-none transition-all"
+                        />
+                        {isSearching && searchLoading && (
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                <Loader2 size={16} className="animate-spin text-accent-primary" />
+                            </div>
+                        )}
+                    </div>
+
                     <TagSelector 
                         selectedTags={selectedTags} 
                         onTagSelect={toggleTag} 
@@ -110,18 +144,19 @@ export const ProblemPage = () => {
                     </div>
 
                     <div className="p-2 flex flex-col gap-1">
-                        {problemsLoading ? (
+                        {isLoadingProblems ? (
                             <div className="flex flex-col gap-1">
                                 {[1, 2, 3, 4, 5].map(i => <ProblemRowSkeleton key={i} />)}
                             </div>
-                        ) : problemsError ? (
+                        ) : problemsError || searchError ? (
                             <div className="flex items-center justify-center gap-2 py-16 text-sm text-red-400">
                                 <AlertCircle size={16} />
                                 <span>Failed to load problems</span>
                             </div>
                         ) : displayProblems.length === 0 ? (
-                            <div className="flex items-center justify-center py-16 text-sm text-text-muted">
-                                No challenges available yet.
+                            <div className="flex flex-col items-center justify-center py-16 text-text-muted">
+                                <Search size={32} className="opacity-20 mb-3" />
+                                <p className="text-sm">No matches found for your search.</p>
                             </div>
                         ) : (
                             displayProblems.map((problem, idx) => (
@@ -134,5 +169,6 @@ export const ProblemPage = () => {
         </div>
     );
 };
+
 
 export default ProblemPage;

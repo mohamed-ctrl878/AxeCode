@@ -77,6 +77,26 @@ export class UserRepository extends BaseRepository {
     }
 
     /**
+     * Generically searches for users by username (partial match).
+     * @param {string} query - The search query term.
+     * @returns {Promise<object[]>} - List of users.
+     */
+    async search(query) {
+        try {
+            const params = {
+                'filters[username][$containsi]': query,
+                'populate': 'avatar',
+                'pagination[limit]': 10
+            };
+            const response = await this.get(this.endpoint, params);
+            return Array.isArray(response) ? response : (response?.data || []);
+        } catch (error) {
+            console.error('[UserRepository] Generic search failed:', error);
+            throw error;
+        }
+    }
+
+    /**
      * Gets the currently authenticated user's profile with full population.
      * @returns {Promise<object>} - The populated user object.
      */

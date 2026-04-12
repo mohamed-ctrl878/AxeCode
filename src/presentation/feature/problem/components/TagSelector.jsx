@@ -17,15 +17,6 @@ export const TagSelector = ({ onSearch, onTagSelect, selectedTags = [] }) => {
     return (
         <div className="flex flex-col gap-3 w-full">
             <div className="flex gap-2">
-                <div className="relative flex-1 group">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-primary transition-colors" size={18} />
-                    <input 
-                        type="text" 
-                        placeholder="Search for a specific challenge..." 
-                        className="w-full bg-surface-sunken border border-border-subtle rounded-xl py-2.5 pl-10 pr-4 text-sm focus:border-accent-primary outline-none transition-all"
-                        onChange={(e) => onSearch?.(e.target.value)}
-                    />
-                </div>
                 <button 
                     onClick={() => setIsOpen(!isOpen)}
                     className={cn(

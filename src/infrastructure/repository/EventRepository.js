@@ -37,4 +37,21 @@ export class EventRepository extends IEventInteraction {
     }
 
     async registerForEvent(eventId) { }
+
+    /**
+     * Generically searches for events by title (partial match).
+     * @param {string} query
+     * @returns {Promise<Array>}
+     */
+    async search(query) {
+        if (!query) return [];
+        try {
+            const params = `filters[title][$containsi]=${query}&populate=*&pagination[limit]=10`;
+            const response = await this.apiClient.get(`${this.endpointBase}?${params}`);
+            return response?.data || response || [];
+        } catch (error) {
+            console.error('[EventRepository] Search failed:', error);
+            throw error;
+        }
+    }
 }
