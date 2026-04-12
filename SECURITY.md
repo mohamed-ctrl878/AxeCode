@@ -15,7 +15,7 @@ We take the security of AxeCode seriously. If you believe you have found a secur
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, please send an email to security@axecode.com (placeholder).
+Instead, please send an email to mohamedeleskanderwow@gmail.com (placeholder).
 
 Please include:
 - A description of the vulnerability.
