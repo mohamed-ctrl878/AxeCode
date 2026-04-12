@@ -33,6 +33,9 @@ export const PATHS = {
 
     // Management
     CONTENT_MANAGEMENT: '/cms',
+    CMS_REPORT_TYPES: '/cms/report-reasons',
+    REPORT_TYPE_CREATE: '/cms/report-reasons/create',
+    REPORT_TYPE_EDIT: '/cms/report-reasons/:id/edit',
 
     // User
     PROFILE: '/profile/:username',

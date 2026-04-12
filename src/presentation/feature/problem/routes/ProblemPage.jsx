@@ -9,10 +9,14 @@ import { Code2, Sparkles, Filter, List, Loader2, AlertCircle, Search } from 'luc
 import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
 import { ProblemRowSkeleton } from '@presentation/shared/components/skeletons/ProblemRowSkeleton';
 
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '@presentation/routes/paths';
+
 /**
  * ProblemPage: Coding challenges hub.
  */
 export const ProblemPage = () => {
+    const navigate = useNavigate();
     const [selectedTags, setSelectedTags] = useState([]);
     
     // Search Integration
@@ -73,7 +77,7 @@ export const ProblemPage = () => {
                 </div>
 
                 {coursesLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 md:grid-2 lg:grid-cols-4 gap-6">
                         {[1, 2, 3, 4].map(i => <CourseCardSkeleton key={i} />)}
                     </div>
                 ) : coursesError ? (
@@ -86,7 +90,10 @@ export const ProblemPage = () => {
                         {displayCourses.map((course, idx) => (
                             <CourseCard key={course.uid || idx} course={course} />
                         ))}
-                        <div className="hidden lg:flex bento-card border-dashed border-border-subtle items-center justify-center p-6 text-center group cursor-pointer hover:border-accent-primary/50 transition-colors">
+                        <div 
+                            onClick={() => navigate(PATHS.COURSES)}
+                            className="hidden lg:flex bento-card border-dashed border-border-subtle items-center justify-center p-6 text-center group cursor-pointer hover:border-accent-primary/50 transition-colors"
+                        >
                             <div className="flex flex-col items-center gap-2">
                                 <Filter size={24} className="text-text-muted group-hover:text-accent-primary transition-colors" />
                                 <span className="text-[10px] font-bold text-text-muted group-hover:text-text-primary uppercase tracking-widest">Find More Tracks</span>

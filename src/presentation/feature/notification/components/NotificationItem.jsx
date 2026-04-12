@@ -2,6 +2,7 @@ import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { Heart, Star, MessageSquare, AlertTriangle, Info } from 'lucide-react';
 import { cn } from '@core/utils/cn';
+import { PATHS } from '@presentation/routes/paths';
 
 export const NotificationItem = ({ notification, onRead, onClick }) => {
     let Icon = Info;
@@ -35,11 +36,34 @@ export const NotificationItem = ({ notification, onRead, onClick }) => {
     const unreadStyles = !notification.read ? 'bg-surface-light border-l-4 border-l-accent-primary' : 'bg-surface';
 
     const handleActionClick = () => {
+        // Mark as read immediately on click
         if (!notification.read) {
-            onRead(notification.uid);
+            onRead(notification.uid || notification.documentId);
         }
-        if (notification.actionUrl) {
-            onClick(notification.actionUrl);
+
+        // Determine navigation target
+        let targetUrl = notification.actionUrl;
+
+        if (!targetUrl && notification.contentType && notification.contentDocId) {
+            const docId = notification.contentDocId;
+            switch (notification.contentType) {
+                case 'course':
+                    targetUrl = PATHS.COURSE_DETAILS.replace(':id', docId);
+                    break;
+                case 'event':
+                    targetUrl = PATHS.EVENT_DETAILS.replace(':id', docId);
+                    break;
+                case 'article':
+                    targetUrl = PATHS.ARTICLE_DETAILS.replace(':id', docId);
+                    break;
+                case 'blog':
+                    targetUrl = PATHS.FEED; // Currently feed is the main hub for blogs
+                    break;
+            }
+        }
+
+        if (targetUrl) {
+            onClick(targetUrl);
         }
     };
 

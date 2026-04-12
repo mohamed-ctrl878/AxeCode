@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Play, CheckCircle2, Circle, AlertCircle } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import { PATHS } from '@presentation/routes/paths';
@@ -27,8 +27,18 @@ export const ProblemRow = ({ problem }) => {
         }
     };
 
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+        if (problem.documentId) {
+            navigate(`${PATHS.PROBLEMS}/${problem.documentId}`);
+        }
+    };
+
     return (
-        <div className="group flex items-center justify-between p-4 rounded-2xl hover:bg-surface-hover border border-transparent hover:border-border-subtle transition-all duration-300">
+        <div 
+            onClick={handleNavigate}
+            className="group flex items-center justify-between p-4 rounded-2xl hover:bg-surface-hover border border-transparent hover:border-border-subtle transition-all duration-300 cursor-pointer"
+        >
             <div className="flex items-center gap-4 flex-1">
                 <div className="shrink-0">
                     {getStatusIcon(status)}

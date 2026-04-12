@@ -1,55 +1,54 @@
 import React, { useState } from 'react';
-import { Flag, Loader2 } from 'lucide-react';
-import { useReportContent } from '@domain/useCase/useReportContent';
+import { Flag, CheckCircle } from 'lucide-react';
+import { ReportingDialog } from './ReportingDialog';
 
 /**
- * Generic ReportAction component typically placed in menus (like a dropdown)
+ * Enhanced ReportAction component.
+ * Triggers the ReportingDialog modal for a premium feedback flow.
  */
 export const ReportAction = ({ docId, contentType, onReportSuccess }) => {
-    const { reportContent, isReporting } = useReportContent();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [hasReported, setHasReported] = useState(false);
 
-    const handleReport = async (e) => {
+    const handleOpenDialog = (e) => {
         e.stopPropagation();
-        if (isReporting || hasReported) return;
+        if (hasReported) return;
+        setIsDialogOpen(true);
+    };
 
-        // Note: Real application might open a modal here to select a reason.
-        const reason = window.prompt("Please describe the issue:");
-        if (!reason || reason.trim() === "") return;
-
-        try {
-            await reportContent(docId, contentType, { 
-                // Description expected as blocks format by Strapi
-                description: [{ type: 'paragraph', children: [{text: reason}] }] 
-            });
-            setHasReported(true);
-            alert("Report submitted successfully.");
-            if (onReportSuccess) onReportSuccess();
-        } catch (error) {
-           console.error("Failed to report", error);
-           alert("Failed to report.");
-        }
+    const handleSuccess = () => {
+        setHasReported(true);
+        if (onReportSuccess) onReportSuccess();
     };
 
     return (
-        <button 
-            onClick={handleReport}
-            disabled={isReporting || hasReported}
-            className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm transition-colors ${
-                hasReported 
-                    ? 'text-text-muted cursor-not-allowed' 
-                    : 'text-red-400 hover:bg-red-500/10'
-            }`}
-            title="Report this content"
-        >
-            {isReporting ? (
-                <Loader2 size={16} className="animate-spin" />
-            ) : (
-                <Flag size={16} className={hasReported ? 'opacity-50' : ''} />
-            )}
-            <span className="font-medium">
-                {isReporting ? 'Reporting...' : hasReported ? 'Reported' : 'Report Content'}
-            </span>
-        </button>
+        <>
+            <button 
+                onClick={handleOpenDialog}
+                disabled={hasReported}
+                className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm transition-all duration-300 group ${
+                    hasReported 
+                        ? 'text-status-success cursor-default bg-status-success/5' 
+                        : 'text-accent-rose hover:bg-accent-rose/10'
+                }`}
+                title="Report this entry"
+            >
+                {hasReported ? (
+                    <CheckCircle size={16} className="animate-in zoom-in duration-300" />
+                ) : (
+                    <Flag size={16} className="group-hover:scale-110 transition-transform" />
+                )}
+                <span className="font-bold tracking-tight">
+                    {hasReported ? 'Entry Reported' : 'Report Archive Entry'}
+                </span>
+            </button>
+
+            <ReportingDialog 
+                isOpen={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+                docId={docId}
+                contentType={contentType}
+            />
+        </>
     );
 };

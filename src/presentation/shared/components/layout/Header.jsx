@@ -20,8 +20,8 @@ import { NotificationBell } from '@presentation/feature/notification/components/
 
 /**
  * HeaderNavDropdown: A dropdown menu for header navigation categories.
- */
-const HeaderNavDropdown = ({ label, links, isOpen, onToggle, onClose }) => {
+*/
+const HeaderNavDropdown = ({ label, links, isOpen, onToggle, onClose, comingSoon }) => {
     const ref = useRef(null);
     const location = useLocation();
 
@@ -36,7 +36,7 @@ const HeaderNavDropdown = ({ label, links, isOpen, onToggle, onClose }) => {
     }, [isOpen, onClose]);
 
     // Check if any child is active
-    const hasActiveChild = links.some(l => location.pathname === l.path);
+    const hasActiveChild = !comingSoon && links.some(l => location.pathname === l.path);
 
     return (
         <div ref={ref} className="relative">
@@ -58,32 +58,42 @@ const HeaderNavDropdown = ({ label, links, isOpen, onToggle, onClose }) => {
 
             {/* Dropdown Panel */}
             <div className={cn(
-                "absolute top-full left-0 mt-2 min-w-[220px] py-2 rounded-xl border border-border-subtle",
+                "absolute top-full left-0 mt-2 min-w-[220px] rounded-xl border border-border-subtle overflow-hidden",
                 "bg-surface/95 backdrop-blur-xl shadow-[0_16px_48px_-12px_rgba(0,0,0,0.15)]",
                 "transition-all duration-200 origin-top-left",
                 isOpen 
                     ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" 
                     : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
             )}>
-                {links.map(({ icon: Icon, label: linkLabel, path }) => {
-                    const isActive = location.pathname === path;
-                    return (
-                        <Link 
-                            key={path} 
-                            to={path} 
-                            onClick={onClose}
-                            className={cn(
-                                "flex items-center gap-3 px-4 py-2.5 text-sm no-underline transition-colors duration-150",
-                                isActive 
-                                    ? "text-accent-primary bg-accent-primary/5" 
-                                    : "text-text-muted hover:text-text-primary hover:bg-surface-sunken/60"
-                            )}
-                        >
-                            <Icon size={16} className={isActive ? "text-accent-primary" : ""} />
-                            <span className="font-medium">{linkLabel}</span>
-                        </Link>
-                    );
-                })}
+                {comingSoon ? (
+                    <div className="px-6 py-8 flex flex-col items-center gap-2 text-center bg-gradient-to-b from-accent-primary/5 to-transparent">
+                        <Database size={24} className="text-accent-primary opacity-50 mb-2 animate-pulse" />
+                        <p className="text-sm font-bold text-text-primary tracking-tight">Coming Soon</p>
+                        <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest leading-relaxed">Inshaa Allah</p>
+                    </div>
+                ) : (
+                    <div className="py-2">
+                        {links.map(({ icon: Icon, label: linkLabel, path }) => {
+                            const isActive = location.pathname === path;
+                            return (
+                                <Link 
+                                    key={path} 
+                                    to={path} 
+                                    onClick={onClose}
+                                    className={cn(
+                                        "flex items-center gap-3 px-4 py-2.5 text-sm no-underline transition-colors duration-150",
+                                        isActive 
+                                            ? "text-accent-primary bg-accent-primary/5" 
+                                            : "text-text-muted hover:text-text-primary hover:bg-surface-sunken/60"
+                                    )}
+                                >
+                                    <Icon size={16} className={isActive ? "text-accent-primary" : ""} />
+                                    <span className="font-medium">{linkLabel}</span>
+                                </Link>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -91,7 +101,7 @@ const HeaderNavDropdown = ({ label, links, isOpen, onToggle, onClose }) => {
 
 /**
  * HeaderNavLink: A single top-level nav link without dropdown.
- */
+*/
 const HeaderNavLink = ({ icon: Icon, label, path }) => {
     const location = useLocation();
     const isActive = location.pathname === path;
@@ -125,10 +135,7 @@ const NAV_COMMUNITY = [
     { icon: Calendar, label: 'Events', path: PATHS.EVENTS },
 ];
 
-const NAV_RESOURCES = [
-    { icon: Image, label: 'Media Library', path: PATHS.MEDIA },
-    { icon: Video, label: 'Live Streams', path: PATHS.LIVE },
-];
+const NAV_WORKSPACES = [];
 
 
 export const Header = () => {
@@ -188,10 +195,11 @@ export const Header = () => {
                                 onClose={() => setOpenDropdown(null)}
                             />
                             <HeaderNavDropdown 
-                                label="Resources" 
-                                links={NAV_RESOURCES}
-                                isOpen={openDropdown === 'resources'} 
-                                onToggle={() => toggleDropdown('resources')}
+                                label="Workspaces" 
+                                links={NAV_WORKSPACES}
+                                comingSoon={true}
+                                isOpen={openDropdown === 'workspaces'} 
+                                onToggle={() => toggleDropdown('workspaces')}
                                 onClose={() => setOpenDropdown(null)}
                             />
 
@@ -215,10 +223,10 @@ export const Header = () => {
                     {isAuthenticated && (
                         <>
                             {/* Messages */}
-                            <button className="relative p-2 text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-xl transition-all group hidden md:flex">
+                            {/* <button className="relative p-2 text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-xl transition-all group hidden md:flex">
                                 <MessageSquare size={20} />
                                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-accent-primary rounded-full border-2 border-background glow-pulse" />
-                            </button>
+                            </button> */}
 
                             {/* Notifications */}
                             <div className="hidden md:block">
@@ -286,18 +294,12 @@ export const Header = () => {
 
                             <div className="h-px bg-border-subtle/40 my-2" />
 
-                            {/* Resources */}
-                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Resources</div>
-                            {NAV_RESOURCES.map(({ icon: Icon, label, path }) => (
-                                <Link key={path} to={path} onClick={closeAll} className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
-                                    location.pathname === path 
-                                        ? "text-accent-primary bg-accent-primary/5"
-                                        : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
-                                )}>
-                                    <Icon size={16} /> {label}
-                                </Link>
-                            ))}
+                            {/* Workspaces */}
+                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Workspaces</div>
+                            <div className="px-3 py-4 flex flex-col gap-1 bg-accent-primary/5 rounded-xl border border-accent-primary/10">
+                                <p className="text-sm font-bold text-accent-primary tracking-tight">Coming Soon</p>
+                                <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest leading-relaxed">Inshaa Allah</p>
+                            </div>
 
                             {/* CMS — Publisher Only (Mobile) */}
                             <PermissionGate allowedRoles={[ROLE_TYPES.PUBLISHER]}>
@@ -315,9 +317,9 @@ export const Header = () => {
 
                             {/* Mobile: Messages & Search */}
                             <div className="h-px bg-border-subtle/40 my-2" />
-                            <Link to={PATHS.MESSAGES} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
+                            {/* <Link to={PATHS.MESSAGES} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
                                 <MessageSquare size={16} /> Messages
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
                 )}

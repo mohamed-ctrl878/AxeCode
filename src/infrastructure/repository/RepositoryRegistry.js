@@ -1,5 +1,6 @@
 import { BaseRepository } from './BaseRepository';
 import { SharedInteractionRepository } from './SharedInteractionRepository';
+import { ReportTypeRepository } from './ReportTypeRepository';
 
 /**
  * Simple dependency registry to manage IApiClient implementations.
@@ -8,6 +9,7 @@ class RepositoryRegistry {
     constructor() {
         this._apiClient = new BaseRepository();
         this._sharedInteractionRepository = new SharedInteractionRepository(this._apiClient);
+        this._reportTypeRepository = new ReportTypeRepository();
     }
 
     get apiClient() {   
@@ -23,6 +25,10 @@ class RepositoryRegistry {
 
     get sharedInteractionRepository() {
         return this._sharedInteractionRepository;
+    }
+
+    get reportTypeRepository() {
+        return this._reportTypeRepository;
     }
 }
 
