@@ -15,6 +15,7 @@ import { ProblemSubmissions } from '../components/ProblemSubmissions';
 import { ProblemEditor } from '../components/ProblemEditor';
 import { ProblemTestCases } from '../components/ProblemTestCases';
 import { ProblemResult } from '../components/ProblemResult';
+import { ReportingDialog } from '@presentation/shared/components/interactions/ReportingDialog';
 
 /**
  * ProblemPreviewPage - Full-screen LeetCode-style workspace.
@@ -46,6 +47,7 @@ const ProblemPreviewPage = () => {
 
     const [activeTestCase, setActiveTestCase] = useState(0);
     const [displayResult, setDisplayResult] = useState(null);
+    const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
 
     // Resizable column width (percentage for left column)
     const [leftWidth, setLeftWidth] = useState(45);
@@ -143,8 +145,7 @@ const ProblemPreviewPage = () => {
     };
 
     const handleReport = () => {
-        // TODO: Report modal
-        alert('Report feature coming soon.');
+        setIsReportDialogOpen(true);
     };
 
     const handleLike = () => {
@@ -353,6 +354,13 @@ const ProblemPreviewPage = () => {
                     </div>
                 </div>
             </div>
+            
+            <ReportingDialog
+                isOpen={isReportDialogOpen}
+                onClose={() => setIsReportDialogOpen(false)}
+                docId={problem.uid}
+                contentType="problem"
+            />
         </div>
     );
 };

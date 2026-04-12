@@ -26,7 +26,7 @@ export const ArticleCard = ({ article, className }) => {
     };
 
     return (
-        <Link to={article?.uid} className={cn(
+        <Link to={PATHS.ARTICLE_DETAILS.replace(':id', article?.documentId || article?.uid)} className={cn(
             "relative flex flex-col gap-5 p-6 bg-background border border-border-subtle rounded-3xl",
             "transition-all duration-500 hover:border-accent-primary/30",
             "shadow-whisper",

@@ -13,6 +13,7 @@ import { ArticleHero } from '../components/ArticleHero';
 import { ArticleContentRenderer } from '../components/ArticleContentRenderer';
 import { ArticleRatingFooter } from '../components/ArticleRatingFooter';
 import { InlineComments } from '@presentation/shared/components/interactions/InlineComments';
+import { ReportingDialog } from '@presentation/shared/components/interactions/ReportingDialog';
 import { MessageSquare } from 'lucide-react';
 import { ArticleDetailsSkeleton } from '@presentation/shared/components/skeletons/ArticleDetailsSkeleton';
 
@@ -33,6 +34,7 @@ const ArticleDetailsPage = () => {
     // --- Local UI State ---
     const [myRating, setMyRating] = useState(0);
     const [reportSent, setReportSent] = useState(false);
+    const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
 
     // Fetch article on mount
     useEffect(() => {
@@ -61,11 +63,10 @@ const ArticleDetailsPage = () => {
     /**
      * Delegates report to existing UseCase.
      */
-    const handleReport = useCallback(async () => {
+    const handleReport = useCallback(() => {
         if (reportSent || !article?.uid) return;
-        await reportContent(article.uid, 'article', { reason: 'inappropriate_content' });
-        setReportSent(true);
-    }, [article, reportSent, reportContent]);
+        setIsReportDialogOpen(true);
+    }, [article, reportSent]);
 
     // --- Render States ---
     if (loading) {
@@ -95,6 +96,7 @@ const ArticleDetailsPage = () => {
     };
 
     // --- Page Composition ---
+    console.log(article);
     return (
         <div className="md:col-span-12 max-w-4xl mx-auto w-full flex flex-col gap-6 animate-fade-in pb-32">
 
@@ -150,6 +152,13 @@ const ArticleDetailsPage = () => {
             <div id="article-comments-section" className="scroll-mt-32">
                 <InlineComments docId={article.uid} contentType="article" />
             </div>
+
+            <ReportingDialog
+                isOpen={isReportDialogOpen}
+                onClose={() => setIsReportDialogOpen(false)}
+                docId={article.uid}
+                contentType="article"
+            />
         </div>
     );
 };

@@ -4,6 +4,7 @@ import { PATHS } from '@presentation/routes/paths';
 import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
 import { useDeleteProblem } from '@domain/useCase/useDeleteProblem';
 import { useDeleteRoadmap } from '@domain/useCase/useDeleteRoadmap';
+import { useDeleteReportType } from '@domain/useCase/useDeleteReportType';
 import { Activity, Calendar, ChevronRight, Database, Edit2, Layout, Plus, Settings, ShieldCheck, Trash2, RefreshCw, Loader2 } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 
@@ -17,7 +18,8 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
     const { deleteEvent, inProgress: isDeletingEvent } = useDeleteEvent();
     const { deleteProblem, inProgress: isDeletingProblem } = useDeleteProblem();
     const { deleteRoadmap, inProgress: isDeletingRoadmap } = useDeleteRoadmap();
-    const isDeleting = isDeletingEvent || isDeletingProblem || isDeletingRoadmap;
+    const { deleteReportType, inProgress: isDeletingReportType } = useDeleteReportType();
+    const isDeleting = isDeletingEvent || isDeletingProblem || isDeletingRoadmap || isDeletingReportType;
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -36,6 +38,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
         if (sectionName === 'Events') return PATHS.EVENT_CREATE;
         if (sectionName === 'Problems') return PATHS.PROBLEM_CREATE;
         if (sectionName === 'Roadmaps') return `${PATHS.CONTENT_MANAGEMENT}/roadmaps/create`;
+        if (sectionName === 'Report-Reasons') return PATHS.REPORT_TYPE_CREATE;
         return '#/create';
     };
 
@@ -48,6 +51,8 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                     await deleteProblem(id);
                 } else if (sectionName === 'Roadmaps') {
                     await deleteRoadmap(id);
+                } else if (sectionName === 'Report-Reasons') {
+                    await deleteReportType(id);
                 }
                 if (onRefresh) onRefresh();
             } catch (err) {
@@ -112,7 +117,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                             <RefreshCw size={48} className="animate-spin text-near-black/20" />
                             <p className="text-[11px] font-bold text-near-black/40 font-serif uppercase tracking-[0.3em]">Restoring Library Indices...</p>
                         </div>
-                    ) : items.length === 0 ? (
+                    ) : (!Array.isArray(items) || items.length === 0) ? (
                         <div className="flex flex-col items-center justify-center py-48 gap-8 opacity-40">
                             <Database size={80} className="text-text-muted" />
                             <div className="text-center">
@@ -123,7 +128,7 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                     ) : items.map((item, idx) => {
                         const rawId = item?.uid || item?.documentId || item?.id;
                         const id = typeof rawId === 'object' || !rawId ? `fallback-id-${idx}` : String(rawId);
-                        const title = item?.title || `Untitled ${sectionName.slice(0, -1)} (${id})`;
+                        const title = item?.type || item?.title || `Untitled ${sectionName.slice(0, -1)} (${id})`;
                         
                         const isActive = item?.publishedAt != null;
                         const statusLabel = isActive ? 'Archived' : 'Drafted'; 
@@ -191,7 +196,9 @@ export const CMSResourceTable = ({ sectionName, items, isLoading, icon: Icon, on
                                                                     ? `${PATHS.CONTENT_MANAGEMENT}/problems/${id}/edit`
                                                                     : sectionName === 'Courses'
                                                                         ? `${PATHS.CONTENT_MANAGEMENT}/courses/${id}/edit`
-                                                                        : `${PATHS.CONTENT_MANAGEMENT}/${sectionName.toLowerCase()}/${id}/edit`
+                                                                        : sectionName === 'Report-Reasons'
+                                                                            ? PATHS.REPORT_TYPE_EDIT.replace(':id', id)
+                                                                            : `${PATHS.CONTENT_MANAGEMENT}/${sectionName.toLowerCase()}/${id}/edit`
                                                         } 
                                                         className="w-full h-12 flex items-center gap-4 px-5 text-xs font-bold uppercase tracking-widest text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-2xl transition-all"
                                                     >

@@ -52,6 +52,7 @@ export const FeedItem = ({ blog, className, rank }) => {
         podiumStyles = "border-amber-700/50 bg-amber-700/5 shadow-[0_0_15px_rgba(180,83,9,0.1)]";
         badge = <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-800 flex items-center justify-center text-background font-bold shadow-lg border-2 border-background">3</div>;
     }
+    console.log(blog);
 
     return (
         <div className={cn(
@@ -107,7 +108,7 @@ export const FeedItem = ({ blog, className, rank }) => {
                     {showOptions && (
                         <div className="absolute right-0 mt-2 w-48 bg-surface-light border border-border-subtle rounded-xl shadow-xl overflow-hidden z-10">
                             <ReportAction 
-                                docId={blog.documentId || blog.id} 
+                                docId={blog.uid} 
                                 contentType="blog" 
                                 onReportSuccess={() => setShowOptions(false)} 
                             />

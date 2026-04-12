@@ -1,5 +1,6 @@
 import { BaseRepository } from './BaseRepository';
 import { IContentInteraction } from '../../domain/interface/IContentInteraction';
+import { CreateReportRequest } from '../DTO/Request/CreateReportRequest';
 
 /**
  * SharedInteractionRepository
@@ -110,11 +111,13 @@ export class SharedInteractionRepository extends IContentInteraction {
      * @param {object} reportData Details and reasons
      */
     async report(docId, contentType, reportData) {
-        const payload = {
+        const requestDto = new CreateReportRequest({
             docId: docId.toString(),
-            content_type: contentType,
+            contentType,
             ...reportData
-        };
-        return await this.apiClient.post('/api/reports', payload);
+        });
+
+        requestDto.validate();
+        return await this.apiClient.post('/api/reports', requestDto);
     }
 }

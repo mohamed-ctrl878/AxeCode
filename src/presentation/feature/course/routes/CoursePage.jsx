@@ -9,11 +9,14 @@ import { PATHS } from '@presentation/routes/paths';
 import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
 import { EventRecommendedCardSkeleton } from '@presentation/shared/components/skeletons/EventRecommendedCardSkeleton';
 
+import { useNavigate } from 'react-router-dom';
+
 /**
  * CoursePage: Dashboard for learning content.
  * Follows a modular architecture by orchestrating smaller domain components.
  */
 export const CoursePage = () => {
+    const navigate = useNavigate();
     const { fetchCourses, courses: recommendedCourses, loading: recommendedLoading, error: recommendedError } = useFetchRecommendedCourses();
     const { fetchEvents, events, loading: eventsLoading, error: eventsError } = useFetchRecommendedEvents();
     
@@ -84,7 +87,10 @@ export const CoursePage = () => {
                                     <EventRecommendedCard event={event} />
                                 </div>
                             ))}
-                            <button className="min-w-[100px] flex flex-col items-center justify-center gap-2 bg-surface-sunken rounded-lg hover:bg-surface-elevated transition-colors duration-200 text-text-muted hover:text-accent-primary">
+                            <button 
+                                onClick={() => navigate(PATHS.EVENTS)}
+                                className="min-w-[100px] flex flex-col items-center justify-center gap-2 bg-surface-sunken rounded-lg hover:bg-surface-elevated transition-colors duration-200 text-text-muted hover:text-accent-primary"
+                            >
                                 <div className="w-8 h-8 rounded-full border border-current flex items-center justify-center">
                                     <ChevronRight size={16} />
                                 </div>
@@ -105,7 +111,10 @@ export const CoursePage = () => {
                         <p className="text-[9px] text-text-muted mb-4 leading-relaxed">
                             Generate your specialized learning path now.
                         </p>
-                        <button className="w-full py-2.5 btn-primary rounded-lg text-[10px] font-medium">
+                        <button 
+                            onClick={() => navigate(PATHS.ROADMAPS)}
+                            className="w-full py-2.5 btn-primary rounded-lg text-[10px] font-medium"
+                        >
                             GENERATE ROADMAP
                         </button>
                     </div>

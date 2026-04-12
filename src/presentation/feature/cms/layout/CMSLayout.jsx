@@ -6,7 +6,8 @@ import {
     Code2, 
     Calendar, 
     Image,
-    Map
+    Map,
+    Flag
 } from 'lucide-react';
 import { CMSSidebar } from '../components/CMSSidebar';
 import { CMSActionBar } from '../components/CMSActionBar';
@@ -22,7 +23,8 @@ const CMS_SECTIONS = [
     { name: 'Problems', icon: Code2 },
     { name: 'Roadmaps', icon: Map },
     { name: 'Events', icon: Calendar },
-    { name: 'Media', icon: Image }
+    { name: 'Media', icon: Image },
+    { name: 'Report-Reasons', icon: Flag }
 ];
 
 /**
@@ -37,7 +39,7 @@ const CMSLayout = () => {
     // Derive the active section from the current URL pathname
     const pathSegments = location.pathname.replace(PATHS.CONTENT_MANAGEMENT, '').split('/').filter(Boolean);
     const sectionSlug = pathSegments[0] || 'courses';
-    const activeSection = sectionSlug.charAt(0).toUpperCase() + sectionSlug.slice(1);
+    const activeSection = sectionSlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('-');
 
     // Build sections array without counts (each module page owns its own data)
     const sections = CMS_SECTIONS.map(s => ({

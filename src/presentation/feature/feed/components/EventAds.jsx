@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { cn } from '@core/utils/cn';
 import { Calendar, ArrowUpRight } from 'lucide-react';
 import { useFetchRecommendedEvents } from '@domain/useCase/useFetchRecommendedEvents';
+import { Link } from 'react-router-dom';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * EventAds: Displays upcoming event promotions in the feed sidebar.
@@ -38,25 +40,29 @@ export const EventAds = ({ className }) => {
             )}
 
             {events?.map(event => (
-                <div key={event.uid} className="bento-card p-4 bg-surface-dark border border-border-subtle rounded-2xl hover:border-accent-primary group transition-colors">
+                <Link 
+                    key={event.uid} 
+                    to={PATHS.EVENT_DETAILS.replace(':id', event.uid)}
+                    className="bento-card p-4 bg-surface-dark border border-border-subtle rounded-2xl hover:border-accent-primary group transition-colors block cursor-pointer"
+                >
                     <div className="flex justify-between items-start mb-2">
                         <span className="text-[10px] text-accent-primary font-mono uppercase tracking-widest">{event.type}</span>
                         <ArrowUpRight size={14} className="text-text-muted group-hover:text-accent-primary transition-colors" />
                     </div>
-                    <h4 className="text-sm font-medium mb-3">{event.title}</h4>
+                    <h4 className="text-sm font-medium mb-3 group-hover:text-primary transition-colors">{event.title}</h4>
                     <div className="flex items-center gap-2 text-text-muted">
                         <Calendar size={12} />
                         <span className="text-xs font-mono">{formatShortDate(event.startDate)}</span>
                     </div>
-                </div>
+                </Link>
             ))}
 
             <div className="mt-4 p-6 rounded-3xl bg-accent-primary/5 border border-accent-primary/20 flex flex-col items-center text-center">
                 <p className="text-xs text-accent-primary font-mono mb-2 uppercase">Pro Membership</p>
                 <h5 className="text-sm font-bold mb-4">Unlock all problems and courses</h5>
-                <button className="w-full btn-primary py-2 rounded-xl text-xs">
+                <Link to={PATHS.COMING_SOON} className="w-full btn-primary py-2 rounded-xl text-xs text-center">
                     Upgrade Now
-                </button>
+                </Link>
             </div>
         </div>
     );

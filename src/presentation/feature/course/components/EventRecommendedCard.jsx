@@ -1,5 +1,6 @@
-import React from 'react';
-import { Calendar, Users, MapPin, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '@presentation/routes/paths';
+import { Calendar, ExternalLink, Users } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 
 /**
@@ -7,7 +8,10 @@ import { cn } from '@core/utils/cn';
  * Designed for recommendation sidebars or horizontal lists.
  */
 export const EventRecommendedCard = ({ event }) => {
+    const navigate = useNavigate();
     const { 
+        uid,
+        documentId,
         title, 
         type, 
         startDate, 
@@ -18,8 +22,18 @@ export const EventRecommendedCard = ({ event }) => {
         registeredCount 
     } = event;
 
+    const handleNavigate = () => {
+        const id = documentId || uid;
+        if (id) {
+            navigate(PATHS.EVENT_DETAILS.replace(':id', id));
+        }
+    };
+
     return (
-        <div className="bg-surface-elevated group p-4 rounded-xl border border-border-subtle flex gap-4 transition-all duration-200 hover:border-border-default">
+        <div 
+            onClick={handleNavigate}
+            className="bg-surface-elevated group p-4 rounded-xl border border-border-subtle flex gap-4 transition-all duration-200 hover:border-border-default cursor-pointer"
+        >
             {/* Small Cover */}
             <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-border-subtle">
                 {cover ? (

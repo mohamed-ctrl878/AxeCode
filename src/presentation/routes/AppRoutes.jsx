@@ -44,6 +44,8 @@ const ProblemManagementPage = lazy(() => import('../feature/cms/routes/ProblemMa
 const CreateProblemPage = lazy(() => import('../feature/cms/routes/CreateProblemPage'));
 const AddLessonPage = lazy(() => import('../feature/cms/routes/AddLessonPage'));
 const EditLessonPage = lazy(() => import('../feature/cms/routes/EditLessonPage'));
+const CMSReportTypesPage = lazy(() => import('../feature/cms/routes/CMSReportTypesPage'));
+const ReportTypeManagementPage = lazy(() => import('../feature/cms/routes/ReportTypeManagementPage'));
 
 const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
 const RoadmapDetailsPage = lazy(() => import('../feature/roadmap/routes/RoadmapDetailsPage'));
@@ -56,6 +58,7 @@ const GithubCallbackPage = lazy(() => import('../feature/auth/login/routes/Githu
 const CMSRoadmapsPage = lazy(() => import('../feature/cms/routes/CMSRoadmapsPage'));
 const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
 const ProfilePage = lazy(() => import('../feature/profile/routes/ProfilePage'));
+const SettingsPage = lazy(() => import('../feature/user/routes/SettingsPage'));
 
 
 const LandingPage = lazy(() => import('../feature/landing/routes/LandingPage'));
@@ -148,6 +151,7 @@ export const AppRoutes = () => {
                     <Route path="events" element={<CMSEventsPage />} />
                     <Route path="problems" element={<CMSProblemsPage />} />
                     <Route path="roadmaps" element={<CMSRoadmapsPage />} />
+                    <Route path="report-reasons" element={<CMSReportTypesPage />} />
                     <Route path="articles" element={<PlaceholderPage title="Articles Management" />} />
                     <Route path="media" element={<PlaceholderPage title="Media Management" />} />
                 </Route>
@@ -209,6 +213,22 @@ export const AppRoutes = () => {
                         </ProtectedRoute>
                     } 
                 />
+                <Route 
+                    path={PATHS.REPORT_TYPE_CREATE} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <ReportTypeManagementPage />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path={PATHS.REPORT_TYPE_EDIT} 
+                    element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <ReportTypeManagementPage />
+                        </ProtectedRoute>
+                    } 
+                />
 
                 {/* Community */}
                 <Route path={PATHS.FEED} element={
@@ -252,7 +272,7 @@ export const AppRoutes = () => {
                 } />
 
                 <Route path={PATHS.SETTINGS} element={
-                    <ProtectedRoute><PlaceholderPage title="Account Settings" /></ProtectedRoute>
+                    <ProtectedRoute><SettingsPage /></ProtectedRoute>
                 } />
                 <Route 
                     path={`${PATHS.ENROLLED_CONTENT}/:type?`} 

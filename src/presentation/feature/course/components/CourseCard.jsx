@@ -30,7 +30,10 @@ export const CourseCard = ({ course }) => {
     };
 
     return (
-        <div className="group flex flex-col overflow-hidden h-fit bg-surface-elevated border border-border-subtle rounded-xl transition-all duration-200 hover:border-border-default hover:shadow-[0_0_0_1px_var(--border-default),0_4px_24px_rgba(0,0,0,0.05)]">
+        <div 
+            onClick={handleDetails}
+            className="group flex flex-col overflow-hidden h-fit bg-surface-elevated border border-border-subtle rounded-xl transition-all duration-200 hover:border-border-default hover:shadow-[0_0_0_1px_var(--border-default),0_4px_24px_rgba(0,0,0,0.05)] cursor-pointer"
+        >
             {/* Thumbnail Section */}
             <div className="relative aspect-video overflow-hidden h-32">
                 <img 
