@@ -90,4 +90,30 @@ export class ProblemRepository extends BaseRepository {
             throw error;
         }
     }
+
+    /**
+     * Generically searches for problems by title (partial match).
+     * @param {string} query
+     * @returns {Promise<Array>}
+     */
+    async search(query) {
+        if (!query) return [];
+        try {
+            const q = qs.stringify({
+                filters: {
+                    title: {
+                        $containsi: query
+                    }
+                },
+                populate: ['problem_types'],
+                pagination: { limit: 10 }
+            }, { encodeValuesOnly: true });
+
+            const response = await this.get(`${this.endpoint}?${q}`);
+            return response.data || [];
+        } catch (error) {
+            console.error('[ProblemRepository] Search failed:', error);
+            throw error;
+        }
+    }
 }

@@ -107,4 +107,26 @@ export class CourseRepository extends IContentInteraction {
             total: response?.meta?.pagination?.total || 0
         };
     }
+
+    /**
+     * Generically searches for courses by title (partial match).
+     * @param {string} query
+     * @returns {Promise<Array>}
+     */
+    async search(query) {
+        if (!query) return [];
+        try {
+            const qsQuery = `filters[title][$containsi]=${query}&populate=*&pagination[limit]=10`;
+            const response = await this.apiClient.get(`${this.endpoint}?${qsQuery}`);
+            const dataArray = flattenStrapi(response) || [];
+            if (!Array.isArray(dataArray)) return [];
+            return dataArray.map(item => {
+                const dto = new CourseDTO(item);
+                return EntityMapper.toCardCourse(dto);
+            });
+        } catch (error) {
+            console.error('[CourseRepository] Search failed:', error);
+            throw error;
+        }
+    }
 }

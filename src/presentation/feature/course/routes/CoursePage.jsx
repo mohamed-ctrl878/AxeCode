@@ -3,7 +3,8 @@ import { CourseCard } from '../components/CourseCard';
 import { EventRecommendedCard } from '../components/EventRecommendedCard';
 import { useFetchRecommendedCourses } from '@domain/useCase/useFetchRecommendedCourses';
 import { useFetchRecommendedEvents } from '@domain/useCase/useFetchRecommendedEvents';
-import { Search, ChevronRight, Sparkles, Map, BookOpen, AlertTriangle, Tag, ChevronDown } from 'lucide-react';
+import { useSearchCourses } from '@domain/useCase/useSearchCourses';
+import { Search, ChevronRight, Sparkles, Map, BookOpen, AlertTriangle, Tag, ChevronDown, Loader2 } from 'lucide-react';
 import { PATHS } from '@presentation/routes/paths';
 import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
 import { EventRecommendedCardSkeleton } from '@presentation/shared/components/skeletons/EventRecommendedCardSkeleton';
@@ -13,14 +14,36 @@ import { EventRecommendedCardSkeleton } from '@presentation/shared/components/sk
  * Follows a modular architecture by orchestrating smaller domain components.
  */
 export const CoursePage = () => {
-    const { fetchCourses, courses, loading: coursesLoading, error: coursesError } = useFetchRecommendedCourses();
+    const { fetchCourses, courses: recommendedCourses, loading: recommendedLoading, error: recommendedError } = useFetchRecommendedCourses();
     const { fetchEvents, events, loading: eventsLoading, error: eventsError } = useFetchRecommendedEvents();
+    
+    // Search Integration
+    const [searchQuery, setSearchQuery] = useState('');
+    const { searchCourses, courses: searchResults, loading: searchLoading, error: searchError } = useSearchCourses();
+    
     const [showTags, setShowTags] = useState(false);
 
     useEffect(() => {
         fetchCourses();
         fetchEvents();
     }, []);
+
+    // Debounced Search Logic
+    useEffect(() => {
+        if (searchQuery.trim().length === 0) return;
+        
+        const timeoutId = setTimeout(() => {
+            searchCourses(searchQuery);
+        }, 400);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
+
+    // Derived State for UI
+    const isSearching = searchQuery.trim().length > 1;
+    const displayCourses = (isSearching ? searchResults : recommendedCourses) || [];
+    const isLoadingCourses = isSearching ? searchLoading : recommendedLoading;
+    const courseError = isSearching ? searchError : recommendedError;
 
     return (
         <div className="md:col-span-12 animation-fade-in flex flex-col gap-8">
@@ -29,17 +52,6 @@ export const CoursePage = () => {
                 <div>
                     <h1 className="text-2xl tracking-tight">Knowledge Hub</h1>
                     <p className="text-xs text-text-muted">Master the art of coding with guided learning paths.</p>
-                </div>
-                
-                <div className="flex items-center gap-3">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
-                        <input 
-                            type="text" 
-                            placeholder="Search courses..." 
-                            className="bg-surface-sunken border border-border-subtle rounded-full py-2 pl-9 pr-4 text-xs focus:border-accent-blue outline-none transition-colors duration-200 w-full md:w-48"
-                        />
-                    </div>
                 </div>
             </div>
 
@@ -100,32 +112,40 @@ export const CoursePage = () => {
                 </div>
             </div>
 
-
             {/* Main Courses Grid - Full Width */}
             <div className="space-y-6">
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2 text-text-muted">
                         <BookOpen size={16} className="text-accent-primary" />
-                        <h2 className="tracking-wide uppercase text-[10px]">Active Courses</h2>
+                        <h2 className="tracking-wide uppercase text-[10px]">
+                            {isSearching ? `Search Results for "${searchQuery}"` : 'Active Courses'}
+                        </h2>
                     </div>
                 
-                    {/* Search & Tags Filter (Aligned Left & Styled like ProblemPage) */}
+                    {/* Search & Tags Filter */}
                     <div className="flex flex-col gap-3 w-full max-w-2xl">
                         <div className="flex flex-col sm:flex-row gap-2 w-full">
                             <div className="relative flex-1 group">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-blue transition-colors" size={18} />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-primary transition-colors" size={18} />
                                 <input 
                                     type="text" 
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Search among active courses..." 
-                                    className="w-full bg-surface-sunken border border-border-subtle rounded-xl py-2.5 pl-10 pr-4 text-sm focus:border-accent-blue outline-none transition-all"
+                                    className="w-full bg-surface-sunken border border-border-subtle rounded-xl py-2.5 pl-10 pr-10 text-sm focus:border-accent-primary outline-none transition-all"
                                 />
+                                {isSearching && searchLoading && (
+                                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                        <Loader2 size={16} className="animate-spin text-accent-primary" />
+                                    </div>
+                                )}
                             </div>
                             
                             <button 
                                 onClick={() => setShowTags(!showTags)}
                                 className={`px-4 py-2.5 rounded-xl border flex items-center justify-center gap-2 text-sm font-medium transition-all ${
                                     showTags 
-                                        ? 'border-accent-blue text-accent-blue bg-accent-blue/5' 
+                                        ? 'border-accent-primary text-accent-primary bg-accent-primary/5' 
                                         : 'border-border-subtle text-text-muted hover:text-text-primary hover:bg-surface-elevated'
                                 }`}
                             >
@@ -153,19 +173,23 @@ export const CoursePage = () => {
                     </div>
                 </div>
 
-                {coursesLoading ? (
+                {isLoadingCourses ? (
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         {[1, 2, 3, 4, 5].map(i => <CourseCardSkeleton key={i} />)}
                     </div>
-                ) :
- coursesError ? (
+                ) : courseError ? (
                     <div className="flex items-center justify-center py-12 gap-2 text-accent-rose">
                         <AlertTriangle size={20} />
                         <span className="text-sm font-mono">Failed to load courses</span>
                     </div>
+                ) : displayCourses.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-20 text-text-muted">
+                        <Search size={40} className="opacity-20 mb-4" />
+                        <p className="text-sm">No courses matching your search were found.</p>
+                    </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {courses?.map((course, idx) => (
+                        {displayCourses.map((course, idx) => (
                             <CourseCard key={course.uid || idx} course={course} />
                         ))}
                     </div>
@@ -174,6 +198,7 @@ export const CoursePage = () => {
         </div>
     );
 };
+
 
 
 
