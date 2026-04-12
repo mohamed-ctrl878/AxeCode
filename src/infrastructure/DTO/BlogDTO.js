@@ -6,6 +6,7 @@ import { UserDTO } from './UserDTO';
 export class BlogDTO extends BaseContentDTO {
     constructor(data = {}) {
         super(data);
+        this.title = data.title; // {string | undefined}
         this.description = data.description; // {object | array} - Blocks
         this.image = data.image ? new MediaDTO(data.image) : null; // {MediaDTO | null}
         

@@ -15,7 +15,9 @@ export class MediaEntity extends BaseEntity {
      */
     constructor(props = {}) {
         super(props);
-        this.url = props.url ? import.meta.env.VITE_API_BASE_URL + props.url : null;
+        this.url = props.url 
+            ? (props.url.startsWith('http') ? props.url : import.meta.env.VITE_API_BASE_URL + props.url) 
+            : null;
         this.name = props.name;
         this.mime = props.mime;
         this.size = props.size;

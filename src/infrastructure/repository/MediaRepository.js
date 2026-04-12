@@ -13,9 +13,10 @@ export class MediaRepository {
     /**
      * Uploads files and returns an array of their IDs.
      * @param {File | FileList | Array<File>} files 
+     * @param {function} onProgress - Optional callback for upload progress (0-100).
      * @returns {Promise<number[]>} Array of uploaded media IDs.
      */
-    async uploadFiles(files) {
+    async uploadFiles(files, onProgress) {
         this.#validateFiles(files);
 
         const formData = new FormData();
@@ -27,7 +28,9 @@ export class MediaRepository {
             formData.append('files', file);
         });
 
-        const results = await this.apiClient.upload(this.endpoint, formData);
+        const results = onProgress 
+            ? await this.apiClient.uploadWithProgress(this.endpoint, formData, onProgress)
+            : await this.apiClient.upload(this.endpoint, formData);
 
         if (!Array.isArray(results)) {
             return [results.id].filter(id => id !== undefined);

@@ -84,4 +84,27 @@ export class CourseRepository extends IContentInteraction {
             return EntityMapper.toCardCourse(dto);
         });
     }
+
+    /**
+     * Lists courses authored by a specific user with pagination support.
+     * @param {string} username 
+     * @param {number} start - Offset start
+     * @param {number} limit - Items per page
+     * @returns {Promise<{items: Array, total: number}>}
+     */
+    async listByAuthor(username, start = 0, limit = 10) {
+        const query = `filters[users_permissions_user][username][$eq]=${username}&populate=*&sort=createdAt:desc&pagination[start]=${start}&pagination[limit]=${limit}`;
+        const response = await this.apiClient.get(`${this.endpoint}?${query}`);
+        
+        const dataArray = response?.data || response || [];
+        const items = Array.isArray(dataArray) ? dataArray.map(item => {
+            const dto = new CourseDTO(item);
+            return EntityMapper.toCardCourse(dto);
+        }) : [];
+
+        return {
+            items,
+            total: response?.meta?.pagination?.total || 0
+        };
+    }
 }

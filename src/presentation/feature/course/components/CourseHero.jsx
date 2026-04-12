@@ -1,10 +1,14 @@
 import React from 'react';
 import { Star, Play } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * CourseHero: Visual header for the course details page.
  */
 export const CourseHero = ({ course }) => {
+    const navigate = useNavigate();
+    
     return (
         <div className="flex flex-col gap-6">
             {/* Visual Hero */}
@@ -38,13 +42,20 @@ export const CourseHero = ({ course }) => {
                 <h1 className="text-4xl md:text-5xl font-serif tracking-tight text-text-primary leading-[1.10]">
                     {course.title}
                 </h1>
-                <div className="flex items-center gap-4 py-2">
-                    <div className="w-10 h-10 rounded-full border border-border-subtle overflow-hidden">
-                        <img src={course.instructor?.avatarUrl || `https://ui-avatars.com/api/?name=${course.instructor?.username}&background=000&color=fff`} alt="Instructor" />
+                <div 
+                    className="flex items-center gap-4 py-2 cursor-pointer w-fit group hover:opacity-80 transition-opacity"
+                    onClick={() => {
+                        if (course.instructor?.username) {
+                            navigate(PATHS.PROFILE.replace(':username', course.instructor.username));
+                        }
+                    }}
+                >
+                    <div className="w-10 h-10 rounded-full border border-border-subtle overflow-hidden relative">
+                        <img src={course.instructor?.avatarUrl || `https://ui-avatars.com/api/?name=${course.instructor?.username}&background=000&color=fff`} alt="Instructor" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col">
                         <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest">Instructor</span>
-                        <span className="text-sm font-medium text-text-primary">{course.instructor?.displayName || 'Axe Architect'}</span>
+                        <span className="text-sm font-medium text-text-primary group-hover:text-accent-primary transition-colors">{course.instructor?.displayName || 'Axe Architect'}</span>
                     </div>
                 </div>
             </div>

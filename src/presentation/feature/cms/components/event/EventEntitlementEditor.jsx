@@ -36,7 +36,7 @@ export const EventEntitlementEditor = ({ eventId }) => {
                 description: `Pricing update to ${price} USD`,
                 price: Number(price),
                 itemId: eventId, // event documentId
-                contentType: 'upevent', // CRITICAL: Identify as upevent for pricing records
+                contentType: 'event', // CRITICAL: Identify as event for pricing records
                 decision: true,
                 userId: null // Public pricing entitlement
             });

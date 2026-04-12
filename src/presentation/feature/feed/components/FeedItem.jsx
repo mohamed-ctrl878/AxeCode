@@ -4,6 +4,8 @@ import { MoreHorizontal, Clock } from 'lucide-react';
 import { InteractionBar } from '@presentation/shared/components/interactions/InteractionBar';
 import { ReportAction } from '@presentation/shared/components/interactions/ReportAction';
 import { RichBlocksPreviewer } from '@presentation/shared/components/RichBlocksPreviewer';
+import { Link, useNavigate } from 'react-router-dom';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * FeedItem: Individual content card in the feed.
@@ -11,7 +13,7 @@ import { RichBlocksPreviewer } from '@presentation/shared/components/RichBlocksP
  */
 export const FeedItem = ({ blog, className, rank }) => {
     const [showOptions, setShowOptions] = useState(false);
-    console.log(blog);
+    const navigate = useNavigate();
 
     if (!blog) return null;
 
@@ -60,18 +62,27 @@ export const FeedItem = ({ blog, className, rank }) => {
             {badge}
             {/* Header: Author & Meta */}
             <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
+                <div 
+                    onClick={(e) => {
+                        if (blog.author?.username) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            navigate(PATHS.PROFILE.replace(':username', blog.author.username));
+                        }
+                    }}
+                    className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+                >
                     <div className="w-10 h-10 rounded-full bg-border-subtle overflow-hidden border border-border-subtle">
                         {blog.author?.avatar?.url ? (
                             <img src={blog.author.avatar.url} alt={blog.author.username} className="w-full h-full object-cover" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-xs font-mono text-text-muted">
-                                {(blog.author?.username || 'U').charAt(0).toUpperCase()}
+                                {((blog.author?.username || 'U')[0]).toUpperCase()}
                             </div>
                         )}
                     </div>
                     <div>
-                        <h4 className="text-sm font-semibold">{blog.author?.username || 'Architect'}</h4>
+                        <h4 className="text-sm font-semibold hover:text-accent-primary transition-colors">{blog.author?.username || 'Architect'}</h4>
                         <div className="flex items-center gap-2 text-[10px] text-text-muted font-mono uppercase tracking-widest">
                             <span>{formatDate(blog.createdAt)}</span>
                             <span>•</span>

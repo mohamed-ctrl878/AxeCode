@@ -5,6 +5,7 @@ import { useFetchCoursesByIds } from '@domain/useCase/useFetchCoursesByIds';
 import { cn } from '@core/utils/cn';
 import { Link, useParams, useNavigate, Navigate } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
+import { QRCodeSVG } from 'qrcode.react';
 
 /**
  * EnrolledContentPage: Displays the user's purchased courses and events.
@@ -16,7 +17,7 @@ const EnrolledContentPage = () => {
     
     // Normalize activeTab from URL, default to 'courses'
     const activeTab = type || 'courses'; 
-    const contentType = activeTab === 'courses' ? 'course' : activeTab === 'events' ? 'upevent' : 'uplive';
+    const contentType = activeTab === 'courses' ? 'course' : activeTab === 'events' ? 'event' : 'uplive';
 
     const { fetchMyEntitlements, entitlements, loading: loadingEntitlements, error: entError } = useFetchMyEntitlements();
     const { fetchCoursesByIds, courses, loading: loadingCourses, error: courseError } = useFetchCoursesByIds();
@@ -96,7 +97,7 @@ const EnrolledContentPage = () => {
                 {tabs.map((tab) => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;
-                    const countType = tab.id === 'courses' ? 'course' : tab.id === 'events' ? 'upevent' : 'uplive';
+                    const countType = tab.id === 'courses' ? 'course' : tab.id === 'events' ? 'event' : 'uplive';
                     
                     return (
                         <button
@@ -131,7 +132,9 @@ const EnrolledContentPage = () => {
                     ))
                 ) : displayedItems.length > 0 ? (
                     displayedItems.map((item) => (
-                        <ContentCard key={item.id} entitlement={item} />
+                        item.contentType === 'event'
+                            ? <EventTicketCard key={item.id} entitlement={item} />
+                            : <ContentCard key={item.id} entitlement={item} />
                     ))
                 ) : (
                     <EmptyState type={activeTab} />
@@ -180,7 +183,7 @@ const ContentCard = ({ entitlement }) => {
     const getLink = () => {
         const targetId = content?.uid || content?.documentId || content?.id;
         if (contentType === 'course') return PATHS.COURSE_DETAILS.replace(':id', targetId);
-        if (contentType === 'upevent') return PATHS.EVENT_DETAILS.replace(':id', targetId);
+        if (contentType === 'event') return PATHS.EVENT_DETAILS.replace(':id', targetId);
         return '#';
     };
 
@@ -277,6 +280,113 @@ const ContentCard = ({ entitlement }) => {
 
             <div className="absolute inset-0 ring-1 ring-inset ring-accent-primary/0 group-hover:ring-accent-primary/10 rounded-2xl transition-all pointer-events-none" />
         </div>
+    );
+};
+
+const EventTicketCard = ({ entitlement }) => {
+    const { content } = entitlement;
+    const [isQrModalOpen, setIsQrModalOpen] = React.useState(false);
+    
+    // Use TargetDocumentId of the entitlement or content documentId
+    const qrValue = content?.documentId || content?.uid || entitlement.targetDocumentId;
+
+    const getLink = () => {
+        const targetId = content?.uid || content?.documentId || content?.id;
+        return PATHS.EVENT_DETAILS.replace(':id', targetId);
+    };
+
+    return (
+        <>
+            <div className="group relative flex flex-col bg-surface hover:bg-surface-elevated rounded-2xl overflow-hidden transition-all duration-500 shadow-ring hover:shadow-halo hover:-translate-y-1">
+                <div 
+                    className="p-6 flex flex-col items-center justify-center border-b border-border-subtle/50 bg-surface-sunken cursor-pointer"
+                    onClick={() => setIsQrModalOpen(true)}
+                >
+                    <div className="p-4 bg-white rounded-xl shadow-sm relative group-hover:scale-105 transition-transform duration-300">
+                        {qrValue ? (
+                            <QRCodeSVG value={qrValue} size={150} level={"H"} />
+                        ) : (
+                            <div className="w-[150px] h-[150px] bg-gray-200 flex items-center justify-center text-xs text-center p-4">
+                                QR Code Unavailable
+                            </div>
+                        )}
+                        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
+                            <div className="bg-black/80 text-white text-[10px] uppercase font-bold py-1 px-3 rounded-full shadow-lg backdrop-blur-sm">Enlarge</div>
+                        </div>
+                    </div>
+                    <div className="mt-4 text-[10px] font-sans font-bold uppercase tracking-widest text-text-muted">
+                        Scan for Entry
+                    </div>
+                </div>
+                
+                {/* Details */}
+                <div className="p-6 flex flex-col flex-1 text-center">
+                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest bg-surface-sunken px-2 py-1 rounded-md w-fit mx-auto mb-3">
+                        {content?.category?.name || 'Community Event'}
+                    </span>
+                    
+                    <h3 className="text-xl font-serif text-text-primary mb-2 line-clamp-2 hover:text-accent-primary transition-colors">
+                        {content?.title || 'Knowledge Event'}
+                    </h3>
+                    
+                    <div className="mt-auto pt-4 flex flex-col gap-3 items-center">
+                        <div className="flex flex-col gap-1 items-center">
+                            <span className="text-xs font-semibold text-text-primary font-sans uppercase tracking-wider text-accent-primary">
+                                Reserved pass
+                            </span>
+                            <span className="text-[10px] text-text-muted">
+                                ID: {qrValue ? `${qrValue.substring(0, 8)}...` : 'N/A'}
+                            </span>
+                        </div>
+
+                        <Link 
+                            to={getLink()} 
+                            className="btn-primary py-2 px-5 w-full justify-center mt-2 group/btn"
+                        >
+                            View Details
+                            <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                        </Link>
+                    </div>
+                </div>
+                
+                <div className="absolute inset-0 ring-1 ring-inset ring-accent-primary/0 group-hover:ring-accent-primary/10 rounded-2xl transition-all pointer-events-none" />
+            </div>
+
+            {/* QR Code Modal (Popup) */}
+            {isQrModalOpen && (
+                <div 
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+                    onClick={() => setIsQrModalOpen(false)}
+                >
+                    <div 
+                        className="bg-surface p-8 max-w-sm w-full rounded-3xl shadow-xl flex flex-col items-center gap-6 animate-in zoom-in-95 duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="text-center w-full pb-4 border-b border-border-subtle/50">
+                            <h4 className="text-lg font-serif text-text-primary mb-1">Entry Pass</h4>
+                            <p className="text-xs text-text-muted uppercase tracking-wider line-clamp-1">{content?.title}</p>
+                        </div>
+                        
+                        <div className="bg-white p-6 rounded-2xl shadow-inner border border-border-subtle/20">
+                            {qrValue ? (
+                                <QRCodeSVG value={qrValue} size={250} level={"H"} />
+                            ) : (
+                                <div className="w-[250px] h-[250px] bg-gray-200 flex items-center justify-center text-sm text-center p-4">
+                                    QR Code Unavailable
+                                </div>
+                            )}
+                        </div>
+
+                        <button 
+                            onClick={() => setIsQrModalOpen(false)}
+                            className="w-full py-3 bg-surface-sunken hover:bg-surface-elevated text-text-primary text-sm font-semibold rounded-xl transition-colors border border-border-subtle"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

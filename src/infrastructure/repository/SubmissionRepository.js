@@ -59,4 +59,47 @@ export class SubmissionRepository {
             populate: '*'
         });
     }
+
+    /**
+     * Get submission stats for a user (total and passed counts).
+     * Faster than fetching all data as it uses pagination hints.
+     * @param {string} username 
+     * @returns {Promise<{ total: number, passed: number }>}
+     */
+    async getProfileStats(username) {
+        try {
+            const [totalRes, passedRes] = await Promise.all([
+                this.apiClient.get(this.endpoint, {
+                    filters: {
+                        user: { username: { $eq: username } }
+                    },
+                    pagination: { limit: 0 }, // 0 is enough for total count
+                    populate: [] // Skip population for speed
+                }),
+                this.apiClient.get(this.endpoint, {
+                    filters: {
+                        user: { username: { $eq: username } },
+                        verdict: { $eq: 'accepted' }
+                    },
+                    pagination: { limit: 0 },
+                    populate: []
+                })
+            ]);
+
+            const extractTotal = (res) => {
+                // Handle different Strapi response formats
+                if (res?.meta?.pagination?.total !== undefined) return res.meta.pagination.total;
+                if (res?.total !== undefined) return res.total;
+                return Array.isArray(res?.data) ? res.data.length : 0;
+            };
+
+            return {
+                total: extractTotal(totalRes),
+                passed: extractTotal(passedRes)
+            };
+        } catch (error) {
+            console.error('[SubmissionRepository] Failed to fetch profile stats:', error);
+            return { total: 0, passed: 0 };
+        }
+    }
 }

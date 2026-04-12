@@ -1,15 +1,17 @@
 import React from 'react';
 import { cn } from '@core/utils/cn';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MessageSquare, Star } from 'lucide-react';
 import { StarRating } from '@presentation/shared/components/StarRating';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * ArticleCard: Formal content component with background-matching aesthetics.
  * Features a publisher header, content preview, and interaction stats.
  */
 export const ArticleCard = ({ article, className }) => {
-    console.log(article)
+    const navigate = useNavigate();
+    
     if (!article) return null;
 
     /**
@@ -31,7 +33,16 @@ export const ArticleCard = ({ article, className }) => {
             className
         )}>
             {/* Header: Publisher Info (Top-Left) */}
-            <div className="flex items-center gap-3">
+            <div 
+                className="flex items-center gap-3 w-fit cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={(e) => {
+                    if (article.author?.username) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigate(PATHS.PROFILE.replace(':username', article.author.username));
+                    }
+                }}
+            >
                 <div className="w-9 h-9 rounded-full bg-surface border border-border-subtle overflow-hidden">
                     {article.author?.avatar?.url ? (
                         <img src={article.author.avatar.url} alt={article.author.username} className="w-full h-full object-cover" />
@@ -42,7 +53,7 @@ export const ArticleCard = ({ article, className }) => {
                     )}
                 </div>
                 <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-text-primary leading-none">
+                    <span className="text-sm font-semibold text-text-primary leading-none hover:text-accent-primary transition-colors">
                         {article.author?.username || 'Core Architect'}
                     </span>
                     <span className="text-[10px] text-text-muted font-mono mt-1 uppercase tracking-tighter">

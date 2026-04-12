@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GitBranch, User, Layers } from 'lucide-react';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * RoadmapCard: Displays a single roadmap in a card layout.
@@ -59,10 +60,20 @@ export const RoadmapCard = ({ roadmap }) => {
                             {roadmap.title || 'Untitled Roadmap'}
                         </h3>
                         {roadmap.author && (
-                            <div className="flex items-center gap-1.5 mt-1 text-text-muted">
+                            <div 
+                                onClick={(e) => {
+                                    const username = typeof roadmap.author === 'string' ? roadmap.author : roadmap.author.username;
+                                    if (username) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        navigate(PATHS.PROFILE.replace(':username', username));
+                                    }
+                                }}
+                                className="flex items-center w-fit gap-1.5 mt-1 text-text-muted cursor-pointer hover:text-accent-primary transition-colors"
+                            >
                                 <User size={12} />
                                 <span className="text-xs font-mono">
-                                    {roadmap.author.username || roadmap.author}
+                                    {typeof roadmap.author === 'string' ? roadmap.author : roadmap.author.username}
                                 </span>
                             </div>
                         )}

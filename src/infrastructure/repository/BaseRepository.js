@@ -30,11 +30,20 @@ export class BaseRepository extends IApiClient {
         return await fetchWrapper(url, true, 'application/json', 'POST', body);
     }
 
-    async put(endpoint, id, requestDto, wrap = true) {
+    async put(endpoint, id, requestDto, wrap = true, params = {}) {
+        console.log('[BaseRepository DEBUG] put arguments:', { endpoint, id, wrap, params });
+        
         if (requestDto && typeof requestDto.validate === 'function') {
             requestDto.validate();
         }
-        const url = this.#buildUrl(`${endpoint}/${id}`);
+        
+        let url = this.#buildUrl(`${endpoint}/${id}`);
+        const queryString = qs.stringify(params, { encodeValuesOnly: true });
+        
+        if (queryString) {
+            url += `${url.includes('?') ? '&' : '?'}${queryString}`;
+        }
+
         const body = wrap ? { data: requestDto } : requestDto;
         return await fetchWrapper(url, true, 'application/json', 'PUT', body);
     }
@@ -60,7 +69,12 @@ export class BaseRepository extends IApiClient {
         const queryString = qs.stringify(params, { encodeValuesOnly: true });
 
         if (queryString) {
-            url += `${url.includes('?') ? '&' : '?'}${queryString}&populate=*`;
+            url += `${url.includes('?') ? '&' : '?'}${queryString}`;
+            
+            // Only add default populate if not explicitly provided or suppressed
+            if (!queryString.includes('populate') && !params.populate) {
+                url += `&populate=*`;
+            }
         }
 
         return await fetchWrapper(url, true, 'application/json', 'GET');

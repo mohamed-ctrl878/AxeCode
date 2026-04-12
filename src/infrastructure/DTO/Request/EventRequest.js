@@ -27,7 +27,7 @@ export class EventRequest extends BaseRequest {
                 description: entitlementData.description || eventData.description,
                 price: entitlementData.price,
                 currency: entitlementData.currency || 'USD',
-                content_types: entitlementData.contentType || 'upevent',
+                content_types: entitlementData.contentType || 'event',
                 decision: entitlementData.decision ?? true,
                 duration: entitlementData.duration
             };

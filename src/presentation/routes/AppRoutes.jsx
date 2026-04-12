@@ -55,6 +55,8 @@ const ResetPasswordPage = lazy(() => import('../feature/auth/reset-password/rout
 const GithubCallbackPage = lazy(() => import('../feature/auth/login/routes/GithubCallbackPage'));
 const CMSRoadmapsPage = lazy(() => import('../feature/cms/routes/CMSRoadmapsPage'));
 const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
+const ProfilePage = lazy(() => import('../feature/profile/routes/ProfilePage'));
+
 
 const LandingPage = lazy(() => import('../feature/landing/routes/LandingPage'));
 
@@ -246,8 +248,9 @@ export const AppRoutes = () => {
 
                 {/* User */}
                 <Route path={PATHS.PROFILE} element={
-                    <ProtectedRoute><PlaceholderPage title="User Profile" /></ProtectedRoute>
+                    <ProtectedRoute><ProfilePage /></ProtectedRoute>
                 } />
+
                 <Route path={PATHS.SETTINGS} element={
                     <ProtectedRoute><PlaceholderPage title="Account Settings" /></ProtectedRoute>
                 } />

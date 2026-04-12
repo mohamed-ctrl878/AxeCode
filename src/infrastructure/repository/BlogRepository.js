@@ -26,4 +26,21 @@ export class BlogRepository extends IContentInteraction {
     async like(contentId, contentType) {}
     async comment(contentId, contentType, commentData) {}
     async trackEngagement(contentId) {}
+
+    /**
+     * Lists blogs authored by a specific user with pagination support.
+     * @param {string} username 
+     * @param {number} start - Offset start
+     * @param {number} limit - Items per page
+     * @returns {Promise<{items: Array, total: number}>}
+     */
+    async listByAuthor(username, start = 0, limit = 10) {
+        const query = `filters[publisher][username][$eq]=${username}&populate[0]=publisher.avatar&populate[1]=image&sort=createdAt:desc&pagination[start]=${start}&pagination[limit]=${limit}`;
+        const response = await this.apiClient.get(`${this.endpoint}?${query}`);
+        
+        return {
+            items: response?.data || response || [],
+            total: response?.meta?.pagination?.total || 0
+        };
+    }
 }
