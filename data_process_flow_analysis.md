@@ -1,3 +1,7 @@
+# 📑 AxeCode Documentation
+### [🏠 Home](./README.md) | [🏗️ Architecture](./file_structure_analysis.md) | **[🔄 Data Flow](./data_process_flow_analysis.md)**
+---
+
 # AxeCode Frontend - Data & Process Flow Analysis
 
 This document details how data moves through the application and the sequence of operations during a typical use case, following the Clean Architecture principles.

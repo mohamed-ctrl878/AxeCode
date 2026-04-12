@@ -1,3 +1,7 @@
+# 📑 AxeCode Documentation
+### [🏠 Home](./README.md) | **[🏗️ Architecture](./file_structure_analysis.md)** | [🔄 Data Flow](./data_process_flow_analysis.md)
+---
+
 # AxeCode Frontend Application - Architecture & File Structure Analysis
 
 The AxeCode frontend application follows a **Clean Architecture** pattern, emphasizing separation of concerns and maintainability. It is structured into distinct layers that isolate business logic from UI and infrastructure.
