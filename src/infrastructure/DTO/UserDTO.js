@@ -14,6 +14,7 @@ export class UserDTO {
         this.phone = data.phone; // {string}
         this.birthday = data.birthday; // {string} - Date
         this.university = data.university; // {string}
+        this.bio = data.bio; // {string}
         this.confirmed = !!data.confirmed; // {boolean}
         this.blocked = !!data.blocked; // {boolean}
 

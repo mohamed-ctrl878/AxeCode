@@ -13,9 +13,10 @@ export class BaseContentDTO {
             ? data.tags.map(tag => tag)
             : []; // {Array<string | object>}
 
-        // Interaction Metadata from API Enrichment
-        this.likesCount = typeof data.likesCount === 'number' ? data.likesCount : 0; // {number}
-        this.commentsCount = typeof data.commentsCount === 'number' ? data.commentsCount : 0; // {number}
-        this.isLiked = !!data.isLikedByMe; // {boolean}
+        // Interaction Metadata from API Enrichment (Handle both flat and nested 'interactions' object)
+        const interactions = data.interactions || {};
+        this.likesCount = typeof data.likesCount === 'number' ? data.likesCount : (interactions.likesCount || 0);
+        this.commentsCount = typeof data.commentsCount === 'number' ? data.commentsCount : (interactions.commentsCount || 0);
+        this.isLiked = !!(data.isLikedByMe || interactions.isLikedByMe);
     }
 }

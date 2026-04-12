@@ -1,5 +1,6 @@
+import { SecurityUtils } from '@core/utils/SecurityUtils';
 import { BaseRequest } from './BaseRequest';
-import { SecurityUtils } from '../utils/SecurityUtils';
+// import { SecurityUtils } from '../utils/SecurityUtils';
 
 /**
  * Request DTO for updating User profile data.
@@ -13,6 +14,8 @@ export class UpdateUserRequest extends BaseRequest {
         this.university = formData.university; // {string}
         this.birthday = formData.birthday; // {string: ISO Date}
         this.interest_map = formData.interestMap; // {object}
+        this.avatar = formData.avatar; // {number | string} ID of uploaded media
+        this.bio = formData.bio; // {string}
     }
 
     /**

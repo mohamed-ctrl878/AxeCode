@@ -80,9 +80,8 @@ export class SharedInteractionRepository extends IContentInteraction {
                 ...(params.filters || {}),
                 docId: { $eq: docId.toString() },
                 content_types: { $eq: contentType } // ensure enum match
-            }
-            // Removed populate: params.populate || 'users_permissions_user'
-            // because BaseRepository automatically appends &populate=* at the end
+            },
+            populate: ['users_permissions_user', 'users_permissions_user.avatar']
         };
         return await this.apiClient.get('/api/comments', queryParams);
     }

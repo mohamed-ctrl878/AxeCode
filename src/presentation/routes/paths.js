@@ -35,7 +35,7 @@ export const PATHS = {
     CONTENT_MANAGEMENT: '/cms',
 
     // User
-    PROFILE: '/profile',
+    PROFILE: '/profile/:username',
     SETTINGS: '/settings',
     ENROLLED_CONTENT: '/my-content',
     ENROLLED_COURSES: '/my-content/courses',

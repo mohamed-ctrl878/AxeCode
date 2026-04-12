@@ -40,6 +40,14 @@ export const UserMenu = ({ user }) => {
         setTheme(theme === 'dark' ? 'light' : 'dark');
     };
 
+    const getAvatarUrl = (avatar) => {
+        if (!avatar?.url) return null;
+        // If it already starts with http, return it as is. Otherwise, prepend base URL.
+        return avatar.url.startsWith('http') 
+            ? avatar.url 
+            : `${import.meta.env.VITE_API_BASE_URL || ''}${avatar.url}`;
+    };
+
     return (
         <div className="relative" ref={dropdownRef}>
             <button 
@@ -52,7 +60,7 @@ export const UserMenu = ({ user }) => {
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/20 flex items-center justify-center text-accent-primary shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-300">
                     {user?.avatar?.url ? (
                         <img 
-                            src={`${import.meta.env.VITE_API_BASE_URL || ''}${user.avatar.url}`} 
+                            src={getAvatarUrl(user.avatar)} 
                             alt={user.username} 
                             className="w-full h-full object-cover" 
                         />
@@ -84,8 +92,16 @@ export const UserMenu = ({ user }) => {
                     <div className="p-3 mb-1 border-b border-border-subtle/30">
                         <p className="text-[10px] uppercase tracking-[0.2em] text-text-muted font-bold mb-2">Connected Node</p>
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center text-accent-primary border border-accent-primary/20">
-                                <User size={20} />
+                            <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center text-accent-primary border border-accent-primary/20 overflow-hidden">
+                                {user?.avatar?.url ? (
+                                    <img 
+                                        src={getAvatarUrl(user.avatar)} 
+                                        alt={user.username} 
+                                        className="w-full h-full object-cover" 
+                                    />
+                                ) : (
+                                    <User size={20} />
+                                )}
                             </div>
                             <div className="min-w-0">
                                 <p className="text-sm font-bold text-text-primary truncate">{user?.username}</p>
@@ -96,7 +112,7 @@ export const UserMenu = ({ user }) => {
 
                     <div className="space-y-1">
                         <Link 
-                            to={PATHS.PROFILE} 
+                            to={PATHS.PROFILE.replace(':username', user?.username)} 
                             onClick={() => setIsOpen(false)}
                             className="flex items-center gap-3 w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-surface-hover rounded-xl transition-all group"
                         >

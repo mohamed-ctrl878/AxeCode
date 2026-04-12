@@ -12,7 +12,10 @@ export class UserEntity extends BaseEntity {
      * @param {string} props.lastname
      * @param {string} props.phone
      * @param {string} props.university
+     * @param {string} props.bio
      * @param {MediaEntity|null} props.avatar
+     * @param {number} props.submissionCount
+     * @param {number} props.passedSubmissionsCount
      */
     constructor(props = {}) {
         super(props);
@@ -22,7 +25,17 @@ export class UserEntity extends BaseEntity {
         this.lastname = props.lastname;
         this.phone = props.phone;
         this.university = props.university;
+        this.bio = props.bio;
         this.avatar = props.avatar;
+        
+        // Direct statistics (fetched from table, not populated)
+        this.submissionCount = props.submissionCount || 0;
+        this.passedSubmissionsCount = props.passedSubmissionsCount || 0;
+
+        console.log(`[ProfileSync] Entity Created - ${this.username}:`, {
+            subs: this.submissionCount,
+            passed: this.passedSubmissionsCount
+        });
     }
 
     /**

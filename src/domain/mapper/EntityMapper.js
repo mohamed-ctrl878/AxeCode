@@ -55,9 +55,14 @@ export class EntityMapper {
 
     /**
      * Maps a UserDTO or raw user object to UserEntity.
+     * @param {object|UserDTO} data 
+     * @param {object} stats - Optional direct counts { total, passed }
      */
-    static toUser(data) {
+    static toUser(data, stats = {}) {
         if (!data) return null;
+        console.log('[ProfileSync] Mapping toUser - Data:', data);
+        console.log('[ProfileSync] Mapping toUser - Stats Prop:', stats);
+        
         return new UserEntity({
             id: data.id,
             uid: data.documentId,
@@ -67,7 +72,10 @@ export class EntityMapper {
             lastname: data.lastname,
             phone: data.phone,
             university: data.university,
-            avatar: this.toMedia(data.avatar)
+            bio: data.bio,
+            avatar: this.toMedia(data.avatar),
+            submissionCount: stats.total || 0,
+            passedSubmissionsCount: stats.passed || 0
         });
     }
 
@@ -153,27 +161,6 @@ export class EntityMapper {
         });
     }
 
-    /**
-     * Maps a BlogDTO to BlogEntity.
-     */
-    static toBlog(dto) {
-        if (!dto) return null;
-        return new BlogEntity({
-            id: dto.id,
-            uid: dto.documentId,
-            createdAt: dto.createdAt,
-            updatedAt: dto.updatedAt,
-            publishedAt: dto.publishedAt,
-            engagementScore: dto.engagementScore,
-            tags: dto.tags,
-            likesCount: dto.likesCount,
-            commentsCount: dto.commentsCount,
-            isLiked: dto.isLiked,
-            description: dto.description,
-            image: this.toMedia(dto.image),
-            author: this.toUser(dto.author)
-        });
-    }
 
     /**
      * Maps an EventDTO to EventEntity.
@@ -392,6 +379,7 @@ export class EntityMapper {
 
     /**
      * Maps a BlogDTO to BlogEntity.
+     * Consolidates mapping of publisher (author) and feature image.
      * @param {BlogDTO} dto
      * @returns {BlogEntity|null}
      */
@@ -411,10 +399,9 @@ export class EntityMapper {
             title: dto.title,
             description: dto.description,
             image: dto.image ? this.toMedia(dto.image) : null,
-            author: dto.publisher
-                ? { username: dto.publisher.username, avatar: dto.publisher.avatar ? this.toMedia(dto.publisher.avatar) : null }
-                : null,
+            author: dto.publisher ? this.toUser(dto.publisher) : null,
         });
+        return entity;
     }
 
     /**

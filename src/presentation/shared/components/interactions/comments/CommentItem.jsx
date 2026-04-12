@@ -1,6 +1,8 @@
 import React from 'react';
 import { Clock } from 'lucide-react';
 import { cn } from '@core/utils/cn';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '@presentation/routes/paths';
 
 /**
  * CommentItem - Individual comment card.
@@ -9,6 +11,8 @@ import { cn } from '@core/utils/cn';
  * @param {number} props.index - For animation delay
  */
 export const CommentItem = ({ comment, index }) => {
+    const navigate = useNavigate();
+    
     const renderBody = (body) => {
         if (!body) return '';
         if (typeof body === 'string') return body;
@@ -25,7 +29,14 @@ export const CommentItem = ({ comment, index }) => {
             className="flex gap-4 animate-slide-up" 
             style={{ animationDelay: `${(index % 10) * 50}ms` }}
         >
-            <div className="w-10 h-10 rounded-full bg-surface-dark border border-border-subtle flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
+            <div 
+                className="w-10 h-10 rounded-full bg-surface-dark border border-border-subtle flex items-center justify-center shrink-0 overflow-hidden shadow-sm cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => {
+                    if(comment.author?.username) {
+                        navigate(PATHS.PROFILE.replace(':username', comment.author.username));
+                    }
+                }}
+            >
                 {comment.author?.avatar?.url ? (
                     <img src={comment.author.avatar.url} alt="avatar" className="w-full h-full object-cover" />
                 ) : (
@@ -36,7 +47,14 @@ export const CommentItem = ({ comment, index }) => {
             </div>
             <div className="flex-1 bg-surface rounded-2xl p-4 border border-border-subtle shadow-sm hover:border-accent-primary/20 transition-all">
                 <div className="flex items-baseline justify-between mb-2">
-                    <span className="font-bold text-sm hover:text-accent-primary cursor-pointer transition-colors">
+                    <span 
+                        onClick={() => {
+                            if(comment.author?.username) {
+                                navigate(PATHS.PROFILE.replace(':username', comment.author.username));
+                            }
+                        }}
+                        className="font-bold text-sm hover:text-accent-primary cursor-pointer transition-colors"
+                    >
                         @{comment.author?.username || 'user'}
                     </span>
                     {comment.createdAt && (
