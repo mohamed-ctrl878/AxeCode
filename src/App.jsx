@@ -14,16 +14,6 @@ const ScrollToTop = () => {
 };
 
 const App = () => {
-  useEffect(()=>{
-  
-    const temeout = setTimeout(() => {
-      
-      fetch("http://localhost:1338/api/recommendations/suggest",{
-        credentials:"include"
-      }).then(res => res.json()).then(data => console.log(data))
-    }, 6000);
-    return () => clearTimeout(temeout);
-  },[])
   return (
     <BrowserRouter>
       <ScrollToTop />
