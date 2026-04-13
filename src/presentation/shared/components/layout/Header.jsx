@@ -13,9 +13,9 @@ import { PermissionGate } from '../Auth/PermissionGate';
 import { ROLE_TYPES } from '@core/constants/RoleConstants';
 
 // Sub-components
-import { SearchTerminal } from './header/SearchTerminal';
-import { UserMenu } from './header/UserMenu';
-import { GuestActions } from './header/GuestActions';
+import { SearchTerminal } from './header-parts/SearchTerminal';
+import { UserMenu } from './header-parts/UserMenu';
+import { GuestActions } from './header-parts/GuestActions';
 import { NotificationBell } from '@presentation/feature/notification/components/NotificationBell';
 
 /**
