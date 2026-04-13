@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Play, Send, Flag, ChevronDown, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { UserMenu } from '../../../shared/components/layout/header/UserMenu';
+import { UserMenu } from '../../../shared/components/layout/header-parts/UserMenu';
 import { cn } from '@core/utils/cn';
 
 /**
