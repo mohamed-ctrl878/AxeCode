@@ -8,6 +8,9 @@ export const fetchWrapper = async (url, useToken = true, contentType = 'applicat
         headers['Content-Type'] = contentType;
     }
 
+    // Bypass Cloudflare Quick Tunnel interstitial page
+    headers['cf-no-browser-warning'] = 'true';
+
     const config = {
         method,
         headers,
