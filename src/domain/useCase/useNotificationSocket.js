@@ -15,10 +15,10 @@ export const useNotificationSocket = (onNotificationNew) => {
             return;
         }
 
-        const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'http://localhost:1338';
+        const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:1338';
         
         // Remove trailing API path if it exists to just point to the host
-        const baseURL = API_URL.replace('/api', '');
+        const baseURL = API_URL.replace(/\/api\/?$/, '');
 
         socketRef.current = io(baseURL, {
             withCredentials: true,
