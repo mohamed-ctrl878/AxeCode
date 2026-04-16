@@ -4,7 +4,9 @@ import { useLocation, Link } from 'react-router-dom';
 import { 
     MessageSquare, ChevronDown,
     BookOpen, Code2, Map, LayoutDashboard, FileText, 
-    Calendar, Video, Image, Database, Menu, X
+    Calendar, Video, Image, Database, Menu, X,
+    Users,
+    Github
 } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import { PATHS } from '../../../routes/paths';
@@ -73,9 +75,27 @@ const HeaderNavDropdown = ({ label, links, isOpen, onToggle, onClose, comingSoon
                     </div>
                 ) : (
                     <div className="py-2">
-                        {links.map(({ icon: Icon, label: linkLabel, path }) => {
-                            const isActive = location.pathname === path;
-                            return (
+                        {links.map(({ icon: Icon, label: linkLabel, path, isExternal }) => {
+                            const isActive = !isExternal && location.pathname === path;
+                            const content = (
+                                <>
+                                    <Icon size={16} className={isActive ? "text-accent-primary" : ""} />
+                                    <span className="font-medium">{linkLabel}</span>
+                                </>
+                            );
+
+                            return isExternal ? (
+                                <a 
+                                    key={path} 
+                                    href={path} 
+                                    target="_blank" 
+                                    rel="noreferrer"
+                                    onClick={onClose}
+                                    className="flex items-center gap-3 px-4 py-2.5 text-sm no-underline text-text-muted hover:text-text-primary hover:bg-surface-sunken/60 transition-colors duration-150"
+                                >
+                                    {content}
+                                </a>
+                            ) : (
                                 <Link 
                                     key={path} 
                                     to={path} 
@@ -87,8 +107,7 @@ const HeaderNavDropdown = ({ label, links, isOpen, onToggle, onClose, comingSoon
                                             : "text-text-muted hover:text-text-primary hover:bg-surface-sunken/60"
                                     )}
                                 >
-                                    <Icon size={16} className={isActive ? "text-accent-primary" : ""} />
-                                    <span className="font-medium">{linkLabel}</span>
+                                    {content}
                                 </Link>
                             );
                         })}
@@ -136,7 +155,6 @@ const NAV_COMMUNITY = [
 ];
 
 const NAV_WORKSPACES = [];
-
 
 export const Header = () => {
     const location = useLocation();
@@ -252,8 +270,8 @@ export const Header = () => {
                         <GuestActions />
                     )}
 
-                    {/* Mobile Hamburger (Authenticated Only) */}
-                    {isAuthenticated && !isFocusMode && (
+                    {/* Mobile Hamburger */}
+                    {(!isFocusMode) && (
                         <button 
                             onClick={() => setMobileOpen(!mobileOpen)} 
                             className="lg:hidden p-2 text-text-muted hover:text-text-primary transition-colors cursor-pointer"
@@ -264,63 +282,95 @@ export const Header = () => {
                 </div>
 
                 {/* Mobile Slide-Down Panel */}
-                {isAuthenticated && !isFocusMode && (
+                {(!isFocusMode) && (
                     <div className={cn(
                         "fixed top-16 left-0 right-0 bg-surface/98 backdrop-blur-2xl border-b border-border-subtle",
                         "transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden lg:hidden z-40",
                         mobileOpen ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
                     )}>
                         <div className="p-5 flex flex-col gap-1 overflow-y-auto max-h-[70vh]">
-                            {/* Learning */}
-                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Learning</div>
-                            {NAV_LEARNING.map(({ icon: Icon, label, path }) => (
-                                <Link key={path} to={path} onClick={closeAll} className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
-                                    location.pathname === path 
-                                        ? "text-accent-primary bg-accent-primary/5"
-                                        : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
-                                )}>
-                                    <Icon size={16} /> {label}
-                                </Link>
-                            ))}
+                            {isAuthenticated ? (
+                                <>
+                                    {/* Learning */}
+                                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Learning</div>
+                                    {NAV_LEARNING.map(({ icon: Icon, label, path }) => (
+                                        <Link key={path} to={path} onClick={closeAll} className={cn(
+                                            "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
+                                            location.pathname === path 
+                                                ? "text-accent-primary bg-accent-primary/5"
+                                                : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
+                                        )}>
+                                            <Icon size={16} /> {label}
+                                        </Link>
+                                    ))}
 
-                            <div className="h-px bg-border-subtle/40 my-2" />
+                                    <div className="h-px bg-border-subtle/40 my-2" />
 
-                            {/* Community */}
-                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Community</div>
-                            {NAV_COMMUNITY.map(({ icon: Icon, label, path }) => (
-                                <Link key={path} to={path} onClick={closeAll} className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
-                                    location.pathname === path 
-                                        ? "text-accent-primary bg-accent-primary/5"
-                                        : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
-                                )}>
-                                    <Icon size={16} /> {label}
-                                </Link>
-                            ))}
+                                    {/* Community */}
+                                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Community</div>
+                                    {NAV_COMMUNITY.map(({ icon: Icon, label, path }) => (
+                                        <Link key={path} to={path} onClick={closeAll} className={cn(
+                                            "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
+                                            location.pathname === path 
+                                                ? "text-accent-primary bg-accent-primary/5"
+                                                : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
+                                        )}>
+                                            <Icon size={16} /> {label}
+                                        </Link>
+                                    ))}
 
-                            <div className="h-px bg-border-subtle/40 my-2" />
+                                    <div className="h-px bg-border-subtle/40 my-2" />
 
-                            {/* Workspaces */}
-                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Workspaces</div>
-                            <div className="px-3 py-4 flex flex-col gap-1 bg-accent-primary/5 rounded-xl border border-accent-primary/10">
-                                <p className="text-sm font-bold text-accent-primary tracking-tight">Coming Soon</p>
-                                <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest leading-relaxed">Inshaa Allah</p>
-                            </div>
+                                    {/* Workspaces */}
+                                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Workspaces</div>
+                                    <div className="px-3 py-4 flex flex-col gap-1 bg-accent-primary/5 rounded-xl border border-accent-primary/10">
+                                        <p className="text-sm font-bold text-accent-primary tracking-tight">Coming Soon</p>
+                                        <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest leading-relaxed">Inshaa Allah</p>
+                                    </div>
 
-                            {/* CMS — Publisher Only (Mobile) */}
-                            <PermissionGate allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                                <div className="h-px bg-border-subtle/40 my-2" />
-                                <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Management</div>
-                            <Link to={PATHS.CONTENT_MANAGEMENT} onClick={closeAll} className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
-                                location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT)
-                                    ? "text-accent-primary bg-accent-primary/5"
-                                    : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
-                            )}>
-                                <Database size={16} /> Content Management
-                            </Link>
-                            </PermissionGate>
+                                    {/* CMS — Publisher Only (Mobile) */}
+                                    <PermissionGate allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                                        <div className="h-px bg-border-subtle/40 my-2" />
+                                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Management</div>
+                                    <Link to={PATHS.CONTENT_MANAGEMENT} onClick={closeAll} className={cn(
+                                        "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
+                                        location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT)
+                                            ? "text-accent-primary bg-accent-primary/5"
+                                            : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
+                                    )}>
+                                        <Database size={16} /> Content Management
+                                    </Link>
+                                    </PermissionGate>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Platform</div>
+                                    {GUEST_NAV_PLATFORM.map(({ icon: Icon, label, path }) => (
+                                        <Link key={path} to={path} onClick={closeAll} className="flex items-center gap-3 px-3 py-3 text-sm text-text-muted no-underline border-b border-border-subtle/30">
+                                            <Icon size={16} /> {label}
+                                        </Link>
+                                    ))}
+
+                                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-6 pb-1">Resources</div>
+                                    {GUEST_NAV_RESOURCES.map(({ icon: Icon, label, path, isExternal }) => (
+                                        isExternal ? (
+                                            <a key={path} href={path} target="_blank" rel="noreferrer" onClick={closeAll} className="flex items-center gap-3 px-3 py-3 text-sm text-text-muted no-underline border-b border-border-subtle/30">
+                                                <Icon size={16} /> {label}
+                                            </a>
+                                        ) : (
+                                            <Link key={path} to={path} onClick={closeAll} className="flex items-center gap-3 px-3 py-3 text-sm text-text-muted no-underline border-b border-border-subtle/30">
+                                                <Icon size={16} /> {label}
+                                            </Link>
+                                        )
+                                    ))}
+
+                                    <div className="mt-10 px-3">
+                                        <Link to={PATHS.LOGIN} onClick={closeAll} className="btn-primary w-full justify-center py-4 text-sm">
+                                            Get Started
+                                        </Link>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 )}

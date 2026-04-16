@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@core/utils/cn';
 import { MoreHorizontal, Clock } from 'lucide-react';
 import { InteractionBar } from '@presentation/shared/components/interactions/InteractionBar';
@@ -11,11 +11,28 @@ import { PATHS } from '@presentation/routes/paths';
  * FeedItem: Individual content card in the feed.
  * Displays data mapped from BlogEntity.
  */
-export const FeedItem = ({ blog, className, rank }) => {
+export const FeedItem = ({ blog, className, rank, highlight }) => {
     const [showOptions, setShowOptions] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isTruncated, setIsTruncated] = useState(false);
+    const descriptionRef = useRef(null);
     const navigate = useNavigate();
 
     if (!blog) return null;
+    
+    // Detect truncation on mount and when description changes
+    useEffect(() => {
+        const checkTruncation = () => {
+            if (descriptionRef.current) {
+                const isOver = descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight;
+                setIsTruncated(isOver);
+            }
+        };
+
+        checkTruncation();
+        window.addEventListener('resize', checkTruncation);
+        return () => window.removeEventListener('resize', checkTruncation);
+    }, [blog.description, isExpanded]);
 
 
 
@@ -51,6 +68,8 @@ export const FeedItem = ({ blog, className, rank }) => {
     } else if (rank === 3) {
         podiumStyles = "border-amber-700/50 bg-amber-700/5 shadow-[0_0_15px_rgba(180,83,9,0.1)]";
         badge = <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-800 flex items-center justify-center text-background font-bold shadow-lg border-2 border-background">3</div>;
+    } else if (highlight) {
+        podiumStyles = "border-accent-primary/50 bg-accent-primary/5 shadow-[0_0_40px_rgba(var(--accent-primary-rgb),0.1)] ring-1 ring-accent-primary/20";
     }
     console.log(blog);
 
@@ -121,17 +140,42 @@ export const FeedItem = ({ blog, className, rank }) => {
             <div className="flex flex-col gap-4">
 
                 
-                {/* Constrained Rich Text Preview */}
-                <div className="relative max-h-32 overflow-hidden after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-12 after:bg-gradient-to-t after:from-surface-dark after:to-transparent">
-                    {blog.description ? (
-                        <RichBlocksPreviewer 
-                            content={blog.description} 
-                            className="text-text-muted text-sm" 
-                        />
-                    ) : (
-                        <p className="text-text-muted text-sm leading-relaxed">
-                            Exploring the depths of clean architecture and futuristic design systems...
-                        </p>
+                {/* Constrained Rich Text Preview with Read More */}
+                <div className="flex flex-col gap-2 relative">
+                    <div 
+                        ref={descriptionRef}
+                        className={cn(
+                            "relative transition-all duration-300 ease-in-out",
+                            !isExpanded && "line-clamp-2 overflow-hidden"
+                        )}
+                    >
+                        {blog.description ? (
+                            <RichBlocksPreviewer 
+                                content={blog.description} 
+                                className="text-text-muted text-sm" 
+                            />
+                        ) : (
+                            <p className="text-text-muted text-sm leading-relaxed">
+                                Exploring the depths of clean architecture and futuristic design systems...
+                            </p>
+                        )}
+                        
+                        {/* Gradient overlay only when truncated and not expanded */}
+                        {!isExpanded && isTruncated && (
+                            <div className="absolute bottom-0 left-0 w-full h-6 bg-gradient-to-t from-surface-dark to-transparent pointer-events-none" />
+                        )}
+                    </div>
+                    
+                    {(isTruncated || isExpanded) && (
+                        <button 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsExpanded(!isExpanded);
+                            }}
+                            className="text-accent-primary text-[10px] font-bold uppercase tracking-wider hover:text-accent-primary/80 transition-colors w-fit pt-1"
+                        >
+                            {isExpanded ? 'Show Less' : 'Read More'}
+                        </button>
                     )}
                 </div>
 

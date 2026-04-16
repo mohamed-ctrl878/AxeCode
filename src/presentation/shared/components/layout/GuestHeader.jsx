@@ -8,14 +8,16 @@ import {
     Calendar, 
     Video, 
     FileText,
-    Sparkles,
-    Briefcase,
     Menu,
     X,
+    Sparkles,
     FileCode2,
     Headphones,
     Zap,
-    Globe
+    Globe,
+    Users,
+    Github,
+    LayoutDashboard
 } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import { PATHS } from '@presentation/routes/paths';
@@ -76,7 +78,7 @@ const DropdownMenu = ({ label, children, isOpen, onToggle, onClose }) => {
 /**
  * DropdownItem: A single item inside a DropdownMenu.
  */
-const DropdownItem = ({ icon: Icon, label, description, to, onClick }) => {
+const DropdownItem = ({ icon: Icon, label, description, to, onClick, isExternal }) => {
     const content = (
         <div className="flex items-start gap-3 px-4 py-3 hover:bg-surface-sunken/60 transition-colors duration-150 cursor-pointer group">
             <div className="mt-0.5 w-8 h-8 rounded-lg bg-accent-primary/8 flex items-center justify-center shrink-0 group-hover:bg-accent-primary/15 transition-colors">
@@ -90,6 +92,20 @@ const DropdownItem = ({ icon: Icon, label, description, to, onClick }) => {
             </div>
         </div>
     );
+
+    if (isExternal) {
+        return (
+            <a 
+                href={to} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="no-underline block" 
+                onClick={onClick}
+            >
+                {content}
+            </a>
+        );
+    }
 
     if (to) {
         return <Link to={to} className="no-underline block" onClick={onClick}>{content}</Link>;
@@ -129,6 +145,60 @@ export const GuestHeader = () => {
 
                 {/* Center: Navigation — Desktop */}
                 <nav className="hidden lg:flex items-center gap-1">
+                    {/* Platform Dropdown */}
+                    <DropdownMenu 
+                        label="Platform" 
+                        isOpen={openDropdown === 'platform'} 
+                        onToggle={() => toggleDropdown('platform')}
+                        onClose={() => setOpenDropdown(null)}
+                    >
+                        <DropdownItem 
+                            icon={BookOpen} 
+                            label="Courses" 
+                            description="Deep-dive manuscripts and learning circuits" 
+                            to={`${PATHS.DOCUMENTATION}#Learning`} 
+                            onClick={closeAll} 
+                        />
+                        <DropdownItem 
+                            icon={Users} 
+                            label="Workspaces" 
+                            description="Upcoming collaborative 'Forge' environments" 
+                            to={`${PATHS.DOCUMENTATION}#Workspaces`} 
+                            onClick={closeAll} 
+                        />
+                        <DropdownItem 
+                            icon={Map} 
+                            label="Roadmaps" 
+                            description="Career-guided scholarly skill trees" 
+                            to={`${PATHS.DOCUMENTATION}#Learning`} 
+                            onClick={closeAll} 
+                        />
+                        <DropdownItem 
+                            icon={LayoutDashboard} 
+                            label="Community" 
+                            description="Sharing the craft in the engineering Agora" 
+                            to={`${PATHS.DOCUMENTATION}#Community`} 
+                            onClick={closeAll} 
+                        />
+                        <DropdownItem 
+                            icon={Calendar} 
+                            label="Events" 
+                            description="Professional salons and engineering workshops" 
+                            to={`${PATHS.DOCUMENTATION}#Events`} 
+                            onClick={closeAll} 
+                        />
+                    </DropdownMenu>
+
+                    {/* What's New */}
+                    <Link 
+                        to={`${PATHS.DOCUMENTATION}#Workspaces`} 
+                        className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-sunken/50 rounded-lg transition-all duration-200 no-underline"
+                        onClick={closeAll}
+                    >
+                        <Sparkles size={14} className="text-accent-primary" />
+                        What's New
+                    </Link>
+
                     {/* Resources Dropdown */}
                     <DropdownMenu 
                         label="Resources" 
@@ -136,52 +206,22 @@ export const GuestHeader = () => {
                         onToggle={() => toggleDropdown('resources')}
                         onClose={() => setOpenDropdown(null)}
                     >
-                        <DropdownItem icon={FileCode2} label="Documentation" description="Guides, tutorials, and references" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        <DropdownItem icon={FileText} label="Blog" description="Latest articles and insights" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        <DropdownItem icon={Globe} label="API Reference" description="Integrate and extend the platform" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        <DropdownItem icon={Headphones} label="Support" description="Get help from the community" to={PATHS.COMING_SOON} onClick={closeAll} />
+                        <DropdownItem 
+                            icon={FileText} 
+                            label="Documentation" 
+                            description="The definitive Scholar's Manual" 
+                            to={PATHS.DOCUMENTATION} 
+                            onClick={closeAll} 
+                        />
+                        <DropdownItem 
+                            icon={Github} 
+                            label="Support" 
+                            description="Contribution & Backend Repository" 
+                            to="https://github.com/mohamed-ctrl878/AxeCode_backend" 
+                            isExternal={true}
+                            onClick={closeAll} 
+                        />
                     </DropdownMenu>
-
-                    {/* Features Dropdown */}
-                    <DropdownMenu 
-                        label="Features" 
-                        isOpen={openDropdown === 'features'} 
-                        onToggle={() => toggleDropdown('features')}
-                        onClose={() => setOpenDropdown(null)}
-                    >
-                        <div className="px-4 py-2 mb-1">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/60">Learning</span>
-                        </div>
-                        <DropdownItem icon={BookOpen} label="Courses" description="Structured learning paths" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        <DropdownItem icon={Code2} label="Problems" description="Hands-on coding challenges" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        <DropdownItem icon={Map} label="Roadmaps" description="Career-guided skill trees" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        
-                        <div className="mx-4 my-2 h-px bg-border-subtle/60" />
-                        
-                        <div className="px-4 py-2 mb-1">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/60">Community</span>
-                        </div>
-                        <DropdownItem icon={Calendar} label="Events" description="Workshops and meetups" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        <DropdownItem icon={Video} label="Live Streams" description="Real-time coding sessions" to={PATHS.COMING_SOON} onClick={closeAll} />
-                        <DropdownItem icon={FileText} label="Articles" description="Community-written insights" to={PATHS.COMING_SOON} onClick={closeAll} />
-                    </DropdownMenu>
-
-                    {/* What's New */}
-                    <Link 
-                        to={PATHS.COMING_SOON} 
-                        className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-sunken/50 rounded-lg transition-all duration-200 no-underline"
-                    >
-                        <Sparkles size={14} className="text-accent-primary" />
-                        What's New
-                    </Link>
-
-                    {/* Career */}
-                    <Link 
-                        to={PATHS.COMING_SOON} 
-                        className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-sunken/50 rounded-lg transition-all duration-200 no-underline"
-                    >
-                        Career
-                    </Link>
                 </nav>
 
                 {/* Right: Auth Actions — Desktop */}
@@ -216,44 +256,40 @@ export const GuestHeader = () => {
                 )}>
                     <div className="p-6 flex flex-col gap-2 overflow-y-auto max-h-[70vh]">
                         {/* Mobile Nav Sections */}
-                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Resources</div>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                            <FileCode2 size={16} className="text-accent-primary" /> Documentation
-                        </Link>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                            <FileText size={16} className="text-accent-primary" /> Blog
-                        </Link>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                            <Globe size={16} className="text-accent-primary" /> API Reference
-                        </Link>
-
-                        <div className="h-px bg-border-subtle/40 my-2" />
-
-                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Features</div>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
+                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Platform</div>
+                        <Link to={`${PATHS.DOCUMENTATION}#Learning`} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5">
                             <BookOpen size={16} className="text-accent-primary" /> Courses
                         </Link>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                            <Code2 size={16} className="text-accent-primary" /> Problems
+                        <Link to={`${PATHS.DOCUMENTATION}#Workspaces`} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5">
+                            <Users size={16} className="text-accent-primary" /> Workspaces
                         </Link>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
+                        <Link to={`${PATHS.DOCUMENTATION}#Learning`} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5">
                             <Map size={16} className="text-accent-primary" /> Roadmaps
                         </Link>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                            <Calendar size={16} className="text-accent-primary" /> Events
+                        <Link to={`${PATHS.DOCUMENTATION}#Community`} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5">
+                            <LayoutDashboard size={16} className="text-accent-primary" /> Community
                         </Link>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                            <Video size={16} className="text-accent-primary" /> Live Streams
+                        <Link to={`${PATHS.DOCUMENTATION}#Events`} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5">
+                            <Calendar size={16} className="text-accent-primary" /> Events
                         </Link>
 
                         <div className="h-px bg-border-subtle/40 my-2" />
 
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
+                        <Link to={`${PATHS.DOCUMENTATION}#Workspaces`} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5">
                             <Sparkles size={16} className="text-accent-primary" /> What's New
                         </Link>
-                        <Link to={PATHS.COMING_SOON} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                            <Briefcase size={16} className="text-accent-primary" /> Career
+                        <Link to={PATHS.DOCUMENTATION} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5">
+                            <FileText size={16} className="text-accent-primary" /> Documentation
                         </Link>
+                        <a 
+                            href="https://github.com/mohamed-ctrl878/AxeCode_backend" 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            onClick={closeAll} 
+                            className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline border-b border-white/5"
+                        >
+                            <Github size={16} className="text-accent-primary" /> Support
+                        </a>
 
                         {/* Mobile Auth Buttons */}
                         <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-border-subtle/40">

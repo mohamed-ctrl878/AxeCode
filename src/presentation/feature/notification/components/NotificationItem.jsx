@@ -43,10 +43,15 @@ export const NotificationItem = ({ notification, onRead, onClick }) => {
 
         // Determine navigation target
         let targetUrl = notification.actionUrl;
+        const docId = notification.contentDocId;
+        const contentType = notification.contentType?.toLowerCase();
 
-        if (!targetUrl && notification.contentType && notification.contentDocId) {
-            const docId = notification.contentDocId;
-            switch (notification.contentType) {
+        console.log('[NotificationNav] Context:', { type: notification.type, contentType, docId, actionUrl: targetUrl });
+        window.__lastNav = { contentType, docId, timestamp: new Date() };
+
+        // If we have content metadata, build the structured URL (prioritize over generic actionUrl for accuracy)
+        if (contentType && docId) {
+            switch (contentType) {
                 case 'course':
                     targetUrl = PATHS.COURSE_DETAILS.replace(':id', docId);
                     break;
@@ -57,10 +62,15 @@ export const NotificationItem = ({ notification, onRead, onClick }) => {
                     targetUrl = PATHS.ARTICLE_DETAILS.replace(':id', docId);
                     break;
                 case 'blog':
-                    targetUrl = PATHS.FEED; // Currently feed is the main hub for blogs
+                    targetUrl = PATHS.FEED_DETAILS.replace(':id', docId);
                     break;
             }
+        } else if (!targetUrl && contentType === 'blog') {
+            // Fallback for blogs without specific IDs
+            targetUrl = PATHS.FEED;
         }
+
+        console.log('[NotificationNav] Final Target:', targetUrl);
 
         if (targetUrl) {
             onClick(targetUrl);

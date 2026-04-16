@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 
 const SNIPPETS = {
-    javascript: `// AxeCode: Modular Intelligence
+    javascript: `// AxeCode: Modular JS
 function mergeSort(arr) {
     if (arr.length <= 1) return arr;
 
@@ -32,47 +32,57 @@ def merge_sort(arr):
     return merge(left, right)
 
 def merge(left, right):
-    result = []
-    while left and right:
-        if left[0] < right[0]:
-            result.append(left.pop(0))
+    res, i, j = [], 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            res.append(left[i]); i += 1
         else:
-            result.append(right.pop(0))
-    return result + left + right`,
-    cpp: `// AxeCode: Performance Node
+            res.append(right[j]); j += 1
+    return res + left[i:] + right[j:]`,
+    cpp: `// AxeCode: Performance C++
 #include <vector>
 using namespace std;
 
-void merge(vector<int>& arr, int l, int m, int r) {
-    int n1 = m - l + 1, n2 = r - m;
-    vector<int> L(n1), R(n2);
-    for (int i = 0; i < n1; i++) L[i] = arr[l + i];
-    for (int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
-    // Conquer phase...
+void merge(vector<int>& a, int l, int m, int r) {
+    vector<int> tmp;
+    int i = l, j = m + 1;
+    while (i <= m && j <= r) {
+        if (a[i] <= a[j]) tmp.push_back(a[i++]);
+        else tmp.push_back(a[j++]);
+    }
+    while (i <= m) tmp.push_back(a[i++]);
+    while (j <= r) tmp.push_back(a[j++]);
+    for (int k = 0; k < tmp.size(); k++) a[l+k] = tmp[k];
 }
 
-void mergeSort(vector<int>& arr, int l, int r) {
+void mergeSort(vector<int>& a, int l, int r) {
     if (l < r) {
         int m = l + (r - l) / 2;
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-        merge(arr, l, m, r);
+        mergeSort(a, l, m);
+        mergeSort(a, m + 1, r);
+        merge(a, l, m, r);
     }
 }`,
-    java: `// AxeCode: Enterprise Logic
+    java: `// AxeCode: Enterprise Java
 public class SortEngine {
-    public void mergeSort(int[] arr, int n) {
+    public void mergeSort(int[] a, int n) {
         if (n < 2) return;
         int mid = n / 2;
-        int[] l = new int[mid];
-        int[] r = new int[n - mid];
+        int[] l = new int[mid], r = new int[n - mid];
+        for (int i = 0; i < mid; i++) l[i] = a[i];
+        for (int i = mid; i < n; i++) r[i-mid] = a[i];
+        mergeSort(l, mid); mergeSort(r, n - mid);
+        merge(a, l, r, mid, n - mid);
+    }
 
-        for (int i = 0; i < mid; i++) l[i] = arr[i];
-        for (int i = mid; i < n; i++) r[i - mid] = arr[i];
-
-        mergeSort(l, mid);
-        mergeSort(r, n - mid);
-        merge(arr, l, r, mid, n - mid);
+    private void merge(int[] a, int[] l, int[] r, int left, int right) {
+        int i = 0, j = 0, k = 0;
+        while (i < left && j < right) {
+            if (l[i] <= r[j]) a[k++] = l[i++];
+            else a[k++] = r[j++];
+        }
+        while (i < left) a[k++] = l[i++];
+        while (j < right) a[k++] = r[j++];
     }
 }`
 };
@@ -130,16 +140,17 @@ function highlightCode(code, lang) {
     let escaped = escapeHtml(code);
     const placeholders = [];
 
+    // Temporary store matching tokens to avoid nested replacements
     for (const rule of rules) {
         escaped = escaped.replace(rule.pattern, (match) => {
             const idx = placeholders.length;
             placeholders.push(`<span class="${rule.className}">${match}</span>`);
-            return `\x00${idx}\x00`;
+            return `__SNK_TOK_${idx}__`;
         });
     }
 
-    // Restore placeholders
-    return escaped.replace(/\x00(\d+)\x00/g, (_, idx) => placeholders[idx]);
+    // Restore all tokens accurately
+    return escaped.replace(/__SNK_TOK_(\d+)__/g, (_, idx) => placeholders[idx]);
 }
 
 /**
