@@ -315,11 +315,16 @@ export const Header = () => {
                             </Link>
                             </PermissionGate>
 
-                            {/* Mobile: Messages & Search */}
+                            {/* Mobile: Search & Notifications */}
                             <div className="h-px bg-border-subtle/40 my-2" />
-                            {/* <Link to={PATHS.MESSAGES} onClick={closeAll} className="flex items-center gap-3 px-3 py-2.5 text-sm text-text-muted hover:text-text-primary hover:bg-surface-sunken rounded-lg no-underline">
-                                <MessageSquare size={16} /> Messages
-                            </Link> */}
+                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Quick Actions</div>
+                            <div className="px-3 py-2">
+                                <SearchTerminal />
+                            </div>
+                            <div className="px-3 py-2 flex items-center gap-3 text-sm text-text-muted">
+                                <NotificationBell />
+                                <span className="font-medium">Notifications</span>
+                            </div>
                         </div>
                     </div>
                 )}
