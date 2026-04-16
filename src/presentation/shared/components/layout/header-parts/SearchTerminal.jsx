@@ -27,11 +27,12 @@ const getImageUrl = (url) => {
  * SearchTerminal: Extracted search bar component for the Header.
  * Handles the visual representation of the global search input and specific entity tagging.
  */
-export const SearchTerminal = () => {
+export const SearchTerminal = ({ mobile = false }) => {
     const [activeTagId, setActiveTagId] = useState('course');
     const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [isFocused, setIsFocused] = useState(false);
+    const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
     
     // Initialize Use Cases
     const { searchUsers, users, loading: loadingUsers } = useSearchUsersByQuery();
@@ -89,6 +90,135 @@ export const SearchTerminal = () => {
         setQuery('');
         navigate(path);
     };
+
+    if (mobile) {
+        return (
+            <div ref={resultsRef}>
+                <button 
+                    onClick={() => setIsMobileSearchOpen(true)}
+                    className="p-2 text-text-muted hover:text-text-primary transition-colors cursor-pointer rounded-xl flex items-center justify-center"
+                >
+                    <Search size={22} className="text-text-primary" />
+                </button>
+
+                {isMobileSearchOpen && (
+                    <div className="fixed inset-0 z-[100] bg-surface/98 backdrop-blur-3xl flex flex-col animate-in fade-in zoom-in-[0.98] duration-200">
+                        {/* Header bar */}
+                        <div className="flex items-center gap-2 p-3 border-b border-border-subtle bg-surface-elevated shadow-sm">
+                            <div className="flex-1 relative flex items-center h-10 bg-surface-dark rounded-xl px-3 border border-border-subtle focus-within:border-accent-primary transition-colors">
+                                <Search className={isFocused ? 'text-accent-primary' : 'text-text-muted'} size={16} />
+                                <input 
+                                    type="text" 
+                                    autoFocus
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    onFocus={() => setIsFocused(true)}
+                                    placeholder={`Search AxeCode...`} 
+                                    className="w-full h-full bg-transparent pl-3 pr-2 text-sm outline-none placeholder:text-text-muted/50 text-text-primary focus:bg-transparent"
+                                />
+                            </div>
+                            <button 
+                                onClick={() => { setIsMobileSearchOpen(false); setQuery(''); setIsFocused(false); }} 
+                                className="text-text-muted hover:text-text-primary px-2 py-1 text-sm font-medium"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+
+                        {/* Search Categories */}
+                        {!query && (
+                            <div className="px-4 pt-6 pb-2">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted mb-4">Categories</p>
+                                <div className="flex flex-col gap-2">
+                                    {searchTags.map((tag) => (
+                                        <button
+                                            key={tag.id}
+                                            onClick={() => {
+                                                setActiveTagId(tag.id);
+                                                // Optional: keep it open but set tag
+                                            }}
+                                            className={`w-full flex items-center justify-between gap-3 p-4 rounded-xl border transition-all ${activeTagId === tag.id ? 'border-accent-primary bg-accent-primary/5' : 'border-border-subtle bg-surface hover:border-border-subtle/80'}`}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${activeTagId === tag.id ? 'bg-accent-primary/20 text-accent-primary' : 'bg-surface-sunken text-text-muted'}`}>
+                                                    <tag.icon size={18} />
+                                                </div>
+                                                <div className="flex flex-col text-left">
+                                                    <span className={`text-sm font-bold ${activeTagId === tag.id ? 'text-accent-primary' : 'text-text-primary'}`}>{tag.label}s</span>
+                                                    <span className="text-[11px] text-text-muted">Search for {tag.label.toLowerCase()}s</span>
+                                                </div>
+                                            </div>
+                                            {activeTagId === tag.id && <ChevronRight size={16} className="text-accent-primary" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Results */}
+                        {query.trim() && (
+                            <div className="flex-1 overflow-y-auto w-full px-2 pt-2 pb-6 custom-scrollbar">
+                                {isLoading ? (
+                                    <div className="p-12 flex flex-col items-center justify-center text-text-muted gap-4">
+                                        <div className="w-8 h-8 border-2 border-accent-primary border-t-transparent rounded-full animate-spin" />
+                                        <span className="font-mono text-xs uppercase tracking-wider opacity-80">Searching...</span>
+                                    </div>
+                                ) : results.length > 0 ? (
+                                    <div className="flex flex-col gap-1">
+                                        <div className="px-3 pb-2 pt-2">
+                                            <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">
+                                                {results.length} Results
+                                            </span>
+                                        </div>
+                                        {results.map((item, idx) => {
+                                            const title = activeTag.id === 'user' ? item.username : item.title;
+                                            const subtitle = activeTag.id === 'user' ? item.email : (item?.category?.name || `${activeTag.label} Record`);
+                                            const hasImage = activeTag.id === 'user' ? !!item?.avatar?.url : !!item?.thumbnail?.url;
+                                            const imageUrl = activeTag.id === 'user' ? item?.avatar?.url : item?.thumbnail?.url;
+
+                                            return (
+                                                <button
+                                                    key={item?.id || item?.documentId || item?.uid || idx}
+                                                    onClick={() => handleResultClick(item)}
+                                                    className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-surface-sunken border border-transparent hover:border-border-subtle/50 transition-colors text-left"
+                                                >
+                                                    <div className="w-12 h-12 rounded-xl bg-surface-sunken flex flex-shrink-0 items-center justify-center text-text-muted ring-1 ring-border-subtle/50 overflow-hidden">
+                                                        {hasImage ? (
+                                                            <img src={getImageUrl(imageUrl)} alt={title} className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            <activeTag.icon size={20} />
+                                                        )}
+                                                    </div>
+                                                    <div className="flex flex-col flex-1 min-w-0">
+                                                        <span className="text-sm font-semibold text-text-primary truncate">
+                                                            {title}
+                                                        </span>
+                                                        <span className="text-xs text-text-muted truncate mt-0.5">
+                                                            {subtitle}
+                                                        </span>
+                                                    </div>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <div className="p-12 flex flex-col items-center justify-center text-center text-text-muted">
+                                        <div className="w-14 h-14 rounded-full bg-surface-sunken flex items-center justify-center mb-4 ring-1 ring-border-subtle/50">
+                                            <Search size={24} className="opacity-50 text-accent-primary" />
+                                        </div>
+                                        <p className="text-base font-semibold text-text-primary mb-1">No matches found</p>
+                                        <p className="text-xs max-w-[200px] opacity-70 leading-relaxed">
+                                            We couldn't find any {activeTag.label.toLowerCase()} matching "<span className="text-accent-primary">{query}</span>"
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+        );
+    }
 
     return (
         <div className="flex-1 max-w-xl relative" ref={resultsRef}>

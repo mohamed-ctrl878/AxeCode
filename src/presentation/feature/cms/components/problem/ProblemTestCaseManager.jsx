@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useManageTestCases } from '@domain/useCase/useManageTestCases';
 import { Plus, Trash2, Eye, EyeOff, Save, Loader2, Database, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { cn } from '@core/utils/cn';
 
 /**
@@ -37,7 +38,7 @@ export const ProblemTestCaseManager = ({ problemId }) => {
             setIsAdding(false);
             e.target.reset();
         } catch (err) {
-            alert("Invalid JSON format for input/output");
+            toast.error("Invalid JSON format for input/output");
         }
     };
 
@@ -196,7 +197,7 @@ const TestCaseCard = ({ testCase, onUpdate, onDelete, isBusy, index }) => {
             });
             setIsExpanded(false);
         } catch (err) {
-            alert("Invalid JSON format");
+            toast.error("Invalid JSON format");
         }
     };
 

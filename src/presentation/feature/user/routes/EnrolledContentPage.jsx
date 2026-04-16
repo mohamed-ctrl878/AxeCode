@@ -6,6 +6,7 @@ import { cn } from '@core/utils/cn';
 import { Link, useParams, useNavigate, Navigate } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
 import { QRCodeSVG } from 'qrcode.react';
+import { PageLoader } from '@presentation/shared/components/loaders/PageLoader';
 
 /**
  * EnrolledContentPage: Displays the user's purchased courses and events.
@@ -104,7 +105,7 @@ const EnrolledContentPage = () => {
                             key={tab.id}
                             onClick={() => navigate(`${PATHS.ENROLLED_CONTENT}/${tab.id}`)}
                             className={cn(
-                                "flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300",
+                                "flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex-shrink-0 whitespace-nowrap",
                                 isActive 
                                     ? "bg-surface shadow-sm text-accent-primary ring-1 ring-border-subtle" 
                                     : "text-text-muted hover:text-text-primary hover:bg-surface/50"
@@ -124,18 +125,20 @@ const EnrolledContentPage = () => {
             </div>
 
             {/* Content Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="md:col-span-12">
                 {isLoading ? (
-                    // Skeleton Loading
-                    [1, 2, 3].map(i => (
-                        <div key={i} className="h-64 rounded-3xl bg-surface-sunken animate-pulse border border-border-subtle/30" />
-                    ))
+                    // Page Loading
+                    <div className="py-12">
+                        <PageLoader />
+                    </div>
                 ) : displayedItems.length > 0 ? (
-                    displayedItems.map((item) => (
-                        item.contentType === 'event'
-                            ? <EventTicketCard key={item.id} entitlement={item} />
-                            : <ContentCard key={item.id} entitlement={item} />
-                    ))
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {displayedItems.map((item) => (
+                            item.contentType === 'event'
+                                ? <EventTicketCard key={item.id} entitlement={item} />
+                                : <ContentCard key={item.id} entitlement={item} />
+                        ))}
+                    </div>
                 ) : (
                     <EmptyState type={activeTab} />
                 )}

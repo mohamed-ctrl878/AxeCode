@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { PlayCircle, ArrowRight, ShoppingCart, BookOpen, Clock, Users, Loader2 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { useCreateUserEntitlement } from '@domain/useCase/useCreateUserEntitlement';
 import { useNavigate } from 'react-router-dom';
 
@@ -43,7 +44,7 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
             }
         } else {
             // Paid course logic - placeholder for payment gateway
-            alert('This premium course requires a subscription or direct purchase. Payment integration coming soon.');
+            toast.error('This premium course requires a subscription or direct purchase. Payment integration coming soon.');
         }
     }, [course, createUserEntitlement, navigate, onRefresh]);
 

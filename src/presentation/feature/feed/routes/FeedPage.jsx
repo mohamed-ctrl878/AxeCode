@@ -6,6 +6,7 @@ import { FeedFilters } from '../components/FeedFilters';
 import { CreateBlogModal } from '../components/CreateBlogModal';
 import { useFetchBlogs } from '@domain/useCase/useFetchBlogs';
 import { FeedItemSkeleton } from '@presentation/shared/components/skeletons/FeedItemSkeleton';
+import { PageLoader } from '@presentation/shared/components/loaders/PageLoader';
 
 /**
  * FeedPage: Assembly of social and knowledge components.
@@ -69,16 +70,21 @@ const FeedPage = () => {
 
     return (
         <React.Fragment>
+            {/* Sidebar Column - Narrower layout (3 cols) */}
+            <aside className="md:col-span-3 flex flex-col gap-6 md:order-2">
+                <EventAds />
+                <FeedFilters activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+            </aside>
+
             {/* Main Feed Column - Wider layout (9 cols) */}
-            <div className="md:col-span-9 flex flex-col gap-6 order-2 md:order-1">
+            <div className="md:col-span-9 flex flex-col gap-6 md:order-1">
+
                 <CreatePost onClick={() => setIsCreateModalOpen(true)} />
                 
                 {/* Content skeletons shown during initial load / filter switch */}
                 {isInitialLoad && (
-                    <div className="flex flex-col gap-6">
-                        {[1, 2, 3].map((i) => (
-                            <FeedItemSkeleton key={i} />
-                        ))}
+                    <div className="py-12">
+                        <PageLoader />
                     </div>
                 )}
 
@@ -116,12 +122,6 @@ const FeedPage = () => {
                     </div>
                 )}
             </div>
-
-            {/* Sidebar Column - Narrower layout (3 cols) */}
-            <aside className="md:col-span-3 flex flex-col gap-6 order-1 md:order-2">
-                <EventAds />
-                <FeedFilters activeFilter={activeFilter} onFilterChange={handleFilterChange} />
-            </aside>
 
             {/* Modals */}
             <CreateBlogModal 

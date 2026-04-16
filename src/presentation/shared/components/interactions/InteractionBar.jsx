@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Share2 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { LikeButton } from './LikeButton';
 import { CommentButton } from './CommentButton';
 import { CommentModal } from './CommentModal';
@@ -24,8 +25,11 @@ export const InteractionBar = ({
         // Typically copies link to clipboard or opens device share UI
         const url = window.location.href; 
         navigator.clipboard.writeText(`${url}#${contentType}-${docId}`)
-            .then(() => alert('Link copied to clipboard'))
-            .catch(console.error);
+            .then(() => toast.success('Link copied to clipboard'))
+            .catch(err => {
+                console.error(err);
+                toast.error('Failed to copy link');
+            });
     };
 
     return (

@@ -3,6 +3,7 @@ import { ArticleCard } from '../components/ArticleCard';
 import { ArticleFilters } from '../components/ArticleFilters';
 import { useFetchArticles } from '@domain/useCase/useFetchArticles';
 import { ArticleCardSkeleton } from '@presentation/shared/components/skeletons/ArticleCardSkeleton';
+import { PageLoader } from '@presentation/shared/components/loaders/PageLoader';
 
 /**
  * ArticlePage: Full-screen layout with side filtration and vertical content list.
@@ -23,11 +24,16 @@ const ArticlePage = () => {
 
     return (
         <React.Fragment>
+            {/* Sidebar Column (Options) */}
+            <aside className="md:col-span-3 lg:col-span-3 md:order-2">
+                <ArticleFilters activeFilter={filter} onFilterChange={setFilter} />
+            </aside>
+
             {/* Main Content Column (Articles) */}
-            <div className="md:col-span-9 lg:col-span-9 order-2 md:order-2 flex flex-col gap-8">
+            <div className="md:col-span-9 lg:col-span-9 md:order-1 flex flex-col gap-8">
                 {loading && (
-                    <div className="flex flex-col gap-8">
-                        {[1, 2, 3].map(i => <ArticleCardSkeleton key={i} />)}
+                    <div className="py-12">
+                        <PageLoader />
                     </div>
                 )}
 
@@ -41,11 +47,6 @@ const ArticlePage = () => {
                     <ArticleCard key={article.id} article={article} />
                 ))}
             </div>
-
-            {/* Sidebar Column (Options) */}
-            <aside className="md:col-span-3 lg:col-span-3 order-1 md:order-1">
-                <ArticleFilters activeFilter={filter} onFilterChange={setFilter} />
-            </aside>
         </React.Fragment>
     );
 };

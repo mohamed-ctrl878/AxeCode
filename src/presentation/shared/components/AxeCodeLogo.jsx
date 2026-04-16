@@ -17,12 +17,12 @@ export const AxeCodeLogo = ({ isCollapsed = false, className, size = "text-xl" }
         )}>
             {/* Logo Text with 3-sided border (Left, Top, Bottom) - Flat & Sharp Style */}
             <div className={cn(
-                "border-y border-l border-near-black",
+                "border-y border-l border-text-primary",
                 "px-3 py-1 flex items-center justify-center transition-all duration-500 ease-in-out overflow-hidden",
                 isCollapsed ? "rounded-none min-w-[40px]" : "rounded-none"
             )}>
                 <span className={cn(
-                    "text-near-black font-bold tracking-tight whitespace-nowrap",
+                    "text-text-primary font-bold tracking-tight whitespace-nowrap",
                     size
                 )}>
                     {isCollapsed ? "AC" : "AxeCode"}
@@ -31,7 +31,7 @@ export const AxeCodeLogo = ({ isCollapsed = false, className, size = "text-xl" }
 
             {/* Terminal Symbol Prefix (Now on the Right) - Flat Style */}
             <span className={cn(
-                "flex items-center text-near-black font-bold transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] leading-none",
+                "flex items-center text-text-primary font-bold transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] leading-none",
                 isCollapsed ? "-ml-2" : "ml-2",
                 size
             )}>

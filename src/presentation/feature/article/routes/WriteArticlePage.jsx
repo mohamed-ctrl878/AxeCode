@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
 import { useCreateArticle } from '@domain/useCase/useCreateArticle';
+import { toast } from 'react-hot-toast';
 
 // Composed Editor Components (Clean Architecture)
 import { ArticlePublishHeader } from '../components/write/ArticlePublishHeader';
@@ -55,13 +56,13 @@ export const WriteArticlePage = () => {
     // --- Submission Handler ---
     const handlePublish = async () => {
         if (!title.trim()) {
-            alert('Title is required');
+            toast.error('Title is required');
             return;
         }
 
         try {
             await submitArticle({ title, content: blocks, tagIds: tags });
-            alert('Article Published Successfully!');
+            toast.success('Article Published Successfully!');
             navigate(PATHS.ARTICLES);
         } catch (err) {
             console.error("Failed to publish", err);

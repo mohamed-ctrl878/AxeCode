@@ -84,9 +84,13 @@ const AuthAwareHome = () => {
  */
 import ComingSoonPage from '../shared/pages/ComingSoonPage';
 
+import AxeCodeLogo from '../shared/components/AxeCodeLogo';
+
+import { PageLoader } from '../shared/components/loaders/PageLoader';
+
 export const AppRoutes = () => {
     return (
-        <Suspense fallback={null}>
+        <Suspense fallback={<PageLoader />}>
             <Routes>
                 {/* ═══ Public Routes (No Auth Required) ═══ */}
                 <Route path={PATHS.DASHBOARD} element={<AuthAwareHome />} />
