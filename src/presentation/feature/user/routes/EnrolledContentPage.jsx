@@ -93,7 +93,7 @@ const EnrolledContentPage = () => {
             </div>
 
             {/* Tabs Navigation */}
-            <div className="flex items-center gap-2 p-1 bg-surface-sunken/50 backdrop-blur-sm rounded-2xl w-fit border border-border-subtle/50">
+            <div className="flex items-center gap-2 p-1 bg-surface-sunken/50 backdrop-blur-sm rounded-2xl w-full sm:w-fit border border-border-subtle/50 overflow-x-auto scrollbar-hide">
                 {tabs.map((tab) => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;

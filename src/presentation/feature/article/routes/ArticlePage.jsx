@@ -24,7 +24,7 @@ const ArticlePage = () => {
     return (
         <React.Fragment>
             {/* Main Content Column (Articles) */}
-            <div className="md:col-span-9 lg:col-span-9 order-1 md:order-2 flex flex-col gap-8">
+            <div className="md:col-span-9 lg:col-span-9 order-2 md:order-2 flex flex-col gap-8">
                 {loading && (
                     <div className="flex flex-col gap-8">
                         {[1, 2, 3].map(i => <ArticleCardSkeleton key={i} />)}
@@ -43,7 +43,7 @@ const ArticlePage = () => {
             </div>
 
             {/* Sidebar Column (Options) */}
-            <aside className="md:col-span-3 lg:col-span-3 order-2 md:order-1">
+            <aside className="md:col-span-3 lg:col-span-3 order-1 md:order-1">
                 <ArticleFilters activeFilter={filter} onFilterChange={setFilter} />
             </aside>
         </React.Fragment>

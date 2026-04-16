@@ -70,7 +70,7 @@ const FeedPage = () => {
     return (
         <React.Fragment>
             {/* Main Feed Column - Wider layout (9 cols) */}
-            <div className="md:col-span-9 flex flex-col gap-6">
+            <div className="md:col-span-9 flex flex-col gap-6 order-2 md:order-1">
                 <CreatePost onClick={() => setIsCreateModalOpen(true)} />
                 
                 {/* Content skeletons shown during initial load / filter switch */}
@@ -118,7 +118,7 @@ const FeedPage = () => {
             </div>
 
             {/* Sidebar Column - Narrower layout (3 cols) */}
-            <aside className="md:col-span-3 flex flex-col gap-6">
+            <aside className="md:col-span-3 flex flex-col gap-6 order-1 md:order-2">
                 <EventAds />
                 <FeedFilters activeFilter={activeFilter} onFilterChange={handleFilterChange} />
             </aside>
