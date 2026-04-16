@@ -11,11 +11,16 @@ vi.mock('react-redux', () => ({
 
 // Mock AuthRepository
 const mockMe = vi.fn();
-vi.mock('../../src/infrastructure/repository/AuthRepository', () => ({
-    AuthRepository: vi.fn().mockImplementation(() => ({
-        me: mockMe
-    }))
-}));
+// Aligning the mock path with the alias used in the source code
+vi.mock('@infrastructure/repository/AuthRepository', () => {
+    return {
+        AuthRepository: class {
+            constructor() {
+                this.me = mockMe;
+            }
+        }
+    };
+});
 
 describe('useFetchMe Hook', () => {
     beforeEach(() => {

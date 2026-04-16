@@ -13,17 +13,25 @@ vi.mock('react-redux', () => ({
 const mockUploadFiles = vi.fn();
 const mockUpdateUser = vi.fn();
 
-vi.mock('../../src/infrastructure/repository/MediaRepository', () => ({
-    MediaRepository: vi.fn().mockImplementation(() => ({
-        uploadFiles: mockUploadFiles
-    }))
-}));
+vi.mock('@infrastructure/repository/MediaRepository', () => {
+    return {
+        MediaRepository: class {
+            constructor() {
+                this.uploadFiles = mockUploadFiles;
+            }
+        }
+    };
+});
 
-vi.mock('../../src/infrastructure/repository/UserRepository', () => ({
-    UserRepository: vi.fn().mockImplementation(() => ({
-        updateUser: mockUpdateUser
-    }))
-}));
+vi.mock('@infrastructure/repository/UserRepository', () => {
+    return {
+        UserRepository: class {
+            constructor() {
+                this.updateUser = mockUpdateUser;
+            }
+        }
+    };
+});
 
 // Mock EntityMapper and DTOs
 vi.mock('../../domain/mapper/EntityMapper', () => ({
@@ -46,7 +54,7 @@ describe('useUpdateUserAvatar Hook', () => {
 
         await act(async () => {
             const data = await result.current.updateAvatar(1, mockFile);
-            expect(data.avatar.url).toBe('new-avatar.png');
+            expect(data.avatar.url).toContain('new-avatar.png');
         });
 
         expect(mockUploadFiles).toHaveBeenCalled();

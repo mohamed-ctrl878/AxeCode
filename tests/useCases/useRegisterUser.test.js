@@ -15,27 +15,39 @@ const mockConfirmOtp = vi.fn();
 const mockResendOtp = vi.fn();
 const mockCheckAvailability = vi.fn();
 
-vi.mock('../../src/infrastructure/repository/AuthRepository', () => ({
-    AuthRepository: vi.fn().mockImplementation(() => ({
-        register: mockRegister,
-        confirmOtp: mockConfirmOtp,
-        resendOtp: mockResendOtp
-    }))
-}));
+vi.mock('@infrastructure/repository/AuthRepository', () => {
+    return {
+        AuthRepository: class {
+            constructor() {
+                this.register = mockRegister;
+                this.confirmOtp = mockConfirmOtp;
+                this.resendOtp = mockResendOtp;
+            }
+        }
+    };
+});
 
-vi.mock('../../src/infrastructure/repository/UserRepository', () => ({
-    UserRepository: vi.fn().mockImplementation(() => ({
-        checkAvailability: mockCheckAvailability
-    }))
-}));
+vi.mock('@infrastructure/repository/UserRepository', () => {
+    return {
+        UserRepository: class {
+            constructor() {
+                this.checkAvailability = mockCheckAvailability;
+            }
+        }
+    };
+});
 
 // Mock RegisterRequest
-vi.mock('../../src/infrastructure/DTO/Request/RegisterRequest', () => ({
-    RegisterRequest: vi.fn().mockImplementation((data) => ({
-        ...data,
-        validate: vi.fn()
-    }))
-}));
+vi.mock('@infrastructure/DTO/Request/RegisterRequest', () => {
+    return {
+        RegisterRequest: class {
+            constructor(data) {
+                Object.assign(this, data);
+                this.validate = vi.fn();
+            }
+        }
+    };
+});
 
 describe('useRegisterUser Hook', () => {
     beforeEach(() => {

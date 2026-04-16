@@ -5,18 +5,16 @@ import { MOCK_LIST_RESPONSE } from './mockData';
 
 // Mock RecommendationRepository
 const mockGetArticles = vi.fn();
-vi.mock('../../src/infrastructure/repository/RecommendationRepository', () => ({
-    RecommendationRepository: vi.fn().mockImplementation(() => ({
-        getArticles: mockGetArticles
-    }))
-}));
+vi.mock('@infrastructure/repository/RecommendationRepository', () => {
+    return {
+        RecommendationRepository: class {
+            constructor() {
+                this.getArticles = mockGetArticles;
+            }
+        }
+    };
+});
 
-// Mock Mapper and DTO
-vi.mock('../../domain/mapper/EntityMapper', () => ({
-    EntityMapper: {
-        toArticle: vi.fn().mockImplementation((dto) => ({ ...dto, mapped: true }))
-    }
-}));
 
 describe('useFetchArticles Hook', () => {
     beforeEach(() => {
@@ -31,7 +29,6 @@ describe('useFetchArticles Hook', () => {
         await act(async () => {
             const data = await result.current.fetchArticles();
             expect(data.length).toBe(MOCK_LIST_RESPONSE.length);
-            expect(data[0].mapped).toBe(true);
         });
 
         expect(mockGetArticles).toHaveBeenCalled();

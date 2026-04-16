@@ -1,0 +1,638 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mD:/newViteApp/Axe_code[39m
+
+ [31mظإ»[39m tests/useCases/useSearchUsers.test.js [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 81[2mms[22m[39m
+[31m     [31m├ù[31m should successfully search for users[39m[32m 74[2mms[22m[39m
+ [31mظإ»[39m tests/useCases/useUpdateLesson.test.js [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 119[2mms[22m[39m
+[31m     [31m├ù[31m should successfully update a lesson[39m[32m 113[2mms[22m[39m
+ [31mظإ»[39m tests/useCases/useCreateEvent.test.js [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 103[2mms[22m[39m
+[31m     [31m├ù[31m should successfully create an event[39m[32m 99[2mms[22m[39m
+ [31mظإ»[39m tests/useCases/useUpdateCourse.test.js [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 158[2mms[22m[39m
+[31m     [31m├ù[31m should successfully update a course[39m[32m 144[2mms[22m[39m
+cmd : [90mstderr[2m | tests/useCases/useFetchRoadmaps.test.js[2m > [22m[2museFetchRoadmaps Hook[2m > 
+[22m[2mshould successfully fetch and map roadmaps
+At line:1 char:1
++ cmd /c npx vitest run tests/useCases/ > test_results.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([90mstderr[2m...nd map roadmaps:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[22m[39m[vitest] The vi.fn() mock did not use 'function' or 'class' in its implementation, see 
+https://vitest.dev/api/vi#vi-spyon for examples.
+
+ [31mظإ»[39m tests/useCases/useFetchRoadmaps.test.js [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 121[2mms[22m[39m
+[31m     [31m├ù[31m should successfully fetch and map roadmaps[39m[32m 116[2mms[22m[39m
+ [31mظإ»[39m tests/useCases/useFetchArticles.test.js [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 87[2mms[22m[39m
+[31m     [31m├ù[31m should successfully fetch and map articles[39m[32m 80[2mms[22m[39m
+[90mstdout[2m | tests/useCases/useUpdateUserAvatar.test.js[2m > [22m[2museUpdateUserAvatar Hook[2m > [22m[2mshould successfully upload and link avatar
+[22m[39m[ProfileSync] Mapping toUser - Data: UserDTO {
+  id: [33m1[39m,
+  documentId: [90mundefined[39m,
+  username: [32m'TestUser'[39m,
+  email: [32m'test@example.com'[39m,
+  firstname: [90mundefined[39m,
+  lastname: [90mundefined[39m,
+  phone: [90mundefined[39m,
+  birthday: [90mundefined[39m,
+  university: [90mundefined[39m,
+  bio: [32m'Test Bio'[39m,
+  confirmed: [33mfalse[39m,
+  blocked: [33mfalse[39m,
+  interestMap: {},
+  seenHistory: [],
+  lastDecayDate: [1mnull[22m,
+  avatar: MediaDTO {
+    id: [90mundefined[39m,
+    url: [32m'new-avatar.png'[39m,
+    display_name: [90mundefined[39m,
+    mime: [90mundefined[39m,
+    size: [90mundefined[39m,
+    width: [90mundefined[39m,
+    height: [90mundefined[39m
+  },
+  role: [90mundefined[39m,
+  submissions: Map(0) {},
+  posts: Map(0) {},
+  likes: Map(0) {},
+  comments: Map(0) {},
+  courses: Map(0) {},
+  events: Map(0) {},
+  scanners: Map(0) {},
+  enroledContents: Map(0) {}
+}
+[ProfileSync] Mapping toUser - Stats Prop: {}
+data MediaDTO {
+  id: [90mundefined[39m,
+  url: [32m'new-avatar.png'[39m,
+  display_name: [90mundefined[39m,
+  mime: [90mundefined[39m,
+  size: [90mundefined[39m,
+  width: [90mundefined[39m,
+  height: [90mundefined[39m
+}
+[ProfileSync] Entity Created - TestUser: { subs: [33m0[39m, passed: [33m0[39m }
+
+ [31mظإ»[39m tests/useCases/useUpdateUserAvatar.test.js [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 172[2mms[22m[39m
+[31m     [31m├ù[31m should successfully upload and link avatar[39m[32m 147[2mms[22m[39m
+     [32mظ£ô[39m should handle upload failures[32m 20[2mms[22m[39m
+ [31mظإ»[39m tests/useCases/useCreatePost.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useCreateLesson.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useCreateProblem.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useDeleteArticle.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useUpdateUserBio.test.js [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 154[2mms[22m[39m
+[31m     [31m├ù[31m should successfully update user biography[39m[32m 84[2mms[22m[39m
+[31m     [31m├ù[31m should handle update errors[39m[32m 62[2mms[22m[39m
+ [31mظإ»[39m tests/useCases/useUpdateUserName.test.js [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 77[2mms[22m[39m
+[31m     [31m├ù[31m should successfully update display name[39m[32m 72[2mms[22m[39m
+ [31mظإ»[39m tests/useCases/useDeleteCourse.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useFetchCoursePreview.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useLikeContent.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useRateContent.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useUpdateArticle.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useReportContent.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mظإ»[39m tests/useCases/useUploadMedia.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [32mظ£ô[39m tests/useCases/useFetchBlogs.test.js [2m([22m[2m3 tests[22m[2m)[22m[32m 91[2mms[22m[39m
+[90mstdout[2m | tests/useCases/useNotifications.test.js[2m > [22m[2museNotifications Hook[2m > [22m[2mshould successfully fetch notifications
+[22m[39mdto { documentId: [32m'1'[39m }
+
+[90mstdout[2m | tests/useCases/useNotifications.test.js[2m > [22m[2museNotifications Hook[2m > [22m[2mshould mark single notification as read
+[22m[39mdto { documentId: [32m'1'[39m, read: [33mfalse[39m }
+
+[90mstdout[2m | tests/useCases/useNotifications.test.js[2m > [22m[2museNotifications Hook[2m > [22m[2mshould push real-time notification
+[22m[39mdto {
+  documentId: [32m'rt_1776278019594'[39m,
+  type: [90mundefined[39m,
+  contentType: [90mundefined[39m,
+  contentDocId: [90mundefined[39m,
+  messageAr: [32m'Hello'[39m,
+  messageEn: [32m'New Alert'[39m,
+  actionUrl: [90mundefined[39m,
+  extra: [90mundefined[39m,
+  read: [33mfalse[39m,
+  createdAt: [35m2026-04-15T18:33:39.594Z[39m,
+  actor: [90mundefined[39m
+}
+
+ [32mظ£ô[39m tests/useCases/useNotifications.test.js [2m([22m[2m4 tests[22m[2m)[22m[32m 192[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useDeleteLesson.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 73[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useSearchCourses.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 172[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useLoginUser.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 115[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useSearchEvents.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 60[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useFetchMe.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useRegisterUser.test.js [2m([22m[2m3 tests[22m[2m)[22m[32m 83[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useCreateCourse.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 69[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useCreateArticle.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 55[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useSearchProblems.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 65[2mms[22m[39m
+ [32mظ£ô[39m tests/useCases/useUserAvailability.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+
+[31mظ»ظ»ظ»ظ»ظ»ظ»[39m[1m[41m Failed Suites 11 [49m[22m[31mظ»ظ»ظ»ظ»ظ»ظ»[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useCreateLesson.test.js[2m [ tests/useCases/useCreateLesson.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "@useCase/useCreateLesson" from 
+"tests/useCases/useCreateLesson.test.js". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useCreateLesson.test.js[39m:3:0
+[33m  8  |      };
+  9  |  });const __vi_import_0__ = await import("@testing-library/react");
+  10 |  const __vi_import_1__ = await import("@useCase/useCreateLesson");
+     |                                               ^
+  11 |  const __vi_import_2__ = await import("./mockData");
+  12 |  [39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[1/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useCreatePost.test.js[2m [ tests/useCases/useCreatePost.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "@useCase/useCreatePost" from "tests/useCases/useCreatePost.test.js". 
+Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useCreatePost.test.js[39m:3:0
+[33m  8  |      };
+  9  |  });const __vi_import_0__ = await import("@testing-library/react");
+  10 |  const __vi_import_1__ = await import("@useCase/useCreatePost");
+     |                                               ^
+  11 |  const __vi_import_2__ = await import("./mockData");
+  12 |  [39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[2/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useCreateProblem.test.js[2m [ tests/useCases/useCreateProblem.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "@useCase/useCreateProblem" from 
+"tests/useCases/useCreateProblem.test.js". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useCreateProblem.test.js[39m:3:0
+[33m  9  |  });
+  10 |  const __vi_import_0__ = await import("@testing-library/react");
+  11 |  const __vi_import_1__ = await import("@useCase/useCreateProblem");
+     |                                       ^
+  12 |  const __vi_import_2__ = await import("./mockData");
+  13 |  [39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[3/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useDeleteArticle.test.js[2m [ tests/useCases/useDeleteArticle.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "../../src/domain/useCase/useDeleteArticle" from 
+"tests/useCases/useDeleteArticle.test.js". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useDeleteArticle.test.js[39m:3:0
+[33m  9  |  });
+  10 |  const __vi_import_0__ = await import("@testing-library/react");
+  11 |  const __vi_import_1__ = await import("../../src/domain/useCase/useDeleteArticle");
+     |                                       ^
+  12 |  
+  13 |  import { describe, it, expect, vi, beforeEach } from 'vitest';[39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[4/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useDeleteCourse.test.js[2m [ tests/useCases/useDeleteCourse.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "../../src/domain/useCase/useDeleteCourse" from 
+"tests/useCases/useDeleteCourse.test.js". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useDeleteCourse.test.js[39m:3:0
+[33m  9  |  });
+  10 |  const __vi_import_0__ = await import("@testing-library/react");
+  11 |  const __vi_import_1__ = await import("../../src/domain/useCase/useDeleteCourse");
+     |                                       ^
+  12 |  
+  13 |  import { describe, it, expect, vi, beforeEach } from 'vitest';[39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[5/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useFetchCoursePreview.test.js[2m [ 
+tests/useCases/useFetchCoursePreview.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "../useFetchCoursePreview" from 
+"tests/useCases/useFetchCoursePreview.test.js". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useFetchCoursePreview.test.js[39m:3:0
+[33m  8  |      };
+  9  |  });const __vi_import_0__ = await import("@testing-library/react");
+  10 |  const __vi_import_1__ = await import("../useFetchCoursePreview");
+     |                                               ^
+  11 |  
+  12 |  import { describe, it, expect, vi, beforeEach } from 'vitest';[39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[6/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useLikeContent.test.js[2m [ tests/useCases/useLikeContent.test.js ][22m
+[31m[1mError[22m: [vitest] There was an error when mocking a module. If you are using "vi.mock" factory, make sure 
+there are no top level variables inside, since this call is hoisted to top of the file. Read more: 
+https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mظإ»[22m src/domain/useCase/useLikeContent.js:[2m2:1[22m[39m
+    [90m  1| [39m[35mimport[39m { useAsyncUseCase } [35mfrom[39m [32m'./useAsyncUseCase'[39m[33m;[39m
+    [90m  2| [39mimport { repositoryRegistry } from '../../infrastructure/repository/Reظخ
+    [90m   | [39m[31m^[39m
+    [90m  3| [39m
+    [90m  4| [39m[35mexport[39m [35mconst[39m useLikeContent [33m=[39m () [33m=>[39m {
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 'mockLike' before initialization[39m
+[36m [2mظإ»[22m tests/useCases/useLikeContent.test.js:[2m10:19[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[7/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useRateContent.test.js[2m [ tests/useCases/useRateContent.test.js ][22m
+[31m[1mError[22m: [vitest] There was an error when mocking a module. If you are using "vi.mock" factory, make sure 
+there are no top level variables inside, since this call is hoisted to top of the file. Read more: 
+https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mظإ»[22m src/domain/useCase/useRateContent.js:[2m2:1[22m[39m
+    [90m  1| [39m[35mimport[39m { useAsyncUseCase } [35mfrom[39m [32m'./useAsyncUseCase'[39m[33m;[39m
+    [90m  2| [39mimport { repositoryRegistry } from '../../infrastructure/repository/Reظخ
+    [90m   | [39m[31m^[39m
+    [90m  3| [39m
+    [90m  4| [39m[90m/**
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 'mockRate' before initialization[39m
+[36m [2mظإ»[22m tests/useCases/useRateContent.test.js:[2m10:19[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[8/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useReportContent.test.js[2m [ tests/useCases/useReportContent.test.js ][22m
+[31m[1mError[22m: [vitest] There was an error when mocking a module. If you are using "vi.mock" factory, make sure 
+there are no top level variables inside, since this call is hoisted to top of the file. Read more: 
+https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mظإ»[22m src/domain/useCase/useReportContent.js:[2m3:1[22m[39m
+    [90m  1| [39m[35mimport[39m { useCallback } [35mfrom[39m [32m'react'[39m[33m;[39m
+    [90m  2| [39m[35mimport[39m { useAsyncUseCase } [35mfrom[39m [32m'./useAsyncUseCase'[39m[33m;[39m
+    [90m  3| [39mimport { repositoryRegistry } from '../../infrastructure/repository/Reظخ
+    [90m   | [39m[31m^[39m
+    [90m  4| [39m
+    [90m  5| [39m[35mexport[39m [35mconst[39m useReportContent [33m=[39m () [33m=>[39m {
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 'mockReport' before initialization[39m
+[36m [2mظإ»[22m tests/useCases/useReportContent.test.js:[2m10:21[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[9/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUpdateArticle.test.js[2m [ tests/useCases/useUpdateArticle.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "../../src/domain/useCase/useUpdateArticle" from 
+"tests/useCases/useUpdateArticle.test.js". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useUpdateArticle.test.js[39m:3:0
+[33m  9  |  });
+  10 |  const __vi_import_0__ = await import("@testing-library/react");
+  11 |  const __vi_import_1__ = await import("../../src/domain/useCase/useUpdateArticle");
+     |                                       ^
+  12 |  const __vi_import_2__ = await import("./mockData");
+  13 |  [39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[10/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUploadMedia.test.js[2m [ tests/useCases/useUploadMedia.test.js ][22m
+[31m[1mError[22m: Failed to resolve import "../useUploadMedia" from "tests/useCases/useUploadMedia.test.js". Does 
+the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mD:/newViteApp/Axe_code/tests/useCases/useUploadMedia.test.js[39m:3:0
+[33m  8  |      };
+  9  |  });const __vi_import_0__ = await import("@testing-library/react");
+  10 |  const __vi_import_1__ = await import("../useUploadMedia");
+     |                                               ^
+  11 |  const __vi_import_2__ = await import("../../../infrastructure/repository/MediaRepository");
+  12 |  [39m
+[90m [2mظإ»[22m TransformPluginContext._formatLog 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31422:43[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.error 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31419:14[22m[39m
+[90m [2mظإ»[22m normalizeUrl node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29891:18[22m[39m
+[90m [2mظإ»[22m node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29949:32[22m[39m
+[90m [2mظإ»[22m TransformPluginContext.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m29917:4[22m[39m
+[90m [2mظإ»[22m EnvironmentPluginContainer.transform 
+node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m31220:14[22m[39m
+[90m [2mظإ»[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js:[2m26307:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[11/21]ظ»[22m[39m
+
+
+[31mظ»ظ»ظ»ظ»ظ»ظ»[39m[1m[41m Failed Tests 10 [49m[22m[31mظ»ظ»ظ»ظ»ظ»ظ»ظ»[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useCreateEvent.test.js[2m > [22museCreateEvent Hook[2m > [22mshould 
+successfully create an event
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ { title: 'Test Event', ظخ(3) } ][90m
+
+Received: 
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[2m    {[22m
+[2m      "date": "2024-05-01T10:00:00.000Z",[22m
+[2m      "description": "Test Event Description",[22m
+[31m+     "entitlementData": null,[90m
+[2m      "platform": "Agora",[22m
+[2m      "title": "Test Event",[22m
+[2m    },[22m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2mظإ»[22m tests/useCases/useCreateEvent.test.js:[2m33:28[22m[39m
+    [90m 31| [39m        })[33m;[39m
+    [90m 32| [39m
+    [90m 33| [39m        
+[34mexpect[39m(mockCreate)[33m.[39m[34mtoHaveBeenCalledWith[39m([33mMOCK_EVENT_DATA[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 34| [39m        
+[34mexpect[39m(result[33m.[39mcurrent[33m.[39minProgress)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m 35| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39mevent)[33m.[39m[34mtoEqual[39m([33m
+MOCK_API_RESPONSE[39m)[33m;[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[12/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useFetchArticles.test.js[2m > [22museFetchArticles Hook[2m > [22mshould 
+successfully fetch and map articles
+[31m[1mAssertionError[22m: expected undefined to be true // Object.is equality[39m
+
+[32m- Expected:[39m 
+true
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2mظإ»[22m tests/useCases/useFetchArticles.test.js:[2m38:36[22m[39m
+    [90m 36| [39m            [35mconst[39m data [33m=[39m [35mawait[39m 
+result[33m.[39mcurrent[33m.[39m[34mfetchArticles[39m()[33m;[39m
+    [90m 37| [39m            [34mexpect[39m(data[33m.[39mlength)[33m.[39m[34mtoBe[39m([33mMOCK_LIST_RESPONSE
+[39m[33m.[39mlength)[33m;[39m
+    [90m 38| [39m            
+[34mexpect[39m(data[[34m0[39m][33m.[39mmapped)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m                                   [31m^[39m
+    [90m 39| [39m        })[33m;[39m
+    [90m 40| [39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[13/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useFetchRoadmaps.test.js[2m > [22museFetchRoadmaps Hook[2m > [22mshould 
+successfully fetch and map roadmaps
+[31m[1mTypeError[22m: (data) => data is not a constructor[39m
+[36m [2mظإ»[22m src/domain/useCase/useFetchRoadmaps.js:[2m19:26[22m[39m
+    [90m 17| [39m        [35mconst[39m items [33m=[39m [33mArray[39m[33m.[39m[34misArray[39m(rawData) 
+[33m?[39m rawData [33m:[39m [][33m;[39m
+    [90m 18| [39m        [35mreturn[39m items
+    [90m 19| [39m            [33m.[39m[34mmap[39m(item [33m=>[39m [35mnew[39m [33mRoadmapDTO[39m(item))
+    [90m   | [39m                         [31m^[39m
+    [90m 20| [39m            [33m.[39m[34mmap[39m(dto [33m=>[39m 
+[33mEntityMapper[39m[33m.[39m[34mtoRoadmap[39m(dto))
+    [90m 21| [39m            [33m.[39m[34mfilter[39m([33mBoolean[39m)[33m;[39m
+[90m [2mظإ»[22m src/domain/useCase/useFetchRoadmaps.js:[2m19:14[22m[39m
+[90m [2mظإ»[22m Object.fetchRoadmaps src/domain/useCase/useAsyncUseCase.js:[2m17:26[22m[39m
+[90m [2mظإ»[22m tests/useCases/useFetchRoadmaps.test.js:[2m38:26[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[14/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useSearchUsers.test.js[2m > [22museSearchUsers Hook[2m > [22mshould 
+successfully search for users
+[31m[1mTypeError[22m: repository.searchByEmail is not a function[39m
+[36m [2mظإ»[22m src/domain/useCase/useSearchUsers.js:[2m13:33[22m[39m
+    [90m 11| [39m    [35mconst[39m searchLogic [33m=[39m [34museCallback[39m([35masync[39m (email) 
+[33m=>[39m {
+    [90m 12| [39m        [35mif[39m ([33m![39memail [33m||[39m email[33m.[39mlength [33m<[39m [34m3[39m) 
+[35mreturn[39m [35mnull[39m[33m;[39m
+    [90m 13| [39m        [35mreturn[39m [35mawait[39m 
+repository[33m.[39m[34msearchByEmail[39m(email)[33m;[39m
+    [90m   | [39m                                [31m^[39m
+    [90m 14| [39m    }[33m,[39m [repository])[33m;[39m
+    [90m 15| [39m
+[90m [2mظإ»[22m Object.searchUsers src/domain/useCase/useAsyncUseCase.js:[2m17:32[22m[39m
+[90m [2mظإ»[22m tests/useCases/useSearchUsers.test.js:[2m30:47[22m[39m
+[90m [2mظإ»[22m node_modules/@testing-library/react/dist/act-compat.js:[2m47:24[22m[39m
+[90m [2mظإ»[22m process.env.NODE_ENV.exports.act node_modules/react/cjs/react.development.js:[2m790:22[22m[39m
+[90m [2mظإ»[22m Proxy.<anonymous> node_modules/@testing-library/react/dist/act-compat.js:[2m46:25[22m[39m
+[90m [2mظإ»[22m tests/useCases/useSearchUsers.test.js:[2m29:15[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[15/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUpdateCourse.test.js[2m > [22museUpdateCourse Hook[2m > [22mshould 
+successfully update a course
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ 1, { title: 'Test Course', ظخ(2) } 
+][90m
+
+Received: 
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[32m-   1,[90m
+[32m-   {[90m
+[32m-     "description": "Test Course Description",[90m
+[32m-     "price": 100,[90m
+[32m-     "title": "Test Course",[90m
+[32m-   },[90m
+[31m+   undefined,[90m
+[31m+   undefined,[90m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2mظإ»[22m tests/useCases/useUpdateCourse.test.js:[2m33:28[22m[39m
+    [90m 31| [39m        })[33m;[39m
+    [90m 32| [39m
+    [90m 33| [39m        
+[34mexpect[39m(mockUpdate)[33m.[39m[34mtoHaveBeenCalledWith[39m([34m1[39m[33m,[39m 
+[33mMOCK_COURSE_DATA[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 34| [39m        
+[34mexpect[39m(result[33m.[39mcurrent[33m.[39minProgress)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m 35| [39m    })[33m;[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[16/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUpdateLesson.test.js[2m > [22museUpdateLesson Hook[2m > [22mshould 
+successfully update a lesson
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ 1, { title: 'Test Lesson', ظخ(4) } 
+][90m
+
+Received: 
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[32m-   1,[90m
+[32m-   {[90m
+[32m-     "description": "Test Lesson Description",[90m
+[32m-     "title": "Test Lesson",[90m
+[32m-     "type": "video",[90m
+[32m-     "videoId": 100,[90m
+[32m-     "weekId": 1,[90m
+[32m-   },[90m
+[31m+   undefined,[90m
+[31m+   undefined,[90m
+[2m  ][22m
+
+[2m Test Files [22m [1m[31m20 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (32)[39m
+[2m      Tests [22m [1m[31m10 failed[39m[22m[2m | [22m[1m[32m26 passed[39m[22m[90m (36)[39m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2mظإ»[22m tests/useCases/useUpdateLesson.test.js:[2m33:28[22m[39m
+    [90m 31| [39m        })[33m;[39m
+    [90m 32| [39m
+    [90m 33| [39m        
+[34mexpect[39m(mockUpdate)[33m.[39m[34mtoHaveBeenCalledWith[39m([34m1[39m[33m,[39m 
+[33mMOCK_LESSON_DATA[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 34| [39m        
+[34mexpect[39m(result[33m.[39mcurrent[33m.[39minProgress)[33m.[39m[34mtoBe[39m([35mfalse[39m)[33m;[39m
+    [90m 35| [39m    })[33m;[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[17/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUpdateUserAvatar.test.js[2m > [22museUpdateUserAvatar Hook[2m > 
+[22mshould successfully upload and link avatar
+[31m[1mAssertionError[22m: expected 'http://localhost:1337new-avatar.png' to be 'new-avatar.png' // Object.is 
+equality[39m
+
+Expected: [32m"new-avatar.png"[39m
+Received: [31m"[7mhttp://localhost:1337[27mnew-avatar.png"[39m
+
+[36m [2mظإ»[22m tests/useCases/useUpdateUserAvatar.test.js:[2m57:37[22m[39m
+    [90m 55| [39m        [35mawait[39m [34mact[39m([35masync[39m () [33m=>[39m {
+    [90m 56| [39m            const data = await result.current.updateAvatar(1, mockFileظخ
+    [90m 57| [39m            
+[34mexpect[39m(data[33m.[39mavatar[33m.[39murl)[33m.[39m[34mtoBe[39m([32m'new-avatar.png'[39m)[33m;[39m
+    [90m   | [39m                                    [31m^[39m
+    [90m 58| [39m        })[33m;[39m
+    [90m 59| [39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[18/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUpdateUserBio.test.js[2m > [22museUpdateUserBio Hook[2m > [22mshould 
+successfully update user biography
+[31m[1mTypeError[22m: userRepo.updateUser is not a function[39m
+[36m [2mظإ»[22m src/domain/useCase/useUpdateUserBio.js:[2m23:51[22m[39m
+    [90m 21| [39m
+    [90m 22| [39m            [35mconst[39m requestDto [33m=[39m [35mnew[39m [33mUpdateUserRequest[39m({ bio 
+})[33m;[39m
+    [90m 23| [39m            const updatedUserRaw = await userRepo.updateUser(userId, rظخ
+    [90m   | [39m                                                  [31m^[39m
+    [90m 24| [39m
+    [90m 25| [39m            [35mif[39m (updatedUserRaw) {
+[90m [2mظإ»[22m Object.updateBio src/domain/useCase/useAsyncUseCase.js:[2m17:32[22m[39m
+[90m [2mظإ»[22m tests/useCases/useUpdateUserBio.test.js:[2m36:47[22m[39m
+[90m [2mظإ»[22m node_modules/@testing-library/react/dist/act-compat.js:[2m47:24[22m[39m
+[90m [2mظإ»[22m process.env.NODE_ENV.exports.act node_modules/react/cjs/react.development.js:[2m790:22[22m[39m
+[90m [2mظإ»[22m Proxy.<anonymous> node_modules/@testing-library/react/dist/act-compat.js:[2m46:25[22m[39m
+[90m [2mظإ»[22m tests/useCases/useUpdateUserBio.test.js:[2m35:15[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[19/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUpdateUserBio.test.js[2m > [22museUpdateUserBio Hook[2m > [22mshould 
+handle update errors
+[31m[1mAssertionError[22m: expected undefined to be 'Update failed' // Object.is equality[39m
+
+[32m- Expected:[39m 
+"Update failed"
+
+[31m+ Received:[39m 
+undefined
+
+[36m [2mظإ»[22m tests/useCases/useUpdateUserBio.test.js:[2m57:38[22m[39m
+    [90m 55| [39m        })[33m;[39m
+    [90m 56| [39m
+    [90m 57| [39m        
+[34mexpect[39m(result[33m.[39mcurrent[33m.[39merror)[33m.[39m[34mtoBe[39m([32m'Update 
+failed'[39m)[33m;[39m
+    [90m   | [39m                                     [31m^[39m
+    [90m 58| [39m    })[33m;[39m
+    [90m 59| [39m})[33m;[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[20/21]ظ»[22m[39m
+
+[41m[1m FAIL [22m[49m tests/useCases/useUpdateUserName.test.js[2m > [22museUpdateUserName Hook[2m > [22mshould 
+successfully update display name
+[31m[1mTypeError[22m: result.current.updateUserName is not a function[39m
+[36m [2mظإ»[22m tests/useCases/useUpdateUserName.test.js:[2m36:47[22m[39m
+    [90m 34| [39m
+    [90m 35| [39m        [35mawait[39m [34mact[39m([35masync[39m () [33m=>[39m {
+    [90m 36| [39m            const data = await result.current.updateUserName('UpdatedNظخ
+    [90m   | [39m                                              [31m^[39m
+    [90m 37| [39m            
+[34mexpect[39m(data[33m.[39musername)[33m.[39m[34mtoBe[39m([32m'UpdatedName'[39m)[33m;[39m
+    [90m 38| [39m        })[33m;[39m
+[2m   Start at [22m 20:33:16
+[2m   Duration [22m 28.30s[2m (transform 5.49s, setup 13.64s, import 20.67s, tests 2.22s, environment 106.60s)[22m
+
+[90m [2mظإ»[22m node_modules/@testing-library/react/dist/act-compat.js:[2m47:24[22m[39m
+[90m [2mظإ»[22m process.env.NODE_ENV.exports.act node_modules/react/cjs/react.development.js:[2m790:22[22m[39m
+[90m [2mظإ»[22m Proxy.<anonymous> node_modules/@testing-library/react/dist/act-compat.js:[2m46:25[22m[39m
+[90m [2mظإ»[22m tests/useCases/useUpdateUserName.test.js:[2m35:15[22m[39m
+
+[31m[2mظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»ظ»[21/21]ظ»[22m[39m
+

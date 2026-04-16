@@ -1,17 +1,17 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useUploadMedia } from '../useUploadMedia';
+import { useUploadMedia } from '../../src/domain/useCase/useUploadMedia';
 import { MediaRepository } from '../../../infrastructure/repository/MediaRepository';
 
 const mockUploadFiles = vi.fn();
 
-vi.mock('../../../infrastructure/repository/MediaRepository', () => {
+vi.mock('@infrastructure/repository/MediaRepository', () => {
     return {
-        MediaRepository: vi.fn().mockImplementation(function () {
-            return {
-                uploadFiles: mockUploadFiles
-            };
-        })
+        MediaRepository: class {
+            constructor() {
+                this.uploadFiles = mockUploadFiles;
+            }
+        }
     };
 });
 

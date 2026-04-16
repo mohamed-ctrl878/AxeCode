@@ -5,18 +5,22 @@ import { MOCK_SEARCH_RESULTS } from './mockData';
 
 // Mock ProblemRepository
 const mockSearch = vi.fn();
-vi.mock('../../src/infrastructure/repository/ProblemRepository', () => ({
-    ProblemRepository: vi.fn().mockImplementation(() => ({
-        search: mockSearch
-    }))
-}));
+vi.mock('@infrastructure/repository/ProblemRepository', () => {
+    return {
+        ProblemRepository: class {
+            constructor() {
+                this.search = mockSearch;
+            }
+        }
+    };
+});
 
 // Mock utils and mappers
-vi.mock('../../src/core/utils/strapiFlatten', () => ({
+vi.mock('@core/utils/strapiFlatten', () => ({
     flattenStrapi: vi.fn().mockImplementation((data) => data)
 }));
 
-vi.mock('../../src/domain/mapper/EntityMapper', () => ({
+vi.mock('@domain/mapper/EntityMapper', () => ({
     EntityMapper: {
         toCardProblem: vi.fn().mockImplementation((dto) => ({ ...dto, mapped: true }))
     }

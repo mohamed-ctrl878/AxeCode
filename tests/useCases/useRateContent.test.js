@@ -3,8 +3,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useRateContent } from '../../src/domain/useCase/useRateContent';
 
 // Mock RepositoryRegistry
-const mockRate = vi.fn();
-vi.mock('../../src/infrastructure/repository/RepositoryRegistry', () => ({
+const { mockRate } = vi.hoisted(() => ({ mockRate: vi.fn() }));
+vi.mock('@infrastructure/repository/RepositoryRegistry', () => ({
     repositoryRegistry: {
         sharedInteractionRepository: {
             rate: mockRate
@@ -23,11 +23,11 @@ describe('useRateContent Hook', () => {
         const { result } = renderHook(() => useRateContent());
 
         await act(async () => {
-            const res = await result.current.rateContent('course-1', 5);
+            const res = await result.current.rateContent('course-1', 'course', 5);
             expect(res.average).toBe(4.5);
         });
 
-        expect(mockRate).toHaveBeenCalledWith('course-1', 5);
+        expect(mockRate).toHaveBeenCalledWith('course-1', 'course', 5);
         expect(result.current.isRating).toBe(false);
     });
 });

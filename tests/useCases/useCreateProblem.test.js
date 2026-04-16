@@ -5,11 +5,15 @@ import { MOCK_PROBLEM_DATA, MOCK_API_RESPONSE } from './mockData';
 
 // Mock ProblemRepository
 const mockCreate = vi.fn();
-vi.mock('../../src/infrastructure/repository/ProblemRepository', () => ({
-    ProblemRepository: vi.fn().mockImplementation(() => ({
-        create: mockCreate
-    }))
-}));
+vi.mock('@infrastructure/repository/ProblemRepository', () => {
+    return {
+        ProblemRepository: class {
+            constructor() {
+                this.create = mockCreate;
+            }
+        }
+    };
+});
 
 describe('useCreateProblem Hook', () => {
     beforeEach(() => {

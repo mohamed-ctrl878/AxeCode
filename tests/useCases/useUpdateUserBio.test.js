@@ -11,11 +11,15 @@ vi.mock('react-redux', () => ({
 
 // Mock UserRepository
 const mockUpdateBio = vi.fn();
-vi.mock('../../src/infrastructure/repository/UserRepository', () => ({
-    UserRepository: vi.fn().mockImplementation(() => ({
-        updateBio: mockUpdateBio
-    }))
-}));
+vi.mock('@infrastructure/repository/UserRepository', () => {
+    return {
+        UserRepository: class {
+            constructor() {
+                this.updateUser = mockUpdateBio;
+            }
+        }
+    };
+});
 
 describe('useUpdateUserBio Hook', () => {
     beforeEach(() => {
@@ -29,12 +33,12 @@ describe('useUpdateUserBio Hook', () => {
         const { result } = renderHook(() => useUpdateUserBio());
 
         await act(async () => {
-            const data = await result.current.updateBio('New Bio');
+            const data = await result.current.updateBio(1, 'New Bio');
             expect(data.bio).toBe('New Bio');
         });
 
         expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({ type: 'auth/setUserData' }));
-        expect(result.current.inProgress).toBe(false);
+        expect(result.current.isUpdating).toBe(false);
     });
 
     it('should handle update errors', async () => {
@@ -44,12 +48,12 @@ describe('useUpdateUserBio Hook', () => {
 
         await act(async () => {
             try {
-                await result.current.updateBio('New Bio');
+                await result.current.updateBio(1, 'Fail');
             } catch (e) {
-                // Expected
+                // Ignore thrown expected error
             }
         });
 
-        expect(result.current.error).toBe('Update failed');
+        expect(result.current.updateError).toBe('Update failed');
     });
 });

@@ -1,17 +1,17 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useFetchCoursePreview } from '../useFetchCoursePreview';
+import { useFetchCoursePreview } from '../../src/domain/useCase/useFetchCoursePreview';
 
 const mockGetPreview = vi.fn();
 
 // Mock the repository
-vi.mock('../../../infrastructure/repository/CourseRepository', () => {
+vi.mock('@infrastructure/repository/CourseRepository', () => {
     return {
-        CourseRepository: vi.fn().mockImplementation(function () {
-            return {
-                getPreview: mockGetPreview
-            };
-        })
+        CourseRepository: class {
+            constructor() {
+                this.getPreview = mockGetPreview;
+            }
+        }
     };
 });
 

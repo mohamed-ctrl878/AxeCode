@@ -4,11 +4,15 @@ import { useDeleteCourse } from '../../src/domain/useCase/useDeleteCourse';
 
 // Mock CourseRepository
 const mockDelete = vi.fn();
-vi.mock('../../src/infrastructure/repository/CourseRepository', () => ({
-    CourseRepository: vi.fn().mockImplementation(() => ({
-        delete: mockDelete
-    }))
-}));
+vi.mock('@infrastructure/repository/CourseRepository', () => {
+    return {
+        CourseRepository: class {
+            constructor() {
+                this.delete = mockDelete;
+            }
+        }
+    };
+});
 
 describe('useDeleteCourse Hook', () => {
     beforeEach(() => {

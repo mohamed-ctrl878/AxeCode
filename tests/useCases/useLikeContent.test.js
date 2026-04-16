@@ -3,8 +3,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useLikeContent } from '../../src/domain/useCase/useLikeContent';
 
 // Mock RepositoryRegistry
-const mockLike = vi.fn();
-vi.mock('../../src/infrastructure/repository/RepositoryRegistry', () => ({
+const { mockLike } = vi.hoisted(() => ({ mockLike: vi.fn() }));
+vi.mock('@infrastructure/repository/RepositoryRegistry', () => ({
     repositoryRegistry: {
         sharedInteractionRepository: {
             like: mockLike

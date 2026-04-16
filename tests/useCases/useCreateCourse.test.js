@@ -5,11 +5,15 @@ import { MOCK_COURSE_DATA, MOCK_API_RESPONSE } from './mockData';
 
 // Mock CourseRepository
 const mockCreate = vi.fn();
-vi.mock('../../src/infrastructure/repository/CourseRepository', () => ({
-    CourseRepository: vi.fn().mockImplementation(() => ({
-        create: mockCreate
-    }))
-}));
+vi.mock('@infrastructure/repository/CourseRepository', () => {
+    return {
+        CourseRepository: class {
+            constructor() {
+                this.create = mockCreate;
+            }
+        }
+    };
+});
 
 describe('useCreateCourse Hook', () => {
     beforeEach(() => {

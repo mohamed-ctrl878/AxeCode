@@ -12,20 +12,27 @@ vi.mock('react-redux', () => ({
 
 // Mock AuthRepository
 const mockLogin = vi.fn();
-vi.mock('../../src/infrastructure/repository/AuthRepository', () => {
+vi.mock('@infrastructure/repository/AuthRepository', () => {
     return {
-        AuthRepository: vi.fn().mockImplementation(() => ({
-            login: mockLogin
-        }))
+        AuthRepository: class {
+            constructor() {
+                this.login = mockLogin;
+            }
+        }
     };
 });
 
-// Mock DTOs to avoid validation errors in tests if needed
-vi.mock('../../src/infrastructure/DTO/Request/LoginRequest', () => ({
-    LoginRequest: vi.fn().mockImplementation(() => ({
-        validate: vi.fn()
-    }))
-}));
+// Mock DTOs
+vi.mock('@infrastructure/DTO/Request/LoginRequest', () => {
+    return {
+        LoginRequest: class {
+            constructor() {
+                this.validate = vi.fn();
+            }
+            toPayload() { return {}; }
+        }
+    };
+});
 
 describe('useLoginUser Hook', () => {
     beforeEach(() => {

@@ -5,11 +5,15 @@ import { MOCK_SEARCH_RESULTS } from './mockData';
 
 // Mock EventRepository
 const mockSearch = vi.fn();
-vi.mock('../../src/infrastructure/repository/EventRepository', () => ({
-    EventRepository: vi.fn().mockImplementation(() => ({
-        search: mockSearch
-    }))
-}));
+vi.mock('@infrastructure/repository/EventRepository', () => {
+    return {
+        EventRepository: class {
+            constructor() {
+                this.search = mockSearch;
+            }
+        }
+    };
+});
 
 describe('useSearchEvents Hook', () => {
     beforeEach(() => {

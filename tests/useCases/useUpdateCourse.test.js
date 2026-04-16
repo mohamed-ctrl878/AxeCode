@@ -5,11 +5,15 @@ import { MOCK_COURSE_DATA, MOCK_API_RESPONSE } from './mockData';
 
 // Mock CourseRepository
 const mockUpdate = vi.fn();
-vi.mock('../../src/infrastructure/repository/CourseRepository', () => ({
-    CourseRepository: vi.fn().mockImplementation(() => ({
-        update: mockUpdate
-    }))
-}));
+vi.mock('@infrastructure/repository/CourseRepository', () => {
+    return {
+        CourseRepository: class {
+            constructor() {
+                this.update = mockUpdate;
+            }
+        }
+    };
+});
 
 describe('useUpdateCourse Hook', () => {
     beforeEach(() => {
@@ -22,7 +26,7 @@ describe('useUpdateCourse Hook', () => {
         const { result } = renderHook(() => useUpdateCourse());
 
         await act(async () => {
-            const data = await result.current.updateCourse(1, MOCK_COURSE_DATA);
+            const data = await result.current.updateCourse({ id: 1, data: MOCK_COURSE_DATA });
             expect(data).toEqual(MOCK_API_RESPONSE);
         });
 

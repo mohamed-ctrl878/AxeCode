@@ -4,11 +4,15 @@ import { useUserAvailability } from '../../src/domain/useCase/useUserAvailabilit
 
 // Mock UserRepository
 const mockCheckAvailability = vi.fn();
-vi.mock('../../src/infrastructure/repository/UserRepository', () => ({
-    UserRepository: vi.fn().mockImplementation(() => ({
-        checkAvailability: mockCheckAvailability
-    }))
-}));
+vi.mock('@infrastructure/repository/UserRepository', () => {
+    return {
+        UserRepository: class {
+            constructor() {
+                this.checkAvailability = mockCheckAvailability;
+            }
+        }
+    };
+});
 
 describe('useUserAvailability Hook', () => {
     beforeEach(() => {
