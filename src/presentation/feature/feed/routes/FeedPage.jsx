@@ -7,15 +7,20 @@ import { CreateBlogModal } from '../components/CreateBlogModal';
 import { useFetchBlogs } from '@domain/useCase/useFetchBlogs';
 import { FeedItemSkeleton } from '@presentation/shared/components/skeletons/FeedItemSkeleton';
 import { PageLoader } from '@presentation/shared/components/loaders/PageLoader';
+import { useParams } from 'react-router-dom';
+import { useFetchBlog } from '@domain/useCase/useFetchBlog';
 
 /**
  * FeedPage: Assembly of social and knowledge components.
  * Follows Bento Grid layout patterns with Infinite Scroll support.
  */
 const FeedPage = () => {
+    const { id: blogId } = useParams();
     const [activeFilter, setActiveFilter] = useState('recommend');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const { fetchBlogs, blogs, loading, error, hasMore, resetBlogs } = useFetchBlogs();
+    const { fetchBlog, blog: linkedBlog, loading: linkedLoading } = useFetchBlog();
+    
     const observerTarget = useRef(null);
     const stateRef = useRef({ loading, hasMore, blogsLength: blogs?.length || 0, activeFilter: 'recommend' });
 
@@ -26,10 +31,19 @@ const FeedPage = () => {
         setActiveFilter(newFilter);
     }, [activeFilter, resetBlogs]);
 
-    // Initial Fetch & Refetch on Filter Change
+    // Initial Fetch & Refetch on Filter Change (Only if NOT viewing a specific blog)
     useEffect(() => {
-        fetchBlogs(true, 20, activeFilter);
-    }, [fetchBlogs, activeFilter]);
+        if (!blogId) {
+            fetchBlogs(true, 20, activeFilter);
+        }
+    }, [fetchBlogs, activeFilter, blogId]);
+
+    // Fetch linked blog if ID is in the URL
+    useEffect(() => {
+        if (blogId) {
+            fetchBlog(blogId);
+        }
+    }, [blogId, fetchBlog]);
 
     useEffect(() => {
         stateRef.current = { loading, hasMore, blogsLength: blogs?.length || 0, activeFilter };
@@ -66,7 +80,12 @@ const FeedPage = () => {
         };
     }, [fetchBlogs, blogs?.length]);
 
-    const isInitialLoad = loading && (!blogs || blogs.length === 0);
+    // Determine loading state: 
+    // If specific blogId is present, we only care about linkedLoading.
+    // If not, we care about the general loading state.
+    const isInitialLoad = blogId 
+        ? (linkedLoading && !linkedBlog) 
+        : (loading && (!blogs || blogs.length === 0));
 
     return (
         <React.Fragment>
@@ -97,28 +116,53 @@ const FeedPage = () => {
                 {/* Feed list — key forces full unmount/remount on filter change */}
                 {!isInitialLoad && (
                     <div key={activeFilter} className="flex flex-col gap-6 min-h-screen">
-                        {blogs?.map((blog, index) => (
+                        {/* 1. Show Linked Blog if loading or exists */}
+                        {blogId && (
+                            <div className="flex flex-col gap-4 bento-card border-none bg-accent-primary/5 p-1 rounded-[2.5rem]">
+                                <div className="px-6 pt-4 flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-accent-primary animate-pulse" />
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-accent-primary">Linked Discussion</span>
+                                </div>
+                                {linkedLoading ? (
+                                    <div className="p-8">
+                                        <FeedItemSkeleton />
+                                    </div>
+                                ) : linkedBlog ? (
+                                    <FeedItem blog={linkedBlog} highlight={true} />
+                                ) : (
+                                    <div className="p-8 text-center text-text-muted text-xs italic">
+                                        Post not found or unavailable.
+                                    </div>
+                                )}
+                                <div className="h-px bg-border-subtle/30 mx-6" />
+                            </div>
+                        )}
+
+                        {/* 2. Show regular feed, filtering out the linked blog to avoid duplication */}
+                        {(blogs || []).filter(b => b.id !== linkedBlog?.id).map((blog, index) => (
                             <FeedItem 
-                                key={blog.id} 
+                                key={blog.id || index} 
                                 blog={blog} 
                                 rank={activeFilter === 'trend' ? index + 1 : null} 
                             />
                         ))}
 
-                        {/* Intersection Observer Target */}
-                        <div ref={observerTarget} className="w-full h-20 flex items-center justify-center mt-4 border border-dashed border-accent-primary/20 rounded-xl">
-                            {loading && blogs.length > 0 && (
-                                <div className="flex items-center gap-3">
-                                    <div className="w-5 h-5 border-2 border-accent-primary border-t-transparent rounded-full animate-spin" />
-                                    <span className="text-xs text-text-muted font-mono uppercase tracking-widest">Loading more...</span>
-                                </div>
-                            )}
-                            {!hasMore && blogs.length > 0 && (
-                                <div className="text-xs text-text-muted text-center italic py-2">
-                                    You have logically reached the absolute end of the feed.
-                                </div>
-                            )}
-                        </div>
+                        {/* Intersection Observer Target (Hidden if viewing specific linked blog) */}
+                        {!blogId && (
+                            <div ref={observerTarget} className="w-full h-20 flex items-center justify-center mt-4 border border-dashed border-accent-primary/20 rounded-xl">
+                                {loading && blogs.length > 0 && (
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 border-2 border-accent-primary border-t-transparent rounded-full animate-spin" />
+                                        <span className="text-xs text-text-muted font-mono uppercase tracking-widest">Loading more...</span>
+                                    </div>
+                                )}
+                                {!hasMore && blogs.length > 0 && (
+                                    <div className="text-xs text-text-muted text-center italic py-2">
+                                        You have logically reached the absolute end of the feed.
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

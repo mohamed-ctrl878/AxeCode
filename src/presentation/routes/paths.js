@@ -18,6 +18,7 @@ export const PATHS = {
 
     // Community
     FEED: '/feed',
+    FEED_DETAILS: '/feed/:id',
     ARTICLES: '/articles',
     ARTICLE_DETAILS: '/articles/:id',
     EVENTS: '/events',
@@ -56,4 +57,7 @@ export const PATHS = {
     // Guest Navigation
     WHATS_NEW: '/coming-soon',
     CAREER: '/coming-soon',
+    PRIVACY: '/privacy',
+    TERMS: '/terms',
+    DOCUMENTATION: '/docs',
 };

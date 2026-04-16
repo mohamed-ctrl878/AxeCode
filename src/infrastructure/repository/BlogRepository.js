@@ -43,4 +43,16 @@ export class BlogRepository extends IContentInteraction {
             total: response?.meta?.pagination?.total || 0
         };
     }
+
+    /**
+     * Fetches a single blog post by its document ID/UID.
+     * @param {string} id 
+     * @returns {Promise<any>}
+     */
+    async getById(id) {
+        // Standard Strapi document fetch with basic population
+        const query = `populate[0]=publisher.avatar&populate[1]=image`;
+        const response = await this.apiClient.get(`${this.endpoint}/${id}?${query}`);
+        return response?.data || response;
+    }
 }

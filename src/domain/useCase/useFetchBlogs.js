@@ -28,7 +28,15 @@ export const useFetchBlogs = () => {
 
             const excludeIds = isInitial ? [] : blogsRef.current.map(b => b.uid || b.id?.toString()).filter(Boolean);
 
-            const rawData = await repository.getBlogs(limit, excludeIds, feedType);
+            const populate = {
+                publisher: {
+                    fields: ['firstname', 'lastname', 'email', 'username', 'birthday', 'university', 'bio'],
+                    populate: ['avatar']
+                },
+                image: true
+            };
+
+            const rawData = await repository.getBlogs(limit, excludeIds, feedType, populate);
             const items = Array.isArray(rawData) ? rawData : [];
 
             let newBlogs = items

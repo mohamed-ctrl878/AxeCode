@@ -13,7 +13,14 @@ export const useFetchRecommendedCourses = () => {
     const repository = new RecommendationRepository();
 
     const fetchLogic = useCallback(async (limit = 20) => {
-        const rawData = await repository.getCourses(limit);
+        const populate = {
+            users_permissions_user: {
+                fields: ['firstname', 'lastname', 'email', 'username', 'birthday', 'university', 'bio'],
+                populate: ['avatar']
+            },
+            picture: true
+        };
+        const rawData = await repository.getCourses(limit, [], 'recommend', populate);
         const items = Array.isArray(rawData) ? rawData : [];
         return items
             .map(item => new CourseDTO(item))

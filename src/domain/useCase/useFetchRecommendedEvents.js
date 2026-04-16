@@ -13,7 +13,14 @@ export const useFetchRecommendedEvents = () => {
     const repository = new RecommendationRepository();
 
     const fetchLogic = useCallback(async (limit = 3) => {
-        const rawData = await repository.getEvents(limit);
+        const populate = {
+            users_permissions_user: {
+                fields: ['firstname', 'lastname', 'email', 'username', 'birthday', 'university', 'bio'],
+                populate: ['avatar']
+            },
+            image: true
+        };
+        const rawData = await repository.getEvents(limit, [], 'recommend', populate);
         const items = Array.isArray(rawData) ? rawData : [];
         return items
             .map(item => new EventDTO(item))

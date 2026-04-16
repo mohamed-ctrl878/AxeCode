@@ -21,8 +21,13 @@ export class RecommendationRepository extends IRecommendationAccess {
      * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw article data from recommendation API.
      */
-    async getArticles(limit = 20, excludeIds = [], feedType = 'recommend') {
-        const response = await this.apiClient.get(this.articlesEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
+    async getArticles(limit = 20, excludeIds = [], feedType = 'recommend', populate = null) {
+        const response = await this.apiClient.get(this.articlesEndpoint, { 
+            limit, 
+            excludeIds: excludeIds.join(','), 
+            feedType,
+            populate 
+        });
         return response?.data || response || [];
     }
 
@@ -32,8 +37,13 @@ export class RecommendationRepository extends IRecommendationAccess {
      * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw blog data from recommendation API.
      */
-    async getBlogs(limit = 20, excludeIds = [], feedType = 'recommend') {
-        const response = await this.apiClient.get(this.blogsEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
+    async getBlogs(limit = 20, excludeIds = [], feedType = 'recommend', populate = null) {
+        const response = await this.apiClient.get(this.blogsEndpoint, { 
+            limit, 
+            excludeIds: excludeIds.join(','), 
+            feedType,
+            populate 
+        });
         return response?.data || response || [];
     }
 
@@ -43,8 +53,13 @@ export class RecommendationRepository extends IRecommendationAccess {
      * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw course data from recommendation API.
      */
-    async getCourses(limit = 20, excludeIds = [], feedType = 'recommend') {
-        const response = await this.apiClient.get(this.coursesEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
+    async getCourses(limit = 20, excludeIds = [], feedType = 'recommend', populate = null) {
+        const response = await this.apiClient.get(this.coursesEndpoint, { 
+            limit, 
+            excludeIds: excludeIds.join(','), 
+            feedType,
+            populate 
+        });
         return response?.data || response || [];
     }
 
@@ -54,8 +69,13 @@ export class RecommendationRepository extends IRecommendationAccess {
      * @param {string} [feedType='recommend'] Feed type strategy
      * @returns {Promise<object[]>} Raw event data from recommendation API.
      */
-    async getEvents(limit = 20, excludeIds = [], feedType = 'recommend') {
-        const response = await this.apiClient.get(this.eventsEndpoint, { limit, excludeIds: excludeIds.join(','), feedType });
+    async getEvents(limit = 20, excludeIds = [], feedType = 'recommend', populate = null) {
+        const response = await this.apiClient.get(this.eventsEndpoint, { 
+            limit, 
+            excludeIds: excludeIds.join(','), 
+            feedType,
+            populate 
+        });
         return response?.data || response || [];
     }
 

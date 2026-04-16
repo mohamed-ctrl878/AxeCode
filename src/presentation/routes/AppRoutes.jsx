@@ -1,10 +1,13 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { PATHS } from './paths';
-import { ProtectedRoute } from '@presentation/shared/components/Auth/ProtectedRoute';
-import { GuestRoute } from '@presentation/shared/components/Auth/GuestRoute';
+import { ProtectedRoute } from '@presentation/shared/components/auth/ProtectedRoute';
+import { GuestRoute } from '@presentation/shared/components/auth/GuestRoute';
 import { ROLE_TYPES } from '@core/constants/RoleConstants';
+import ComingSoonPage from '../shared/pages/ComingSoonPage';
+import AxeCodeLogo from '../shared/components/AxeCodeLogo';
+import { PageLoader } from '../shared/components/loaders/PageLoader';
 
 // Placeholder/Lazy Loaded Pages for now
 // We can use a generic placeholder for initial setup
@@ -17,51 +20,51 @@ const PlaceholderPage = ({ title }) => (
     </div>
 );
 
-const CoursePage = lazy(() => import('../feature/course/routes/CoursePage'));
-const CreateCoursePage = lazy(() => import('../feature/course/routes/CreateCoursePage'));
-const CourseDetailsPage = lazy(() => import('../feature/course/routes/CourseDetailsPage'));
-const LearnCoursePage = lazy(() => import('../feature/course/routes/LearnCoursePage'));
-const ProblemPage = lazy(() => import('../feature/problem/routes/ProblemPage'));
-const ProblemPreviewPage = lazy(() => import('../feature/problem/routes/ProblemPreviewPage'));
-const FeedPage = lazy(() => import('../feature/feed/routes/FeedPage'));
-const ArticlePage = lazy(() => import('../feature/article/routes/ArticlePage'));
-const ArticleDetailsPage = lazy(() => import('../feature/article/routes/ArticleDetailsPage'));
-const WriteArticlePage = lazy(() => import('../feature/article/routes/WriteArticlePage'));
-const EventPage = lazy(() => import('../feature/event/routes/EventPage'));
-const CreateEventPage = lazy(() => import('../feature/event/routes/CreateEventPage'));
-const EventDetailsPage = lazy(() => import('../feature/event/routes/EventDetailsPage'));
+const CoursePage = lazy(() => import('@presentation/feature/course/routes/CoursePage'));
+const CreateCoursePage = lazy(() => import('@presentation/feature/course/routes/CreateCoursePage'));
+const CourseDetailsPage = lazy(() => import('@presentation/feature/course/routes/CourseDetailsPage'));
+const LearnCoursePage = lazy(() => import('@presentation/feature/course/routes/LearnCoursePage'));
+const ProblemPage = lazy(() => import('@presentation/feature/problem/routes/ProblemPage'));
+const ProblemPreviewPage = lazy(() => import('@presentation/feature/problem/routes/ProblemPreviewPage'));
+const FeedPage = lazy(() => import('@presentation/feature/feed/routes/FeedPage'));
+const ArticlePage = lazy(() => import('@presentation/feature/article/routes/ArticlePage'));
+const ArticleDetailsPage = lazy(() => import('@presentation/feature/article/routes/ArticleDetailsPage'));
+const WriteArticlePage = lazy(() => import('@presentation/feature/article/routes/WriteArticlePage'));
+const EventPage = lazy(() => import('@presentation/feature/event/routes/EventPage'));
+const CreateEventPage = lazy(() => import('@presentation/feature/event/routes/CreateEventPage'));
+const EventDetailsPage = lazy(() => import('@presentation/feature/event/routes/EventDetailsPage'));
 
 // CMS Layout + Module Pages (Nested Routing)
-const CMSLayout = lazy(() => import('../feature/cms/layout/CMSLayout'));
-const CMSCoursesPage = lazy(() => import('../feature/cms/routes/CMSCoursesPage'));
-const CMSEventsPage = lazy(() => import('../feature/cms/routes/CMSEventsPage'));
-const CMSProblemsPage = lazy(() => import('../feature/cms/routes/CMSProblemsPage'));
+const CMSLayout = lazy(() => import('@presentation/feature/cms/layout/CMSLayout'));
+const CMSCoursesPage = lazy(() => import('@presentation/feature/cms/routes/CMSCoursesPage'));
+const CMSEventsPage = lazy(() => import('@presentation/feature/cms/routes/CMSEventsPage'));
+const CMSProblemsPage = lazy(() => import('@presentation/feature/cms/routes/CMSProblemsPage'));
 
 // CMS Management Pages (Deep routes)
-const CourseManagementPage = lazy(() => import('../feature/cms/routes/CourseManagementPage'));
-const EventManagementPage = lazy(() => import('../feature/cms/routes/EventManagementPage'));
-const ProblemManagementPage = lazy(() => import('../feature/cms/routes/ProblemManagementPage'));
-const CreateProblemPage = lazy(() => import('../feature/cms/routes/CreateProblemPage'));
-const AddLessonPage = lazy(() => import('../feature/cms/routes/AddLessonPage'));
-const EditLessonPage = lazy(() => import('../feature/cms/routes/EditLessonPage'));
-const CMSReportTypesPage = lazy(() => import('../feature/cms/routes/CMSReportTypesPage'));
-const ReportTypeManagementPage = lazy(() => import('../feature/cms/routes/ReportTypeManagementPage'));
+const CourseManagementPage = lazy(() => import('@presentation/feature/cms/routes/CourseManagementPage'));
+const EventManagementPage = lazy(() => import('@presentation/feature/cms/routes/EventManagementPage'));
+const ProblemManagementPage = lazy(() => import('@presentation/feature/cms/routes/ProblemManagementPage'));
+const CreateProblemPage = lazy(() => import('@presentation/feature/cms/routes/CreateProblemPage'));
+const AddLessonPage = lazy(() => import('@presentation/feature/cms/routes/AddLessonPage'));
+const EditLessonPage = lazy(() => import('@presentation/feature/cms/routes/EditLessonPage'));
+const CMSReportTypesPage = lazy(() => import('@presentation/feature/cms/routes/CMSReportTypesPage'));
+const ReportTypeManagementPage = lazy(() => import('@presentation/feature/cms/routes/ReportTypeManagementPage'));
 
-const RoadmapsPage = lazy(() => import('../feature/roadmap/routes/RoadmapsPage'));
-const RoadmapDetailsPage = lazy(() => import('../feature/roadmap/routes/RoadmapDetailsPage'));
-const EnrolledContentPage = lazy(() => import('../feature/user/routes/EnrolledContentPage'));
-const RegisterPage = lazy(() => import('../feature/auth/register/routes/RegisterPage'));
-const LoginPage = lazy(() => import('../feature/auth/login/routes/LoginPage'));
-const ForgotPasswordPage = lazy(() => import('../feature/auth/forgot-password/routes/ForgotPasswordPage'));
-const ResetPasswordPage = lazy(() => import('../feature/auth/reset-password/routes/ResetPasswordPage'));
-const GithubCallbackPage = lazy(() => import('../feature/auth/login/routes/GithubCallbackPage'));
-const CMSRoadmapsPage = lazy(() => import('../feature/cms/routes/CMSRoadmapsPage'));
-const FlowSandboxPage = lazy(() => import('../feature/misc/FlowSandboxPage'));
-const ProfilePage = lazy(() => import('../feature/profile/routes/ProfilePage'));
-const SettingsPage = lazy(() => import('../feature/user/routes/SettingsPage'));
-
-
-const LandingPage = lazy(() => import('../feature/landing/routes/LandingPage'));
+const RoadmapsPage = lazy(() => import('@presentation/feature/roadmap/routes/RoadmapsPage'));
+const RoadmapDetailsPage = lazy(() => import('@presentation/feature/roadmap/routes/RoadmapDetailsPage'));
+const EnrolledContentPage = lazy(() => import('@presentation/feature/user/routes/EnrolledContentPage'));
+const RegisterPage = lazy(() => import('@presentation/feature/auth/register/routes/RegisterPage'));
+const LoginPage = lazy(() => import('@presentation/feature/auth/login/routes/LoginPage'));
+const ForgotPasswordPage = lazy(() => import('@presentation/feature/auth/forgot-password/routes/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('@presentation/feature/auth/reset-password/routes/ResetPasswordPage'));
+const GithubCallbackPage = lazy(() => import('@presentation/feature/auth/login/routes/GithubCallbackPage'));
+const CMSRoadmapsPage = lazy(() => import('@presentation/feature/cms/routes/CMSRoadmapsPage'));
+const FlowSandboxPage = lazy(() => import('@presentation/feature/misc/FlowSandboxPage'));
+const ProfilePage = lazy(() => import('@presentation/feature/profile/routes/ProfilePage'));
+const SettingsPage = lazy(() => import('@presentation/feature/user/routes/SettingsPage'));
+const LegalPage = lazy(() => import('@presentation/feature/static/routes/LegalPage'));
+const DocumentationPage = lazy(() => import('@presentation/feature/static/routes/DocumentationPage'));
+const LandingPage = lazy(() => import('@presentation/feature/landing/routes/LandingPage'));
 
 /**
  * AuthAwareHome: Renders the appropriate root page based on authentication state.
@@ -82,19 +85,27 @@ const AuthAwareHome = () => {
  * - Protected routes: All internal app routes (courses, feed, articles, etc.)
  * - Publisher routes: CMS management routes
  */
-import ComingSoonPage from '../shared/pages/ComingSoonPage';
-
-import AxeCodeLogo from '../shared/components/AxeCodeLogo';
-
-import { PageLoader } from '../shared/components/loaders/PageLoader';
-
 export const AppRoutes = () => {
+    const location = useLocation();
+    const { isAuthenticated } = useSelector(state => state.auth || {});
+    
+    React.useEffect(() => {
+        if (location.pathname === PATHS.FEED) {
+            console.log('[AppRoutes] Accessing Feed - Auth State:', isAuthenticated);
+        }
+    }, [location, isAuthenticated]);
+
+    const fallback = <PageLoader />;
+
     return (
-        <Suspense fallback={<PageLoader />}>
+        <Suspense fallback={fallback}>
             <Routes>
                 {/* ═══ Public Routes (No Auth Required) ═══ */}
                 <Route path={PATHS.DASHBOARD} element={<AuthAwareHome />} />
                 <Route path={PATHS.COMING_SOON} element={<ComingSoonPage />} />
+                <Route path={PATHS.PRIVACY} element={<LegalPage />} />
+                <Route path={PATHS.TERMS} element={<LegalPage />} />
+                <Route path={PATHS.DOCUMENTATION} element={<DocumentationPage />} />
                 
                 {/* Auth */}
                 <Route path={PATHS.REGISTER} element={<GuestRoute><RegisterPage /></GuestRoute>} />
@@ -104,13 +115,30 @@ export const AppRoutes = () => {
                 <Route path={PATHS.GITHUB_CALLBACK} element={<GuestRoute><GithubCallbackPage /></GuestRoute>} />
                 
                 {/* ═══ Protected Routes (Authenticated Users Only) ═══ */}
+                
+                {/* Community (High Priority Precedence) */}
+                <Route path={PATHS.FEED} element={
+                    <ProtectedRoute><FeedPage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.FEED_DETAILS} element={
+                    <ProtectedRoute><FeedPage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.ARTICLES} element={
+                    <ProtectedRoute><ArticlePage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.ARTICLE_DETAILS} element={
+                    <ProtectedRoute><ArticleDetailsPage /></ProtectedRoute>
+                } />
+                <Route path={`${PATHS.ARTICLES}/write`} element={
+                    <ProtectedRoute><WriteArticlePage /></ProtectedRoute>
+                } />
 
                 {/* Learning */}
                 <Route path={PATHS.COURSES} element={
                     <ProtectedRoute><CoursePage /></ProtectedRoute>
                 } />
 
-                {/* Learning (Protected) */}
+                {/* Learning (Standard) */}
                 <Route path={PATHS.COURSE_CREATE} element={
                     <ProtectedRoute><CreateCoursePage /></ProtectedRoute>
                 } />
@@ -147,10 +175,7 @@ export const AppRoutes = () => {
                         </ProtectedRoute>
                     }
                 >
-                    {/* Default redirect: /cms → /cms/courses */}
                     <Route index element={<Navigate to="courses" replace />} />
-
-                    {/* Module listing pages */}
                     <Route path="courses" element={<CMSCoursesPage />} />
                     <Route path="events" element={<CMSEventsPage />} />
                     <Route path="problems" element={<CMSProblemsPage />} />
@@ -160,7 +185,7 @@ export const AppRoutes = () => {
                     <Route path="media" element={<PlaceholderPage title="Media Management" />} />
                 </Route>
 
-                {/* CMS Deep Management Routes (outside layout — full-page views) */}
+                {/* CMS Deep Management Routes */}
                 <Route 
                     path={`${PATHS.CONTENT_MANAGEMENT}/courses/:id/:topic`} 
                     element={
@@ -233,20 +258,6 @@ export const AppRoutes = () => {
                         </ProtectedRoute>
                     } 
                 />
-
-                {/* Community */}
-                <Route path={PATHS.FEED} element={
-                    <ProtectedRoute><FeedPage /></ProtectedRoute>
-                } />
-                <Route path={PATHS.ARTICLES} element={
-                    <ProtectedRoute><ArticlePage /></ProtectedRoute>
-                } />
-                <Route path={PATHS.ARTICLE_DETAILS} element={
-                    <ProtectedRoute><ArticleDetailsPage /></ProtectedRoute>
-                } />
-                <Route path={`${PATHS.ARTICLES}/write`} element={
-                    <ProtectedRoute><WriteArticlePage /></ProtectedRoute>
-                } />
                 <Route path={PATHS.EVENTS} element={
                     <ProtectedRoute><EventPage /></ProtectedRoute>
                 } />

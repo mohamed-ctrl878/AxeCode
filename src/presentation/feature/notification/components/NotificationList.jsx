@@ -22,7 +22,7 @@ export const NotificationList = ({
     };
 
     return (
-        <div className="absolute top-full right-0 mt-4 w-80 md:w-96 glass overflow-hidden rounded-2xl border border-border-subtle shadow-2xl flex flex-col z-50 animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="fixed sm:absolute top-[70px] sm:top-full left-4 right-4 sm:left-auto sm:right-0 sm:mt-4 sm:w-80 md:w-96 glass overflow-hidden rounded-2xl border border-border-subtle shadow-2xl flex flex-col z-50 animate-in fade-in slide-in-from-top-4 duration-200">
             {/* Header */}
             <div className="p-4 border-b border-border-subtle flex items-center justify-between bg-surface/50 backdrop-blur-md">
                 <div className="flex items-center gap-2">

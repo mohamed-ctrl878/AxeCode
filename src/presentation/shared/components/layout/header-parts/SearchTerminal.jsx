@@ -102,7 +102,7 @@ export const SearchTerminal = ({ mobile = false }) => {
                 </button>
 
                 {isMobileSearchOpen && (
-                    <div className="fixed inset-0 z-[100] bg-surface/98 backdrop-blur-3xl flex flex-col animate-in fade-in zoom-in-[0.98] duration-200">
+                    <div className="fixed inset-0 z-[100] bg-surface-dark flex flex-col animate-in fade-in zoom-in-[0.98] duration-200">
                         {/* Header bar */}
                         <div className="flex items-center gap-2 p-3 border-b border-border-subtle bg-surface-elevated shadow-sm">
                             <div className="flex-1 relative flex items-center h-10 bg-surface-dark rounded-xl px-3 border border-border-subtle focus-within:border-accent-primary transition-colors">
@@ -127,28 +127,21 @@ export const SearchTerminal = ({ mobile = false }) => {
 
                         {/* Search Categories */}
                         {!query && (
-                            <div className="px-4 pt-6 pb-2">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted mb-4">Categories</p>
-                                <div className="flex flex-col gap-2">
+                            <div className="mx-4 mt-4 p-4 rounded-xl bg-surface-elevated border border-border-subtle shadow-sm">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted mb-4">Topic Filter</p>
+                                <div className="flex flex-wrap gap-2">
                                     {searchTags.map((tag) => (
                                         <button
                                             key={tag.id}
-                                            onClick={() => {
-                                                setActiveTagId(tag.id);
-                                                // Optional: keep it open but set tag
-                                            }}
-                                            className={`w-full flex items-center justify-between gap-3 p-4 rounded-xl border transition-all ${activeTagId === tag.id ? 'border-accent-primary bg-accent-primary/5' : 'border-border-subtle bg-surface hover:border-border-subtle/80'}`}
+                                            onClick={() => setActiveTagId(tag.id)}
+                                            className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
+                                                activeTagId === tag.id 
+                                                    ? 'border-accent-primary bg-accent-primary text-white shadow-sm' 
+                                                    : 'border-border-subtle bg-surface text-text-muted hover:border-border-subtle/80 shadow-sm'
+                                            }`}
                                         >
-                                            <div className="flex items-center gap-3">
-                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${activeTagId === tag.id ? 'bg-accent-primary/20 text-accent-primary' : 'bg-surface-sunken text-text-muted'}`}>
-                                                    <tag.icon size={18} />
-                                                </div>
-                                                <div className="flex flex-col text-left">
-                                                    <span className={`text-sm font-bold ${activeTagId === tag.id ? 'text-accent-primary' : 'text-text-primary'}`}>{tag.label}s</span>
-                                                    <span className="text-[11px] text-text-muted">Search for {tag.label.toLowerCase()}s</span>
-                                                </div>
-                                            </div>
-                                            {activeTagId === tag.id && <ChevronRight size={16} className="text-accent-primary" />}
+                                            <tag.icon size={14} />
+                                            <span className="text-xs font-bold">{tag.label}s</span>
                                         </button>
                                     ))}
                                 </div>

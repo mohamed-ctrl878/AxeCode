@@ -13,7 +13,13 @@ export const useFetchArticles = () => {
     const repository = new RecommendationRepository();
 
     const fetchLogic = useCallback(async (limit = 20, feedType = 'recommend') => {
-        const rawData = await repository.getArticles(limit, [], feedType);
+        const populate = {
+            author: {
+                fields: ['firstname', 'lastname', 'email', 'username', 'birthday', 'university', 'bio'],
+                populate: ['avatar']
+            }
+        };
+        const rawData = await repository.getArticles(limit, [], feedType, populate);
         const items = Array.isArray(rawData) ? rawData : [];
         // console.log(items)
         return items

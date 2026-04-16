@@ -17,13 +17,30 @@ export const AxeContributionGraph = ({ username }) => {
         return result;
     }, []);
 
-    const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [
+        { name: 'Jan', week: 0 },
+        { name: 'Feb', week: 4 },
+        { name: 'Mar', week: 9 },
+        { name: 'Apr', week: 13 },
+        { name: 'May', week: 17 },
+        { name: 'Jun', week: 22 },
+        { name: 'Jul', week: 26 },
+        { name: 'Aug', week: 31 },
+        { name: 'Sep', week: 35 },
+        { name: 'Oct', week: 39 },
+        { name: 'Nov', week: 44 },
+        { name: 'Dec', week: 48 },
+    ];
 
     return (
         <div className="contribution-container">
             <div className="graph-wrapper">
                 <div className="month-labels">
-                    {monthLabels.map((m, i) => <span key={i}>{m}</span>)}
+                    {months.map((m, i) => (
+                        <span key={i} style={{ left: `${m.week * 16 + 35}px` }}>
+                            {m.name}
+                        </span>
+                    ))}
                 </div>
                 
                 <div className="graph-grid">
