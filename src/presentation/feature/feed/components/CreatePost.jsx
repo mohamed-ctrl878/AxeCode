@@ -15,7 +15,7 @@ export const CreatePost = ({ className, onClick }) => {
             "bento-card p-6 flex flex-col gap-4 bg-surface border border-border-subtle rounded-3xl",
             className
         )}>
-            <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center gap-3 sm:gap-4 flex-nowrap">
                 {/* User Avatar */}
                 <div className="w-10 h-10 rounded-full bg-surface-sunken flex-shrink-0 border border-border-subtle/50 overflow-hidden">
                     {user?.avatar?.url ? (
@@ -36,17 +36,17 @@ export const CreatePost = ({ className, onClick }) => {
                 <input 
                     type="text" 
                     placeholder="What's in your mind?" 
-                    className="flex-1 min-w-0 bg-transparent border-none outline-none text-text-primary placeholder:text-text-muted font-light cursor-pointer"
+                    className="flex-1 min-w-0 w-full bg-transparent border-none outline-none text-text-primary placeholder:text-text-muted font-light cursor-pointer text-sm sm:text-base"
                     readOnly
                     onClick={onClick}
                     onFocus={onClick}
                 />
                 <button 
                     onClick={onClick}
-                    className="btn-primary px-8 w-full sm:w-auto flex-shrink-0"
+                    className="btn-primary px-4 sm:px-8 flex-shrink-0"
                 >
-                    <Send size={16} />
-                    <span>Create</span>
+                    <Send size={16} className="sm:hidden" />
+                    <span className="hidden sm:inline">Create</span>
                 </button>
             </div>
         </div>

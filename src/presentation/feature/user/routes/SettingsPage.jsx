@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useUI } from '@presentation/shared/provider/UIProvider';
+import { toast } from 'react-hot-toast';
 import { 
     Moon, 
     Sun, 
@@ -81,7 +82,7 @@ const SettingsPage = () => {
 
     const requestPermission = async () => {
         if (!('Notification' in window)) {
-            alert('This browser does not support notifications.');
+            toast.error('This browser does not support notifications.');
             return;
         }
         const permission = await Notification.requestPermission();

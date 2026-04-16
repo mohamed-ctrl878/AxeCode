@@ -3,6 +3,7 @@ import { useFetchEvent } from '@domain/useCase/useFetchEvent';
 import { useUpdateEvent } from '@domain/useCase/useUpdateEvent';
 import { EventForm } from '@presentation/feature/event/components/EventForm';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 export const EventMetadataEditor = ({ eventId }) => {
     const { fetchEvent, event, loading: isFetching } = useFetchEvent();
@@ -16,10 +17,10 @@ export const EventMetadataEditor = ({ eventId }) => {
         try {
             await updateEvent(eventId, dtoData);
             // In a real app, we might handle image upload here too if changed
-            alert("Event metadata updated successfully!");
+            toast.success("Event metadata updated successfully!");
         } catch (err) {
             console.error("Update failed:", err);
-            alert("Failed to update event.");
+            toast.error("Failed to update event.");
         }
     };
 

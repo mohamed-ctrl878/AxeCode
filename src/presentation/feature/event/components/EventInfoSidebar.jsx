@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { CalendarClock, MapPin, Tag, Users, ShieldCheck, Loader2 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { useCreateUserEntitlement } from '@domain/useCase/useCreateUserEntitlement';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
@@ -33,7 +34,7 @@ export const EventInfoSidebar = ({ event, onRefresh }) => {
                 console.error('Registration failed:', err);
             }
         } else {
-            alert('This is a ticketed event. Ticketing system integration is coming in the next release.');
+            toast.error('This is a ticketed event. Ticketing system integration is coming in the next release.');
         }
     }, [event, isFree, inProgress, createUserEntitlement, onRefresh]);
 

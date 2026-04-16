@@ -228,8 +228,15 @@ export const Header = () => {
                                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-accent-primary rounded-full border-2 border-background glow-pulse" />
                             </button> */}
 
+                            {/* Mobile Search Icon */}
+                            {!isFocusMode && (
+                                <div className="flex md:hidden">
+                                    <SearchTerminal mobile />
+                                </div>
+                            )}
+
                             {/* Notifications */}
-                            <div className="hidden md:block">
+                            <div className="block relative">
                                 <NotificationBell />
                             </div>
 
@@ -314,17 +321,6 @@ export const Header = () => {
                                 <Database size={16} /> Content Management
                             </Link>
                             </PermissionGate>
-
-                            {/* Mobile: Search & Notifications */}
-                            <div className="h-px bg-border-subtle/40 my-2" />
-                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Quick Actions</div>
-                            <div className="px-3 py-2">
-                                <SearchTerminal />
-                            </div>
-                            <div className="px-3 py-2 flex items-center gap-3 text-sm text-text-muted">
-                                <NotificationBell />
-                                <span className="font-medium">Notifications</span>
-                            </div>
                         </div>
                     </div>
                 )}

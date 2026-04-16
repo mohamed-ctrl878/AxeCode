@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FlowBuilder } from '@presentation/shared/components/flow/FlowBuilder';
 import { FlowPreviewer } from '@presentation/shared/components/flow/FlowPreviewer';
 import { Eye, Edit3, CloudUpload, Loader } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { useUploadRoadmap } from '@domain/useCase/useUploadRoadmap';
 import { UploadRoadmapModal } from '../roadmap/components/UploadRoadmapModal';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -54,7 +55,7 @@ export const FlowSandboxPage = () => {
     const onCompleteUpload = async (payload) => {
         const result = await uploadRoadmap(payload, id); // pass id for update if exists
         if (result) {
-            alert(id ? 'Roadmap successfully updated!' : 'Roadmap successfully published to the Server!');
+            toast.success(id ? 'Roadmap successfully updated!' : 'Roadmap successfully published to the Server!');
             setIsModalOpen(false);
             navigate('/cms/roadmaps'); // Redirect back to CMS table
         }

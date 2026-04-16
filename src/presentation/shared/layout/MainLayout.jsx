@@ -63,7 +63,7 @@ export const MainLayout = ({ children, className }) => {
             {isAuthenticated && !isFocusMode && !isAuthPage && <Header />}
             
             <main className={cn(
-                "transition-all duration-500 ease-in-out px-4 pb-4 md:px-8 md:pb-8 grid gap-4 md:gap-6 flex-grow",
+                "transition-all duration-500 ease-in-out px-4 pb-4 md:px-8 md:pb-8 grid gap-4 md:gap-6 flex-grow min-h-[calc(100vh-250px)]",
                 "grid-cols-1 md:grid-cols-12 w-full max-w-[1440px] mx-auto",
                 !isFocusMode ? [
                     !isAuthPage ? "pt-24" : "pt-4", // Header padding if header is visible

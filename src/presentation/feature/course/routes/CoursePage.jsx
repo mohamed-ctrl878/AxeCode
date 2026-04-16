@@ -8,6 +8,7 @@ import { Search, ChevronRight, Sparkles, Map, BookOpen, AlertTriangle, Tag, Chev
 import { PATHS } from '@presentation/routes/paths';
 import { CourseCardSkeleton } from '@presentation/shared/components/skeletons/CourseCardSkeleton';
 import { EventRecommendedCardSkeleton } from '@presentation/shared/components/skeletons/EventRecommendedCardSkeleton';
+import { PageLoader } from '@presentation/shared/components/loaders/PageLoader';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -183,8 +184,8 @@ export const CoursePage = () => {
                 </div>
 
                 {isLoadingCourses ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {[1, 2, 3, 4, 5].map(i => <CourseCardSkeleton key={i} />)}
+                    <div className="py-12">
+                        <PageLoader />
                     </div>
                 ) : courseError ? (
                     <div className="flex items-center justify-center py-12 gap-2 text-accent-rose">

@@ -4,6 +4,7 @@ import { EventFilters } from '../components/EventFilters';
 import { useFetchRecommendedEventsForPage } from '@domain/useCase/useFetchRecommendedEventsForPage';
 import { Loader2, AlertTriangle } from 'lucide-react';
 import { EventCardSkeleton } from '@presentation/shared/components/skeletons/EventCardSkeleton';
+import { PageLoader } from '@presentation/shared/components/loaders/PageLoader';
 
 /**
  * EventPage: Core layout for exploring and registering for events.
@@ -18,11 +19,16 @@ const EventPage = () => {
 
     return (
         <React.Fragment>
+            {/* Sidebar (3 cols) */}
+            <aside className="md:col-span-3 flex flex-col gap-6 md:order-2">
+                <EventFilters activeFilter={filter} onFilterChange={setFilter} />
+            </aside>
+
             {/* Main Content (9 cols) - Responsive Grid */}
-            <div className="md:col-span-9 order-2 md:order-1">
+            <div className="md:col-span-9 md:order-1">
                 {loading ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                        {[1, 2, 3, 4, 5, 6].map(i => <EventCardSkeleton key={i} />)}
+                    <div className="py-12">
+                        <PageLoader />
                     </div>
                 ) : error ? (
                     <div className="flex items-center justify-center py-16 gap-2 text-red-400">
@@ -37,11 +43,6 @@ const EventPage = () => {
                     </div>
                 )}
             </div>
-
-            {/* Sidebar (3 cols) */}
-            <aside className="md:col-span-3 flex flex-col gap-6 order-1 md:order-2">
-                <EventFilters activeFilter={filter} onFilterChange={setFilter} />
-            </aside>
         </React.Fragment>
     );
 };
