@@ -1,7 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useUploadMedia } from '../../src/domain/useCase/useUploadMedia';
-import { MediaRepository } from '../../../infrastructure/repository/MediaRepository';
 
 const mockUploadFiles = vi.fn();
 
