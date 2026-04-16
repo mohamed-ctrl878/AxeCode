@@ -71,6 +71,8 @@
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.18.0",
-    "@rollup/rollup-windows-x64-msvc": "^4.18.0"
+    "@rollup/rollup-windows-x64-msvc": "^4.18.0",
+    "lightningcss-linux-x64-gnu": "^1.29.0",
+    "lightningcss-win32-x64-msvc": "^1.29.0"
   }
 }
