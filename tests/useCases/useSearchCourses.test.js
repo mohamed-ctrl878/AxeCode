@@ -5,11 +5,15 @@ import { MOCK_SEARCH_RESULTS } from './mockData';
 
 // Mock CourseRepository
 const mockSearch = vi.fn();
-vi.mock('../../src/infrastructure/repository/CourseRepository', () => ({
-    CourseRepository: vi.fn().mockImplementation(() => ({
-        search: mockSearch
-    }))
-}));
+vi.mock('@infrastructure/repository/CourseRepository', () => {
+    return {
+        CourseRepository: class {
+            constructor() {
+                this.search = mockSearch;
+            }
+        }
+    };
+});
 
 describe('useSearchCourses Hook', () => {
     beforeEach(() => {

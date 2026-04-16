@@ -4,12 +4,16 @@ import { useSearchUsers } from '../../src/domain/useCase/useSearchUsers';
 import { MOCK_USER_DATA } from './mockData';
 
 // Mock UserRepository
-const mockSearchByQuery = vi.fn();
-vi.mock('../../src/infrastructure/repository/UserRepository', () => ({
-    UserRepository: vi.fn().mockImplementation(() => ({
-        searchByQuery: mockSearchByQuery
-    }))
-}));
+const mockSearchByEmail = vi.fn();
+vi.mock('@infrastructure/repository/UserRepository', () => {
+    return {
+        UserRepository: class {
+            constructor() {
+                this.searchByEmail = mockSearchByEmail;
+            }
+        }
+    };
+});
 
 describe('useSearchUsers Hook', () => {
     beforeEach(() => {
@@ -18,7 +22,7 @@ describe('useSearchUsers Hook', () => {
 
     it('should successfully search for users', async () => {
         const mockResults = [MOCK_USER_DATA];
-        mockSearchByQuery.mockResolvedValue(mockResults);
+        mockSearchByEmail.mockResolvedValue(mockResults);
 
         const { result } = renderHook(() => useSearchUsers());
 
@@ -28,7 +32,7 @@ describe('useSearchUsers Hook', () => {
             expect(data[0].username).toBe(MOCK_USER_DATA.username);
         });
 
-        expect(mockSearchByQuery).toHaveBeenCalledWith('testuser');
+        expect(mockSearchByEmail).toHaveBeenCalledWith('testuser');
         expect(result.current.loading).toBe(false);
     });
 });

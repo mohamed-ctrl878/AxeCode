@@ -4,11 +4,15 @@ import { useDeleteArticle } from '../../src/domain/useCase/useDeleteArticle';
 
 // Mock ArticleRepository
 const mockDelete = vi.fn();
-vi.mock('../../src/infrastructure/repository/ArticleRepository', () => ({
-    ArticleRepository: vi.fn().mockImplementation(() => ({
-        delete: mockDelete
-    }))
-}));
+vi.mock('@infrastructure/repository/ArticleRepository', () => {
+    return {
+        ArticleRepository: class {
+            constructor() {
+                this.delete = mockDelete;
+            }
+        }
+    };
+});
 
 describe('useDeleteArticle Hook', () => {
     beforeEach(() => {

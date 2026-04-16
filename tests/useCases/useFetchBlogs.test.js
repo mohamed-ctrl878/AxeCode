@@ -5,11 +5,15 @@ import { MOCK_LIST_RESPONSE } from './mockData';
 
 // Mock RecommendationRepository
 const mockGetBlogs = vi.fn();
-vi.mock('../../src/infrastructure/repository/RecommendationRepository', () => ({
-    RecommendationRepository: vi.fn().mockImplementation(() => ({
-        getBlogs: mockGetBlogs
-    }))
-}));
+vi.mock('@infrastructure/repository/RecommendationRepository', () => {
+    return {
+        RecommendationRepository: class {
+            constructor() {
+                this.getBlogs = mockGetBlogs;
+            }
+        }
+    };
+});
 
 // Mock Mapper and DTO
 vi.mock('../../domain/mapper/EntityMapper', () => ({

@@ -11,11 +11,15 @@ vi.mock('react-redux', () => ({
 
 // Mock UserRepository
 const mockUpdateName = vi.fn();
-vi.mock('../../src/infrastructure/repository/UserRepository', () => ({
-    UserRepository: vi.fn().mockImplementation(() => ({
-        updateUserName: mockUpdateName
-    }))
-}));
+vi.mock('@infrastructure/repository/UserRepository', () => {
+    return {
+        UserRepository: class {
+            constructor() {
+                this.updateUser = mockUpdateName;
+            }
+        }
+    };
+});
 
 describe('useUpdateUserName Hook', () => {
     beforeEach(() => {
@@ -29,11 +33,11 @@ describe('useUpdateUserName Hook', () => {
         const { result } = renderHook(() => useUpdateUserName());
 
         await act(async () => {
-            const data = await result.current.updateUserName('UpdatedName');
+            const data = await result.current.updateName(1, { firstname: 'UpdatedName' });
             expect(data.username).toBe('UpdatedName');
         });
 
         expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({ type: 'auth/setUserData' }));
-        expect(result.current.inProgress).toBe(false);
+        expect(result.current.isUpdating).toBe(false);
     });
 });

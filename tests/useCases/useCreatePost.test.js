@@ -1,19 +1,18 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useCreatePost } from '../useCreatePost';
-import { PostRepository } from '../../../infrastructure/repository/PostRepository';
+import { useCreatePost } from '../../src/domain/useCase/useCreatePost';
 import { MOCK_POST_DATA, MOCK_API_RESPONSE } from './mockData';
 
 const mockCreate = vi.fn();
 
-// Mock the repository - sharing the same mock function across all instances
-vi.mock('../../../infrastructure/repository/PostRepository', () => {
+// Mock the repository
+vi.mock('@infrastructure/repository/PostRepository', () => {
     return {
-        PostRepository: vi.fn().mockImplementation(function () {
-            return {
-                create: mockCreate
-            };
-        })
+        PostRepository: class {
+            constructor() {
+                this.create = mockCreate;
+            }
+        }
     };
 });
 

@@ -5,11 +5,15 @@ import { MOCK_ARTICLE_DATA, MOCK_API_RESPONSE } from './mockData';
 
 // Mock ArticleRepository
 const mockUpdate = vi.fn();
-vi.mock('../../src/infrastructure/repository/ArticleRepository', () => ({
-    ArticleRepository: vi.fn().mockImplementation(() => ({
-        update: mockUpdate
-    }))
-}));
+vi.mock('@infrastructure/repository/ArticleRepository', () => {
+    return {
+        ArticleRepository: class {
+            constructor() {
+                this.update = mockUpdate;
+            }
+        }
+    };
+});
 
 describe('useUpdateArticle Hook', () => {
     beforeEach(() => {
