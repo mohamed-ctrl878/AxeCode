@@ -2,8 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { PATHS } from './paths';
-// import { ProtectedRoute } from '@presentation/shared/components/auth/ProtectedRoute';
-import { GuestRoute } from '@presentation/shared/components/auth/GuestRoute';
+import { GuestRoute } from '@presentation/shared/components/Auth/GuestRoute';
 import { ROLE_TYPES } from '@core/constants/RoleConstants';
 import ComingSoonPage from '../shared/pages/ComingSoonPage';
 import AxeCodeLogo from '../shared/components/AxeCodeLogo';
@@ -11,6 +10,7 @@ import { PageLoader } from '../shared/components/loaders/PageLoader';
 import { ProtectedRoute } from '@presentation/shared/components/Auth/ProtectedRoute';
 
 // Placeholder/Lazy Loaded Pages for now
+
 // We can use a generic placeholder for initial setup
 const PlaceholderPage = ({ title }) => (
     <div className="md:col-span-12 h-screen flex items-center justify-center p-6">
