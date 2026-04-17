@@ -51,7 +51,7 @@ export const PATHS = {
     REGISTER: '/register',
     FORGOT_PASSWORD: '/forgot-password',
     RESET_PASSWORD: '/reset-password',
-    GITHUB_CALLBACK: '/auth/github/callback',
+    GITHUB_CALLBACK: '/github/callback',
     COMING_SOON: '/coming-soon',
 
     // Guest Navigation
