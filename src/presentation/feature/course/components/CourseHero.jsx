@@ -19,11 +19,11 @@ export const CourseHero = ({ course }) => {
                         alt={course.title} 
                         className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700"
                      />
-                     <div className="absolute inset-0 flex items-center justify-center">
+                     {/* <div className="absolute inset-0 flex items-center justify-center">
                         <button className="w-20 h-20 rounded-full btn-primary">
                             <Play size={32} fill="currentColor" />
                         </button>
-                     </div>
+                     </div> */}
                 </div>
             </div>
 
@@ -33,11 +33,13 @@ export const CourseHero = ({ course }) => {
                     <span className="px-3 py-1 bg-accent-primary/10 text-accent-primary rounded-full text-[10px] font-mono uppercase border border-accent-primary/20">
                         {course.difficulty}
                     </span>
-                    <div className="flex items-center gap-1.5 text-accent-amber">
-                        <Star size={14} fill="currentColor" />
-                        <span className="text-sm font-medium text-text-primary">{course.rating}</span>
-                        <span className="text-xs text-text-muted font-mono">(1.2k reviews)</span>
-                    </div>
+                    {course.rating > 0 && (
+                        <div className="flex items-center gap-1.5 text-accent-amber">
+                            <Star size={14} fill="currentColor" />
+                            <span className="text-sm font-medium text-text-primary">{course.rating.toFixed(1)}</span>
+                            <span className="text-xs text-text-muted font-mono">({course.reviewsCount} reviews)</span>
+                        </div>
+                    )}
                 </div>
                 <h1 className="text-4xl md:text-5xl font-serif tracking-tight text-text-primary leading-[1.10]">
                     {course.title}
@@ -55,7 +57,7 @@ export const CourseHero = ({ course }) => {
                     </div>
                     <div className="flex flex-col">
                         <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest">Instructor</span>
-                        <span className="text-sm font-medium text-text-primary group-hover:text-accent-primary transition-colors">{course.instructor?.displayName || 'Axe Architect'}</span>
+                        <span className="text-sm font-medium text-text-primary group-hover:text-accent-primary transition-colors">{course.instructor?.displayName || 'Axe University'}</span>
                     </div>
                 </div>
             </div>

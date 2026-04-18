@@ -155,7 +155,9 @@ export class EntityMapper {
             hasAccess: dto.hasAccess,
             instructor: this.toUser(dto.instructor),
             weeks: Array.from(dto.weeks?.values() || []),
-            rating: dto.interactions?.rating?.average || 0, // Mapping from interactions if available
+            rating: dto.rating || 0,
+            reviewsCount: dto.reviewsCount || 0,
+            duration: dto.duration || 0,
             completedLessonsCount: dto.completedLessonsCount,
             lessonCount: dto.lessonCount
         });
@@ -229,7 +231,9 @@ export class EntityMapper {
             entitlementsId: dto.entitlementsId,
             instructor: dto.instructor?.username || dto.instructor,
             weeks: Array.from(dto.weeks?.values() || []),
-            rating: dto.interactions?.rating?.average || 0,
+            rating: dto.rating || 0,
+            reviewsCount: dto.reviewsCount || 0,
+            duration: dto.duration || 0,
             completedLessonsCount: dto.completedLessonsCount,
             lessonCount: dto.lessonCount
         });
@@ -273,7 +277,9 @@ export class EntityMapper {
             entitlementsId: dto.entitlementsId,
             instructor: this.toUser(dto.instructor),
             weeks,
-            rating: dto.interactions?.rating?.average || 0,
+            rating: dto.rating || 0,
+            reviewsCount: dto.reviewsCount || 0,
+            duration: dto.duration || 0,
             completedLessonsCount: dto.completedLessonsCount,
             lessonCount: dto.lessonCount
         });

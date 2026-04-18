@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export const CourseActionSidebar = ({ course, onRefresh }) => {
     const navigate = useNavigate();
     const { createUserEntitlement, inProgress, error } = useCreateUserEntitlement();
-    const totalLessons = course.weeks?.reduce((acc, w) => acc + (w.lessons?.length || 0), 0) || 0;
+    const totalLessons = course.lessonCount || 0;
 
     const handleAction = useCallback(async () => {
         if (course.hasAccess) {
@@ -50,6 +50,13 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
 
     const isFree = !course.price || Number(course.price) === 0;
 
+    const formatDuration = (minutes) => {
+        if (!minutes) return 'Self-paced';
+        const h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        return `${h ? `${h}h ` : ''}${m ? `${m}m` : ''}`.trim();
+    };
+
     return (
         <div className="lg:sticky lg:top-28 h-fit">
             <div className="p-8 bg-card border border-border-subtle rounded-3xl flex flex-col gap-6 shadow-whisper">
@@ -57,7 +64,6 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
                     <span className="text-[10px] font-mono text-text-muted uppercase tracking-[0.2em]">Course Investment</span>
                     <div className="flex items-baseline gap-2">
                         <span className="text-3xl font-serif">{!isFree ? `$${course.price}` : 'FREE'}</span>
-                        {course.price > 0 && <span className="text-sm font-mono text-text-muted line-through">$249</span>}
                     </div>
                 </div>
 
@@ -84,7 +90,7 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
                     
                     {error && <p className="text-[10px] text-center text-status-error font-bold">{error}</p>}
                     <p className="text-[10px] text-center text-text-muted font-mono uppercase tracking-widest leading-relaxed">
-                        Join {course.studentCount}+ software architects in this journey
+                        Join {course.studentCount || 0}+ students starting their journey
                     </p>
                 </div>
 
@@ -95,11 +101,11 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
                     </div>
                     <div className="flex items-center justify-between text-xs text-text-muted">
                         <span className="flex items-center gap-2"><Clock size={14} /> Duration</span>
-                        <span className="font-mono text-text-primary">12h 45m</span>
+                        <span className="font-mono text-text-primary">{formatDuration(course.duration)}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs text-text-muted">
                         <span className="flex items-center gap-2"><Users size={14} /> Access</span>
-                        <span className="font-mono text-text-primary">Lifetime</span>
+                        <span className="font-mono text-text-primary">Full Lifetime</span>
                     </div>
                 </div>
             </div>
