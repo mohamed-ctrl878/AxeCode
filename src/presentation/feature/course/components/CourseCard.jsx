@@ -23,7 +23,7 @@ export const CourseCard = ({ course }) => {
         rating
     } = course;
 
-    const lessonCount = weeks?.reduce((acc, w) => acc + (w.lessons?.length || 0), 0) || 0;
+    const lessonCount = course.lessonCount || 0;
 
     const handleDetails = () => {
         navigate(`${PATHS.COURSES}/${uid}`);
@@ -58,10 +58,12 @@ export const CourseCard = ({ course }) => {
                 </div>
                 
                 {/* Rating Badge */}
-                <div className="absolute bottom-2 right-2 bg-surface-sunken/80 backdrop-blur-md rounded-md px-2 py-1 flex items-center gap-1.5 border border-border-subtle/50">
-                    <Star size={10} className="text-accent-amber fill-accent-amber" />
-                    <span className="text-[10px] font-medium text-text-primary">{rating || 4.8}</span>
-                </div>
+                {rating > 0 && (
+                    <div className="absolute bottom-2 right-2 bg-surface-sunken/80 backdrop-blur-md rounded-md px-2 py-1 flex items-center gap-1.5 border border-border-subtle/50">
+                        <Star size={10} className="text-accent-amber fill-accent-amber" />
+                        <span className="text-[10px] font-medium text-text-primary">{rating.toFixed(1)}</span>
+                    </div>
+                )}
             </div>
 
             {/* Content Section */}
@@ -73,7 +75,7 @@ export const CourseCard = ({ course }) => {
 
                     <div className="flex items-center gap-2 text-text-muted text-[10px]">
                         <UserCircle size={12} className="text-text-muted" />
-                        <span>{instructor || 'Ax Architect'}</span>
+                        <span>{instructor || 'Axe Instructor'}</span>
                     </div>
                 </div>
 
