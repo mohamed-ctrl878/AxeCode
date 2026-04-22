@@ -34,6 +34,23 @@ export class ArticleRepository extends IContentInteraction {
     async trackEngagement(contentId) { }
 
     /**
+     * Fetches all articles for admin/CMS view.
+     * @returns {Promise<Array>}
+     */
+    async getAll() {
+        const response = await this.apiClient.get(`${this.endpoint}?populate[0]=author.avatar&sort=createdAt:desc`);
+        return response?.data || response || [];
+    }
+
+    /**
+     * Deletes an article by its documentId.
+     * @param {string} id
+     */
+    async delete(id) {
+        return await this.apiClient.delete(`${this.endpoint}/${id}`);
+    }
+
+    /**
      * Lists articles authored by a specific user with pagination support.
      * @param {string} username 
      * @param {number} start - Offset start

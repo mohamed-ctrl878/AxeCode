@@ -23,8 +23,15 @@ export class EventRepository extends IEventInteraction {
         console.log(`${this.endpointBase}/${id}?populate=*`)
         return await this.apiClient.get(`${this.endpointBase}/${id}?populate=*`);
     }
-    async getAll() {
-        return await this.apiClient.get(`${this.endpointBase}?populate=*`);
+    async getAll(page = 1, pageSize = 10, search = '') {
+        const filters = search ? `&filters[title][$containsi]=${encodeURIComponent(search)}` : '';
+        const endpoint = `${this.endpointBase}?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc${filters}`;
+        const response = await this.apiClient.get(endpoint);
+        const dataArray = response?.data || response || [];
+        return {
+            items: Array.isArray(dataArray) ? dataArray : [],
+            meta: response?.meta || { pagination: { total: Array.isArray(dataArray) ? dataArray.length : 0 } }
+        };
     }
 
     async update(id, data) {

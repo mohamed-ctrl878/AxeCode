@@ -13,18 +13,26 @@ export class ProblemRepository extends BaseRepository {
     /**
      * Fetches admin-owned problems or all problems if authorized.
      */
-    async getAll() {
+    async getAll(page = 1, pageSize = 10, search = '') {
         try {
-            const query = qs.stringify({
+            const queryObj = {
                 populate: ['problem_types'],
-                sort: ['createdAt:desc']
-            }, { encodeValuesOnly: true });
+                sort: ['createdAt:desc'],
+                pagination: { page, pageSize }
+            };
+            if (search) {
+                queryObj.filters = { title: { $containsi: search } };
+            }
+            const query = qs.stringify(queryObj, { encodeValuesOnly: true });
 
             const response = await this.get(`${this.endpoint}?${query}`);
-            return response.data || [];
+            return {
+                items: response?.data || [],
+                meta: response?.meta || { pagination: { total: 0 } }
+            };
         } catch (error) {
             console.error('[ProblemRepository] Fetch admin failed:', error);
-            throw error;
+            return { items: [], meta: { pagination: { total: 0 } } };
         }
     }
 

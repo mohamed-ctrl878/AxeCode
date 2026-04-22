@@ -8,7 +8,16 @@ import { CMSResourceTable } from '../components/CMSResourceTable';
  * Follows SRP: Only fetches and displays event data.
  */
 const CMSEventsPage = () => {
-    const { events, isLoading, fetch: fetchEvents } = useFetchAdminEvents();
+    const { 
+        events, 
+        isLoading, 
+        fetch: fetchEvents,
+        currentPage,
+        totalPages,
+        totalItems,
+        setPage,
+        setSearch 
+    } = useFetchAdminEvents();
 
     return (
         <CMSResourceTable
@@ -17,6 +26,12 @@ const CMSEventsPage = () => {
             isLoading={isLoading}
             icon={Calendar}
             onRefresh={fetchEvents}
+            serverPagination={true}
+            serverPage={currentPage}
+            serverTotalPages={totalPages}
+            serverTotalItems={totalItems}
+            onPageChange={setPage}
+            onSearchChange={setSearch}
         />
     );
 };

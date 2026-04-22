@@ -17,7 +17,7 @@ export const EventManagementPage = () => {
     const navigate = useNavigate();
 
     // Valid Topics Enforcer
-    const validTopics = ['edit', 'entitlement', 'subscription-analysis'];
+    const validTopics = ['edit', 'entitlement', 'subscription-analysis', 'activities', 'speakers'];
     if (!validTopics.includes(topic)) {
         return <Navigate to={`${PATHS.CONTENT_MANAGEMENT}/events/${id}/edit`} replace />;
     }
@@ -26,7 +26,9 @@ export const EventManagementPage = () => {
     const tabs = useMemo(() => [
         { id: 'edit', label: 'Event Details', icon: Edit2 },
         { id: 'entitlement', label: 'Entitlement', icon: ShieldCheck },
-        { id: 'subscription-analysis', label: 'Subscribers', icon: Activity }
+        { id: 'subscription-analysis', label: 'Subscribers', icon: Activity },
+        { id: 'activities', label: 'Activities', icon: Activity },
+        { id: 'speakers', label: 'Speakers', icon: Activity }
     ], []);
 
     // Active Render mapping
@@ -35,6 +37,20 @@ export const EventManagementPage = () => {
             case 'edit': return <EventMetadataEditor eventId={id} />;
             case 'entitlement': return <EventEntitlementEditor eventId={id} />;
             case 'subscription-analysis': return <EventSubscriptionAnalysis eventId={id} />;
+            case 'activities': return (
+                <div className="flex flex-col items-center justify-center py-32 text-text-muted bg-surface-sunken/20 border border-dashed border-border-default rounded-[3rem] animate-pulse">
+                    <Activity size={64} className="mb-6 opacity-10" />
+                    <p className="font-black uppercase tracking-[0.2em] italic text-text-primary">Activities Protocol Pending</p>
+                    <p className="text-[10px] mt-2 font-bold opacity-40 max-w-[300px] text-center">Event activities scheduling will be orchestrated here.</p>
+                </div>
+            );
+            case 'speakers': return (
+                <div className="flex flex-col items-center justify-center py-32 text-text-muted bg-surface-sunken/20 border border-dashed border-border-default rounded-[3rem] animate-pulse">
+                    <Activity size={64} className="mb-6 opacity-10" />
+                    <p className="font-black uppercase tracking-[0.2em] italic text-text-primary">Speakers Protocol Pending</p>
+                    <p className="text-[10px] mt-2 font-bold opacity-40 max-w-[300px] text-center">Event speakers management will be orchestrated here.</p>
+                </div>
+            );
             default: return null;
         }
     };

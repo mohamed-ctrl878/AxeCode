@@ -28,6 +28,23 @@ export class BlogRepository extends IContentInteraction {
     async trackEngagement(contentId) {}
 
     /**
+     * Fetches all blogs for admin/CMS view.
+     * @returns {Promise<Array>}
+     */
+    async getAll() {
+        const response = await this.apiClient.get(`${this.endpoint}?populate[0]=publisher.avatar&populate[1]=image&sort=createdAt:desc`);
+        return response?.data || response || [];
+    }
+
+    /**
+     * Deletes a blog by its documentId.
+     * @param {string} id
+     */
+    async delete(id) {
+        return await this.apiClient.delete(`${this.endpoint}/${id}`);
+    }
+
+    /**
      * Lists blogs authored by a specific user with pagination support.
      * @param {string} username 
      * @param {number} start - Offset start

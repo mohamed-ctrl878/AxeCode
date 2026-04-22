@@ -8,12 +8,12 @@ import { useMemo, useEffect } from 'react';
 export const useFetchCategorizations = () => {
     const repository = useMemo(() => new CategorizationRepository(), []);
 
-    const { execute: fetchCourseTypes, returnedData: courseTypes, inProgress: isLoadingCourseTypes } = useAsyncUseCase(
-        () => repository.getCourseTypes()
+    const { execute: fetchCourseTypes, returnedData: courseTypesData, inProgress: isLoadingCourseTypes } = useAsyncUseCase(
+        () => repository.getCourseTypes(1, 100)
     );
 
-    const { execute: fetchProblemTypes, returnedData: problemTypes, inProgress: isLoadingProblemTypes } = useAsyncUseCase(
-        () => repository.getProblemTypes()
+    const { execute: fetchProblemTypes, returnedData: problemTypesData, inProgress: isLoadingProblemTypes } = useAsyncUseCase(
+        () => repository.getProblemTypes(1, 100)
     );
 
     // Fetch on mount
@@ -24,8 +24,8 @@ export const useFetchCategorizations = () => {
     }, []);
 
     return {
-        courseTypes: courseTypes || [],
-        problemTypes: problemTypes || [],
+        courseTypes: courseTypesData?.items || [],
+        problemTypes: problemTypesData?.items || [],
         isLoading: isLoadingCourseTypes || isLoadingProblemTypes
     };
 };

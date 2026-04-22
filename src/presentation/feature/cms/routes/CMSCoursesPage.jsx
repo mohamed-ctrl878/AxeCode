@@ -8,7 +8,16 @@ import { CMSResourceTable } from '../components/CMSResourceTable';
  * Follows SRP: Only fetches and displays course data.
  */
 const CMSCoursesPage = () => {
-    const { courses, isLoading, fetch: fetchCourses } = useFetchAdminCourses();
+    const { 
+        courses, 
+        isLoading, 
+        fetch: fetchCourses,
+        currentPage,
+        totalPages,
+        totalItems,
+        setPage,
+        setSearch 
+    } = useFetchAdminCourses();
 
     return (
         <CMSResourceTable
@@ -17,6 +26,12 @@ const CMSCoursesPage = () => {
             isLoading={isLoading}
             icon={BookOpen}
             onRefresh={fetchCourses}
+            serverPagination={true}
+            serverPage={currentPage}
+            serverTotalPages={totalPages}
+            serverTotalItems={totalItems}
+            onPageChange={setPage}
+            onSearchChange={setSearch}
         />
     );
 };
