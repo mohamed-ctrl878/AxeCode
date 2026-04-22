@@ -74,6 +74,10 @@ export class EntityMapper {
             university: data.university,
             bio: data.bio,
             avatar: this.toMedia(data.avatar),
+            confirmed: data.confirmed,
+            blocked: data.blocked,
+            role: data.role,
+            createdAt: data.createdAt,
             submissionCount: stats.total || 0,
             passedSubmissionsCount: stats.passed || 0
         });

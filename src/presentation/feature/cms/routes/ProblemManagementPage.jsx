@@ -16,7 +16,7 @@ export const ProblemManagementPage = () => {
     const navigate = useNavigate();
 
     // Valid Topics Enforcer
-    const validTopics = ['edit', 'test-cases', 'analysis'];
+    const validTopics = ['edit', 'test-cases', 'templates', 'analysis'];
     if (!validTopics.includes(topic)) {
         return <Navigate to={`${PATHS.CONTENT_MANAGEMENT}/problems/${id}/edit`} replace />;
     }
@@ -25,6 +25,7 @@ export const ProblemManagementPage = () => {
     const tabs = useMemo(() => [
         { id: 'edit', label: 'Metadata Schema', icon: Edit2 },
         { id: 'test-cases', label: 'Validation Suite', icon: Database },
+        { id: 'templates', label: 'Code Templates', icon: Code2 },
         { id: 'analysis', label: 'Efficiency Analysis', icon: Activity }
     ], []);
 
@@ -33,6 +34,13 @@ export const ProblemManagementPage = () => {
         switch (topic) {
             case 'edit': return <ProblemMetadataEditor problemId={id} />;
             case 'test-cases': return <ProblemTestCaseManager problemId={id} />;
+            case 'templates': return (
+                <div className="flex flex-col items-center justify-center py-32 text-text-muted bg-surface-sunken/20 border border-dashed border-border-default rounded-[3rem] animate-pulse">
+                    <Code2 size={64} className="mb-6 opacity-10" />
+                    <p className="font-black uppercase tracking-[0.2em] italic text-text-primary">Templates Protocol Pending</p>
+                    <p className="text-[10px] mt-2 font-bold opacity-40 max-w-[300px] text-center">Language specific starting code snippets will be orchestrated here.</p>
+                </div>
+            );
             case 'analysis': return (
                 <div className="flex flex-col items-center justify-center py-32 text-text-muted bg-surface-sunken/20 border border-dashed border-border-default rounded-[3rem] animate-pulse">
                     <Activity size={64} className="mb-6 opacity-10" />

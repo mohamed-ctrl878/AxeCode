@@ -13,8 +13,8 @@ export const useFetchRoadmaps = () => {
     const repository = new RoadmapRepository();
 
     const fetchLogic = useCallback(async () => {
-        const rawData = await repository.getAll();
-        const items = Array.isArray(rawData) ? rawData : [];
+        const result = await repository.getAll(1, 100); // Fetch all for public view
+        const items = Array.isArray(result?.items) ? result.items : [];
         return items
             .map(item => new RoadmapDTO(item))
             .map(dto => EntityMapper.toRoadmap(dto))
