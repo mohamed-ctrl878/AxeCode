@@ -9,7 +9,7 @@ import { cn } from '@core/utils/cn';
  */
 export const CMSSidebar = ({ sections, activeSection }) => {
     return (
-        <div className="w-72 border-r border-border-subtle bg-surface">
+        <div className="hidden lg:block w-72 border-r border-border-subtle bg-surface shrink-0">
             <div className="flex flex-col p-8 sticky top-8 h-[calc(100vh-4rem)] overflow-y-auto scrollbar-hide">
                 <div className="mb-10">
                     <h3 className="text-[11px] uppercase tracking-[0.25em] text-text-muted/60 font-serif font-bold mb-8 px-2">

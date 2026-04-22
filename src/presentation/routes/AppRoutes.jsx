@@ -40,6 +40,16 @@ const CMSLayout = lazy(() => import('@presentation/feature/cms/layout/CMSLayout'
 const CMSCoursesPage = lazy(() => import('@presentation/feature/cms/routes/CMSCoursesPage'));
 const CMSEventsPage = lazy(() => import('@presentation/feature/cms/routes/CMSEventsPage'));
 const CMSProblemsPage = lazy(() => import('@presentation/feature/cms/routes/CMSProblemsPage'));
+const CMSReportsPage = lazy(() => import('@presentation/feature/cms/routes/CMSReportsPage'));
+const CMSAdminNotificationsPage = lazy(() => import('@presentation/feature/cms/routes/CMSAdminNotificationsPage'));
+const CMSTagsPage = lazy(() => import('@presentation/feature/cms/routes/CMSTagsPage'));
+const CMSFaqsPage = lazy(() => import('@presentation/feature/cms/routes/CMSFaqsPage'));
+const CMSHelpCentersPage = lazy(() => import('@presentation/feature/cms/routes/CMSHelpCentersPage'));
+const CMSCourseTypesPage = lazy(() => import('@presentation/feature/cms/routes/CMSCourseTypesPage'));
+const CMSProblemTypesPage = lazy(() => import('@presentation/feature/cms/routes/CMSProblemTypesPage'));
+const CMSUsersPage = lazy(() => import('@presentation/feature/cms/routes/CMSUsersPage'));
+const CMSMediaPage = lazy(() => import('@presentation/feature/cms/routes/CMSMediaPage'));
+const CMSDashboardPage = lazy(() => import('@presentation/feature/cms/routes/CMSDashboardPage'));
 
 // CMS Management Pages (Deep routes)
 const CourseManagementPage = lazy(() => import('@presentation/feature/cms/routes/CourseManagementPage'));
@@ -176,14 +186,22 @@ export const AppRoutes = () => {
                         </ProtectedRoute>
                     }
                 >
-                    <Route index element={<Navigate to="courses" replace />} />
+                    <Route index element={<CMSDashboardPage />} />
+                    <Route path="dashboard" element={<CMSDashboardPage />} />
                     <Route path="courses" element={<CMSCoursesPage />} />
                     <Route path="events" element={<CMSEventsPage />} />
                     <Route path="problems" element={<CMSProblemsPage />} />
                     <Route path="roadmaps" element={<CMSRoadmapsPage />} />
                     <Route path="report-reasons" element={<CMSReportTypesPage />} />
-                    <Route path="articles" element={<PlaceholderPage title="Articles Management" />} />
-                    <Route path="media" element={<PlaceholderPage title="Media Management" />} />
+                    <Route path="reports" element={<CMSReportsPage />} />
+                    <Route path="admin-alerts" element={<CMSAdminNotificationsPage />} />
+                    <Route path="global-tags" element={<CMSTagsPage />} />
+                    <Route path="faqs" element={<CMSFaqsPage />} />
+                    <Route path="help-centers" element={<CMSHelpCentersPage />} />
+                    <Route path="course-types" element={<CMSCourseTypesPage />} />
+                    <Route path="problem-types" element={<CMSProblemTypesPage />} />
+                    <Route path="accounts" element={<CMSUsersPage />} />
+                    <Route path="media" element={<CMSMediaPage />} />
                 </Route>
 
                 {/* CMS Deep Management Routes */}
