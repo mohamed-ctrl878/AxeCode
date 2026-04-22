@@ -1,6 +1,6 @@
 import React from 'react';
 import { Map } from 'lucide-react';
-import { useFetchRoadmaps } from '@domain/useCase/useFetchRoadmaps';
+import { useFetchAdminRoadmaps } from '@domain/useCase/useFetchAdminRoadmaps';
 import { CMSResourceTable } from '../components/CMSResourceTable';
 
 /**
@@ -8,12 +8,16 @@ import { CMSResourceTable } from '../components/CMSResourceTable';
  * Follows SRP: Only fetches and displays roadmap data into the CMSResourceTable.
  */
 const CMSRoadmapsPage = () => {
-    // using the existing hook that fetches roadmaps
-    const { roadmaps, isLoading, fetchRoadmaps } = useFetchRoadmaps();
-
-    React.useEffect(() => {
-        fetchRoadmaps();
-    }, [fetchRoadmaps]);
+    const { 
+        roadmaps, 
+        isLoading, 
+        fetch: fetchRoadmaps,
+        currentPage,
+        totalPages,
+        totalItems,
+        setPage,
+        setSearch 
+    } = useFetchAdminRoadmaps();
 
     return (
         <CMSResourceTable
@@ -22,6 +26,12 @@ const CMSRoadmapsPage = () => {
             isLoading={isLoading}
             icon={Map}
             onRefresh={fetchRoadmaps}
+            serverPagination={true}
+            serverPage={currentPage}
+            serverTotalPages={totalPages}
+            serverTotalItems={totalItems}
+            onPageChange={setPage}
+            onSearchChange={setSearch}
         />
     );
 };

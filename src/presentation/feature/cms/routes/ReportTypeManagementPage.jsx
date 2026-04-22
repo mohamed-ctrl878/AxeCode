@@ -49,33 +49,34 @@ const ReportTypeManagementPage = () => {
     };
 
     return (
-        <div className="md:col-span-12 animation-fade-in flex flex-col h-[calc(100vh-4rem)] p-8">
-            <div className="flex items-center justify-between mb-10">
-                <div className="flex items-center gap-6">
-                    <button 
-                        onClick={() => navigate(PATHS.CMS_REPORT_TYPES)}
-                        className="w-12 h-12 rounded-2xl bg-surface border border-border-subtle flex items-center justify-center text-text-muted hover:border-near-black hover:text-near-black transition-all group shadow-sm"
-                    >
-                        <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
-                    </button>
-                    <div>
-                        <h1 className="text-3xl font-serif font-bold tracking-tight text-near-black">
-                            {isEdit ? 'Edit Report Reason' : 'New Report Reason'}
-                        </h1>
-                        <p className="text-[11px] text-text-muted font-serif italic mt-1.5">
-                            Define the specific reason users can select when reporting content.
-                        </p>
+        <div className="md:col-span-12 animation-fade-in flex flex-col h-[calc(100vh-4rem)] py-12 px-8 items-center bg-surface-dark/30 rounded-3xl">
+            <div className="w-full max-w-4xl flex flex-col w-full">
+                <div className="flex items-center justify-between mb-10">
+                    <div className="flex items-center gap-6">
+                        <button 
+                            onClick={() => navigate(PATHS.CMS_REPORT_TYPES)}
+                            className="w-12 h-12 rounded-2xl bg-surface border border-border-subtle flex items-center justify-center text-text-muted hover:border-near-black hover:text-near-black transition-all group shadow-sm"
+                        >
+                            <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
+                        </button>
+                        <div>
+                            <h1 className="text-3xl font-serif font-bold tracking-tight text-near-black">
+                                {isEdit ? 'Edit Report Reason' : 'New Report Reason'}
+                            </h1>
+                            <p className="text-[11px] text-text-muted font-serif italic mt-1.5">
+                                Define the specific reason users can select when reporting content.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-ivory border border-border-default text-[10px] font-mono text-near-black/60 shadow-inner">
+                        <Flag size={14} className="text-accent-primary" />
+                        <span>Archive Entry</span>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-ivory border border-border-default text-[10px] font-mono text-near-black/60 shadow-inner">
-                    <Flag size={14} className="text-accent-primary" />
-                    <span>Archive Entry</span>
-                </div>
-            </div>
-
-            <form onSubmit={handleSave} className="max-w-3xl space-y-8 bg-ivory p-10 rounded-[40px] border border-border-default shadow-whisper">
-                <div className="space-y-4">
+                <form onSubmit={handleSave} className="w-full space-y-8 bg-ivory p-10 rounded-[40px] border border-border-default shadow-whisper">
+                    <div className="space-y-4">
                     <label className="text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em] px-1">
                         Reason Descriptor
                     </label>
@@ -112,6 +113,7 @@ const ReportTypeManagementPage = () => {
                     </button>
                 </div>
             </form>
+            </div>
         </div>
     );
 };

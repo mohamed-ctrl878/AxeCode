@@ -8,17 +8,35 @@ export class CategorizationRepository extends BaseRepository {
         this.apiClient = apiClient;
     }
 
-    async getCourseTypes() {
+    async getCourseTypes(page = 1, pageSize = 10, search = '') {
         const endpoint = import.meta.env.VITE_API_COURSE_TYPES;
-        const response = await this.apiClient.get(endpoint);
+        const filters = search ? `&filters[title][$containsi]=${encodeURIComponent(search)}` : '';
+        const response = await this.apiClient.get(`${endpoint}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc${filters}`);
         const data = response?.data || [];
-        return CategorizationResponse.fromArray(data);
+        return {
+            items: CategorizationResponse.fromArray(data),
+            meta: response?.meta || { pagination: { total: data.length } }
+        };
     }
 
-    async getProblemTypes() {
+    async getProblemTypes(page = 1, pageSize = 10, search = '') {
         const endpoint = import.meta.env.VITE_API_PROBLEM_TYPES;
-        const response = await this.apiClient.get(endpoint);
+        const filters = search ? `&filters[title][$containsi]=${encodeURIComponent(search)}` : '';
+        const response = await this.apiClient.get(`${endpoint}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc${filters}`);
         const data = response?.data || [];
-        return CategorizationResponse.fromArray(data);
+        return {
+            items: CategorizationResponse.fromArray(data),
+            meta: response?.meta || { pagination: { total: data.length } }
+        };
+    }
+
+    async deleteCourseType(id) {
+        const endpoint = `${import.meta.env.VITE_API_COURSE_TYPES}/${id}`;
+        return await this.delete(endpoint);
+    }
+
+    async deleteProblemType(id) {
+        const endpoint = `${import.meta.env.VITE_API_PROBLEM_TYPES}/${id}`;
+        return await this.delete(endpoint);
     }
 }
