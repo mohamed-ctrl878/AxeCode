@@ -22,6 +22,7 @@ export const EventForm = ({
     // ─── Toggles & Modes ─────────────────────────────────────────────────
     const [onsite, setOnsite] = useState(initialData?.onsite ?? true);
     const [liveStreaming, setLiveStreaming] = useState(initialData?.live_streaming ?? false);
+    const [isDraft, setIsDraft] = useState(initialData?.isDraft ?? true);
     
     // ─── Thumbnail Upload ───────────────────────────────────────────────
     const [imageFile, setImageFile] = useState(null);
@@ -54,6 +55,7 @@ export const EventForm = ({
             duration: parseInt(duration) || 0,
             onsite,
             live_streaming: liveStreaming,
+            isDraft,
             imageIds: initialData.image?.map(img => img.id) || []
         };
 
@@ -158,6 +160,33 @@ export const EventForm = ({
                                     />
                                 </div>
                             )}
+                        </div>
+                    </div>
+
+                    {/* Publication Status Toggle */}
+                    <div className="space-y-3">
+                        <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] ml-1 text-accent-blue font-serif">Publication Status</label>
+                        <div 
+                            onClick={() => setIsDraft(!isDraft)}
+                            className={cn(
+                                "flex items-center gap-4 p-5 rounded-[2rem] border transition-all cursor-pointer shadow-sm active:scale-95",
+                                isDraft 
+                                    ? "bg-surface-sunken border-white/5 text-text-muted" 
+                                    : "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
+                            )}
+                        >
+                            <div className={cn(
+                                "w-11 h-6 rounded-full relative transition-all shadow-inner",
+                                isDraft ? "bg-white/10" : "bg-accent-blue"
+                            )}>
+                                <div className={cn(
+                                    "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
+                                    isDraft ? "left-1" : "left-6"
+                                )} />
+                            </div>
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+                                {isDraft ? 'Draft Proposal' : 'Live Broadcast'}
+                            </span>
                         </div>
                     </div>
 

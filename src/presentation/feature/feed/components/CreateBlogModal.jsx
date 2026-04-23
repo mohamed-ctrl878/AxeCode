@@ -7,6 +7,7 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
     const [description, setDescription] = useState([]);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [isDraft, setIsDraft] = useState(true);
     const { createBlog, loading, error, uploadProgress } = useCreateBlog();
 
     if (!isOpen) return null;
@@ -31,7 +32,8 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
             await createBlog({
                 description,
                 imageFile,
-                tags: [] // Passing empty tags as per current simple requirement
+                tags: [], // Passing empty tags as per current simple requirement
+                isDraft
             });
             handleReset();
             onClose();
@@ -118,6 +120,29 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
                     </div>
                     
                     <div className="flex items-center gap-3">
+                        <div 
+                            onClick={() => setIsDraft(!isDraft)}
+                            className={cn(
+                                "flex items-center gap-3 px-4 py-2 rounded-xl border transition-all cursor-pointer select-none",
+                                isDraft 
+                                    ? "bg-surface-sunken border-border-subtle text-text-muted" 
+                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary shadow-sm"
+                            )}
+                        >
+                            <div className={cn(
+                                "w-7 h-3.5 rounded-full relative transition-all shadow-inner",
+                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                            )}>
+                                <div className={cn(
+                                    "absolute top-0.5 w-2.5 h-2.5 rounded-full bg-white transition-all shadow-sm",
+                                    isDraft ? "left-0.5" : "left-4"
+                                )} />
+                            </div>
+                            <span className="text-[10px] font-black uppercase tracking-widest">
+                                {isDraft ? 'Draft' : 'Live'}
+                            </span>
+                        </div>
+
                         <button 
                             type="button" 
                             onClick={onClose} 

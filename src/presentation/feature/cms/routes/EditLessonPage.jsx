@@ -26,6 +26,7 @@ const EditLessonPage = () => {
     const [description, setDescription] = useState([]);
     const [type, setType] = useState('video');
     const [isPublic, setIsPublic] = useState(false);
+    const [isDraft, setIsDraft] = useState(true);
     
     // Video State
     const [videoFile, setVideoFile] = useState(null);
@@ -46,6 +47,7 @@ const EditLessonPage = () => {
             setDescription(lesson.description || []);
             setType(lesson.type || 'video');
             setIsPublic(lesson.isPublic || false);
+            setIsDraft(lesson.isDraft ?? true);
             if (lesson.video) {
                 setExistingVideo(lesson.video);
             }
@@ -87,6 +89,7 @@ const EditLessonPage = () => {
                     title: title.trim(),
                     type,
                     public: isPublic,
+                    isDraft,
                     weekId,
                     description,
                     videoId: finalVideoId
@@ -400,6 +403,42 @@ const EditLessonPage = () => {
                                     <p className="text-[9px] font-medium opacity-60 mt-1">Requires active protocol enrollment.</p>
                                 </div>
                             </button>
+                        </div>
+                    </div>
+
+                    {/* Publication Status */}
+                    <div className="bg-surface border border-border-subtle rounded-[2.5rem] p-8 space-y-8 shadow-xl relative overflow-hidden">
+                        <div className="space-y-2 relative z-10">
+                            <h3 className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em]">Lifecycle Stage</h3>
+                            <p className="text-[10px] text-text-muted font-medium">Draft content is siloed from the public archive.</p>
+                        </div>
+
+                        <div 
+                            onClick={() => setIsDraft(!isDraft)}
+                            className={cn(
+                                "flex items-center gap-4 p-5 rounded-2xl border transition-all cursor-pointer select-none",
+                                isDraft 
+                                    ? "bg-surface-sunken/40 border-border-subtle text-text-muted" 
+                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary shadow-lg shadow-accent-primary/5"
+                            )}
+                        >
+                            <div className={cn(
+                                "w-12 h-6 rounded-full relative transition-all shadow-inner",
+                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                            )}>
+                                <div className={cn(
+                                    "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
+                                    isDraft ? "left-1" : "left-7"
+                                )} />
+                            </div>
+                            <div>
+                                <p className="text-xs font-black uppercase tracking-widest leading-none">
+                                    {isDraft ? 'Draft Protocol' : 'Live Deployment'}
+                                </p>
+                                <p className="text-[9px] font-medium opacity-60 mt-1">
+                                    {isDraft ? "Owner eyes only." : "Ready for ecosystem sync."}
+                                </p>
+                            </div>
                         </div>
                     </div>
 

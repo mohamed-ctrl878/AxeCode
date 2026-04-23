@@ -9,6 +9,18 @@ export class BlogRequest extends BaseRequest {
         this.description = data.description; // {blocks}
         this.image = data.imageId; // {id}
         this.tags = data.tagIds || [];
+        this.isDraft = data.isDraft ?? true;
+    }
+
+    toPayload() {
+        return {
+            data: {
+                discription: this.description, // schema uses discription typo
+                image: this.image,
+                tags: this.tags,
+                isDraft: this.isDraft
+            }
+        };
     }
 
     validate() {

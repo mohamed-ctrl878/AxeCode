@@ -25,6 +25,7 @@ export class ProblemRequest extends BaseRequest {
         this.test_cases = data.testCaseIds || [];
         this.code_templates = data.codeTemplateIds || [];
         this.tags = data.tagIds || [];
+        this.isDraft = data.isDraft ?? true;
     }
 
     validate() {

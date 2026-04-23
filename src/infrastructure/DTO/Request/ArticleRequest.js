@@ -9,6 +9,18 @@ export class ArticleRequest extends BaseRequest {
         this.title = data.title;
         this.contentBlocks = data.content; // Logic mapping: UI 'content' -> schema 'contentBlocks'
         this.tags = data.tagIds || [];
+        this.isDraft = data.isDraft ?? true;
+    }
+
+    toPayload() {
+        return {
+            data: {
+                title: this.title,
+                content: this.contentBlocks,
+                tags: this.tags,
+                isDraft: this.isDraft
+            }
+        };
     }
 
     validate() {

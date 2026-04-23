@@ -13,5 +13,6 @@ export class WeekRequest {
     constructor(data) {
         this.title = data.title;
         this.course = data.courseId;
+        this.isDraft = data.isDraft ?? false; // Weeks are often managed as internal course structure, default to live to avoid double draft blocking if course is published
     }
 }

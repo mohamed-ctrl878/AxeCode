@@ -12,6 +12,7 @@ export class LessonRequest extends BaseRequest {
         this.description = data.description; // {blocks}
         this.week = data.weekId; // {id | documentId}
         this.public = !!data.public;
+        this.isDraft = data.isDraft ?? true;
         
         // Strapi v4/v5 relationship arrays
         this.course_types = data.courseTypeIds; 

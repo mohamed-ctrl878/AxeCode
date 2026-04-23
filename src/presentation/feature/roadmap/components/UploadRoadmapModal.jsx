@@ -8,6 +8,7 @@ export const UploadRoadmapModal = ({ isOpen, onClose, uploadData, onUpload, isUp
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('bg-surface');
+    const [isDraft, setIsDraft] = useState(existingRoadmap?.isDraft ?? true);
 
     const colorSwatches = [
         { label: "Default", val: "bg-surface" },
@@ -45,7 +46,8 @@ export const UploadRoadmapModal = ({ isOpen, onClose, uploadData, onUpload, isUp
             title,
             description: formattedDescription,
             color,
-            flowData: uploadData // Directly injected from FlowSandbox
+            flowData: uploadData, // Directly injected from FlowSandbox
+            isDraft
         };
 
         onUpload(payload);
@@ -126,6 +128,37 @@ export const UploadRoadmapModal = ({ isOpen, onClose, uploadData, onUpload, isUp
                                     {swatch.label}
                                 </button>
                             ))}
+                        </div>
+                    </div>
+
+                    </div>
+
+                    <div className="flex items-center justify-between mt-2 py-3 px-4 bg-background/50 border border-border-subtle rounded-xl">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-text-primary">Draft Protection</span>
+                            <span className="text-[8px] text-text-muted italic">Only you can view/edit in draft.</span>
+                        </div>
+                        <div 
+                            onClick={() => setIsDraft(!isDraft)}
+                            className={cn(
+                                "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all cursor-pointer select-none",
+                                isDraft 
+                                    ? "bg-surface-sunken border-border-subtle text-text-muted" 
+                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary"
+                            )}
+                        >
+                            <div className={cn(
+                                "w-6 h-3 rounded-full relative transition-all shadow-inner",
+                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                            )}>
+                                <div className={cn(
+                                    "absolute top-0.5 w-2 h-2 rounded-full bg-white transition-all shadow-sm",
+                                    isDraft ? "left-0.5" : "left-3.5"
+                                )} />
+                            </div>
+                            <span className="text-[9px] font-bold uppercase">
+                                {isDraft ? 'Draft' : 'Live'}
+                            </span>
                         </div>
                     </div>
 
