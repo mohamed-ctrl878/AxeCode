@@ -18,7 +18,8 @@ export class EventRequest extends BaseRequest {
             duration: eventData.duration,
             speakers: eventData.speakerIds || [],
             event_activities: eventData.activityIds || [],
-            image: eventData.imageIds || []
+            image: eventData.imageIds || [],
+            isDraft: eventData.isDraft ?? true
         };
 
         if (entitlementData) {

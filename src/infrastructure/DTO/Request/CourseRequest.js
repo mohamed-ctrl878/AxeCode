@@ -16,6 +16,7 @@ export class CourseRequest extends BaseRequest {
         // Relationship IDs
         this.course_types = formData.courseTypeIds || []; // {Array<number>}
         this.problem_types = formData.problemTypeIds || []; // {Array<number>}
+        this.isDraft = formData.isDraft ?? true; // {boolean}
     }
 
     /**
@@ -39,7 +40,8 @@ export class CourseRequest extends BaseRequest {
                 difficulty: this.difficulty,
                 picture: this.picture || null,
                 tags: this.tags,
-                price: this.price
+                price: this.price,
+                isDraft: this.isDraft
             }
         };
     }

@@ -12,6 +12,7 @@ export class RoadmapRequest extends BaseRequest {
         this.color = data.color || '#FFD700';
         this.icon = data.icon || 'faMapSigns';
         this.tags = data.tagIds || [];
+        this.isDraft = data.isDraft ?? true;
     }
 
     validate() {

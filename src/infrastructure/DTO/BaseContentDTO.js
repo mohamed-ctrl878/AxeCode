@@ -18,5 +18,8 @@ export class BaseContentDTO {
         this.likesCount = typeof data.likesCount === 'number' ? data.likesCount : (interactions.likesCount || 0);
         this.commentsCount = typeof data.commentsCount === 'number' ? data.commentsCount : (interactions.commentsCount || 0);
         this.isLiked = !!(data.isLikedByMe || interactions.isLikedByMe);
+        
+        // Custom Draft State
+        this.isDraft = data.isDraft ?? true; // Default to true if not provided
     }
 }

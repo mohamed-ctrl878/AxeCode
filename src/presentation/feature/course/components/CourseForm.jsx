@@ -20,6 +20,7 @@ export const CourseForm = ({
     const [title, setTitle] = useState(initialData.title || '');
     const [difficulty, setDifficulty] = useState(initialData.difficulty || 'Easy');
     const [description, setDescription] = useState(initialData.description || []);
+    const [isDraft, setIsDraft] = useState(initialData.isDraft ?? true);
     
     // Arrays & Relations 
     const [tagsInput, setTagsInput] = useState((initialData.tags || []).join(', '));
@@ -55,6 +56,7 @@ export const CourseForm = ({
             description,
             difficulty,
             tags,
+            isDraft,
             // existing picture ID mapped if not changed, else omitted
             picture: initialData.picture?.id || null 
         };
@@ -144,6 +146,36 @@ export const CourseForm = ({
                                 </>
                             )}
                         </div>
+                    </div>
+
+                    {/* Publication Status Toggle */}
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium text-text-muted">Publication Status</label>
+                        <div 
+                            onClick={() => setIsDraft(!isDraft)}
+                            className={cn(
+                                "flex items-center gap-3 p-4 rounded-xl border transition-all cursor-pointer shadow-sm active:scale-95",
+                                isDraft 
+                                    ? "bg-surface-sunken border-border-default text-text-muted" 
+                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary"
+                            )}
+                        >
+                            <div className={cn(
+                                "w-10 h-6 rounded-full relative transition-all shadow-inner",
+                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                            )}>
+                                <div className={cn(
+                                    "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
+                                    isDraft ? "left-1" : "left-5"
+                                )} />
+                            </div>
+                            <span className="text-[11px] font-bold uppercase tracking-widest">
+                                {isDraft ? 'Draft Mode' : 'Live / Published'}
+                            </span>
+                        </div>
+                        <p className="text-[10px] italic text-text-muted opacity-60">
+                            {isDraft ? "Visible only to you." : "Visible to all scholars in the archive."}
+                        </p>
                     </div>
 
                     {/* Difficulty */}

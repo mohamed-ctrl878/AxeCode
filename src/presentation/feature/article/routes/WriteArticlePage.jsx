@@ -23,6 +23,7 @@ export const WriteArticlePage = () => {
     // --- Local Editor State ---
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState([]);
+    const [isDraft, setIsDraft] = useState(true);
     const [blocks, setBlocks] = useState([
         { id: 'initial-text', type: 'text', data: [] }
     ]);
@@ -61,8 +62,8 @@ export const WriteArticlePage = () => {
         }
 
         try {
-            await submitArticle({ title, content: blocks, tagIds: tags });
-            toast.success('Article Published Successfully!');
+            await submitArticle({ title, content: blocks, tagIds: tags, isDraft });
+            toast.success(isDraft ? 'Draft Saved Successfully!' : 'Article Published Successfully!');
             navigate(PATHS.ARTICLES);
         } catch (err) {
             console.error("Failed to publish", err);
@@ -92,6 +93,8 @@ export const WriteArticlePage = () => {
                 tags={tags}
                 onAddTag={handleAddTag}
                 onRemoveTag={handleRemoveTag}
+                isDraft={isDraft}
+                onDraftChange={setIsDraft}
             />
 
             <ArticleBlockEditor

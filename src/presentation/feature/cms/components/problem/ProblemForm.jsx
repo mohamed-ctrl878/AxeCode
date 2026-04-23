@@ -26,6 +26,7 @@ export const ProblemForm = ({
     const [difficulty, setDifficulty] = useState(initialData.difficulty || 'easy');
     const [description, setDescription] = useState(initialData.description || []);
     const [constraints, setConstraints] = useState(initialData.constraints || '');
+    const [isDraft, setIsDraft] = useState(initialData.isDraft ?? true);
     
     // Technical Signature
     const [functionName, setFunctionName] = useState(initialData.functionName || '');
@@ -63,7 +64,8 @@ export const ProblemForm = ({
             returnType,
             timeLimit: parseInt(timeLimit),
             memoryLimit: parseInt(memoryLimit),
-            public: initialData.public || false
+            public: initialData.public || false,
+            isDraft
         };
 
         onSubmit(dtoData);
@@ -83,6 +85,31 @@ export const ProblemForm = ({
                         <p className="text-[10px] text-text-muted font-black uppercase tracking-widest opacity-40">Define technical signatures and constraints.</p>
                     </div>
                 </div>
+
+                {/* isDraft Toggle in Header Bar for Problem */}
+                <div 
+                    onClick={() => setIsDraft(!isDraft)}
+                    className={cn(
+                        "flex items-center gap-3 px-6 py-3 rounded-2xl border transition-all cursor-pointer select-none ml-auto mr-4",
+                        isDraft 
+                            ? "bg-surface-sunken border-border-subtle text-text-muted opacity-60" 
+                            : "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
+                    )}
+                >
+                    <div className={cn(
+                        "w-9 h-5 rounded-full relative transition-all shadow-inner",
+                        isDraft ? "bg-text-muted/20" : "bg-accent-blue"
+                    )}>
+                        <div className={cn(
+                            "absolute top-1 w-3 h-3 rounded-full bg-white transition-all shadow-sm",
+                            isDraft ? "left-1" : "left-5"
+                        )} />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest">
+                        {isDraft ? 'Draft Protocol' : 'Live Archive'}
+                    </span>
+                </div>
+
                 <button 
                     type="submit" 
                     disabled={isLoading || !title || !functionName} 

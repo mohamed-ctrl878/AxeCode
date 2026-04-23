@@ -17,14 +17,16 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
     const [title, setTitle] = useState('');
     const [type, setType] = useState('video');
     const [isPublic, setIsPublic] = useState(false);
+    const [isDraft, setIsDraft] = useState(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!title.trim()) return;
-        onSubmit(title.trim(), type, isPublic);
+        onSubmit(title.trim(), type, isPublic, isDraft);
         setTitle('');
         setType('video');
         setIsPublic(false);
+        setIsDraft(true);
     };
 
     if (!isOpen) return null;
@@ -120,27 +122,52 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
                         </button>
                     </div>
 
-                    {/* Actions */}
-                    <div className="flex items-center justify-end gap-4 pt-2">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-text-muted hover:text-text-primary transition-all border border-transparent hover:bg-surface-sunken"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={isLoading || !title.trim()}
-                            className="flex items-center gap-3 px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest bg-accent-primary text-on-accent shadow-[0_10px_20px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
-                        >
-                            {isLoading ? (
-                                <Loader2 size={16} className="animate-spin" />
-                            ) : (
-                                <Plus size={16} className="group-hover:rotate-90 transition-transform" />
+                    {/* actions section */}
+                    <div className="flex items-center justify-between border-t border-border-subtle pt-6">
+                        <div 
+                            onClick={() => setIsDraft(!isDraft)}
+                            className={cn(
+                                "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all cursor-pointer select-none",
+                                isDraft 
+                                    ? "bg-surface-sunken border-border-subtle text-text-muted" 
+                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary"
                             )}
-                            Initialize Lesson
-                        </button>
+                        >
+                            <div className={cn(
+                                "w-6 h-3 rounded-full relative transition-all shadow-inner",
+                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                            )}>
+                                <div className={cn(
+                                    "absolute top-0.5 w-2 h-2 rounded-full bg-white transition-all shadow-sm",
+                                    isDraft ? "left-0.5" : "left-3.5"
+                                )} />
+                            </div>
+                            <span className="text-[9px] font-bold uppercase">
+                                {isDraft ? 'Draft' : 'Live'}
+                            </span>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-text-muted hover:text-text-primary transition-all border border-transparent hover:bg-surface-sunken"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={isLoading || !title.trim()}
+                                className="flex items-center gap-3 px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest bg-accent-primary text-on-accent shadow-[0_10px_20px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+                            >
+                                {isLoading ? (
+                                    <Loader2 size={16} className="animate-spin" />
+                                ) : (
+                                    <Plus size={16} className="group-hover:rotate-90 transition-transform" />
+                                )}
+                                Initialize Lesson
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
