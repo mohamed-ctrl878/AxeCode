@@ -439,4 +439,3 @@ export const CMSResourceTable = ({
         </div>
     );
 };
-};
