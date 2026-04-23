@@ -131,7 +131,6 @@ export const UploadRoadmapModal = ({ isOpen, onClose, uploadData, onUpload, isUp
                         </div>
                     </div>
 
-                    </div>
 
                     <div className="flex items-center justify-between mt-2 py-3 px-4 bg-background/50 border border-border-subtle rounded-xl">
                         <div className="flex flex-col">
