@@ -68,7 +68,7 @@ export const MainLayout = ({ children, className }) => {
                 !isFocusMode ? [
                     !isAuthPage ? "pt-24" : "pt-4", // Header padding if header is visible
                 ] : [
-                    "p-0 m-0 w-full min-h-screen", // Full width, natural height for focus mode
+                    "p-0 my-0 w-full min-h-screen mx-auto", // Full width, natural height for focus mode, explicit mx-auto to preserve centering
                 ],
                 className
             )}>

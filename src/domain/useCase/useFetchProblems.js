@@ -10,10 +10,9 @@ import { EntityMapper } from '@domain/mapper/EntityMapper';
 export const useFetchProblems = () => {
     const repository = useMemo(() => new ProblemRepository(), []);
 
-    const fetchLogic = useCallback(async (params = {}) => {
-        console.log("repo", repository);
-        const data = await repository.getAll(params);
-        const items = Array.isArray(data) ? data : [];
+    const fetchLogic = useCallback(async () => {
+        const result = await repository.getAll(1, 100); // Fetch all for public view
+        const items = Array.isArray(result?.items) ? result.items : [];
         return items
             .map(item => new ProblemDTO(item))
             .map(dto => EntityMapper.toCardProblem(dto))

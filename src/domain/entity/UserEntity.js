@@ -16,6 +16,10 @@ export class UserEntity extends BaseEntity {
      * @param {MediaEntity|null} props.avatar
      * @param {number} props.submissionCount
      * @param {number} props.passedSubmissionsCount
+     * @param {boolean} props.confirmed
+     * @param {boolean} props.blocked
+     * @param {object} props.role
+     * @param {string} props.createdAt
      */
     constructor(props = {}) {
         super(props);
@@ -28,6 +32,12 @@ export class UserEntity extends BaseEntity {
         this.bio = props.bio;
         this.avatar = props.avatar;
         
+        // Admin fields
+        this.confirmed = props.confirmed;
+        this.blocked = props.blocked;
+        this.role = props.role;
+        this.createdAt = props.createdAt;
+
         // Direct statistics (fetched from table, not populated)
         this.submissionCount = props.submissionCount || 0;
         this.passedSubmissionsCount = props.passedSubmissionsCount || 0;

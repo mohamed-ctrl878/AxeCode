@@ -8,7 +8,16 @@ import { CMSResourceTable } from '../components/CMSResourceTable';
  * Follows SRP: Only fetches and displays problem data.
  */
 const CMSProblemsPage = () => {
-    const { problems, isLoading, fetch: fetchProblems } = useFetchAdminProblems();
+    const { 
+        problems, 
+        isLoading, 
+        fetch: fetchProblems,
+        currentPage,
+        totalPages,
+        totalItems,
+        setPage,
+        setSearch 
+    } = useFetchAdminProblems();
 
     return (
         <CMSResourceTable
@@ -17,6 +26,12 @@ const CMSProblemsPage = () => {
             isLoading={isLoading}
             icon={Code2}
             onRefresh={fetchProblems}
+            serverPagination={true}
+            serverPage={currentPage}
+            serverTotalPages={totalPages}
+            serverTotalItems={totalItems}
+            onPageChange={setPage}
+            onSearchChange={setSearch}
         />
     );
 };

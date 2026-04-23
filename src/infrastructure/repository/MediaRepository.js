@@ -40,6 +40,21 @@ export class MediaRepository {
     }
 
     /**
+     * Gets all uploaded media files.
+     * Strapi endpoint for files is usually /api/upload/files.
+     */
+    async getMediaFiles() {
+        return await this.apiClient.get('/api/upload/files?sort=createdAt:desc');
+    }
+
+    /**
+     * Deletes a specific media file by ID.
+     */
+    async deleteMediaFile(id) {
+        return await this.apiClient.delete(`/api/upload/files/${id}`);
+    }
+
+    /**
      * Internal validation for media files.
      * @private
      */
