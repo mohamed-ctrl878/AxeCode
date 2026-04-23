@@ -131,4 +131,32 @@ export class UserRepository extends BaseRepository {
             throw error;
         }
     }
+
+    /**
+     * Gets all users (Admin use case).
+     * @returns {Promise<object[]>}
+     */
+    async getAllUsers() {
+        try {
+            const params = { populate: 'role' };
+            const response = await this.get(this.endpoint, params);
+            return Array.isArray(response) ? response : (response?.data || []);
+        } catch (error) {
+            console.error('[UserRepository] Get all users failed:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Deletes a user by ID (Admin use case).
+     * @param {string|number} userId 
+     */
+    async deleteUser(userId) {
+        try {
+            return await this.delete(`${this.endpoint}/${userId}`);
+        } catch (error) {
+            console.error('[UserRepository] Delete user failed:', error);
+            throw error;
+        }
+    }
 }

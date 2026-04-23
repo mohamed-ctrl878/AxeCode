@@ -34,22 +34,37 @@ export class CourseRepository extends IContentInteraction {
     /**
      * Fetches all courses for the CMS view.
      */
-    async getAll(userId = null) {
-        let endpoint = `${this.endpoint}?populate=*`;
+    async getAll(userId = null, page = 1, pageSize = 10, search = '') {
+        const filters = [];
         if (userId) {
-            endpoint += `&filters[users_permissions_user][id][$eq]=${userId}`;
+            filters.push(`filters[users_permissions_user][id][$eq]=${userId}`);
         }
-        const response = await this.apiClient.get(endpoint);
+        if (search) {
+            filters.push(`filters[title][$containsi]=${encodeURIComponent(search)}`);
+        }
         
-        // Strapi v4/v5 data extraction
-        const dataArray = response?.data || response || [];
-        if (!Array.isArray(dataArray)) return [];
+        const filterStr = filters.length > 0 ? `&${filters.join('&')}` : '';
+        const endpoint = `${this.endpoint}?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}${filterStr}&sort=createdAt:desc`;
+        
+        try {
+            const response = await this.apiClient.get(endpoint);
+            
+            const dataArray = response?.data || response || [];
+            
+            if (!Array.isArray(dataArray)) {
+                return { items: [], meta: { pagination: { total: 0 } } };
+            }
 
-        // Enforce strict Domain Mapping to prevent React DevTools prototype crashes
-        return dataArray.map(item => {
-            const dto = new CourseDTO(item);
-            return EntityMapper.toCardCourse(dto);
-        });
+            const items = dataArray.map(item => {
+                const dto = new CourseDTO(item);
+                return EntityMapper.toCardCourse(dto);
+            });
+            
+            return { items, meta: response?.meta || { pagination: { total: items.length } } };
+        } catch (error) {
+            console.error('[CourseRepository] getAll failed:', error);
+            return { items: [], meta: { pagination: { total: 0 } } };
+        }
     }
 
     /**
@@ -113,6 +128,15 @@ export class CourseRepository extends IContentInteraction {
      * @param {string} query
      * @returns {Promise<Array>}
      */
+    /**
+     * Deletes a course by its documentId.
+     * @param {string} id
+     * @returns {Promise<boolean>}
+     */
+    async delete(id) {
+        return await this.apiClient.delete(`${this.endpoint}/${id}`);
+    }
+
     async search(query) {
         if (!query) return [];
         try {

@@ -32,8 +32,13 @@ export class RoadmapRepository extends IRoadmapInteraction {
      * @param {object} [params] - Optional query params (filters, pagination, etc.)
      * @returns {Promise<object[]>} Raw roadmap data array.
      */
-    async getAll(params = {}) {
-        const response = await this.apiClient.get(this.endpoint, params);
-        return response?.data || response || [];
+    async getAll(page = 1, pageSize = 10, search = '') {
+        const filters = search ? `&filters[title][$containsi]=${encodeURIComponent(search)}` : '';
+        const response = await this.apiClient.get(`${this.endpoint}?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc${filters}`);
+        const dataArray = response?.data || response || [];
+        return {
+            items: Array.isArray(dataArray) ? dataArray : [],
+            meta: response?.meta || { pagination: { total: Array.isArray(dataArray) ? dataArray.length : 0 } }
+        };
     }
 }

@@ -21,7 +21,7 @@ describe('useFetchRoadmaps Hook', () => {
     });
 
     it('should successfully fetch and map roadmaps', async () => {
-        mockGetAll.mockResolvedValue([{ id: 1 }, { id: 2 }]);
+        mockGetAll.mockResolvedValue({ items: [{ id: 1 }, { id: 2 }] });
 
         const { result } = renderHook(() => useFetchRoadmaps());
 
