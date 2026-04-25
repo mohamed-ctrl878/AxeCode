@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Image as ImageIcon, UploadCloud } from 'lucide-react';
 import { RichTextInput } from '../../../shared/components/RichTextEditor/RichTextInput';
 import { useCreateBlog } from '../../../../domain/useCase/useCreateBlog';
+import { cn } from '@core/utils/cn';
 
 export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
     const [description, setDescription] = useState([]);
