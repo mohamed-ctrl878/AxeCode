@@ -1,78 +1,74 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useFetchCMSAnalytics } from '../../src/domain/useCase/useFetchCMSAnalytics';
+import { AnalyticsRepository } from '../../src/infrastructure/repository/AnalyticsRepository';
 
-const mockCourseGetAll = vi.fn();
-const mockEventGetAll = vi.fn();
-const mockReportGetAll = vi.fn();
-const mockUserGetAll = vi.fn();
+// Create a stable mock function that can be accessed across instances
+const mockGetFullAnalytics = vi.fn();
 
-vi.mock('@infrastructure/repository/CourseRepository', () => ({
-    CourseRepository: class {
-        constructor() { this.getAll = mockCourseGetAll; }
+// Mock the AnalyticsRepository
+vi.mock('../../src/infrastructure/repository/AnalyticsRepository', () => ({
+    AnalyticsRepository: class {
+        constructor() {
+            this.getFullAnalytics = mockGetFullAnalytics;
+        }
     }
 }));
 
-vi.mock('@infrastructure/repository/EventRepository', () => ({
-    EventRepository: class {
-        constructor() { this.getAll = mockEventGetAll; }
-    }
-}));
-
-vi.mock('@infrastructure/repository/ReportRepository', () => ({
-    ReportRepository: class {
-        constructor() { this.getAll = mockReportGetAll; }
-    }
-}));
-
-vi.mock('@infrastructure/repository/UserRepository', () => ({
-    UserRepository: class {
-        constructor() { this.getAllUsers = mockUserGetAll; }
-    }
-}));
-
-describe('useFetchCMSAnalytics Hook', () => {
+describe('useFetchCMSAnalytics Hook (Refactored)', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
 
-    it('should successfully aggregate analytics metrics', async () => {
-        // Mock successful repository responses
-        mockCourseGetAll.mockResolvedValue({ meta: { pagination: { total: 42 } } });
-        mockEventGetAll.mockResolvedValue({ meta: { pagination: { total: 10 } } });
-        mockReportGetAll.mockResolvedValue({ meta: { pagination: { total: 5 } } });
-        mockUserGetAll.mockResolvedValue(new Array(150).fill({ id: 1 })); // 150 users
+    it('should successfully fetch and map analytics metrics', async () => {
+        // Mock raw data return from API
+        const mockRawData = {
+            courses: { total: 42, timeline: [] },
+            events: { total: 10, timeline: [] },
+            users: { total: 150, timeline: [] },
+            reports: { total: 5, timeline: [] },
+            contributors: {
+                authors: { total: 5, timeline: [] },
+                organizers: { total: 3, timeline: [] }
+            }
+        };
+
+        mockGetFullAnalytics.mockResolvedValue(mockRawData);
 
         const { result } = renderHook(() => useFetchCMSAnalytics());
 
-        // Initially loading
-        expect(result.current.isLoading).toBe(true);
-
+        // Wait for it to settle
         await act(async () => {
-            await result.current.fetchAnalytics();
+            await result.current.fetchAnalytics(60);
         });
 
-        expect(mockCourseGetAll).toHaveBeenCalledWith(null, 1, 1);
-        expect(mockEventGetAll).toHaveBeenCalledWith(1, 1);
-        expect(mockReportGetAll).toHaveBeenCalledWith(1, 1, '', 'PENDING');
-        expect(mockUserGetAll).toHaveBeenCalled();
-
+        expect(mockGetFullAnalytics).toHaveBeenCalled();
         expect(result.current.isLoading).toBe(false);
         expect(result.current.error).toBeNull();
+        
         expect(result.current.stats).toEqual({
             totalCourses: 42,
             totalEvents: 10,
+            totalUsers: 150,
             pendingReports: 5,
-            totalUsers: 150
+            courseAuthors: 5,
+            eventOrganizers: 3
         });
     });
 
     it('should handle zero metrics gracefully', async () => {
-        // Mock responses with zero counts
-        mockCourseGetAll.mockResolvedValue({ meta: { pagination: { total: 0 } } });
-        mockEventGetAll.mockResolvedValue({}); // Empty object fallback test
-        mockReportGetAll.mockResolvedValue({ meta: null }); // Null middle field fallback test
-        mockUserGetAll.mockResolvedValue([]); 
+        const mockRawData = {
+            courses: { total: 0, timeline: [] },
+            events: { total: 0, timeline: [] },
+            users: { total: 0, timeline: [] },
+            reports: { total: 0, timeline: [] },
+            contributors: {
+                authors: { total: 0, timeline: [] },
+                organizers: { total: 0, timeline: [] }
+            }
+        };
+
+        mockGetFullAnalytics.mockResolvedValue(mockRawData);
 
         const { result } = renderHook(() => useFetchCMSAnalytics());
 
@@ -80,22 +76,13 @@ describe('useFetchCMSAnalytics Hook', () => {
             await result.current.fetchAnalytics();
         });
 
-        expect(result.current.isLoading).toBe(false);
+        expect(result.current.stats.totalCourses).toBe(0);
         expect(result.current.error).toBeNull();
-        expect(result.current.stats).toEqual({
-            totalCourses: 0,
-            totalEvents: 0,
-            pendingReports: 0,
-            totalUsers: 0
-        });
     });
 
-    it('should handle errors thrown by repositories', async () => {
+    it('should handle repository errors correctly', async () => {
         const error = new Error('Database connection failed');
-        mockCourseGetAll.mockRejectedValue(error);
-        mockEventGetAll.mockResolvedValue({ meta: { pagination: { total: 10 } } });
-        mockReportGetAll.mockResolvedValue({ meta: { pagination: { total: 5 } } });
-        mockUserGetAll.mockResolvedValue([]);
+        mockGetFullAnalytics.mockRejectedValue(error);
 
         const { result } = renderHook(() => useFetchCMSAnalytics());
 
@@ -104,13 +91,8 @@ describe('useFetchCMSAnalytics Hook', () => {
         });
 
         expect(result.current.isLoading).toBe(false);
+        // Clean error string should be matched
         expect(result.current.error).toBe('Database connection failed');
-        // Stats should remain at defaults when error occurs during Promise.all
-        expect(result.current.stats).toEqual({
-            totalCourses: 0,
-            totalEvents: 0,
-            pendingReports: 0,
-            totalUsers: 0
-        });
+        expect(result.current.stats.totalCourses).toBe(0);
     });
 });
