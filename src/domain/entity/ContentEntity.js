@@ -21,6 +21,7 @@ export class ContentEntity extends BaseEntity {
         this.likesCount = props.likesCount || 0;
         this.commentsCount = props.commentsCount || 0;
         this.isLiked = !!props.isLiked;
+        this.isDraft = !!props.isDraft;
     }
 
     /**

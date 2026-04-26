@@ -16,9 +16,9 @@ export class ArticleRequest extends BaseRequest {
         return {
             data: {
                 title: this.title,
-                content: this.contentBlocks,
+                contentBlocks: this.contentBlocks,
                 tags: this.tags,
-                isDraft: this.isDraft
+                isDraft: !!this.isDraft
             }
         };
     }

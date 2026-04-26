@@ -22,6 +22,8 @@ export const useFetchCoursePreview = () => {
         const populateQuery = 'populate[picture]=true&populate[weeks][populate][lessons][populate][video]=true';
         const rawData = await repository.getPreview(`${documentId}?${populateQuery}`);
         const dto = new CourseDTO(rawData);
+        // console.log(rawData, "raw data")
+        console.log("EntityMapper.toCoursePreview(dto)", EntityMapper.toCoursePreview(dto))
         return EntityMapper.toCoursePreview(dto);
     }, []);
 

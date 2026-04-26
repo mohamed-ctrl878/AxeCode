@@ -14,6 +14,7 @@ export const EventMetadataEditor = ({ eventId }) => {
     }, [eventId, fetchEvent]);
 
     const handleSubmit = async (dtoData, imageFile) => {
+        console.log(dtoData, "dtoData")
         try {
             await updateEvent(eventId, dtoData);
             // In a real app, we might handle image upload here too if changed

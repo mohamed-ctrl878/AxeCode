@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, X, Loader2, Calendar, MapPin, Globe, Clock, User } from 'lucide-react';
+import { Image, X, Loader2, Calendar, MapPin, Globe, Clock, User, Lightbulb } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import RichTextInput from '@presentation/shared/components/RichTextEditor/RichTextInput';
 
@@ -171,22 +171,37 @@ export const EventForm = ({
                             className={cn(
                                 "flex items-center gap-4 p-5 rounded-[2rem] border transition-all cursor-pointer shadow-sm active:scale-95",
                                 isDraft 
-                                    ? "bg-surface-sunken border-white/5 text-text-muted" 
-                                    : "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
+                                    ? "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
+                                    : "bg-surface-sunken border-white/5 text-text-muted" 
                             )}
                         >
                             <div className={cn(
                                 "w-11 h-6 rounded-full relative transition-all shadow-inner",
-                                isDraft ? "bg-white/10" : "bg-accent-blue"
+                                isDraft ? "bg-accent-blue" : "bg-white/10"
                             )}>
                                 <div className={cn(
                                     "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
-                                    isDraft ? "left-1" : "left-6"
+                                    isDraft ? "left-6" : "left-1"
                                 )} />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-[0.2em]">
                                 {isDraft ? 'Draft Proposal' : 'Live Broadcast'}
                             </span>
+                        </div>
+                    </div>
+
+                    {/* Guidance Tip */}
+                    <div className="p-4 rounded-xl bg-accent-amber/5 border border-accent-amber/20 flex gap-3 shadow-sm">
+                        <div className="p-2 h-fit rounded-lg bg-accent-amber/10 text-accent-amber shrink-0">
+                            <Lightbulb size={18} />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <h4 className="text-[11px] font-bold uppercase tracking-tight text-accent-amber/80">Launch Protocol</h4>
+                            <p className="text-[11px] text-text-muted leading-relaxed font-medium">
+                                Ensure these steps before making content public:<br/>
+                                <span className="text-text-primary/70">1. Set a price you deem appropriate.</span><br/>
+                                <span className="text-text-primary/70 text-[10px]">2. (Preferably complete all content related to this item before publishing as live content).</span>
+                            </p>
                         </div>
                     </div>
 

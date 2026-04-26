@@ -92,17 +92,17 @@ export const ProblemForm = ({
                     className={cn(
                         "flex items-center gap-3 px-6 py-3 rounded-2xl border transition-all cursor-pointer select-none ml-auto mr-4",
                         isDraft 
-                            ? "bg-surface-sunken border-border-subtle text-text-muted opacity-60" 
-                            : "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
+                            ? "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
+                            : "bg-surface-sunken border-border-subtle text-text-muted opacity-60" 
                     )}
                 >
                     <div className={cn(
                         "w-9 h-5 rounded-full relative transition-all shadow-inner",
-                        isDraft ? "bg-text-muted/20" : "bg-accent-blue"
+                        isDraft ? "bg-accent-blue" : "bg-text-muted/20"
                     )}>
                         <div className={cn(
                             "absolute top-1 w-3 h-3 rounded-full bg-white transition-all shadow-sm",
-                            isDraft ? "left-1" : "left-5"
+                            isDraft ? "left-5" : "left-1"
                         )} />
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-widest">

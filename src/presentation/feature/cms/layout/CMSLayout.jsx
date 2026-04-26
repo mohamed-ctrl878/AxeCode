@@ -72,7 +72,7 @@ const CMSLayout = () => {
     }));
 
     return (
-        <div className="md:col-span-12 animation-fade-in flex flex-col min-h-[calc(100vh-4rem)]">
+        <div className="md:col-span-12 w-full animation-fade-in flex flex-col min-h-[calc(100vh-4rem)]">
             <CMSActionBar onExit={() => navigate(-1)} />
 
             <CMSMobileNav sections={sections} activeSection={activeSection} />
@@ -83,7 +83,7 @@ const CMSLayout = () => {
                     activeSection={activeSection}
                 />
 
-                <div className="flex-1 p-4 md:p-8 bg-surface-dark/30 rounded-3xl lg:rounded-l-none lg:rounded-r-3xl overflow-y-auto scrollbar-hide">
+                <div className="flex-1 min-w-0 p-4 md:p-8 bg-surface-dark/30 rounded-3xl lg:rounded-l-none lg:rounded-r-3xl overflow-y-auto scrollbar-hide">
                     <Outlet />
                 </div>
             </div>

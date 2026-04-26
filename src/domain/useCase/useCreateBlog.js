@@ -11,7 +11,7 @@ export const useCreateBlog = () => {
     const [error, setError] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
 
-    const createBlog = async ({ description, imageFile, tags }) => {
+    const createBlog = async ({ description, imageFile, tags, isDraft }) => {
         setLoading(true);
         setError(null);
         setUploadProgress(0);
@@ -38,7 +38,8 @@ export const useCreateBlog = () => {
             const blogData = {
                 description,
                 imageId, // Maps to `image` in BlogRequest
-                tagIds: tags // Maps to `tags` in BlogRequest
+                tagIds: tags, // Maps to `tags` in BlogRequest
+                isDraft
             };
 
             const response = await blogRepo.create(blogData);

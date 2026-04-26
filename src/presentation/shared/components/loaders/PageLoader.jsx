@@ -1,18 +1,21 @@
 import React from 'react';
-import AxeCodeLogo from '../AxeCodeLogo';
+import { Loader2 } from 'lucide-react';
+import { cn } from '@core/utils/cn';
 
 /**
  * PageLoader: Reusable full-screen loading state for asynchronous module 
  * fetching and data hydration.
+ * Updated to use a circular spinner per user request.
  */
-export const PageLoader = () => (
-    <div className="col-span-1 md:col-span-12 flex flex-col items-center justify-center min-h-[60vh] gap-6 w-full animate-in fade-in duration-500">
-        <AxeCodeLogo size="text-5xl" className="animate-pulse opacity-50" />
-        <div className="flex flex-col items-center gap-3">
-            <div className="h-1 w-16 bg-accent-primary/20 rounded-full overflow-hidden">
-                <div className="h-full w-full bg-accent-primary rounded-full animate-pulse" />
-            </div>
-            <span className="text-text-muted text-xs uppercase tracking-widest font-mono">Loading Sector</span>
+export const PageLoader = ({ className }) => (
+    <div className={cn(
+        "col-span-1 md:col-span-12 flex flex-col items-center justify-center min-h-[60vh] gap-6 w-full animate-in fade-in duration-700",
+        className
+    )}>
+        {/* Circular Ring Loader */}
+        <div className="relative flex items-center justify-center">
+            <Loader2 className="w-12 h-12 text-accent-primary animate-spin opacity-80" strokeWidth={1.5} />
+            <div className="absolute inset-0 w-12  rounded-full" />
         </div>
     </div>
 );

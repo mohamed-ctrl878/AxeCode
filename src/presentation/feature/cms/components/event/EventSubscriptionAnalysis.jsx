@@ -6,6 +6,7 @@ import { useCreateUserEntitlement } from '@domain/useCase/useCreateUserEntitleme
 import { useDeleteUserEntitlement } from '@domain/useCase/useDeleteUserEntitlement';
 import { useSearchUsers } from '@domain/useCase/useSearchUsers';
 import { useFetchEvent } from '@domain/useCase/useFetchEvent';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { UserEntitlementRequest } from '@infrastructure/DTO/Request/UserEntitlementRequest';
 import { SubscriptionChart } from '../shared/SubscriptionChart';
 
@@ -19,6 +20,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
     const { createUserEntitlement, inProgress: isCreating } = useCreateUserEntitlement();
     const { deleteUserEntitlement, inProgress: isDeleting } = useDeleteUserEntitlement();
     const { searchUsers, loading: isSearching } = useSearchUsers();
+    const { confirm } = useConfirm();
 
     // ─── Local State ─────────────────────────────────────────────────────
     const [emailSearch, setEmailSearch] = useState('');
@@ -77,7 +79,13 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
     };
 
     const handleRevokeAccess = async (recordId) => {
-        if (!window.confirm('Revoke this user\'s access?')) return;
+        const ok = await confirm({
+            title: 'Revoke Credentials',
+            message: 'Are you sure you want to revoke this user\'s access privileges? This will take internal effect immediately.',
+            confirmLabel: 'Revoke Access',
+            type: 'danger'
+        });
+        if (!ok) return;
         try {
             await deleteUserEntitlement(recordId);
             showStatus('success', 'Access revoked.');

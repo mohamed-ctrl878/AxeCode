@@ -10,6 +10,7 @@ export const CourseMetadataEditor = ({ courseId }) => {
     const { updateCourse, inProgress: isUpdating, error: updateError } = useUpdateCourse();
     const { uploadMedia, inProgress: isUploading } = useUploadMedia();
     
+    console.log("coursePreview",coursePreview)
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
@@ -65,22 +66,23 @@ export const CourseMetadataEditor = ({ courseId }) => {
     const isLoading = isUpdating || isUploading;
 
     return (
-        <div className="animation-fade-in space-y-6 max-w-5xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-accent-primary/10 text-accent-primary flex items-center justify-center">
-                        <PenTool size={20} />
+        <div className="animation-fade-in space-y-8 w-full max-w-6xl pb-12">
+            {/* Minimalist Tab Heading */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-1">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-surface border border-border-subtle shadow-whisper text-accent-primary flex items-center justify-center shrink-0">
+                        <PenTool size={24} />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold tracking-tight">Course Metadata</h2>
-                        <p className="text-xs text-text-muted">Edit basic details, difficulty, categorization, and the course display thumbnail.</p>
+                        <h2 className="text-2xl font-serif font-medium tracking-tight">Technical Manuscript</h2>
+                        <p className="text-[11px] text-text-muted uppercase tracking-widest font-bold opacity-60">Metadata & Core Configuration</p>
                     </div>
                 </div>
                 
                 {successMessage && (
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-status-success/10 border border-status-success/20 text-status-success rounded-lg text-xs font-medium animation-fade-in">
-                        <CheckCircle size={14} />
-                        {successMessage}
+                    <div className="flex items-center gap-2 px-4 py-2 bg-accent-emerald/10 border border-accent-emerald/20 text-accent-emerald rounded-xl text-xs font-bold animation-fade-in shadow-sm">
+                        <CheckCircle size={16} />
+                        {successMessage.toUpperCase()}
                     </div>
                 )}
             </div>
@@ -92,9 +94,9 @@ export const CourseMetadataEditor = ({ courseId }) => {
             />
             
             {updateError && (
-                <div className="p-4 bg-status-error/10 border border-status-error/20 rounded-xl text-status-error text-sm flex items-center gap-3">
-                    <AlertCircle size={16} />
-                    <p>{updateError}</p>
+                <div className="p-4 bg-accent-rose/10 border border-accent-rose/20 rounded-xl text-accent-rose text-sm flex items-center gap-3 mx-1">
+                    <AlertCircle size={18} />
+                    <p className="font-medium">{updateError}</p>
                 </div>
             )}
         </div>

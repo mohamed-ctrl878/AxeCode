@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
 import { useDeleteProblem } from '@domain/useCase/useDeleteProblem';
 import { useDeleteRoadmap } from '@domain/useCase/useDeleteRoadmap';
@@ -37,6 +38,7 @@ export const CMSResourceTable = ({
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedIds, setSelectedIds] = useState([]);
+    const { confirm } = useConfirm();
     const dropdownRef = useRef(null);
     const itemsPerPage = 10;
 
@@ -74,7 +76,14 @@ export const CMSResourceTable = ({
     };
 
     const handleRemove = async (id, title) => {
-        if (window.confirm(`Are you sure you want to permanently remove "${title}"? This action cannot be undone.`)) {
+        const ok = await confirm({
+            title: 'Deaccession Content',
+            message: `Are you sure you want to permanently remove "${title}" from the repository? This action cannot be undone.`,
+            confirmLabel: 'Confirm Removal',
+            type: 'danger'
+        });
+
+        if (ok) {
             try {
                 if (sectionName === 'Events') await deleteEvent(id);
                 else if (sectionName === 'Problems') await deleteProblem(id);
@@ -92,15 +101,26 @@ export const CMSResourceTable = ({
 
     const handleBulkRemove = async () => {
         if (selectedIds.length === 0) return;
-        if (window.confirm(`Are you sure you want to permanently remove ${selectedIds.length} select entries?`)) {
+        const ok = await confirm({
+            title: 'Mass Deaccession',
+            message: `Are you sure you want to permanently remove ${selectedIds.length} select entries from the repository?`,
+            confirmLabel: 'Purge Selected',
+            type: 'danger'
+        });
+
+        if (ok) {
             try {
                 for (const id of selectedIds) {
-                    if (sectionName === 'Events') await deleteEvent(id);
-                    else if (sectionName === 'Problems') await deleteProblem(id);
-                    else if (sectionName === 'Roadmaps') await deleteRoadmap(id);
-                    else if (sectionName === 'Report-Reasons') await deleteReportType(id);
-                    else if (sectionName === 'Courses') await deleteCourse(id);
-                    else if (onDelete) await onDelete(id);
+                    try {
+                        if (sectionName === 'Events') await deleteEvent(id);
+                        else if (sectionName === 'Problems') await deleteProblem(id);
+                        else if (sectionName === 'Roadmaps') await deleteRoadmap(id);
+                        else if (sectionName === 'Report-Reasons') await deleteReportType(id);
+                        else if (sectionName === 'Courses') await deleteCourse(id);
+                        else if (onDelete) await onDelete(id);
+                    } catch (itemErr) {
+                        console.error(`Failed to delete item ${id}:`, itemErr);
+                    }
                 }
                 if (onRefresh) onRefresh();
                 setSelectedIds([]);
@@ -300,8 +320,8 @@ export const CMSResourceTable = ({
                                         <span className={cn(
                                             "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-[0.15em] border shadow-sm",
                                             isDraft 
-                                                ? "bg-surface-sunken text-text-muted border-border-default" 
-                                                : "bg-near-black text-ivory border-near-black"
+                                                ? "bg-near-black text-ivory border-near-black" 
+                                                : "bg-surface-sunken text-text-muted border-border-default"
                                         )}>
                                             {isDraft ? 'Draft' : 'Published'}
                                         </span>
