@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldAlert, CheckCircle2, XCircle, Clock, Eye, Trash2, RefreshCw, AlertTriangle, MessageSquare, Database } from 'lucide-react';
 import { useFetchAdminReports } from '@domain/useCase/useFetchAdminReports';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { cn } from '@core/utils/cn';
 
 /**
@@ -9,6 +10,7 @@ import { cn } from '@core/utils/cn';
  */
 const CMSReportsPage = () => {
     const { reports, isLoading, fetch, updateStatus, deleteReport, statusFilter, setStatusFilter } = useFetchAdminReports();
+    const { confirm } = useConfirm();
 
     const statusTabs = [
         { id: null, label: 'All', icon: Eye },
@@ -141,8 +143,14 @@ const CMSReportsPage = () => {
                                             </>
                                         )}
                                         <button
-                                            onClick={() => {
-                                                if (window.confirm('Delete this report permanently?')) deleteReport(id);
+                                            onClick={async () => {
+                                                const ok = await confirm({
+                                                    title: 'Archive Record',
+                                                    message: 'Permanently expunge this internal moderation report? This data will be erased from scholarly history.',
+                                                    confirmLabel: 'Confirm Purge',
+                                                    type: 'danger'
+                                                });
+                                                if (ok) deleteReport(id);
                                             }}
                                             className="p-2 rounded-lg text-accent-rose/60 hover:bg-accent-rose/10 hover:text-accent-rose transition-all"
                                             title="Delete"

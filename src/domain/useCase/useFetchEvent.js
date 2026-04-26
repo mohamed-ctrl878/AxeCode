@@ -15,7 +15,7 @@ export const useFetchEvent = () => {
 
     const fetchLogic = useCallback(async (id) => {
         if (!id) throw new Error("Event ID is required");
-        console.log("id",id);
+        console.log("id", id);
 
         const rawData = await repository.getById(id);
 

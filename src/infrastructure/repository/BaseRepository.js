@@ -25,18 +25,32 @@ export class BaseRepository extends IApiClient {
         if (requestDto && typeof requestDto.validate === 'function') {
             requestDto.validate();
         }
+
+        let payload = requestDto;
+        if (requestDto && typeof requestDto.toPayload === 'function') {
+            payload = requestDto.toPayload();
+            // If toPayload already wrapped in { data: ... }, don't wrap again
+            if (payload && payload.data) wrap = false;
+        }
+
         const url = this.#buildUrl(endpoint);
-        const body = wrap ? { data: requestDto } : requestDto;
+        const body = wrap ? { data: payload } : payload;
         return await fetchWrapper(url, true, 'application/json', 'POST', body);
     }
 
     async put(endpoint, id, requestDto, wrap = true, params = {}) {
-        console.log('[BaseRepository DEBUG] put arguments:', { endpoint, id, wrap, params });
-        
         if (requestDto && typeof requestDto.validate === 'function') {
             requestDto.validate();
         }
-        
+
+        let payload = requestDto;
+        if (requestDto && typeof requestDto.toPayload === 'function') {
+            payload = requestDto.toPayload();
+            // If toPayload already wrapped in { data: ... }, don't wrap again
+            if (payload && payload.data) wrap = false;
+        }
+
+
         let url = this.#buildUrl(`${endpoint}/${id}`);
         const queryString = qs.stringify(params, { encodeValuesOnly: true });
         
@@ -44,7 +58,8 @@ export class BaseRepository extends IApiClient {
             url += `${url.includes('?') ? '&' : '?'}${queryString}`;
         }
 
-        const body = wrap ? { data: requestDto } : requestDto;
+        const body = wrap ? { data: payload } : payload;
+        console.log("body", body);
         return await fetchWrapper(url, true, 'application/json', 'PUT', body);
     }
 

@@ -15,10 +15,10 @@ export class BlogRequest extends BaseRequest {
     toPayload() {
         return {
             data: {
-                discription: this.description, // schema uses discription typo
+                description: this.description,
                 image: this.image,
                 tags: this.tags,
-                isDraft: this.isDraft
+                isDraft: !!this.isDraft
             }
         };
     }

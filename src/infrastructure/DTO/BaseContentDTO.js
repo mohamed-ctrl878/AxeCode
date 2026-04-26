@@ -19,7 +19,7 @@ export class BaseContentDTO {
         this.commentsCount = typeof data.commentsCount === 'number' ? data.commentsCount : (interactions.commentsCount || 0);
         this.isLiked = !!(data.isLikedByMe || interactions.isLikedByMe);
         
-        // Custom Draft State
-        this.isDraft = data.isDraft ?? true; // Default to true if not provided
+        // Custom Draft State (Standardized across CMS)
+        this.isDraft = data.isDraft !== undefined ? !!data.isDraft : true; 
     }
 }

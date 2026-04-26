@@ -126,17 +126,17 @@ export const CreateBlogModal = ({ isOpen, onClose, onSuccess }) => {
                             className={cn(
                                 "flex items-center gap-3 px-4 py-2 rounded-xl border transition-all cursor-pointer select-none",
                                 isDraft 
-                                    ? "bg-surface-sunken border-border-subtle text-text-muted" 
-                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary shadow-sm"
+                                    ? "bg-accent-primary/10 border-accent-primary text-accent-primary shadow-sm"
+                                    : "bg-surface-sunken border-border-subtle text-text-muted" 
                             )}
                         >
                             <div className={cn(
                                 "w-7 h-3.5 rounded-full relative transition-all shadow-inner",
-                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                                isDraft ? "bg-accent-primary" : "bg-text-muted/20"
                             )}>
                                 <div className={cn(
                                     "absolute top-0.5 w-2.5 h-2.5 rounded-full bg-white transition-all shadow-sm",
-                                    isDraft ? "left-0.5" : "left-4"
+                                    isDraft ? "left-4" : "left-0.5"
                                 )} />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest">

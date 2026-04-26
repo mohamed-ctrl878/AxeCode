@@ -43,9 +43,9 @@ export const CourseManagementPage = () => {
     };
 
     return (
-        <div className="md:col-span-12 animation-fade-in flex flex-col min-h-[calc(100vh-4rem)]">
+        <div className="md:col-span-12 animation-fade-in flex flex-col w-full min-w-0">
             {/* Contextual Header */}
-            <div className="flex items-center justify-between mb-8 px-8 pt-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 px-4">
                 <div className="flex items-center gap-4">
                     <button 
                         onClick={() => navigate(`${PATHS.CONTENT_MANAGEMENT}/courses`)}
@@ -54,24 +54,26 @@ export const CourseManagementPage = () => {
                         <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                     </button>
                     <div>
-                        <div className="flex items-center gap-2">
-                            <h1 className="text-2xl font-serif font-medium tracking-tight text-text-primary">Course Orchestration (Standardized)</h1>
-                            <span className="px-2 py-0.5 rounded text-[8px] font-mono border border-accent-primary/20 bg-accent-primary/10 text-accent-primary uppercase tracking-widest mt-1">ID: {id}</span>
+                        <div className="flex flex-wrap items-center gap-3">
+                            <h1 className="text-2xl font-serif font-medium tracking-tight text-text-primary">Course Orchestration</h1>
+                            <span className="px-2 py-0.5 rounded text-[9px] font-mono border border-accent-primary/20 bg-accent-primary/5 text-accent-primary/80 uppercase tracking-widest">ID: {id}</span>
                         </div>
-                        <p className="text-text-muted text-xs tracking-wide">Configure comprehensive properties for this learning module.</p>
+                        <p className="text-text-muted text-[11px] font-medium opacity-60 flex items-center gap-1.5">
+                            <Activity size={10} className="text-accent-primary" />
+                            Configuration & Logic Management
+                        </p>
                     </div>
                 </div>
 
-                {/* Contextual Status Badge */}
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-sunken border border-border-subtle text-[10px] font-mono text-text-muted">
-                    <Activity size={12} className="text-accent-primary" />
-                    <span>Focus Mode</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-sunken border border-border-subtle text-[10px] font-mono text-text-muted shadow-sm">
+                    <ShieldCheck size={12} className="text-accent-emerald" />
+                    <span>Publisher Focus</span>
                 </div>
             </div>
 
-            <div className="flex-1 flex flex-col bg-surface-sunken rounded-t-3xl border border-border-subtle border-b-0 overflow-hidden mx-8 shadow-whisper">
+            <div className="flex-1 flex flex-col bg-surface-sunken/40 rounded-3xl border border-border-subtle overflow-hidden shadow-whisper">
                 {/* Unified Tab Bar */}
-                <div className="flex items-center gap-8 border-b border-border-subtle px-8 pt-2 bg-background/50 backdrop-blur-md sticky top-0 z-10">
+                <div className="flex items-center gap-6 border-b border-border-subtle px-6 pt-1 bg-surface/50 backdrop-blur-xl sticky top-0 z-10">
                     {tabs.map((tab) => {
                         const Icon = tab.icon;
                         const isActive = topic === tab.id;
@@ -80,24 +82,23 @@ export const CourseManagementPage = () => {
                                 key={tab.id}
                                 to={`${PATHS.CONTENT_MANAGEMENT}/courses/${id}/${tab.id}`}
                                 className={cn(
-                                    "relative px-2 py-4 flex items-center gap-2 text-sm font-bold tracking-tight transition-all group",
-                                    isActive ? "text-text-primary" : "text-text-muted hover:text-text-primary/80"
+                                    "relative px-1 py-4 flex items-center gap-2 text-[13px] font-bold tracking-tight transition-all group shrink-0",
+                                    isActive ? "text-text-primary" : "text-text-muted hover:text-text-primary/70"
                                 )}
                             >
-                                <Icon size={16} className={isActive ? "text-accent-primary" : "opacity-50 group-hover:opacity-100"} />
+                                <Icon size={14} className={isActive ? "text-accent-primary" : "opacity-40 group-hover:opacity-100 transition-opacity"} />
                                 {tab.label}
                                 
-                                {/* Active Indicator Bar */}
                                 {isActive && (
-                                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-accent-primary shadow-sm rounded-t-full" />
+                                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-accent-primary shadow-[0_-1px_4px_rgba(201,100,66,0.3)] rounded-t-full" />
                                 )}
                             </Link>
                         );
                     })}
                 </div>
 
-                {/* Dynamic Content Area */}
-                <div className="flex-1 p-8">
+                {/* Dynamic Content Area (Scrollable) */}
+                <div className="flex-1 p-6 md:p-8 overflow-y-auto scrollbar-hide">
                     {renderActiveTab()}
                 </div>
             </div>
