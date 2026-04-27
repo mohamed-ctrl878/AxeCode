@@ -202,65 +202,16 @@ export const AppRoutes = () => {
                     <Route path="problem-types" element={<CMSProblemTypesPage />} />
                     <Route path="accounts" element={<CMSUsersPage />} />
                     <Route path="media" element={<CMSMediaPage />} />
-                </Route>
 
-                {/* CMS Deep Management Routes */}
-                <Route 
-                    path={`${PATHS.CONTENT_MANAGEMENT}/courses/:id/:topic`} 
-                    element={
-                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                            <CourseManagementPage />
-                        </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/add-lesson`} 
-                    element={
-                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                            <AddLessonPage />
-                        </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path={`${PATHS.CONTENT_MANAGEMENT}/courses/:courseId/weeks/:weekId/lessons/:lessonId/edit`} 
-                    element={
-                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                            <EditLessonPage />
-                        </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path={`${PATHS.CONTENT_MANAGEMENT}/events/:id/:topic`} 
-                    element={
-                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                            <EventManagementPage />
-                        </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path={`${PATHS.CONTENT_MANAGEMENT}/problems/:id/:topic`} 
-                    element={
-                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                            <ProblemManagementPage />
-                        </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path={`${PATHS.CONTENT_MANAGEMENT}/roadmaps/create`} 
-                    element={
-                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                            <FlowSandboxPage />
-                        </ProtectedRoute>
-                    } 
-                />
-                <Route 
-                    path={`${PATHS.CONTENT_MANAGEMENT}/roadmaps/:id/edit`} 
-                    element={
-                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
-                            <FlowSandboxPage />
-                        </ProtectedRoute>
-                    } 
-                />
+                    {/* Deep Management Routes (Now inheriting CMSLayout sidebar) */}
+                    <Route path="courses/:id/:topic" element={<CourseManagementPage />} />
+                    <Route path="courses/:courseId/weeks/:weekId/add-lesson" element={<AddLessonPage />} />
+                    <Route path="courses/:courseId/weeks/:weekId/lessons/:lessonId/edit" element={<EditLessonPage />} />
+                    <Route path="events/:id/:topic" element={<EventManagementPage />} />
+                    <Route path="problems/:id/:topic" element={<ProblemManagementPage />} />
+                    <Route path="roadmaps/create" element={<FlowSandboxPage />} />
+                    <Route path="roadmaps/:id/edit" element={<FlowSandboxPage />} />
+                </Route>
                 <Route 
                     path={PATHS.REPORT_TYPE_CREATE} 
                     element={

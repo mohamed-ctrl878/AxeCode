@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Image, X, Loader2, Activity, Lightbulb } from 'lucide-react';
+import { Image, X, Loader2, Activity, Lightbulb, Layers } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import RichTextInput from '@presentation/shared/components/RichTextEditor/RichTextInput';
+import { CategorizationSelector } from '../../cms/components/CategorizationSelector';
+import { useFetchAdminCategorizations } from '@domain/useCase/useFetchAdminCategorizations';
 
 /**
  * Reusable Form for Course Creation and Updating.
@@ -16,11 +18,14 @@ export const CourseForm = ({
     isLoading = false, 
     onSubmit 
 }) => {
+    const { courseTypes, isLoading: isLoadingTypes } = useFetchAdminCategorizations();
+
     // Form State
     const [title, setTitle] = useState(initialData.title || '');
     const [difficulty, setDifficulty] = useState(initialData.difficulty || 'Easy');
     const [description, setDescription] = useState(initialData.description || []);
     const [isDraft, setIsDraft] = useState(initialData.isDraft ?? true);
+    const [courseTypeIds, setCourseTypeIds] = useState(initialData.course_types?.map(t => t.documentId || t.id) || []);
     
     // Arrays & Relations 
     const [tagsInput, setTagsInput] = useState(() => {
@@ -69,6 +74,7 @@ export const CourseForm = ({
             difficulty,
             tags,
             isDraft,
+            courseTypeIds,
             picture: initialData.picture?.id || null 
         };
 
@@ -200,6 +206,16 @@ export const CourseForm = ({
                             </div>
                         </div>
                     </div>
+
+                    {/* Classification Selector */}
+                    <CategorizationSelector 
+                        label="Course Taxonomy"
+                        availableItems={courseTypes}
+                        selectedIds={courseTypeIds}
+                        onChange={setCourseTypeIds}
+                        isLoading={isLoadingTypes}
+                        placeholder="Link Course Tracks..."
+                    />
 
                     {/* Thumbnail Upload */}
                     <div className="flex flex-col gap-2">

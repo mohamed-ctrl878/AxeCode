@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Edit2, Calendar, ShieldCheck, Activity } from 'lucide-react';
+import { ChevronLeft, Edit2, Calendar, ShieldCheck, Activity, Layers } from 'lucide-react';
 import { PATHS } from '@presentation/routes/paths';
 import { cn } from '@core/utils/cn';
 
@@ -9,6 +9,7 @@ import { CourseMetadataEditor } from '../components/course/CourseMetadataEditor'
 import { CourseWeeksEditor } from '../components/course/CourseWeeksEditor';
 import { CourseEntitlementEditor } from '../components/course/CourseEntitlementEditor';
 import { CourseSubscriptionAnalysis } from '../components/course/CourseSubscriptionAnalysis';
+import { CourseTypesEditor } from '../components/course/CourseTypesEditor';
 
 /**
  * CourseManagementPage: Orchestrates the unified tab view for configuring a single course.
@@ -18,7 +19,7 @@ export const CourseManagementPage = () => {
     const navigate = useNavigate();
 
     // Valid Topics Enforcer
-    const validTopics = ['edit', 'weeks', 'entitlement', 'subscription-analysis'];
+    const validTopics = ['edit', 'weeks', 'entitlement', 'subscription-analysis', 'types'];
     if (!validTopics.includes(topic)) {
         return <Navigate to={`${PATHS.CONTENT_MANAGEMENT}/courses/${id}/edit`} replace />;
     }
@@ -27,6 +28,7 @@ export const CourseManagementPage = () => {
     const tabs = useMemo(() => [
         { id: 'edit', label: 'Course Metadata', icon: Edit2 },
         { id: 'weeks', label: 'Schedule Weeks', icon: Calendar },
+        { id: 'types', label: 'Course Types', icon: Layers },
         { id: 'entitlement', label: 'Entitlement', icon: ShieldCheck },
         { id: 'subscription-analysis', label: 'Subscription Analysis', icon: Activity }
     ], []);
@@ -38,42 +40,47 @@ export const CourseManagementPage = () => {
             case 'weeks': return <CourseWeeksEditor courseId={id} />;
             case 'entitlement': return <CourseEntitlementEditor courseId={id} />;
             case 'subscription-analysis': return <CourseSubscriptionAnalysis courseId={id} />;
+            case 'types': return <CourseTypesEditor courseId={id} />;
             default: return null;
         }
     };
 
     return (
-        <div className="md:col-span-12 animation-fade-in flex flex-col w-full min-w-0">
-            {/* Contextual Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 px-4">
-                <div className="flex items-center gap-4">
+        <div className="md:col-span-full animation-fade-in flex flex-col min-h-screen text-text-primary px-4 md:px-12 py-8 max-w-7xl mx-auto w-full">
+            {/* Contextual Header - Consistent Orchestration */}
+            <div className="w-full flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 p-10 rounded-[2.5rem] bg-surface border border-border-subtle relative overflow-hidden backdrop-blur-sm">
+                {/* Decorative Pattern */}
+                <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none text-accent-primary">
+                    <Activity size={160} />
+                </div>
+
+                <div className="flex items-center gap-6 relative z-10">
                     <button 
                         onClick={() => navigate(`${PATHS.CONTENT_MANAGEMENT}/courses`)}
-                        className="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-text-muted hover:border-accent-primary/30 hover:bg-accent-primary/5 hover:text-accent-primary transition-all group shrink-0"
+                        className="w-12 h-12 rounded-2xl border border-border-default flex items-center justify-center text-text-muted hover:border-accent-primary/50 hover:bg-accent-primary/10 hover:text-accent-primary transition-all group shrink-0 bg-surface-sunken/40"
                     >
-                        <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+                        <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
                     </button>
                     <div>
-                        <div className="flex flex-wrap items-center gap-3">
-                            <h1 className="text-2xl font-serif font-medium tracking-tight text-text-primary">Course Orchestration</h1>
-                            <span className="px-2 py-0.5 rounded text-[9px] font-mono border border-accent-primary/20 bg-accent-primary/5 text-accent-primary/80 uppercase tracking-widest">ID: {id}</span>
+                        <div className="flex flex-wrap items-center gap-4">
+                            <h1 className="text-3xl font-black italic tracking-tighter text-text-primary">Course Orchestration</h1>
+                            <span className="px-3 py-1 rounded-xl text-[10px] font-black border border-accent-primary/20 bg-accent-primary/10 text-accent-primary uppercase tracking-[0.2em] mt-1 shadow-whisper">LEDGER ID: {id}</span>
                         </div>
-                        <p className="text-text-muted text-[11px] font-medium opacity-60 flex items-center gap-1.5">
-                            <Activity size={10} className="text-accent-primary" />
-                            Configuration & Logic Management
-                        </p>
+                        <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em] mt-2 opacity-40">Manage curriculum structure, subscription tiers, and academic delivery.</p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-sunken border border-border-subtle text-[10px] font-mono text-text-muted shadow-sm">
-                    <ShieldCheck size={12} className="text-accent-emerald" />
-                    <span>Publisher Focus</span>
+                {/* Status Indicator */}
+                <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-surface-sunken/60 border border-border-subtle text-[9px] font-black uppercase tracking-[0.2em] text-text-muted shadow-inner relative z-10 translate-y-1">
+                    <div className="w-2.5 h-2.5 rounded-full bg-accent-emerald animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                    <span>Curriculum Design Protocol active</span>
                 </div>
             </div>
 
-            <div className="flex-1 flex flex-col bg-surface-sunken/40 rounded-3xl border border-border-subtle overflow-hidden shadow-whisper">
+            {/* Content Container */}
+            <div className="flex-1 flex flex-col bg-surface border border-border-subtle rounded-[2.5rem] overflow-visible relative mb-12">
                 {/* Unified Tab Bar */}
-                <div className="flex items-center gap-6 border-b border-border-subtle px-6 pt-1 bg-surface/50 backdrop-blur-xl sticky top-0 z-10">
+                <div className="flex items-center gap-10 border-b border-border-subtle px-12 bg-surface backdrop-blur-md sticky top-0 z-20 rounded-t-[2.5rem]">
                     {tabs.map((tab) => {
                         const Icon = tab.icon;
                         const isActive = topic === tab.id;
@@ -82,24 +89,31 @@ export const CourseManagementPage = () => {
                                 key={tab.id}
                                 to={`${PATHS.CONTENT_MANAGEMENT}/courses/${id}/${tab.id}`}
                                 className={cn(
-                                    "relative px-1 py-4 flex items-center gap-2 text-[13px] font-bold tracking-tight transition-all group shrink-0",
-                                    isActive ? "text-text-primary" : "text-text-muted hover:text-text-primary/70"
+                                    "relative py-7 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.2em] transition-all group",
+                                    isActive ? "text-text-primary" : "text-text-muted hover:text-text-primary opacity-60 hover:opacity-100"
                                 )}
                             >
-                                <Icon size={14} className={isActive ? "text-accent-primary" : "opacity-40 group-hover:opacity-100 transition-opacity"} />
+                                <div className={cn(
+                                    "p-2.5 rounded-xl transition-all duration-300",
+                                    isActive ? "bg-accent-primary/10 text-accent-primary scale-110 shadow-whisper" : "bg-transparent group-hover:bg-surface-sunken/50"
+                                )}>
+                                    <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+                                </div>
                                 {tab.label}
                                 
                                 {isActive && (
-                                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-accent-primary shadow-[0_-1px_4px_rgba(201,100,66,0.3)] rounded-t-full" />
+                                    <div className="absolute bottom-0 left-0 w-full h-[3px] bg-accent-primary shadow-[0_0_20px_rgba(52,211,153,0.5)] rounded-t-full animation-slide-up" />
                                 )}
                             </Link>
                         );
                     })}
                 </div>
 
-                {/* Dynamic Content Area (Scrollable) */}
-                <div className="flex-1 p-6 md:p-8 overflow-y-auto scrollbar-hide">
-                    {renderActiveTab()}
+                {/* Dynamic Content Area */}
+                <div className="flex-1 p-10 overflow-y-auto bg-surface-sunken/5 rounded-b-[2.5rem] scrollbar-hide">
+                    <div className="animation-fade-in h-full">
+                        {renderActiveTab()}
+                    </div>
                 </div>
             </div>
         </div>

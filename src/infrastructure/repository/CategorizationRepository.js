@@ -39,4 +39,14 @@ export class CategorizationRepository extends BaseRepository {
         const endpoint = `${import.meta.env.VITE_API_PROBLEM_TYPES}/${id}`;
         return await this.delete(endpoint);
     }
+
+    async createCourseType(data) {
+        const endpoint = import.meta.env.VITE_API_COURSE_TYPES;
+        return await this.post(endpoint, data);
+    }
+
+    async createProblemType(data) {
+        const endpoint = import.meta.env.VITE_API_PROBLEM_TYPES;
+        return await this.post(endpoint, data);
+    }
 }

@@ -32,6 +32,7 @@ const CMSRoadmapsPage = () => {
             serverTotalItems={totalItems}
             onPageChange={setPage}
             onSearchChange={setSearch}
+            addLabel="Chart New Roadmap"
         />
     );
 };
