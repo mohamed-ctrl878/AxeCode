@@ -9,11 +9,14 @@ import store from "./infrastructure/store/store";
   // <StrictMode>
   // </StrictMode>
 import { UIProvider } from "./presentation/shared/provider/UIProvider";
+import { ConfirmationProvider } from "./presentation/shared/provider/ConfirmationProvider";
 
 createRoot(document.getElementById("root")).render(
     <Provider store={store}>
         <UIProvider>
-            <App />
+            <ConfirmationProvider>
+                <App />
+            </ConfirmationProvider>
         </UIProvider>
     </Provider>
 );

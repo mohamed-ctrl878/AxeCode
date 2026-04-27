@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { useFetchProblem } from '@domain/useCase/useFetchProblem';
 import { useUpdateProblem } from '@domain/useCase/useUpdateProblem';
 import { ProblemForm } from './ProblemForm';
-import { Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle2, Save } from 'lucide-react';
+import { useUploadMedia } from '@domain/useCase/useUploadMedia';
+import { useState } from 'react';
+import { CMSSuccessModal } from '@presentation/shared/components/CMSSuccessModal';
 
 /**
  * ProblemMetadataEditor: Handles fetching and updating a single problem's core metadata.
@@ -13,6 +16,9 @@ import { Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 export const ProblemMetadataEditor = ({ problemId }) => {
     const { fetchProblem, problem, loading, error: fetchError } = useFetchProblem();
     const { updateProblem, inProgress: isUpdating, error: updateError } = useUpdateProblem();
+    const { uploadMedia, inProgress: isUploading } = useUploadMedia();
+    
+    const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         if (problemId) {
@@ -20,11 +26,30 @@ export const ProblemMetadataEditor = ({ problemId }) => {
         }
     }, [problemId, fetchProblem]);
 
-    const handleSubmit = async (dtoData) => {
+    const handleSubmit = async (dtoData, pictureFile) => {
         try {
-            await updateProblem({ id: problemId, data: dtoData });
-            // Re-fetch to sync state after update
+            let finalPictureId = dtoData.picture;
+
+            // 1. Upload new picture if provided
+            if (pictureFile) {
+                const uploadResult = await uploadMedia(pictureFile);
+                if (uploadResult && uploadResult[0]) {
+                    finalPictureId = uploadResult[0];
+                }
+            }
+
+            // 2. Perform Update
+            await updateProblem({ 
+                id: problemId, 
+                data: {
+                    ...dtoData,
+                    picture: finalPictureId
+                } 
+            });
+
+            // 3. Re-fetch and show success
             await fetchProblem(problemId);
+            setShowSuccess(true);
         } catch (err) {
             console.error("[ProblemMetadataEditor] Update failed:", err);
         }
@@ -54,9 +79,9 @@ export const ProblemMetadataEditor = ({ problemId }) => {
     }
 
     return (
-        <div className="flex flex-col gap-8 animate-in fade-in duration-500 w-full px-4 md:px-8">
+        <div className="flex flex-col gap-8 animation-fade-in w-full max-w-6xl mx-auto mb-8">
             {updateError && (
-                <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-4 text-red-500 shadow-md">
+                <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-4 text-red-500 shadow-whisper">
                     <AlertCircle size={20} />
                     <span className="text-xs font-black uppercase tracking-widest">{updateError.message || "Mutation failed. Check the payload for anomalies."}</span>
                 </div>
@@ -65,10 +90,20 @@ export const ProblemMetadataEditor = ({ problemId }) => {
             {problem && (
                 <ProblemForm 
                     initialData={problem}
-                    isLoading={isUpdating}
+                    isLoading={isUpdating || isUploading}
                     onSubmit={handleSubmit}
                 />
             )}
+
+            <CMSSuccessModal 
+                isOpen={showSuccess}
+                onClose={() => setShowSuccess(false)}
+                title="Protocol Updated"
+                message="The algorithmic metadata schema has been successfully synchronized and committed to the core database."
+                primaryActionLabel="Stay Here"
+                secondaryActionLabel="Close Protocol"
+                icon={Save}
+            />
         </div>
     );
 };

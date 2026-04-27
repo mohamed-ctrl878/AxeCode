@@ -12,6 +12,7 @@ import { ProblemWorkspaceHeader } from '../components/ProblemWorkspaceHeader';
 import { ProblemDescription } from '../components/ProblemDescription';
 import { ProblemComments } from '../components/ProblemComments';
 import { ProblemSubmissions } from '../components/ProblemSubmissions';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { ProblemEditor } from '../components/ProblemEditor';
 import { ProblemTestCases } from '../components/ProblemTestCases';
 import { ProblemResult } from '../components/ProblemResult';
@@ -27,6 +28,7 @@ import { ReportingDialog } from '@presentation/shared/components/interactions/Re
 const ProblemPreviewPage = () => {
     const { id } = useParams();
     const { fetchProblem, problem, loading, error } = useFetchProblem();
+    const { confirm } = useConfirm();
 
     // --- Domain UseCases ---
     const { runCode, result: runResult, running: isRunning, error: runError } = useRunCode();
@@ -298,8 +300,15 @@ const ProblemPreviewPage = () => {
                                     language={language}
                                     onCodeChange={setCode}
                                     onLanguageChange={setLanguage}
-                                    onResetCode={() => {
-                                        if (window.confirm('Are you sure you want to reset the code to the default template? Your current work will be lost.')) {
+                                    onResetCode={async () => {
+                                        const ok = await confirm({
+                                            title: 'Reset Original State',
+                                            message: 'Are you sure you want to restore the starting manuscript template? This will permanently expunge your current session progress.',
+                                            confirmLabel: 'Reset Code',
+                                            type: 'warning'
+                                        });
+
+                                        if (ok) {
                                             const template = problem.codeTemplates?.find(t => t.language === language) || problem.codeTemplates?.[0];
                                             if (template) {
                                                 setCode(template.starterCode);

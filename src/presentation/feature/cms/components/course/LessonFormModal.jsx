@@ -33,7 +33,7 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md animation-fade-in px-4">
-            <div className="w-full max-w-md bg-surface-elevated border border-border-default rounded-3xl shadow-2xl p-8 animation-scale-in relative overflow-hidden">
+            <div className="w-full max-w-md bg-surface-elevated border border-border-default rounded-3xl shadow-whisper p-8 animation-scale-in relative overflow-hidden">
                 {/* Decorative background element */}
                 <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none text-accent-primary">
                     <BookOpen size={120} />
@@ -129,17 +129,17 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
                             className={cn(
                                 "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all cursor-pointer select-none",
                                 isDraft 
-                                    ? "bg-surface-sunken border-border-subtle text-text-muted" 
-                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary"
+                                    ? "bg-accent-primary/10 border-accent-primary text-accent-primary"
+                                    : "bg-surface-sunken border-border-subtle text-text-muted" 
                             )}
                         >
                             <div className={cn(
                                 "w-6 h-3 rounded-full relative transition-all shadow-inner",
-                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                                isDraft ? "bg-accent-primary" : "bg-text-muted/20"
                             )}>
                                 <div className={cn(
                                     "absolute top-0.5 w-2 h-2 rounded-full bg-white transition-all shadow-sm",
-                                    isDraft ? "left-0.5" : "left-3.5"
+                                    isDraft ? "left-3.5" : "left-0.5"
                                 )} />
                             </div>
                             <span className="text-[9px] font-bold uppercase">

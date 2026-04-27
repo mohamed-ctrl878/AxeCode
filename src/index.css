@@ -45,8 +45,8 @@
   
   /* ── Radius & Shadows ── */
   --radius-bento: 12px;
-  --shadow-halo: 0 0 0 1px var(--border-subtle), 0 4px 24px -2px rgba(0,0,0,0.05);
-  --shadow-whisper: rgba(0,0,0,0.05) 0 4px 24px;
+  --shadow-halo: 0 0 0 1px var(--border-subtle), 0 2px 12px -1px rgba(0,0,0,0.03);
+  --shadow-whisper: rgba(0,0,0,0.03) 0 2px 12px;
   --shadow-ring: 0 0 0 1px var(--ring-warm);
 }
 
@@ -220,6 +220,15 @@
   .shimmer {
     @apply relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent;
   }
+
+  .animation-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes shimmer {

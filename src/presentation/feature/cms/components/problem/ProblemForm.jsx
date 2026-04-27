@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, Loader2, Code2, Settings2, Info, ChevronDown, Save } from 'lucide-react';
+import { Plus, Trash2, Loader2, Code2, Settings2, Info, ChevronDown, Save, Lightbulb, Activity, Layers, Image as ImageIcon, Edit2, Upload } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import { RichTextInput } from '@presentation/shared/components/RichTextEditor/RichTextInput';
+import { CategorizationSelector } from '../CategorizationSelector';
+import { useFetchAdminCategorizations } from '@domain/useCase/useFetchAdminCategorizations';
 
 /**
  * Supported types for algorithmic problem signatures.
@@ -9,24 +11,28 @@ import { RichTextInput } from '@presentation/shared/components/RichTextEditor/Ri
 const SUPPORTED_TYPES = [
     'int', 'string', 'bool', 'ListNode', 'TreeNode', 
     'array<int>', 'array<string>', 'array<ListNode>',
-    'matrix<int>', 'matrix<string>'
+    'matrix<int>', 'matrix<matrix<int>>',
+    'matrix<string>'
 ];
 
 /**
  * ProblemForm: Specialized form for algorithm problems.
- * Optimized for both Light and Dark modes with premium UX.
+ * Optimized for system-wide design parity with CourseForm.
  */
 export const ProblemForm = ({ 
     initialData = {}, 
     isLoading = false, 
     onSubmit 
 }) => {
+    const { problemTypes, isLoading: isLoadingTypes } = useFetchAdminCategorizations();
+
     // Basic Meta
     const [title, setTitle] = useState(initialData.title || '');
     const [difficulty, setDifficulty] = useState(initialData.difficulty || 'easy');
     const [description, setDescription] = useState(initialData.description || []);
     const [constraints, setConstraints] = useState(initialData.constraints || '');
     const [isDraft, setIsDraft] = useState(initialData.isDraft ?? true);
+    const [problemTypeIds, setProblemTypeIds] = useState(initialData.problem_types?.map(t => t.documentId || t.id) || []);
     
     // Technical Signature
     const [functionName, setFunctionName] = useState(initialData.functionName || '');
@@ -36,6 +42,18 @@ export const ProblemForm = ({
     // Performance Limits
     const [timeLimit, setTimeLimit] = useState(initialData.timeLimit || 2000);
     const [memoryLimit, setMemoryLimit] = useState(initialData.memoryLimit || 256000);
+
+    // Media & Visuals
+    const [pictureFile, setPictureFile] = useState(null);
+    const [picturePreview, setPicturePreview] = useState(initialData.picture?.url || null);
+
+    const handlePictureChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setPictureFile(file);
+            setPicturePreview(URL.createObjectURL(file));
+        }
+    };
 
     const addParam = () => {
         setParams([...params, { name: '', type: 'int' }]);
@@ -65,256 +83,333 @@ export const ProblemForm = ({
             timeLimit: parseInt(timeLimit),
             memoryLimit: parseInt(memoryLimit),
             public: initialData.public || false,
-            isDraft
+            isDraft,
+            problemTypeIds,
+            picture: initialData.picture?.id || null
         };
 
-        onSubmit(dtoData);
+        onSubmit(dtoData, pictureFile);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-10 w-full mx-auto p-1 bg-transparent text-text-primary">
-            
-            {/* Header / Submission Bar */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-surface p-8 rounded-[2.5rem] border border-border-subtle shadow-xl sticky top-2 z-10">
-                <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-accent-primary/10 flex items-center justify-center text-accent-primary shadow-inner">
-                        <Settings2 size={24} />
-                    </div>
-                    <div>
-                        <h2 className="text-xl font-black italic tracking-tight">{initialData.documentId ? 'Problem Architect' : 'New Protocol Configuration'}</h2>
-                        <p className="text-[10px] text-text-muted font-black uppercase tracking-widest opacity-40">Define technical signatures and constraints.</p>
-                    </div>
-                </div>
-
-                {/* isDraft Toggle in Header Bar for Problem */}
-                <div 
-                    onClick={() => setIsDraft(!isDraft)}
-                    className={cn(
-                        "flex items-center gap-3 px-6 py-3 rounded-2xl border transition-all cursor-pointer select-none ml-auto mr-4",
-                        isDraft 
-                            ? "bg-surface-sunken border-border-subtle text-text-muted opacity-60" 
-                            : "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
-                    )}
-                >
-                    <div className={cn(
-                        "w-9 h-5 rounded-full relative transition-all shadow-inner",
-                        isDraft ? "bg-text-muted/20" : "bg-accent-blue"
-                    )}>
-                        <div className={cn(
-                            "absolute top-1 w-3 h-3 rounded-full bg-white transition-all shadow-sm",
-                            isDraft ? "left-1" : "left-5"
-                        )} />
-                    </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest">
-                        {isDraft ? 'Draft Protocol' : 'Live Archive'}
-                    </span>
-                </div>
-
-                <button 
-                    type="submit" 
-                    disabled={isLoading || !title || !functionName} 
-                    className="w-full md:w-auto flex items-center justify-center gap-3 bg-accent-primary text-on-accent font-black text-xs uppercase tracking-widest px-10 py-4 rounded-2xl transition-all shadow-lg shadow-accent-primary/20 hover:brightness-110 active:scale-95 disabled:opacity-50"
-                >
-                    {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
-                    {initialData.documentId ? 'Commit Changes' : 'Initialize Protocol'}
-                </button>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 
-                {/* Left Column: Metadata & Constraints */}
-                <div className="lg:col-span-12 space-y-10">
+                {/* Left Column (Main Architecture) */}
+                <div className="lg:col-span-3 flex flex-col gap-8">
                     
-                    {/* Identification Section */}
-                    <div className="bg-surface border border-border-subtle rounded-[2.5rem] p-10 shadow-xl space-y-10">
-                        <div className="space-y-6">
-                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-4 flex items-center gap-3">
-                                <div className="w-2 h-2 rounded-full bg-accent-primary" />
-                                Core Identification
-                            </label>
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                                <div className="md:col-span-3 space-y-3">
-                                    <input
-                                        required
-                                        type="text"
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        className="w-full bg-surface-sunken/40 border border-border-subtle rounded-3xl px-8 py-5 text-2xl font-black text-text-primary focus:border-accent-primary focus:bg-surface-sunken outline-none transition-all placeholder:text-text-muted/20 shadow-inner"
-                                        placeholder="Name this algorithmic challenge..."
-                                    />
-                                </div>
-                                <div className="space-y-3">
-                                    <select
-                                        value={difficulty}
-                                        onChange={(e) => setDifficulty(e.target.value)}
-                                        className={cn(
-                                            "w-full appearance-none bg-surface-sunken/40 border border-border-subtle rounded-3xl px-8 py-5 text-sm font-black uppercase tracking-widest focus:border-accent-primary outline-none cursor-pointer text-center",
-                                            difficulty === 'easy' ? 'text-green-500' : difficulty === 'medium' ? 'text-amber-500' : 'text-red-500'
-                                        )}
-                                    >
-                                        <option value="easy">Easy Node</option>
-                                        <option value="medium">Medium Node</option>
-                                        <option value="hard">Hard Node</option>
-                                    </select>
-                                </div>
+                    {/* Header Summary */}
+                    <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent-primary px-1">Infrastructure Schema</label>
+                        <h2 className="text-3xl font-black font-serif italic tracking-tighter text-text-primary">
+                            {initialData.documentId ? 'Problem Architect' : 'Manifest Protocol'}
+                        </h2>
+                    </div>
+
+                    {/* Identification & Difficulty Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-6 rounded-2xl bg-surface border border-border-subtle shadow-whisper">
+                        <div className="md:col-span-2 flex flex-col gap-2">
+                            <label className="text-xs font-bold uppercase tracking-widest text-text-muted px-1">Problem Title</label>
+                            <input
+                                required
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className="input-field text-lg font-serif"
+                                placeholder="e.g. Reverse Linked List Architect..."
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-xs font-bold uppercase tracking-widest text-text-muted px-1">Complexity</label>
+                            <div className="relative">
+                                <select
+                                    value={difficulty}
+                                    onChange={(e) => setDifficulty(e.target.value)}
+                                    className="input-field appearance-none cursor-pointer pr-10 text-xs font-bold uppercase tracking-widest"
+                                >
+                                    <option value="easy">Novice (Easy)</option>
+                                    <option value="medium">Scholar (Medium)</option>
+                                    <option value="hard">Philosopher (Hard)</option>
+                                </select>
+                                <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40" />
                             </div>
                         </div>
-
-                        {/* Description Section */}
-                        <div className="space-y-6">
-                            <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-4 flex items-center gap-3">
-                                <div className="w-2 h-2 rounded-full bg-accent-blue shadow-[0_0_10px_rgba(59,130,246,0.3)]" />
-                                Problem Curriculum (Architect)
-                            </label>
-                            <div className="border border-border-subtle rounded-[2.5rem] overflow-hidden bg-surface-sunken/40 focus-within:bg-surface-sunken transition-all shadow-inner relative">
-                                <RichTextInput
-                                    value={description}
-                                    onChange={setDescription}
-                                    placeholder="Describe the objective and complexity..."
-                                />
-                            </div>
+                        <div className="flex flex-col gap-2">
+                             <CategorizationSelector 
+                                label="Classification"
+                                availableItems={problemTypes}
+                                selectedIds={problemTypeIds}
+                                onChange={setProblemTypeIds}
+                                isLoading={isLoadingTypes}
+                                placeholder="Link Problem Types..."
+                             />
                         </div>
                     </div>
 
-                    {/* Technical Signature Section */}
-                    <div className="bg-surface border border-border-subtle rounded-[2.5rem] p-10 shadow-xl space-y-10">
-                        <label className="text-[10px] font-black text-accent-primary uppercase tracking-[0.2em] px-2 flex items-center gap-3">
-                            <Code2 size={20} />
-                            Technical Protocol Signature
-                        </label>
+                    {/* Narrative (Rich Text) */}
+                    <div className="flex flex-col gap-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-text-muted px-1">Curriculum Narrative</label>
+                        <div className="border border-border-default rounded-2xl overflow-hidden shadow-sm bg-surface">
+                            <RichTextInput
+                                value={description}
+                                onChange={setDescription}
+                                placeholder="Define the problem landscape and objectives..."
+                                hideBorder
+                            />
+                        </div>
+                    </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            {/* Function Header Configuration */}
-                            <div className="space-y-8 p-8 bg-surface-sunken/40 border border-border-subtle rounded-[2rem] shadow-inner relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-                                    <Code2 size={80} />
-                                </div>
-                                <div className="space-y-3 relative z-10">
-                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Function Identifier *</label>
+                    {/* Technical Implementation Section */}
+                    <div className="flex flex-col gap-6 p-8 rounded-2xl bg-surface border border-border-subtle shadow-whisper relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none text-accent-primary">
+                            <Code2 size={120} />
+                        </div>
+
+                        <div className="flex items-center gap-3 border-b border-border-subtle/50 pb-6">
+                            <Code2 size={20} className="text-accent-primary" />
+                            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-text-primary">Technical signature Protocol</h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+                            {/* Function Header */}
+                            <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted px-1">Function Identifier *</label>
                                     <input
                                         required
                                         type="text"
                                         value={functionName}
                                         onChange={(e) => setFunctionName(e.target.value.replace(/\s/g, ''))}
-                                        className="w-full bg-surface border border-border-subtle rounded-2xl px-6 py-4 font-mono text-sm font-bold text-text-primary focus:border-accent-primary outline-none transition-all shadow-sm"
-                                        placeholder="e.g. solve, findNode"
+                                        className="input-field font-mono text-sm"
+                                        placeholder="solveProposal"
                                     />
                                 </div>
-
-                                <div className="space-y-3 relative z-10">
-                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-1">Result Type Protocol</label>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted px-1">Result Type</label>
                                     <div className="relative">
                                         <select
                                             value={returnType}
                                             onChange={(e) => setReturnType(e.target.value)}
-                                            className="w-full appearance-none bg-surface border border-border-subtle rounded-2xl px-6 py-4 font-mono text-sm font-bold text-text-primary focus:border-accent-primary outline-none cursor-pointer shadow-sm pr-12"
+                                            className="input-field appearance-none cursor-pointer pr-10 font-mono text-xs"
                                         >
                                             {SUPPORTED_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                                         </select>
-                                        <ChevronDown size={18} className="absolute right-5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+                                        <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 opacity-40" />
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Parameters Configuration */}
-                            <div className="space-y-6">
-                                <div className="flex justify-between items-center px-2">
-                                    <label className="text-[10px] font-black text-text-muted uppercase tracking-widest">Input Parameters</label>
+                            {/* Parameters List */}
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between px-1">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Input Vectors</label>
                                     <button 
                                         type="button" 
                                         onClick={addParam}
-                                        className="flex items-center gap-2 text-[10px] font-black text-accent-primary hover:text-text-primary uppercase tracking-widest bg-accent-primary/10 px-4 py-2 rounded-xl transition-all hover:bg-accent-primary/20"
+                                        className="text-[9px] font-black uppercase tracking-widest text-accent-primary hover:text-text-primary transition-colors flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-accent-primary/5"
                                     >
-                                        <Plus size={14} /> Add Vector
+                                        <Plus size={12} /> Append Parameter
                                     </button>
                                 </div>
-                                
-                                <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
+
+                                <div className="space-y-3 max-h-[160px] overflow-y-auto pr-2 scrollbar-hide">
                                     {params.map((param, index) => (
-                                        <div key={index} className="grid grid-cols-12 gap-3 p-4 bg-surface-sunken/60 border border-border-subtle rounded-2xl animation-slide-in shadow-sm">
-                                            <div className="col-span-6">
-                                                <input
-                                                    placeholder="Param name"
-                                                    value={param.name}
-                                                    onChange={(e) => updateParam(index, 'name', e.target.value.replace(/\s/g, ''))}
-                                                    className="w-full bg-surface border border-border-subtle rounded-xl px-4 py-2.5 font-mono text-xs focus:border-accent-primary outline-none"
-                                                />
-                                            </div>
-                                            <div className="col-span-4 relative">
+                                        <div key={index} className="flex gap-2 p-3 bg-surface-sunken/40 border border-border-subtle rounded-xl items-center animation-fade-in group/param">
+                                            <input
+                                                value={param.name}
+                                                onChange={(e) => updateParam(index, 'name', e.target.value)}
+                                                placeholder="name"
+                                                className="flex-1 bg-transparent border-none text-xs font-mono font-bold focus:ring-0 outline-none p-0"
+                                            />
+                                            <div className="relative w-28">
                                                 <select
                                                     value={param.type}
                                                     onChange={(e) => updateParam(index, 'type', e.target.value)}
-                                                    className="w-full appearance-none bg-surface border border-border-subtle rounded-xl px-4 py-2.5 font-mono text-[10px] focus:border-accent-primary outline-none cursor-pointer pr-8"
+                                                    className="w-full bg-transparent border-none text-[10px] font-mono appearance-none cursor-pointer pr-6 p-0 outline-none focus:ring-0"
                                                 >
                                                     {SUPPORTED_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                                                 </select>
-                                                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+                                                <ChevronDown size={10} className="absolute right-1 top-1/2 -translate-y-1/2 opacity-20" />
                                             </div>
-                                            <div className="col-span-2 flex items-center justify-center">
-                                                <button 
-                                                    type="button" 
-                                                    onClick={() => removeParam(index)}
-                                                    className="w-10 h-10 rounded-xl flex items-center justify-center text-red-500 hover:bg-red-500/10 transition-all border border-transparent hover:border-red-500/20"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            </div>
+                                            <button 
+                                                type="button" 
+                                                onClick={() => removeParam(index)}
+                                                className="opacity-0 group-hover/param:opacity-100 transition-opacity text-red-500/60 hover:text-red-500"
+                                            >
+                                                <Trash2 size={12} />
+                                            </button>
                                         </div>
                                     ))}
                                     {params.length === 0 && (
-                                        <div className="py-12 border-2 border-dashed border-border-subtle rounded-3xl flex flex-col items-center justify-center text-text-muted opacity-40">
-                                            <Code2 size={40} className="mb-4" />
-                                            <p className="text-[10px] font-black uppercase tracking-widest italic">No input vectors defined</p>
+                                        <div className="py-8 border border-dashed border-border-subtle rounded-xl flex flex-col items-center justify-center opacity-30">
+                                            <p className="text-[10px] font-bold uppercase tracking-widest italic">Void Parameters</p>
                                         </div>
                                     )}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Constraints & Performance Tuning */}
-                        <div className="pt-10 border-t border-border-subtle grid grid-cols-1 md:grid-cols-3 gap-10">
-                            <div className="md:col-span-2 space-y-4">
-                                <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-2 flex items-center gap-2">
-                                    <Info size={14} />
-                                    Algorithmic Constraints
-                                </label>
-                                <textarea
-                                    value={constraints}
-                                    onChange={(e) => setConstraints(e.target.value)}
-                                    className="w-full bg-surface-sunken/40 border border-border-subtle rounded-3xl p-6 text-sm font-medium text-text-primary focus:border-accent-primary outline-none transition-all shadow-inner h-32"
-                                    placeholder="Define performance limits, e.g. 1 <= nums.length <= 10^5..."
-                                />
-                            </div>
+                        {/* Constraints Area */}
+                        <div className="pt-6 mt-4 border-t border-border-subtle/50 space-y-3 relative z-10">
+                            <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted px-1 flex items-center gap-2">
+                                <Info size={12} /> Algorithmic boundaries
+                            </label>
+                            <textarea
+                                value={constraints}
+                                onChange={(e) => setConstraints(e.target.value)}
+                                className="input-field min-h-[140px] text-xs font-medium leading-relaxed resize-none"
+                                placeholder="e.g. 1 <= node.val <= 500"
+                            />
+                        </div>
+                    </div>
+                </div>
 
-                            <div className="space-y-6">
-                                <label className="text-[10px] font-black text-text-muted uppercase tracking-widest px-2">Resource Allocation</label>
-                                <div className="space-y-4">
-                                    <div className="p-5 bg-surface-sunken/40 border border-border-subtle rounded-2xl shadow-inner space-y-2">
-                                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest opacity-60 px-1">
-                                            <span>Time Latency (ms)</span>
-                                        </div>
-                                        <input
-                                            type="number"
-                                            value={timeLimit}
-                                            onChange={(e) => setTimeLimit(e.target.value)}
-                                            className="w-full bg-transparent border-none text-xl font-black text-text-primary outline-none focus:ring-0"
-                                        />
-                                    </div>
-                                    <div className="p-5 bg-surface-sunken/40 border border-border-subtle rounded-2xl shadow-inner space-y-2">
-                                        <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest opacity-60 px-1">
-                                            <span>Memory Pool (KB)</span>
-                                        </div>
-                                        <input
-                                            type="number"
-                                            value={memoryLimit}
-                                            onChange={(e) => setMemoryLimit(e.target.value)}
-                                            className="w-full bg-transparent border-none text-xl font-black text-text-primary outline-none focus:ring-0"
-                                        />
-                                    </div>
-                                </div>
+                {/* Right Column (Controls & Metaphysics) */}
+                <div className="flex flex-col gap-6">
+                    
+                    {/* Actions Panel */}
+                    <div className="p-6 rounded-2xl bg-surface border border-border-subtle shadow-whisper space-y-6">
+                        <button 
+                            type="submit" 
+                            disabled={isLoading || !title || !functionName} 
+                            className="btn-primary w-full py-4 text-xs shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3"
+                        >
+                            {isLoading ? (
+                                <Loader2 size={18} className="animate-spin" />
+                            ) : (
+                                <>
+                                    <Save size={16} />
+                                    {initialData.documentId ? 'Commit Logic' : 'Initiate Protocol'}
+                                </>
+                            )}
+                        </button>
+                        <p className="text-[9px] text-center text-text-muted leading-tight opacity-70 font-bold uppercase tracking-widest">
+                            Changes propagate to validation nodes immediately.
+                        </p>
+                    </div>
+
+                    {/* Transmission State */}
+                    <div className="flex flex-col gap-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-text-muted px-1">Presence</label>
+                        <div 
+                            onClick={() => setIsDraft(!isDraft)}
+                            className={cn(
+                                "group flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer shadow-none active:scale-[0.98]",
+                                isDraft 
+                                    ? "bg-accent-primary/5 border-accent-primary/40 hover:bg-accent-primary/10 shadow-whisper" 
+                                    : "bg-surface border-border-default hover:border-accent-emerald/40"
+                            )}
+                        >
+                            <div className="flex flex-col gap-0.5" >
+                                <span className={cn(
+                                    "text-[10px] font-bold uppercase tracking-wider",
+                                    isDraft ? "text-accent-primary" : "text-accent-emerald"
+                                )}>
+                                    {isDraft ? 'Manuscript (Draft)' : 'Archetype (Live)'}
+                                </span>
+                                <span className="text-[10px] text-text-muted italic opacity-60">
+                                    {isDraft ? 'Private Workspace' : 'Global Collective'}
+                                </span>
+                            </div>
+                            
+                            <div className={cn(
+                                "w-10 h-5 rounded-full p-1 transition-all duration-300 relative",
+                                isDraft ? "bg-accent-primary/80" : "bg-accent-emerald/80"
+                            )}>
+                                <div className={cn(
+                                    "w-3 h-3 rounded-full bg-white shadow-sm transition-all duration-300 transform",
+                                    isDraft ? "translate-x-5" : "translate-x-0"
+                                )} />
                             </div>
                         </div>
                     </div>
+
+                    {/* Guidance Tip */}
+                    <div className="p-4 rounded-xl bg-accent-amber/5 border border-accent-amber/20 flex gap-3 shadow-none">
+                        <div className="p-2 h-fit rounded-lg bg-accent-amber/10 text-accent-amber shrink-0">
+                            <Lightbulb size={18} />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <h4 className="text-[11px] font-bold uppercase tracking-tight text-accent-amber/80">Publication Protocol</h4>
+                            <p className="text-[11px] text-text-muted leading-relaxed font-medium">
+                                Ensure these steps before making content public:<br/>
+                                <span className="text-text-primary/70">1. (Preferably complete all content related to this item before publishing as live content).</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Operational Limits */}
+                    <div className="p-6 bg-surface border border-border-subtle rounded-2xl shadow-whisper space-y-6">
+                        <div className="flex items-center gap-2 border-b border-border-subtle pb-4">
+                            <Activity size={14} className="text-accent-primary" />
+                            <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-primary">Resource Quotas</h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-[9px] font-bold uppercase tracking-widest text-text-muted px-1">latency Limit (ms)</label>
+                                <input
+                                    type="number"
+                                    value={timeLimit}
+                                    onChange={(e) => setTimeLimit(e.target.value)}
+                                    className="input-field text-sm font-mono py-2.5"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-[9px] font-bold uppercase tracking-widest text-text-muted px-1">Heap Allocation (KB)</label>
+                                <input
+                                    type="number"
+                                    value={memoryLimit}
+                                    onChange={(e) => setMemoryLimit(e.target.value)}
+                                    className="input-field text-sm font-mono py-2.5"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Visual Identity (Thumbnail) - Content Flow requirement */}
+                    <div className="p-6 bg-surface border border-border-subtle rounded-2xl shadow-whisper space-y-6">
+                        <div className="flex items-center gap-2 border-b border-border-subtle pb-4">
+                            <ImageIcon size={14} className="text-accent-primary" />
+                            <h3 className="text-[10px] font-bold uppercase tracking-widest text-text-primary">Visual Identity</h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div 
+                                className={cn(
+                                    "relative h-40 rounded-xl border border-dashed border-border-default overflow-hidden bg-surface-sunken/20 flex flex-col items-center justify-center transition-all group",
+                                    picturePreview ? "border-solid" : "hover:border-accent-primary/50"
+                                )}
+                            >
+                                {picturePreview ? (
+                                    <>
+                                        <img src={picturePreview} alt="Preview" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-near-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                            <label className="p-3 bg-ivory text-near-black rounded-xl cursor-pointer hover:scale-110 transition-transform">
+                                                <Edit2 size={16} />
+                                                <input type="file" className="hidden" accept="image/*" onChange={handlePictureChange} />
+                                            </label>
+                                            <button 
+                                                type="button" 
+                                                onClick={() => { setPictureFile(null); setPicturePreview(null); }}
+                                                className="p-3 bg-accent-rose text-ivory rounded-xl hover:scale-110 transition-transform"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
+                                        <Upload size={24} className="text-text-muted mb-2 group-hover:text-accent-primary transition-colors" />
+                                        <span className="text-[10px] font-bold uppercase text-text-muted group-hover:text-text-primary transition-colors">Inject Symbol</span>
+                                        <input type="file" className="hidden" accept="image/*" onChange={handlePictureChange} />
+                                    </label>
+                                )}
+                            </div>
+                            <p className="text-[9px] text-text-muted italic opacity-50 px-1 text-center">Protocol recommendation: 1280x720 (16:9)</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </form>

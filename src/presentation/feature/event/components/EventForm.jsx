@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, X, Loader2, Calendar, MapPin, Globe, Clock, User } from 'lucide-react';
+import { Image, X, Loader2, Calendar, MapPin, Globe, Clock, User, Lightbulb } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import RichTextInput from '@presentation/shared/components/RichTextEditor/RichTextInput';
 
@@ -63,9 +63,7 @@ export const EventForm = ({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-full mx-auto p-6 lg:p-10 bg-surface rounded-[2.5rem] border border-border-subtle shadow-2xl relative overflow-hidden group">
-            {/* Background Decorative Element */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-blue/5 blur-[100px] pointer-events-none" />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
 
             {/* Header section with Actions */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/5 pb-8 relative z-10 transition-all">
@@ -94,14 +92,14 @@ export const EventForm = ({
                     {/* Event Title */}
                     <div className="space-y-3">
                         <label className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-[0.2em] ml-1">
-                            Event Title <span className="text-accent-blue">*</span>
+                            Event Title <span className="text-accent-primary">*</span>
                         </label>
                         <input
                             required
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full bg-surface-sunken border border-border-subtle rounded-2xl px-6 py-4 text-lg font-bold text-text-primary focus:outline-none focus:border-accent-blue/50 focus:bg-surface-hover transition-all placeholder:text-text-muted/30"
+                            className="w-full bg-surface-sunken border border-border-subtle rounded-2xl px-6 py-4 text-lg font-bold text-text-primary focus:outline-none focus:border-accent-primary/50 focus:bg-surface-hover transition-all placeholder:text-text-muted/30"
                             placeholder="e.g. Clean Code Summit 2024"
                         />
                     </div>
@@ -111,7 +109,7 @@ export const EventForm = ({
                         <label className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-[0.2em] ml-1">
                             Event Narrative
                         </label>
-                        <div className="border border-border-subtle rounded-[2rem] overflow-hidden min-h-[400px] bg-surface-sunken backdrop-blur-sm transition-all focus-within:border-accent-blue/30">
+                        <div className="border border-border-subtle rounded-[2rem] overflow-hidden min-h-[400px] bg-surface-sunken backdrop-blur-sm transition-all focus-within:border-accent-primary/30">
                             <RichTextInput
                                 value={description}
                                 onChange={setDescription}
@@ -129,7 +127,7 @@ export const EventForm = ({
                         <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] ml-1">Hero Visual</label>
                         <div className={cn(
                             "relative flex flex-col items-center justify-center border-2 border-dashed rounded-[2rem] transition-all overflow-hidden min-h-[220px]",
-                            imagePreview ? "border-accent-blue/40 bg-accent-blue/5 shadow-inner" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20"
+                            imagePreview ? "border-accent-primary/40 bg-accent-primary/5 shadow-inner" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20"
                         )}>
                             {imagePreview ? (
                                 <>
@@ -138,7 +136,7 @@ export const EventForm = ({
                                          <button
                                             type="button"
                                             onClick={removeImage}
-                                            className="w-12 h-12 flex items-center justify-center bg-red-500 text-white rounded-2xl shadow-2xl transition-all hover:scale-110 active:scale-95"
+                                            className="w-12 h-12 flex items-center justify-center bg-red-500 text-white rounded-2xl shadow-whisper transition-all hover:scale-110 active:scale-95"
                                         >
                                             <X size={20} />
                                         </button>
@@ -165,28 +163,43 @@ export const EventForm = ({
 
                     {/* Publication Status Toggle */}
                     <div className="space-y-3">
-                        <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] ml-1 text-accent-blue font-serif">Publication Status</label>
+                        <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] ml-1 text-accent-primary font-serif">Publication Status</label>
                         <div 
                             onClick={() => setIsDraft(!isDraft)}
                             className={cn(
                                 "flex items-center gap-4 p-5 rounded-[2rem] border transition-all cursor-pointer shadow-sm active:scale-95",
                                 isDraft 
-                                    ? "bg-surface-sunken border-white/5 text-text-muted" 
-                                    : "bg-accent-blue/10 border-accent-blue text-accent-blue shadow-lg shadow-accent-blue/5"
+                                    ? "bg-accent-primary/10 border-accent-primary text-accent-primary shadow-lg shadow-accent-primary/5"
+                                    : "bg-surface-sunken border-white/5 text-text-muted" 
                             )}
                         >
                             <div className={cn(
                                 "w-11 h-6 rounded-full relative transition-all shadow-inner",
-                                isDraft ? "bg-white/10" : "bg-accent-blue"
+                                isDraft ? "bg-accent-primary" : "bg-white/10"
                             )}>
                                 <div className={cn(
                                     "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
-                                    isDraft ? "left-1" : "left-6"
+                                    isDraft ? "left-6" : "left-1"
                                 )} />
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-[0.2em]">
                                 {isDraft ? 'Draft Proposal' : 'Live Broadcast'}
                             </span>
+                        </div>
+                    </div>
+
+                    {/* Guidance Tip */}
+                    <div className="p-4 rounded-xl bg-accent-amber/5 border border-accent-amber/20 flex gap-3 shadow-sm">
+                        <div className="p-2 h-fit rounded-lg bg-accent-amber/10 text-accent-amber shrink-0">
+                            <Lightbulb size={18} />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <h4 className="text-[11px] font-bold uppercase tracking-tight text-accent-amber/80">Launch Protocol</h4>
+                            <p className="text-[11px] text-text-muted leading-relaxed font-medium">
+                                Ensure these steps before making content public:<br/>
+                                <span className="text-text-primary/70">1. Set a price you deem appropriate.</span><br/>
+                                <span className="text-text-primary/70 text-[10px]">2. (Preferably complete all content related to this item before publishing as live content).</span>
+                            </p>
                         </div>
                     </div>
 
@@ -196,14 +209,14 @@ export const EventForm = ({
                         {/* Event Date */}
                         <div className="space-y-3">
                             <label className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">
-                                <Calendar size={12} className="text-accent-blue" /> Scheduled Date
+                                <Calendar size={12} className="text-accent-primary" /> Scheduled Date
                             </label>
                             <input
                                 required
                                 type="datetime-local"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
-                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-blue/50 outline-none transition-all tabular-nums"
+                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-primary/50 outline-none transition-all tabular-nums"
                             />
                         </div>
 
@@ -216,7 +229,7 @@ export const EventForm = ({
                                         onClick={() => setOnsite(!onsite)}
                                         className={cn(
                                             "w-10 h-6 rounded-full transition-all relative flex items-center px-1",
-                                            onsite ? "bg-accent-blue" : "bg-surface-sunken"
+                                            onsite ? "bg-accent-primary" : "bg-surface-sunken"
                                         )}
                                     >
                                         <div className={cn("w-4 h-4 rounded-full bg-white transition-all shadow-md", onsite ? "ml-4" : "ml-0")} />
@@ -229,7 +242,7 @@ export const EventForm = ({
                                         onClick={() => setLiveStreaming(!liveStreaming)}
                                         className={cn(
                                             "w-10 h-6 rounded-full transition-all relative flex items-center px-1",
-                                            liveStreaming ? "bg-accent-blue" : "bg-surface-sunken"
+                                            liveStreaming ? "bg-accent-primary" : "bg-surface-sunken"
                                         )}
                                     >
                                         <div className={cn("w-4 h-4 rounded-full bg-white transition-all shadow-md", liveStreaming ? "ml-4" : "ml-0")} />
@@ -242,13 +255,13 @@ export const EventForm = ({
                         {/* Location */}
                         <div className="space-y-3">
                             <label className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">
-                                <MapPin size={12} className="text-accent-blue" /> Venue / Platform
+                                <MapPin size={12} className="text-accent-primary" /> Venue / Platform
                             </label>
                             <input
                                 type="text"
                                 value={location}
                                 onChange={(e) => setLocation(e.target.value)}
-                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-blue/50 outline-none transition-all"
+                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-primary/50 outline-none transition-all"
                                 placeholder={onsite ? "e.g. Cairo Arena" : "e.g. Zoom Link"}
                             />
                         </div>
@@ -256,13 +269,13 @@ export const EventForm = ({
                         {/* Duration */}
                         <div className="space-y-3">
                             <label className="flex items-center gap-2 text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">
-                                <Clock size={12} className="text-accent-blue" /> Duration (Mins)
+                                <Clock size={12} className="text-accent-primary" /> Duration (Mins)
                             </label>
                             <input
                                 type="number"
                                 value={duration}
                                 onChange={(e) => setDuration(e.target.value)}
-                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-blue/50 outline-none transition-all"
+                                className="w-full bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm text-text-primary focus:border-accent-primary/50 outline-none transition-all"
                                 placeholder="e.g. 120"
                             />
                         </div>

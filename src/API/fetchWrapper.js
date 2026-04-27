@@ -21,19 +21,14 @@ export const fetchWrapper = async (url, useToken = true, contentType = 'applicat
         credentials: useToken ? 'include' : 'same-origin',
     };
 
-    console.log(config);
-    console.log(body);
-    console.log(contentType);
-    console.log(method);
-    console.log(url);
-    console.log(useToken);
+
     if (body && method !== 'GET') {
         config.body = contentType === 'application/json' ? JSON.stringify(body) : body;
     }
 
     try {
         const response = await fetch(url, config);
-        
+
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
             throw new Error(errorData.message || `Request failed with status ${response.status}`);

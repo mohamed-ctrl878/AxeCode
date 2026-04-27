@@ -24,7 +24,7 @@ export class CourseDTO extends BaseContentDTO {
         this.duration = data.duration || 0; // {number} - total minutes
         this.rating = data.interactions?.rating?.average || 0; // {number}
         this.reviewsCount = data.interactions?.rating?.count || 0; // {number}
-
+        this.isDraft = data.isDraft || false; // {boolean}  
         // Detailed Entitlement
         this.entitlement = data.entitlement ? new EntitlementDTO(data.entitlement) : null; // {EntitlementDTO | null}
 

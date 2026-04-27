@@ -91,7 +91,7 @@ export const AddLessonPage = () => {
                     <div>
                         <div className="flex items-center gap-3">
                             <h1 className="text-3xl font-black tracking-tight text-text-primary italic">Add Lesson</h1>
-                            <span className="px-2 py-0.5 rounded text-[10px] font-black bg-accent-blue/10 border border-accent-blue/20 text-accent-blue uppercase tracking-widest mt-1">Initiating</span>
+                            <span className="px-2 py-0.5 rounded text-[10px] font-black bg-accent-primary/10 border border-accent-primary/20 text-accent-primary uppercase tracking-widest mt-1">Initiating</span>
                         </div>
                         <p className="text-text-muted text-[10px] font-black uppercase tracking-widest mt-1 opacity-40">Module Orchestration • {weekId}</p>
                     </div>
@@ -146,10 +146,10 @@ export const AddLessonPage = () => {
                     <div className="space-y-8">
                         <div className="space-y-4">
                             <label className="text-[10px] font-black text-text-muted uppercase tracking-[0.2em] px-2 flex items-center gap-3">
-                                <span className="w-2 h-2 rounded-full bg-accent-blue shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                                 Content Curriculum (Architect)
                             </label>
-                            <div className="border border-border-subtle rounded-[2.5rem] overflow-hidden min-h-[350px] bg-surface-sunken/40 focus-within:border-accent-blue focus-within:bg-surface-sunken transition-all shadow-inner">
+                            <div className="border border-border-subtle rounded-[2.5rem] overflow-hidden min-h-[350px] bg-surface-sunken/40 focus-within:border-accent-primary focus-within:bg-surface-sunken transition-all shadow-inner">
                                 <RichTextInput
                                     value={description}
                                     onChange={setDescription}
@@ -192,12 +192,12 @@ export const AddLessonPage = () => {
                             
                             {videoPreview ? (
                                 <div className="relative rounded-[3rem] overflow-hidden aspect-video bg-black border border-border-default group shadow-2xl">
-                                    <div className="w-full h-full flex flex-col items-center justify-center bg-accent-blue/10 relative">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent pointer-events-none" />
-                                        <div className="w-24 h-24 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue mb-6 shadow-xl">
+                                    <div className="w-full h-full flex flex-col items-center justify-center bg-accent-primary/10 relative">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-transparent pointer-events-none" />
+                                        <div className="w-24 h-24 rounded-full bg-accent-primary/20 flex items-center justify-center text-accent-primary mb-6 shadow-xl">
                                             <Film size={40} />
                                         </div>
-                                        <span className="text-lg text-accent-blue font-black tracking-tight italic">Stage: {videoPreview}</span>
+                                        <span className="text-lg text-accent-primary font-black tracking-tight italic">Stage: {videoPreview}</span>
                                         <span className="text-[10px] text-text-muted mt-3 font-black uppercase tracking-widest opacity-40 px-8 text-center line-clamp-1">Asset ingestion preparation complete</span>
                                     </div>
                                     
@@ -219,8 +219,8 @@ export const AddLessonPage = () => {
                                         onChange={handleVideoChange}
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                     />
-                                    <div className="h-full border-2 border-dashed border-border-default rounded-[3rem] flex flex-col items-center justify-center bg-surface-sunken/20 hover:bg-accent-blue/[0.03] hover:border-accent-blue/40 transition-all group-hover/upload:shadow-2xl">
-                                        <div className="w-24 h-24 rounded-3xl bg-surface-sunken flex items-center justify-center mb-6 group-hover/upload:bg-accent-blue/10 group-hover/upload:text-accent-blue transition-all group-hover/upload:scale-110 shadow-sm border border-border-subtle">
+                                    <div className="h-full border-2 border-dashed border-border-default rounded-[3rem] flex flex-col items-center justify-center bg-surface-sunken/20 hover:bg-accent-primary/[0.03] hover:border-accent-primary/40 transition-all group-hover/upload:shadow-2xl">
+                                        <div className="w-24 h-24 rounded-3xl bg-surface-sunken flex items-center justify-center mb-6 group-hover/upload:bg-accent-primary/10 group-hover/upload:text-accent-primary transition-all group-hover/upload:scale-110 shadow-sm border border-border-subtle">
                                             <Upload size={32} />
                                         </div>
                                         <p className="text-xl font-black text-text-primary tracking-tight italic">Upload Cinematic Asset</p>
@@ -251,13 +251,13 @@ export const AddLessonPage = () => {
                                 className={cn(
                                     "flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
                                     type === 'video' 
-                                        ? "bg-accent-blue/10 border-accent-blue/40 text-accent-blue shadow-lg shadow-accent-blue/5" 
+                                        ? "bg-accent-primary/10 border-accent-primary/40 text-accent-primary shadow-lg shadow-accent-primary/5" 
                                         : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default hover:bg-surface-sunken"
                                 )}
                             >
                                 <div className={cn(
                                     "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
-                                    type === 'video' ? "bg-accent-blue text-on-accent" : "bg-surface border border-border-subtle"
+                                    type === 'video' ? "bg-accent-primary text-on-accent" : "bg-surface border border-border-subtle"
                                 )}>
                                     <Video size={20} />
                                 </div>
@@ -389,7 +389,7 @@ export const AddLessonPage = () => {
                         <div className="space-y-3">
                             <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.2em] opacity-60">Source Vector</p>
                             <div className="flex items-center gap-3 bg-surface p-3 rounded-xl border border-border-subtle shadow-inner">
-                                <div className="w-8 h-8 rounded-lg bg-accent-blue/5 border border-accent-blue/10 flex items-center justify-center text-accent-blue">
+                                <div className="w-8 h-8 rounded-lg bg-accent-primary/5 border border-accent-primary/10 flex items-center justify-center text-accent-primary">
                                     <BookOpen size={14} />
                                 </div>
                                 <p className="text-[10px] text-text-primary font-black font-mono truncate">{courseId}</p>

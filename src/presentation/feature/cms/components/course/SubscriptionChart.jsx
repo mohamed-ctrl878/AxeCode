@@ -105,7 +105,7 @@ export const SubscriptionChart = ({ data = [], filter = 'all' }) => {
       
       <div className="flex items-center justify-between mb-8 relative z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-accent-blue/10 text-accent-blue flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-accent-primary/10 text-accent-primary flex items-center justify-center">
             <TrendingUp size={20} />
           </div>
           <div>
@@ -128,8 +128,8 @@ export const SubscriptionChart = ({ data = [], filter = 'all' }) => {
         >
           <defs>
             <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--color-accent-blue)" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="var(--color-accent-blue)" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--color-accent-primary)" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="var(--color-accent-primary)" stopOpacity="0" />
             </linearGradient>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="coloredBlur" />
@@ -165,7 +165,7 @@ export const SubscriptionChart = ({ data = [], filter = 'all' }) => {
           <path 
             d={linePath} 
             fill="none" 
-            stroke="var(--color-accent-blue)" 
+            stroke="var(--color-accent-primary)" 
             strokeWidth="3" 
             strokeLinecap="round" 
             strokeLinejoin="round"
@@ -187,7 +187,7 @@ export const SubscriptionChart = ({ data = [], filter = 'all' }) => {
                 cx={p.x} 
                 cy={p.y} 
                 r="4" 
-                fill="var(--color-accent-blue)" 
+                fill="var(--color-accent-primary)" 
                 className={cn(
                     "transition-all duration-300 pointer-events-none",
                     hoveredPoint?.index === p.index ? "opacity-100 r-6" : "opacity-0"
@@ -225,7 +225,7 @@ export const SubscriptionChart = ({ data = [], filter = 'all' }) => {
             }}
           >
             <div className="bg-surface-dark border border-white/10 rounded-xl p-3 shadow-2xl min-w-[120px] backdrop-blur-xl">
-              <p className="text-[10px] font-black text-accent-blue uppercase mb-1">{hoveredPoint.data.label}</p>
+              <p className="text-[10px] font-black text-accent-primary uppercase mb-1">{hoveredPoint.data.label}</p>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-xs font-bold text-white">Enrollments</span>
                 <span className="text-sm font-black text-white">{hoveredPoint.data.value}</span>

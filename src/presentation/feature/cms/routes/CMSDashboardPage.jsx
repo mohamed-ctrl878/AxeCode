@@ -92,7 +92,7 @@ const CMSDashboardPage = () => {
                         data={data.users} 
                         title="Scholarly Enrollment Pulse" 
                         subtitle={subtitle}
-                        colorClass="accent-blue"
+                        colorClass="accent-primary"
                     />
                 );
             case VIEWERS.REPORTS:
@@ -201,7 +201,7 @@ const CMSDashboardPage = () => {
                     detailIcon={TrendingUp}
                     trend="+28%" 
                     trendLabel="Subscriber Growth" 
-                    colorClass="accent-blue"
+                    colorClass="accent-primary"
                     isActive={activeViewer === VIEWERS.USERS}
                     onClick={() => setActiveViewer(VIEWERS.USERS)}
                 />

@@ -142,17 +142,17 @@ export const UploadRoadmapModal = ({ isOpen, onClose, uploadData, onUpload, isUp
                             className={cn(
                                 "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all cursor-pointer select-none",
                                 isDraft 
-                                    ? "bg-surface-sunken border-border-subtle text-text-muted" 
-                                    : "bg-accent-primary/10 border-accent-primary text-accent-primary"
+                                    ? "bg-accent-primary/10 border-accent-primary text-accent-primary"
+                                    : "bg-surface-sunken border-border-subtle text-text-muted" 
                             )}
                         >
                             <div className={cn(
                                 "w-6 h-3 rounded-full relative transition-all shadow-inner",
-                                isDraft ? "bg-text-muted/20" : "bg-accent-primary"
+                                isDraft ? "bg-accent-primary" : "bg-text-muted/20"
                             )}>
                                 <div className={cn(
                                     "absolute top-0.5 w-2 h-2 rounded-full bg-white transition-all shadow-sm",
-                                    isDraft ? "left-0.5" : "left-3.5"
+                                    isDraft ? "left-3.5" : "left-0.5"
                                 )} />
                             </div>
                             <span className="text-[9px] font-bold uppercase">

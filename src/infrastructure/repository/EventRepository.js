@@ -1,5 +1,8 @@
 import { IEventInteraction } from '../../domain/interface/IEventInteraction';
 import { EventRequest } from '../DTO/Request/EventRequest';
+import { EventActivityRequest } from '../DTO/Request/EventActivityRequest';
+import { EventSpeakerRequest } from '../DTO/Request/EventSpeakerRequest';
+import { EventScannerRequest } from '../DTO/Request/EventScannerRequest';
 import { repositoryRegistry } from './RepositoryRegistry';
 
 /**
@@ -20,8 +23,12 @@ export class EventRepository extends IEventInteraction {
     }
 
     async getById(id) {
-        console.log(`${this.endpointBase}/${id}?populate=*`)
-        return await this.apiClient.get(`${this.endpointBase}/${id}?populate=*`);
+        const populate = [
+            'populate[scanners][populate][users_permissions_user]=true',
+            'populate[speakers][populate]=*',
+            'populate[event_activities][populate]=*',
+        ].join('&');
+        return await this.apiClient.get(`${this.endpointBase}/${id}?${populate}`);
     }
     async getAll(page = 1, pageSize = 10, search = '') {
         const filters = search ? `&filters[title][$containsi]=${encodeURIComponent(search)}` : '';
@@ -35,12 +42,14 @@ export class EventRepository extends IEventInteraction {
     }
 
     async update(id, data) {
+        console.log(data)
         const request = new EventRequest(data);
+        console.log("request", request);
         return await this.apiClient.put(this.endpointBase, id, request, false);
     }
 
     async delete(id) {
-        return await this.apiClient.delete(this.endpointBase, id);
+        return await this.apiClient.delete(`${this.endpointBase}/${id}`);
     }
 
     async registerForEvent(eventId) { }
@@ -60,5 +69,24 @@ export class EventRepository extends IEventInteraction {
             console.error('[EventRepository] Search failed:', error);
             throw error;
         }
+    }
+
+    // ─── Sub-entities Orchestration ──────────────────────────────────────
+
+    async createActivity(data) {
+        const request = new EventActivityRequest(data);
+        return await this.apiClient.post('/api/event-activities', request, false);
+    }
+
+    async createSpeaker(data) {
+        const request = new EventSpeakerRequest(data);
+        return await this.apiClient.post('/api/speakers', request, false);
+    }
+
+    async createScanner(data) {
+        // Must use token/auth since assigning scanners implies high permissions, though we'll stick to the base pattern first.
+        // If false fails, we might need true (authenticated req). Assuming admin token is automatically passed by apiClient.
+        const request = new EventScannerRequest(data);
+        return await this.apiClient.post('/api/scanners', request, false);
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { useDeleteEvent } from '@domain/useCase/useDeleteEvent';
 import { useDeleteProblem } from '@domain/useCase/useDeleteProblem';
 import { useDeleteRoadmap } from '@domain/useCase/useDeleteRoadmap';
@@ -31,12 +32,15 @@ export const CMSResourceTable = ({
     serverTotalPages = 1,
     serverTotalItems = 0,
     onPageChange = null,
-    onSearchChange = null
+    onSearchChange = null,
+    onAdd = null,
+    addLabel = "Append Entry"
 }) => {
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedIds, setSelectedIds] = useState([]);
+    const { confirm } = useConfirm();
     const dropdownRef = useRef(null);
     const itemsPerPage = 10;
 
@@ -74,7 +78,14 @@ export const CMSResourceTable = ({
     };
 
     const handleRemove = async (id, title) => {
-        if (window.confirm(`Are you sure you want to permanently remove "${title}"? This action cannot be undone.`)) {
+        const ok = await confirm({
+            title: 'Deaccession Content',
+            message: `Are you sure you want to permanently remove "${title}" from the repository? This action cannot be undone.`,
+            confirmLabel: 'Confirm Removal',
+            type: 'danger'
+        });
+
+        if (ok) {
             try {
                 if (sectionName === 'Events') await deleteEvent(id);
                 else if (sectionName === 'Problems') await deleteProblem(id);
@@ -92,15 +103,26 @@ export const CMSResourceTable = ({
 
     const handleBulkRemove = async () => {
         if (selectedIds.length === 0) return;
-        if (window.confirm(`Are you sure you want to permanently remove ${selectedIds.length} select entries?`)) {
+        const ok = await confirm({
+            title: 'Mass Deaccession',
+            message: `Are you sure you want to permanently remove ${selectedIds.length} select entries from the repository?`,
+            confirmLabel: 'Purge Selected',
+            type: 'danger'
+        });
+
+        if (ok) {
             try {
                 for (const id of selectedIds) {
-                    if (sectionName === 'Events') await deleteEvent(id);
-                    else if (sectionName === 'Problems') await deleteProblem(id);
-                    else if (sectionName === 'Roadmaps') await deleteRoadmap(id);
-                    else if (sectionName === 'Report-Reasons') await deleteReportType(id);
-                    else if (sectionName === 'Courses') await deleteCourse(id);
-                    else if (onDelete) await onDelete(id);
+                    try {
+                        if (sectionName === 'Events') await deleteEvent(id);
+                        else if (sectionName === 'Problems') await deleteProblem(id);
+                        else if (sectionName === 'Roadmaps') await deleteRoadmap(id);
+                        else if (sectionName === 'Report-Reasons') await deleteReportType(id);
+                        else if (sectionName === 'Courses') await deleteCourse(id);
+                        else if (onDelete) await onDelete(id);
+                    } catch (itemErr) {
+                        console.error(`Failed to delete item ${id}:`, itemErr);
+                    }
                 }
                 if (onRefresh) onRefresh();
                 setSelectedIds([]);
@@ -161,7 +183,7 @@ export const CMSResourceTable = ({
     return (
         <div className="space-y-8 animation-fade-in w-full pb-20">
             {/* 1. SCHOLARLY HEADER */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-ivory p-10 rounded-[40px] border border-border-default shadow-whisper relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-ivory p-10 rounded-[40px] border border-border-default relative overflow-hidden">
                 <div className="absolute -top-10 -right-10 opacity-[0.03] pointer-events-none transform rotate-12">
                     <Icon size={280} />
                 </div>
@@ -187,13 +209,23 @@ export const CMSResourceTable = ({
                     >
                         <RefreshCw size={20} className={cn(isLoading && "animate-spin")} />
                     </button>
-                    <Link 
-                        to={getCreateRoute()}
-                        className="btn-dark flex-1 md:flex-none font-serif text-[14px] h-14 px-10 flex items-center justify-center gap-4 shadow-xl active:scale-[0.97]"
-                    >
-                        <Plus size={20} />
-                        Append Entry
-                    </Link>
+                    {onAdd ? (
+                        <button 
+                            onClick={onAdd}
+                            className="btn-dark flex-1 md:flex-none font-serif text-[14px] h-14 px-10 flex items-center justify-center gap-4 shadow-xl active:scale-[0.97]"
+                        >
+                            <Plus size={20} />
+                            {addLabel}
+                        </button>
+                    ) : (
+                        <Link 
+                            to={getCreateRoute()}
+                            className="btn-dark flex-1 md:flex-none font-serif text-[14px] h-14 px-10 flex items-center justify-center gap-4 shadow-xl active:scale-[0.97]"
+                        >
+                            <Plus size={20} />
+                            {addLabel}
+                        </Link>
+                    )}
                 </div>
             </div>
 
@@ -225,7 +257,7 @@ export const CMSResourceTable = ({
             </div>
 
             {/* 3. REPOSITORY LEDGER */}
-            <div className="bg-ivory border border-border-default rounded-[40px] shadow-whisper overflow-hidden relative">
+            <div className="bg-ivory border border-border-default rounded-[40px] overflow-hidden relative">
                 {/* Ledger Header */}
                 <div className="bg-parchment/80 backdrop-blur-sm px-10 py-6 border-b border-border-default flex items-center sticky top-0 z-20">
                     <div className="flex items-center gap-6 flex-1">
@@ -300,8 +332,8 @@ export const CMSResourceTable = ({
                                         <span className={cn(
                                             "px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-[0.15em] border shadow-sm",
                                             isDraft 
-                                                ? "bg-surface-sunken text-text-muted border-border-default" 
-                                                : "bg-near-black text-ivory border-near-black"
+                                                ? "bg-near-black text-ivory border-near-black" 
+                                                : "bg-surface-sunken text-text-muted border-border-default"
                                         )}>
                                             {isDraft ? 'Draft' : 'Published'}
                                         </span>
@@ -333,7 +365,7 @@ export const CMSResourceTable = ({
                                                     <Link 
                                                         to={
                                                             sectionName === 'Roadmaps' 
-                                                                ? `${PATHS.CONTENT_MANAGEMENT}/roadmaps/${id}`
+                                                                ? `${PATHS.CONTENT_MANAGEMENT}/roadmaps/${id}/edit`
                                                                 : sectionName === 'Problems'
                                                                     ? `${PATHS.CONTENT_MANAGEMENT}/problems/${id}/edit`
                                                                     : sectionName === 'Courses'
