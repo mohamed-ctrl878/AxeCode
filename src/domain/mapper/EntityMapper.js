@@ -216,6 +216,15 @@ export class EntityMapper {
                 time: a.time
             })),
             organizer: dto.organizer ? this.toUser(dto.organizer) : null,
+            scanners: Array.from(dto.scanners?.values() || []).map(s => ({
+                id: s.id,
+                documentId: s.documentId,
+                user: s.users_permissions_user ? {
+                    id: s.users_permissions_user.id,
+                    username: s.users_permissions_user.username,
+                    email: s.users_permissions_user.email,
+                } : null
+            })),
             isDraft: !!dto.isDraft
         });
     }
@@ -291,7 +300,8 @@ export class EntityMapper {
             duration: dto.duration || 0,
             completedLessonsCount: dto.completedLessonsCount,
             lessonCount: dto.lessonCount,
-            isDraft: dto.isDraft
+            isDraft: dto.isDraft,
+            course_types: Array.from(dto.course_types?.values() || [])
         });
     }
 
@@ -344,7 +354,7 @@ export class EntityMapper {
             memoryLimit: dto.memoryLimit,
             submissionStatus: dto.submissionStatus || 'New',
 
-            // Nested relations
+            problemTypes: Array.from(dto.problem_types?.values?.() || []),
             testCases: Array.from(dto.test_cases?.values?.() || []).map(tc => ({
                 id: tc.id,
                 documentId: tc.documentId,

@@ -116,6 +116,7 @@ export class CoursePreviewEntity extends ContentEntity {
         this.duration = props.duration || 0;
         this.completedLessonsCount = props.completedLessonsCount || 0;
         this.lessonCount = props.lessonCount || 0;
+        this.course_types = props.course_types || [];
     }
 
     /**

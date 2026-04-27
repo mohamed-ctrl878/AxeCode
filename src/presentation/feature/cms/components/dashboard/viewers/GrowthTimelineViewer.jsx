@@ -3,15 +3,15 @@ import { TrendingUp, Users } from 'lucide-react';
 
 const COLOR_MAPS = {
     "accent-primary": { bar: "bg-accent-primary/40", hover: "hover:bg-accent-primary", text: "text-accent-primary", border: "border-accent-primary/20", bg: "bg-accent-primary/5" },
-    "accent-blue": { bar: "bg-accent-blue/40", hover: "hover:bg-accent-blue", text: "text-accent-blue", border: "border-accent-blue/20", bg: "bg-accent-blue/5" },
+    "accent-primary": { bar: "bg-accent-primary/40", hover: "hover:bg-accent-primary", text: "text-accent-primary", border: "border-accent-primary/20", bg: "bg-accent-primary/5" },
     "accent-violet": { bar: "bg-accent-violet/40", hover: "hover:bg-accent-violet", text: "text-accent-violet", border: "border-accent-violet/20", bg: "bg-accent-violet/5" },
     "accent-rose": { bar: "bg-accent-rose/40", hover: "hover:bg-accent-rose", text: "text-accent-rose", border: "border-accent-rose/20", bg: "bg-accent-rose/5" },
 };
 
-const UnifiedTimelineViewer = ({ data = {}, title, subtitle, colorClass = "accent-blue" }) => {
+const UnifiedTimelineViewer = ({ data = {}, title, subtitle, colorClass = "accent-primary" }) => {
     const timeline = data.timeline || [];
     const maxVal = Math.max(...timeline.map(d => d.count), 1);
-    const colors = COLOR_MAPS[colorClass] || COLOR_MAPS["accent-blue"];
+    const colors = COLOR_MAPS[colorClass] || COLOR_MAPS["accent-primary"];
 
     return (
         <div className="animation-fade-in">

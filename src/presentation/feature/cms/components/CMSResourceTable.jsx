@@ -32,7 +32,9 @@ export const CMSResourceTable = ({
     serverTotalPages = 1,
     serverTotalItems = 0,
     onPageChange = null,
-    onSearchChange = null
+    onSearchChange = null,
+    onAdd = null,
+    addLabel = "Append Entry"
 }) => {
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -181,7 +183,7 @@ export const CMSResourceTable = ({
     return (
         <div className="space-y-8 animation-fade-in w-full pb-20">
             {/* 1. SCHOLARLY HEADER */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-ivory p-10 rounded-[40px] border border-border-default shadow-whisper relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-ivory p-10 rounded-[40px] border border-border-default relative overflow-hidden">
                 <div className="absolute -top-10 -right-10 opacity-[0.03] pointer-events-none transform rotate-12">
                     <Icon size={280} />
                 </div>
@@ -207,13 +209,23 @@ export const CMSResourceTable = ({
                     >
                         <RefreshCw size={20} className={cn(isLoading && "animate-spin")} />
                     </button>
-                    <Link 
-                        to={getCreateRoute()}
-                        className="btn-dark flex-1 md:flex-none font-serif text-[14px] h-14 px-10 flex items-center justify-center gap-4 shadow-xl active:scale-[0.97]"
-                    >
-                        <Plus size={20} />
-                        Append Entry
-                    </Link>
+                    {onAdd ? (
+                        <button 
+                            onClick={onAdd}
+                            className="btn-dark flex-1 md:flex-none font-serif text-[14px] h-14 px-10 flex items-center justify-center gap-4 shadow-xl active:scale-[0.97]"
+                        >
+                            <Plus size={20} />
+                            {addLabel}
+                        </button>
+                    ) : (
+                        <Link 
+                            to={getCreateRoute()}
+                            className="btn-dark flex-1 md:flex-none font-serif text-[14px] h-14 px-10 flex items-center justify-center gap-4 shadow-xl active:scale-[0.97]"
+                        >
+                            <Plus size={20} />
+                            {addLabel}
+                        </Link>
+                    )}
                 </div>
             </div>
 
@@ -245,7 +257,7 @@ export const CMSResourceTable = ({
             </div>
 
             {/* 3. REPOSITORY LEDGER */}
-            <div className="bg-ivory border border-border-default rounded-[40px] shadow-whisper overflow-hidden relative">
+            <div className="bg-ivory border border-border-default rounded-[40px] overflow-hidden relative">
                 {/* Ledger Header */}
                 <div className="bg-parchment/80 backdrop-blur-sm px-10 py-6 border-b border-border-default flex items-center sticky top-0 z-20">
                     <div className="flex items-center gap-6 flex-1">
@@ -353,7 +365,7 @@ export const CMSResourceTable = ({
                                                     <Link 
                                                         to={
                                                             sectionName === 'Roadmaps' 
-                                                                ? `${PATHS.CONTENT_MANAGEMENT}/roadmaps/${id}`
+                                                                ? `${PATHS.CONTENT_MANAGEMENT}/roadmaps/${id}/edit`
                                                                 : sectionName === 'Problems'
                                                                     ? `${PATHS.CONTENT_MANAGEMENT}/problems/${id}/edit`
                                                                     : sectionName === 'Courses'
