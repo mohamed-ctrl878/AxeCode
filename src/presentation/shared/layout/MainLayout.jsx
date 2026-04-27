@@ -8,7 +8,7 @@ import { GuestHeader } from '../components/layout/GuestHeader';
 import { PATHS } from '../../routes/paths';
 
 import { GlobalFooter } from './GlobalFooter';
-import AxeCodeLogo from '../components/AxeCodeLogo';
+import { Loader2 } from 'lucide-react';
 
 /**
  * MainLayout: Implements the Bento Grid and core structural boundaries.
@@ -43,14 +43,13 @@ export const MainLayout = ({ children, className }) => {
             {authLoading && (
                 <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background">
                     <div className="flex flex-col items-center gap-12 relative">
-                        <AxeCodeLogo size="text-5xl" className="animate-pulse opacity-80" />
-                        
-                        <div className="flex flex-col items-center gap-5">
-                            <div className="h-[2px] w-24 bg-accent-primary opacity-20 rounded-full" />
-                            <span className="text-accent-primary text-[11px] font-sans font-bold uppercase tracking-[0.4em] opacity-60">
-                                Restoring Scholar's Repository
-                            </span>
+                        {/* Circular Ring Loader */}
+                        <div className="relative flex items-center justify-center">
+                            <Loader2 className="w-16 h-16 text-accent-primary animate-spin opacity-80" strokeWidth={1} />
+                            <div className="absolute inset-0 w-16 h-16 border border-accent-primary/10 rounded-full" />
                         </div>
+                        
+
 
                         {/* Background Aura - Scholarly Parchment Glow */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent-primary/5 blur-[120px] rounded-full -z-10" />
@@ -63,12 +62,11 @@ export const MainLayout = ({ children, className }) => {
             {isAuthenticated && !isFocusMode && !isAuthPage && <Header />}
             
             <main className={cn(
-                "transition-all duration-500 ease-in-out px-4 pb-4 md:px-8 md:pb-8 grid gap-4 md:gap-6 flex-grow min-h-[calc(100vh-250px)]",
-                "grid-cols-1 md:grid-cols-12 w-full max-w-[1440px] mx-auto",
+                "transition-all duration-500 ease-in-out px-4 pb-4 md:px-8 md:pb-8 flex-grow min-h-[calc(100vh-250px)]",
                 !isFocusMode ? [
-                    !isAuthPage ? "pt-24" : "pt-4", // Header padding if header is visible
+                    "grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 w-full max-w-[1440px] mx-auto pt-24", 
                 ] : [
-                    "p-0 my-0 w-full min-h-screen mx-auto", // Full width, natural height for focus mode, explicit mx-auto to preserve centering
+                    "flex flex-col p-0 my-0 w-full min-h-screen mx-auto",
                 ],
                 className
             )}>

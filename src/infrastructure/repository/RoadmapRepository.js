@@ -24,7 +24,7 @@ export class RoadmapRepository extends IRoadmapInteraction {
     }
 
     async delete(id) {
-        return await this.apiClient.delete(this.endpoint, id);
+        return await this.apiClient.delete(`${this.endpoint}/${id}`);
     }
 
     /**

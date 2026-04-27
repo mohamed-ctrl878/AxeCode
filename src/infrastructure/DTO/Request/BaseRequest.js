@@ -21,6 +21,16 @@ export class BaseRequest {
     }
 
     /**
+     * Standard Strapi payload wrapper.
+     * @returns {object}
+     */
+    toPayload() {
+        return {
+            data: this.toJSON()
+        };
+    }
+
+    /**
      * Abstract validation method.
      * Includes security audit for all fields.
      * @throws {Error} if data is invalid or unsafe.

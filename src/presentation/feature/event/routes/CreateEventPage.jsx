@@ -100,7 +100,7 @@ const CreateEventPage = () => {
             {isPending && (
                 <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] pointer-events-none">
                     <div className="p-8 bg-surface rounded-[2rem] border border-border-subtle shadow-3xl flex flex-col items-center gap-4 animate-scale-in">
-                        <Loader2 size={48} className="text-accent-blue animate-spin" />
+                        <Loader2 size={48} className="text-accent-primary animate-spin" />
                         <p className="text-sm font-black text-text-primary italic tracking-widest animate-pulse uppercase">{status.message}</p>
                     </div>
                 </div>

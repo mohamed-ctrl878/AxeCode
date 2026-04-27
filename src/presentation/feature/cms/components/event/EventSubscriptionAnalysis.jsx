@@ -6,6 +6,7 @@ import { useCreateUserEntitlement } from '@domain/useCase/useCreateUserEntitleme
 import { useDeleteUserEntitlement } from '@domain/useCase/useDeleteUserEntitlement';
 import { useSearchUsers } from '@domain/useCase/useSearchUsers';
 import { useFetchEvent } from '@domain/useCase/useFetchEvent';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { UserEntitlementRequest } from '@infrastructure/DTO/Request/UserEntitlementRequest';
 import { SubscriptionChart } from '../shared/SubscriptionChart';
 
@@ -19,6 +20,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
     const { createUserEntitlement, inProgress: isCreating } = useCreateUserEntitlement();
     const { deleteUserEntitlement, inProgress: isDeleting } = useDeleteUserEntitlement();
     const { searchUsers, loading: isSearching } = useSearchUsers();
+    const { confirm } = useConfirm();
 
     // ─── Local State ─────────────────────────────────────────────────────
     const [emailSearch, setEmailSearch] = useState('');
@@ -77,7 +79,13 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
     };
 
     const handleRevokeAccess = async (recordId) => {
-        if (!window.confirm('Revoke this user\'s access?')) return;
+        const ok = await confirm({
+            title: 'Revoke Credentials',
+            message: 'Are you sure you want to revoke this user\'s access privileges? This will take internal effect immediately.',
+            confirmLabel: 'Revoke Access',
+            type: 'danger'
+        });
+        if (!ok) return;
         try {
             await deleteUserEntitlement(recordId);
             showStatus('success', 'Access revoked.');
@@ -172,7 +180,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
 
                     <div className="flex flex-col md:flex-row gap-4 relative z-10">
                         <div className="flex-1 relative group">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-blue transition-colors">
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-accent-primary transition-colors">
                                 <Mail size={18} />
                             </div>
                             <input 
@@ -180,11 +188,11 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
                                 value={emailSearch}
                                 onChange={(e) => setEmailSearch(e.target.value)}
                                 placeholder="Enter attendee email..."
-                                className="w-full bg-background/50 border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-text-primary focus:border-accent-blue/50 outline-none transition-all shadow-inner"
+                                className="w-full bg-background/50 border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-text-primary focus:border-accent-primary/50 outline-none transition-all shadow-inner"
                             />
                             {isSearching && (
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                                    <Loader2 size={16} className="animate-spin text-accent-blue" />
+                                    <Loader2 size={16} className="animate-spin text-accent-primary" />
                                 </div>
                             )}
                         </div>
@@ -230,7 +238,7 @@ export const EventSubscriptionAnalysis = ({ eventId }) => {
                                                         <UserIcon size={16} />
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-bold text-text-primary group-hover:text-accent-blue transition-colors">{userLabel}</p>
+                                                        <p className="text-sm font-bold text-text-primary group-hover:text-accent-primary transition-colors">{userLabel}</p>
                                                         <p className="text-[10px] text-text-muted opacity-60 font-mono italic">{u?.email || 'System Entity'}</p>
                                                     </div>
                                                 </div>

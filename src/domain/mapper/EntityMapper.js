@@ -62,7 +62,7 @@ export class EntityMapper {
         if (!data) return null;
         console.log('[ProfileSync] Mapping toUser - Data:', data);
         console.log('[ProfileSync] Mapping toUser - Stats Prop:', stats);
-        
+
         return new UserEntity({
             id: data.id,
             uid: data.documentId,
@@ -103,7 +103,8 @@ export class EntityMapper {
             caption: dto.caption,
             author: this.toUser(dto.author),
             media: Array.from(dto.media?.values() || []).map(m => this.toMedia(m)),
-            article: dto.article ? this.toArticle(dto.article) : null
+            article: dto.article ? this.toArticle(dto.article) : null,
+            isDraft: !!dto.isDraft
         });
     }
 
@@ -129,7 +130,8 @@ export class EntityMapper {
             video: this.toMedia(dto.video),
             description: dto.description,
             isPublic: dto.public,
-            instructor: this.toUser(dto.instructor)
+            instructor: this.toUser(dto.instructor),
+            isDraft: !!dto.isDraft
         });
     }
 
@@ -163,7 +165,8 @@ export class EntityMapper {
             reviewsCount: dto.reviewsCount || 0,
             duration: dto.duration || 0,
             completedLessonsCount: dto.completedLessonsCount,
-            lessonCount: dto.lessonCount
+            lessonCount: dto.lessonCount,
+            isDraft: !!dto.isDraft
         });
     }
 
@@ -212,7 +215,17 @@ export class EntityMapper {
                 description: a.description,
                 time: a.time
             })),
-            organizer: dto.organizer ? this.toUser(dto.organizer) : null
+            organizer: dto.organizer ? this.toUser(dto.organizer) : null,
+            scanners: Array.from(dto.scanners?.values() || []).map(s => ({
+                id: s.id,
+                documentId: s.documentId,
+                user: s.users_permissions_user ? {
+                    id: s.users_permissions_user.id,
+                    username: s.users_permissions_user.username,
+                    email: s.users_permissions_user.email,
+                } : null
+            })),
+            isDraft: !!dto.isDraft
         });
     }
 
@@ -258,6 +271,7 @@ export class EntityMapper {
             title: week.title,
             lessons: Array.from(week.lessons?.values() || []).map(lesson => this.toLesson(lesson))
         }));
+        console.log(dto, "dto")
 
         return new CoursePreviewEntity({
             id: dto.id,
@@ -285,7 +299,9 @@ export class EntityMapper {
             reviewsCount: dto.reviewsCount || 0,
             duration: dto.duration || 0,
             completedLessonsCount: dto.completedLessonsCount,
-            lessonCount: dto.lessonCount
+            lessonCount: dto.lessonCount,
+            isDraft: dto.isDraft,
+            course_types: Array.from(dto.course_types?.values() || [])
         });
     }
 
@@ -338,7 +354,7 @@ export class EntityMapper {
             memoryLimit: dto.memoryLimit,
             submissionStatus: dto.submissionStatus || 'New',
 
-            // Nested relations
+            problemTypes: Array.from(dto.problem_types?.values?.() || []),
             testCases: Array.from(dto.test_cases?.values?.() || []).map(tc => ({
                 id: tc.id,
                 documentId: tc.documentId,
@@ -365,7 +381,8 @@ export class EntityMapper {
             commentsCount: dto.interactions?.commentsCount || 0,
 
             availableLanguages: dto.availableLanguages,
-            points: dto.points
+            points: dto.points,
+            isDraft: !!dto.isDraft
         });
     }
 
@@ -410,8 +427,8 @@ export class EntityMapper {
             description: dto.description,
             image: dto.image ? this.toMedia(dto.image) : null,
             author: dto.publisher ? this.toUser(dto.publisher) : null,
+            isDraft: !!dto.isDraft
         });
-        return entity;
     }
 
     /**
@@ -438,6 +455,7 @@ export class EntityMapper {
             author: dto.author
                 ? { username: dto.author.username, avatar: dto.author.avatar ? this.toMedia(dto.author.avatar) : null }
                 : null,
+            isDraft: !!dto.isDraft
         });
     }
 
@@ -480,7 +498,8 @@ export class EntityMapper {
             flowData: dto.flowData,
             color: dto.color,
             icon: dto.icon,
-            author: this.toUser(dto.author)
+            author: this.toUser(dto.author),
+            isDraft: !!dto.isDraft
         });
     }
 

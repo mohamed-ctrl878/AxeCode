@@ -19,9 +19,11 @@ export const useFetchCoursePreview = () => {
 
         // Strapi v4/v5 deep populate for weeks and their lessons
         // Use explicit populate settings to avoid 'related' key validation errors in some Strapi versions
-        const populateQuery = 'populate[picture]=true&populate[weeks][populate][lessons][populate][video]=true';
+        const populateQuery = 'populate[picture]=true&populate[weeks][populate][lessons][populate][video]=true&populate[course_types]=true';
         const rawData = await repository.getPreview(`${documentId}?${populateQuery}`);
         const dto = new CourseDTO(rawData);
+        // console.log(rawData, "raw data")
+        console.log("EntityMapper.toCoursePreview(dto)", EntityMapper.toCoursePreview(dto))
         return EntityMapper.toCoursePreview(dto);
     }, []);
 

@@ -7,14 +7,14 @@ import { SecurityUtils } from '../../../core/utils/SecurityUtils';
  */
 export class EventRequest extends BaseRequest {
     constructor(eventData = {}, entitlementData = null) {
+        console.log(eventData, "eventData")
         super();
-        this.event = {
+        this.data = {
             title: eventData.title,
             discription: eventData.description, // Backend typo 'discription' preserved
             location: eventData.location,
             date: eventData.date,
             onsite: !!eventData.onsite,
-            live_streaming: !!eventData.live_streaming,
             duration: eventData.duration,
             speakers: eventData.speakerIds || [],
             event_activities: eventData.activityIds || [],
@@ -41,14 +41,14 @@ export class EventRequest extends BaseRequest {
      */
     toPayload() {
         return {
-            event: SecurityUtils.sanitizeData(this.event),
+            data: SecurityUtils.sanitizeData(this.data),
             entitlement: SecurityUtils.sanitizeData(this.entitlement)
         };
     }
 
     validate() {
         super.validate();
-        if (!this.event.title) throw new Error("Event title is required.");
+        if (!this.data.title) throw new Error("Event title is required.");
         if (this.entitlement && (!this.entitlement.price && this.entitlement.price !== 0)) {
             throw new Error("Entitlement price is required if entitlement is provided.");
         }

@@ -14,6 +14,7 @@ export const RichTextInput = ({
     placeholder = 'Start writing...',
     error,
     label,
+    hideBorder = false,
     className = ''
 }) => {
     // Set initial content only once
@@ -61,8 +62,8 @@ export const RichTextInput = ({
                 </label>
             )}
             
-            <div className={`flex flex-col border rounded-lg overflow-hidden transition-colors ${
-                error ? 'border-status-error' : 'border-border-subtle focus-within:border-accent-primary'
+            <div className={`flex flex-col overflow-hidden transition-colors ${
+                hideBorder ? '' : `border rounded-lg ${error ? 'border-status-error' : 'border-border-subtle focus-within:border-accent-primary'}`
             }`}>
                 <RichTextToolbar editor={editor} />
                 <div 

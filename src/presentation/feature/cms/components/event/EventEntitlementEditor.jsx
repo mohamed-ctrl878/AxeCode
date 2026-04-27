@@ -69,7 +69,7 @@ export const EventEntitlementEditor = ({ eventId }) => {
             {/* Context Header */}
             <div className="flex items-center justify-between border-b border-border-subtle pb-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 text-accent-blue flex items-center justify-center shadow-inner">
+                    <div className="w-12 h-12 rounded-2xl bg-accent-primary/10 text-accent-primary flex items-center justify-center shadow-inner">
                         <ShieldCheck size={24} />
                     </div>
                     <div>
@@ -90,7 +90,7 @@ export const EventEntitlementEditor = ({ eventId }) => {
             </div>
 
             <div className="max-w-xl mx-auto">
-                <div className="bg-surface-dark/40 border border-border-subtle rounded-3xl p-10 space-y-8 backdrop-blur-sm shadow-2xl relative overflow-hidden group">
+                <div className="bg-surface-dark/40 border border-border-subtle rounded-3xl p-10 space-y-8 backdrop-blur-sm relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
                         <CreditCard size={120} />
                     </div>
@@ -104,12 +104,12 @@ export const EventEntitlementEditor = ({ eventId }) => {
                         <div className="flex flex-col gap-3">
                             <label className="text-[10px] uppercase tracking-widest text-text-muted font-bold px-1">Price (USD)</label>
                             <div className="relative">
-                                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-accent-blue font-black text-2xl">$</span>
+                                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-accent-primary font-black text-2xl">$</span>
                                 <input 
                                     type="number"
                                     value={price}
                                     onChange={(e) => setPrice(e.target.value)}
-                                    className="w-full bg-background/50 border border-border-subtle rounded-2xl pl-12 pr-6 py-5 text-3xl font-black text-text-primary focus:border-accent-blue/50 outline-none transition-all shadow-inner"
+                                    className="w-full bg-background/50 border border-border-subtle rounded-2xl pl-12 pr-6 py-5 text-3xl font-black text-text-primary focus:border-accent-primary/50 outline-none transition-all shadow-inner"
                                     placeholder="0.00"
                                 />
                                 {Number(price) === 0 && (
@@ -123,7 +123,7 @@ export const EventEntitlementEditor = ({ eventId }) => {
                         <button 
                             onClick={handleUpdatePrice}
                             disabled={isCreating}
-                            className="w-full h-16 bg-gradient-to-r from-accent-blue to-accent-secondary text-white font-black uppercase text-xs tracking-[0.2em] rounded-2xl shadow-[0_10px_40px_rgba(59,130,246,0.3)] hover:shadow-accent-blue/60 active:scale-95 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
+                            className="w-full h-16 bg-accent-primary text-white font-black uppercase text-xs tracking-[0.2em] rounded-2xl hover:bg-accent-primary/90 active:scale-95 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
                         >
                             {isCreating ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} className="group-hover:rotate-12 transition-transform" />}
                             Publish New Pricing

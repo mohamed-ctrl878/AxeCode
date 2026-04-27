@@ -42,7 +42,7 @@ export const EventHero = ({ event }) => {
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                     <span className={cn(
                         "flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-white shadow-lg backdrop-blur-md",
-                        event.type === 'Onsite' ? "bg-accent-blue/80 border border-accent-blue/30" :
+                        event.type === 'Onsite' ? "bg-accent-primary/80 border border-accent-primary/30" :
                         event.type === 'Live' ? "bg-status-success/80 border border-status-success/30" :
                         "bg-accent-primary/80 border border-accent-primary/30"
                     )}>

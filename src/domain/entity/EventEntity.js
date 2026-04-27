@@ -35,6 +35,7 @@ export class EventEntity extends ContentEntity {
         this.speakers = props.speakers || [];
         this.activities = props.activities || [];
         this.organizer = props.organizer;
+        this.scanners = props.scanners || [];
         this.images = props.images || []; // all gallery images
 
         // Interactions

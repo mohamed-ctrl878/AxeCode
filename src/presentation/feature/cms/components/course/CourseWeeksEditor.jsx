@@ -5,6 +5,7 @@ import { useCreateWeek } from '@domain/useCase/useCreateWeek';
 import { useUpdateWeek } from '@domain/useCase/useUpdateWeek';
 import { useDeleteWeek } from '@domain/useCase/useDeleteWeek';
 import { useDeleteLesson } from '@domain/useCase/useDeleteLesson';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { WeekList } from './WeekList';
 import { WeekFormModal } from './WeekFormModal';
 
@@ -21,6 +22,7 @@ export const CourseWeeksEditor = ({ courseId }) => {
     const { updateWeek, inProgress: isUpdating } = useUpdateWeek();
     const { deleteWeek, inProgress: isDeleting } = useDeleteWeek();
     const { deleteLesson, inProgress: isDeletingLesson } = useDeleteLesson();
+    const { confirm } = useConfirm();
 
     // Week Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,8 +72,13 @@ export const CourseWeeksEditor = ({ courseId }) => {
 
     const handleDelete = async (week) => {
         const weekId = week.documentId || week.id;
-        const confirmed = window.confirm(`Are you sure you want to delete "${week.title || 'this week'}"?`);
-        if (!confirmed) return;
+        const ok = await confirm({
+            title: 'Expunge Syllabus Segment',
+            message: `Are you sure you want to permanently delete "${week.title || 'this week'}" and all its associated pedagogical data?`,
+            confirmLabel: 'Confirm Deletion',
+            type: 'danger'
+        });
+        if (!ok) return;
 
         try {
             await deleteWeek(weekId);
@@ -83,8 +90,13 @@ export const CourseWeeksEditor = ({ courseId }) => {
 
     const handleDeleteLesson = async (lesson) => {
         const lessonId = lesson.uid || lesson.id;
-        const confirmed = window.confirm(`Are you sure you want to delete "${lesson.title || 'this lesson'}"?`);
-        if (!confirmed) return;
+        const ok = await confirm({
+            title: 'Discard Lesson Module',
+            message: `Are you sure you want to remove "${lesson.title || 'this lesson'}" from the curriculum?`,
+            confirmLabel: 'Discard Module',
+            type: 'danger'
+        });
+        if (!ok) return;
 
         try {
             await deleteLesson(lessonId);

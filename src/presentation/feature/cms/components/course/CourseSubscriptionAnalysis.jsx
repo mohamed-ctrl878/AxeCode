@@ -6,6 +6,7 @@ import { useCreateUserEntitlement } from '@domain/useCase/useCreateUserEntitleme
 import { useDeleteUserEntitlement } from '@domain/useCase/useDeleteUserEntitlement';
 import { useSearchUsers } from '@domain/useCase/useSearchUsers';
 import { useFetchCoursePreview } from '@domain/useCase/useFetchCoursePreview';
+import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { UserEntitlementRequest } from '@infrastructure/DTO/Request/UserEntitlementRequest';
 import { SubscriptionChart } from '../shared/SubscriptionChart';
 
@@ -20,6 +21,7 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
     const { createUserEntitlement, inProgress: isCreating } = useCreateUserEntitlement();
     const { deleteUserEntitlement, inProgress: isDeleting } = useDeleteUserEntitlement();
     const { searchUsers, foundUser, loading: isSearching } = useSearchUsers();
+    const { confirm } = useConfirm();
 
     // ─── Local State ─────────────────────────────────────────────────────
     const [emailSearch, setEmailSearch] = useState('');
@@ -82,7 +84,13 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
     };
 
     const handleRevokeAccess = async (recordId) => {
-        if (!window.confirm('Are you sure you want to revoke this student\'s access?')) return;
+        const ok = await confirm({
+            title: 'Revoke Enrollment',
+            message: 'Are you sure you want to permanently revoke this student\'s access to the course? They will lose all progress data instantly.',
+            confirmLabel: 'Confirm Revocation',
+            type: 'danger'
+        });
+        if (!ok) return;
         
         try {
             await deleteUserEntitlement(recordId);

@@ -63,9 +63,9 @@ export const ProblemTestCaseManager = ({ problemId }) => {
         <div className="flex flex-col gap-6 animate-in fade-in duration-300 max-w-5xl mx-auto pb-24">
             
             {/* Toolbar - Redesigned for Theme Awareness */}
-            <div className="flex flex-col md:flex-row justify-between items-center bg-surface border border-border-subtle rounded-[2rem] p-6 gap-6 shadow-xl backdrop-blur-md">
+            <div className="flex flex-col md:flex-row justify-between items-center bg-surface border border-border-subtle rounded-[2rem] p-6 gap-6 shadow-none backdrop-blur-md">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 flex items-center justify-center text-accent-blue shadow-inner">
+                    <div className="w-12 h-12 rounded-2xl bg-accent-primary/10 flex items-center justify-center text-accent-primary shadow-inner">
                         <Database size={24} />
                     </div>
                     <div>
@@ -89,7 +89,7 @@ export const ProblemTestCaseManager = ({ problemId }) => {
 
             {/* Error Message */}
             {error && (
-                <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-[2rem] flex items-center gap-4 text-red-500 animation-slide-up shadow-lg">
+                <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-[2rem] flex items-center gap-4 text-red-500 animation-slide-up shadow-none">
                     <AlertCircle size={24} />
                     <div>
                         <p className="text-[10px] font-black uppercase tracking-widest">Protocol Sync Failure</p>
@@ -100,7 +100,7 @@ export const ProblemTestCaseManager = ({ problemId }) => {
 
             {/* Add Form - Redesigned with higher contrast */}
             {isAdding && (
-                <form onSubmit={handleAdd} className="bg-surface-elevated p-8 rounded-[2.5rem] border border-border-default shadow-2xl animate-in zoom-in-95 duration-200 relative overflow-hidden">
+                <form onSubmit={handleAdd} className="bg-surface-elevated p-8 rounded-[2.5rem] border border-border-default shadow-none animate-in zoom-in-95 duration-200 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none text-accent-primary">
                         <Plus size={120} />
                     </div>
@@ -205,8 +205,8 @@ const TestCaseCard = ({ testCase, onUpdate, onDelete, isBusy, index }) => {
         <div className={cn(
             "group bg-surface rounded-[2rem] border transition-all overflow-hidden",
             isExpanded 
-                ? "border-accent-primary shadow-2xl scale-[1.01]" 
-                : "border-border-subtle hover:border-border-default hover:bg-surface-elevated/50 shadow-sm"
+                ? "border-accent-primary shadow-none scale-[1.01]" 
+                : "border-border-subtle hover:border-border-default hover:bg-surface-elevated/50 shadow-none"
         )}>
             {/* Header / Summary */}
             <div className="flex items-center justify-between p-6 cursor-pointer select-none" onClick={() => setIsExpanded(!isExpanded)}>
@@ -234,7 +234,7 @@ const TestCaseCard = ({ testCase, onUpdate, onDelete, isBusy, index }) => {
                         "flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-full border shadow-sm transition-colors",
                         isHidden 
                             ? "bg-surface-sunken text-text-muted border-border-subtle" 
-                            : "bg-accent-blue/10 text-accent-blue border-accent-blue/10"
+                            : "bg-accent-primary/10 text-accent-primary border-accent-primary/10"
                     )}>
                         {isHidden ? <EyeOff size={12} /> : <Eye size={12} />}
                         <span>{isHidden ? 'Hidden' : 'Public'}</span>

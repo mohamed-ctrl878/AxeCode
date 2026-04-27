@@ -32,6 +32,7 @@ const CMSEventsPage = () => {
             serverTotalItems={totalItems}
             onPageChange={setPage}
             onSearchChange={setSearch}
+            addLabel="Organize New Event"
         />
     );
 };
