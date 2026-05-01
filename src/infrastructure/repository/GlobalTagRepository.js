@@ -30,4 +30,13 @@ export class GlobalTagRepository extends BaseRepository {
     async deleteTag(id) {
         return await this.delete(`${this.endpoint}/${id}`);
     }
+
+    /**
+     * Fetches tag audience map: real user interest counts per tag.
+     * @returns {Promise<{tags: Array, totalUsers: number}>}
+     */
+    async getTagAudience() {
+        const response = await this.get('/api/recommendations/tag-audience');
+        return response?.data || { tags: [], totalUsers: 0 };
+    }
 }

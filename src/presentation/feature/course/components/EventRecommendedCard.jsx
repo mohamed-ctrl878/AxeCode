@@ -72,7 +72,10 @@ export const EventRecommendedCard = ({ event }) => {
                         <Users size={10} className="text-text-muted" />
                         <span>{registeredCount} Joined</span>
                     </div>
-                    <button className="text-accent-primary text-[10px] font-medium flex items-center gap-1 hover:underline transition-all duration-200">
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); handleNavigate(); }}
+                        className="text-accent-primary text-[10px] font-medium flex items-center gap-1 hover:underline transition-all duration-200"
+                    >
                         JOIN <ExternalLink size={10} />
                     </button>
                 </div>

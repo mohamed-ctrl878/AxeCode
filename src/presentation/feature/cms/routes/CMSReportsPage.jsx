@@ -30,7 +30,7 @@ const CMSReportsPage = () => {
     return (
         <div className="space-y-8 animation-fade-in">
             {/* Header */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-ivory p-8 rounded-[32px] border border-border-default shadow-whisper">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-ivory p-6 md:p-8 rounded-3xl md:rounded-[32px] border border-border-default shadow-whisper">
                 <div className="flex items-center gap-5">
                     <div className="w-14 h-14 rounded-2xl bg-accent-rose/10 flex items-center justify-center text-accent-rose border border-accent-rose/20">
                         <ShieldAlert size={28} />
@@ -46,7 +46,7 @@ const CMSReportsPage = () => {
             </div>
 
             {/* Status Filter Tabs */}
-            <div className="flex items-center gap-2 bg-ivory p-2 rounded-2xl border border-border-default w-fit">
+            <div className="flex items-center gap-2 bg-ivory p-2 rounded-2xl border border-border-default w-full md:w-fit overflow-x-auto scrollbar-hide">
                 {statusTabs.map((tab) => {
                     const TabIcon = tab.icon;
                     const isActive = statusFilter === tab.id;
@@ -55,7 +55,7 @@ const CMSReportsPage = () => {
                             key={tab.label}
                             onClick={() => setStatusFilter(tab.id)}
                             className={cn(
-                                "flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all",
+                                "flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap",
                                 isActive
                                     ? "bg-near-black text-ivory shadow-lg"
                                     : "text-text-muted hover:bg-surface-sunken hover:text-near-black"
@@ -70,7 +70,7 @@ const CMSReportsPage = () => {
 
             {/* Reports List */}
             <div className="bg-ivory border border-border-default rounded-[32px] shadow-whisper overflow-hidden">
-                <div className="bg-parchment/80 px-8 py-4 border-b border-border-default flex items-center justify-between sticky top-0 z-10">
+                <div className="bg-parchment/80 px-4 md:px-8 py-3 md:py-4 border-b border-border-default flex items-center justify-between sticky top-0 z-10">
                     <span className="text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">Content Report</span>
                     <div className="hidden md:flex items-center gap-16 text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">
                         <span className="w-24 text-center">Status</span>
@@ -101,26 +101,46 @@ const CMSReportsPage = () => {
                             : 'Unknown';
 
                         return (
-                            <div key={id} className="px-8 py-5 flex items-center justify-between hover:bg-parchment/40 transition-all group">
-                                <div className="flex items-center gap-5 flex-1 min-w-0">
+                            <div key={id} className="px-4 md:px-8 py-4 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:bg-parchment/40 transition-all group">
+                                <div className="flex items-center gap-4 md:gap-5 w-full md:w-auto flex-1 min-w-0">
                                     <div className="w-10 h-10 rounded-xl bg-accent-rose/10 flex items-center justify-center text-accent-rose shrink-0">
                                         <AlertTriangle size={18} />
                                     </div>
-                                    <div className="min-w-0">
+                                    <div className="min-w-0 flex-1">
                                         <div className="text-sm font-serif font-bold text-near-black truncate">
                                             {reporter} → {reported}
                                         </div>
-                                        <div className="text-[10px] text-text-muted font-serif italic mt-0.5">
-                                            {dateStr} · Content: {contentType}
+                                        <div className="text-[10px] text-text-muted font-serif italic mt-0.5 truncate">
+                                            {dateStr} · {contentType}
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile Actions / Statuses */}
+                                    <div className="flex md:hidden flex-col items-end gap-2">
+                                        <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-widest border", getStatusStyles(status))}>
+                                            {status}
+                                        </span>
+                                        <div className="flex items-center gap-2">
+                                            {status === 'pending' && (
+                                                <>
+                                                    <button onClick={() => updateStatus(id, 'resolved')} className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200">
+                                                        <CheckCircle2 size={12} />
+                                                    </button>
+                                                    <button onClick={() => updateStatus(id, 'dismissed')} className="p-1.5 rounded-lg bg-amber-50 text-amber-600 border border-amber-200">
+                                                        <XCircle size={12} />
+                                                    </button>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-8">
-                                    <span className={cn("px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest border hidden md:inline-block", getStatusStyles(status))}>
+                                {/* Desktop Actions */}
+                                <div className="hidden md:flex items-center gap-8">
+                                    <span className={cn("px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest border", getStatusStyles(status))}>
                                         {status}
                                     </span>
-                                    <span className="hidden md:inline-block px-2 py-1 rounded bg-surface-sunken border border-border-subtle text-[9px] font-mono text-text-muted uppercase w-24 text-center">
+                                    <span className="px-2 py-1 rounded bg-surface-sunken border border-border-subtle text-[9px] font-mono text-text-muted uppercase w-24 text-center">
                                         {contentType}
                                     </span>
                                     <div className="flex items-center gap-2">

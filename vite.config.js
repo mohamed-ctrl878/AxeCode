@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -9,19 +9,17 @@ import tailwindcss from "@tailwindcss/vite";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
 
+  return {
+    plugins: [react(), tailwindcss()],
 
-  // --- الجزء الجديد المضاف هنا ---
-  // server: {
-  //   host: '0.0.0.0', // يسمح بالوصول من أي جهاز في الشبكة
-  //   port: 5173,      // التأكد من تثبيت المنفذ
-  //   hmr: {
-  //     host: '192.168.1.5', // عنوان IP الخاص بجهازك (الذي استخرجناه من ipconfig)
-  //   },
-  // },
-  // ----------------------------
+    server: {
+      host: env.VITE_LISTEN_ALL === "true" ? "0.0.0.0" : "localhost",
+      port: 5173,
+      strictPort: true,
+    },
 
   resolve: {
     alias: {
@@ -63,4 +61,4 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/setupTests.js",
   },
-});
+}});

@@ -1,16 +1,24 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { PlayCircle, ArrowRight, ShoppingCart, BookOpen, Clock, Users, Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useCreateUserEntitlement } from '@domain/useCase/useCreateUserEntitlement';
 import { useNavigate } from 'react-router-dom';
+import { useInitiatePayment } from '@domain/useCase/useInitiatePayment';
+import { PaymobModal } from '@presentation/shared/components/modals/PaymobModal';
 
 /**
  * CourseActionSidebar: Sticky sidebar for pricing and CTAs.
  */
 export const CourseActionSidebar = ({ course, onRefresh }) => {
     const navigate = useNavigate();
-    const { createUserEntitlement, inProgress, error } = useCreateUserEntitlement();
+    const { createUserEntitlement, inProgress: entitlementLoading, error: entitlementError } = useCreateUserEntitlement();
+    const { initiatePayment, inProgress: paymentLoading } = useInitiatePayment();
+    
+    const [isIframeOpen, setIsIframeOpen] = useState(false);
+    const [iframeUrl, setIframeUrl] = useState('');
+
     const totalLessons = course.lessonCount || 0;
+    const inProgress = entitlementLoading || paymentLoading;
 
     const handleAction = useCallback(async () => {
         if (course.hasAccess) {
@@ -24,7 +32,6 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
                 navigate(`/courses/${course.uid}/learn/lesson/${lessonId}`);
             } else {
                 console.warn("No lessons found for this course.");
-                // Optional: navigate to a general course page if implemented
             }
             return;
         }
@@ -37,16 +44,23 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
                     productId: course.entitlementsId,
                     content_types: 'course'
                 });
-                // Success! Refresh the parent data to reflect access
                 if (onRefresh) onRefresh();
             } catch (err) {
                 console.error('Enrollment failed:', err);
             }
         } else {
-            // Paid course logic - placeholder for payment gateway
-            toast.error('This premium course requires a subscription or direct purchase. Payment integration coming soon.');
+            // Initiate real payment
+            try {
+                const data = await initiatePayment(course.uid, 'course');
+                if (data && data.iframe_url) {
+                    setIframeUrl(data.iframe_url);
+                    setIsIframeOpen(true);
+                }
+            } catch (err) {
+                toast.error(err.message || 'Payment initiation failed');
+            }
         }
-    }, [course, createUserEntitlement, navigate, onRefresh]);
+    }, [course, createUserEntitlement, initiatePayment, navigate, onRefresh]);
 
     const isFree = !course.price || Number(course.price) === 0;
 
@@ -88,7 +102,7 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
                         )}
                     </button>
                     
-                    {error && <p className="text-[10px] text-center text-status-error font-bold">{error}</p>}
+                    {entitlementError && <p className="text-[10px] text-center text-status-error font-bold">{entitlementError}</p>}
                     <p className="text-[10px] text-center text-text-muted font-mono uppercase tracking-widest leading-relaxed">
                         Join {course.studentCount || 0}+ students starting their journey
                     </p>
@@ -109,6 +123,14 @@ export const CourseActionSidebar = ({ course, onRefresh }) => {
                     </div>
                 </div>
             </div>
+
+            <PaymobModal 
+                isOpen={isIframeOpen} 
+                onClose={() => setIsIframeOpen(false)} 
+                iframeUrl={iframeUrl} 
+                onSuccess={onRefresh}
+            />
         </div>
     );
 };
+

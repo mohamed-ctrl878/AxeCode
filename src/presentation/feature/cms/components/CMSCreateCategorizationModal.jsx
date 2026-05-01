@@ -30,8 +30,8 @@ export const CMSCreateCategorizationModal = ({
             />
 
             {/* Modal Content */}
-            <div className="relative w-full max-w-xl bg-ivory border border-border-default rounded-[40px] shadow-2xl overflow-hidden animation-modal-in">
-                <div className="flex items-center justify-between p-8 border-b border-border-default bg-parchment/50">
+            <div className="relative w-full max-w-xl bg-ivory border border-border-default rounded-3xl md:rounded-[40px] shadow-2xl overflow-hidden animation-modal-in">
+                <div className="flex items-center justify-between p-6 md:p-8 border-b border-border-default bg-parchment/50">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-2xl bg-near-black flex items-center justify-center text-ivory shadow-lg">
                             <Tag size={24} />
@@ -49,7 +49,7 @@ export const CMSCreateCategorizationModal = ({
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-8 space-y-8">
+                <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6 md:space-y-8">
                     <div className="space-y-6">
                         <div className="space-y-2">
                              <label className="text-[10px] font-bold uppercase tracking-widest text-text-muted px-1 flex items-center gap-2">
