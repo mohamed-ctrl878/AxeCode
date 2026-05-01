@@ -17,8 +17,9 @@ import {
     BookMarked,
     Layers,
     Box,
-    Users,
-    LayoutDashboard
+    LayoutDashboard,
+    Wallet,
+    Users
 } from 'lucide-react';
 import { CMSSidebar } from '../components/CMSSidebar';
 import { CMSActionBar } from '../components/CMSActionBar';
@@ -72,8 +73,8 @@ const CMSLayout = () => {
     }));
 
     return (
-        <div className="md:col-span-12 w-full animation-fade-in flex flex-col min-h-[calc(100vh-4rem)]">
-            <CMSActionBar onExit={() => navigate(-1)} />
+        <div className="md:col-span-12 w-full animation-fade-in flex flex-col min-h-[calc(100vh-20rem)] mt-8 md:mt-0">
+            {/* Removed CMSActionBar as global Header is now active */}
 
             <CMSMobileNav sections={sections} activeSection={activeSection} />
 

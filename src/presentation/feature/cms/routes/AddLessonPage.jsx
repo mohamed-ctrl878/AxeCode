@@ -80,7 +80,7 @@ export const AddLessonPage = () => {
     return (
         <div className="md:col-span-full max-w-[1200px] mx-auto py-8 px-4 animation-fade-in text-text-primary">
             {/* Header with Glassmorphism */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 p-8 rounded-[2.5rem] bg-surface border border-border-subtle backdrop-blur-md shadow-2xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 md:mb-12 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] bg-surface border border-border-subtle backdrop-blur-md shadow-2xl">
                 <div className="flex items-center gap-5">
                     <button 
                         onClick={() => navigate(-1)}
@@ -90,7 +90,7 @@ export const AddLessonPage = () => {
                     </button>
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-3xl font-black tracking-tight text-text-primary italic">Add Lesson</h1>
+                            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-text-primary italic">Add Lesson</h1>
                             <span className="px-2 py-0.5 rounded text-[10px] font-black bg-accent-primary/10 border border-accent-primary/20 text-accent-primary uppercase tracking-widest mt-1">Initiating</span>
                         </div>
                         <p className="text-text-muted text-[10px] font-black uppercase tracking-widest mt-1 opacity-40">Module Orchestration • {weekId}</p>
@@ -108,7 +108,7 @@ export const AddLessonPage = () => {
                     <button
                         onClick={handleSubmit}
                         disabled={isSubmitting || !title}
-                        className="flex items-center justify-center gap-3 px-8 py-3 rounded-2xl bg-accent-primary text-on-accent font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group min-w-[200px]"
+                        className="flex items-center justify-center gap-3 px-6 md:px-8 py-3 rounded-2xl bg-accent-primary text-on-accent font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group w-full md:min-w-[200px]"
                     >
                         {isSubmitting ? (
                             <Loader2 size={18} className="animate-spin" />
@@ -135,7 +135,7 @@ export const AddLessonPage = () => {
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 placeholder="Give this lesson a compelling name..."
-                                className="w-full bg-surface-sunken/40 border border-border-subtle rounded-3xl px-8 py-6 text-2xl font-black text-text-primary focus:border-accent-primary focus:bg-surface-sunken outline-none transition-all placeholder:text-text-muted/20 shadow-inner"
+                                className="w-full bg-surface-sunken/40 border border-border-subtle rounded-2xl md:rounded-3xl px-6 md:px-8 py-4 md:py-6 text-xl md:text-2xl font-black text-text-primary focus:border-accent-primary focus:bg-surface-sunken outline-none transition-all placeholder:text-text-muted/20 shadow-inner"
                                 required
                                 autoFocus
                             />
@@ -149,7 +149,7 @@ export const AddLessonPage = () => {
                                 <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                                 Content Curriculum (Architect)
                             </label>
-                            <div className="border border-border-subtle rounded-[2.5rem] overflow-hidden min-h-[350px] bg-surface-sunken/40 focus-within:border-accent-primary focus-within:bg-surface-sunken transition-all shadow-inner">
+                            <div className="border border-border-subtle rounded-3xl md:rounded-[2.5rem] overflow-hidden min-h-[300px] md:min-h-[350px] bg-surface-sunken/40 focus-within:border-accent-primary focus-within:bg-surface-sunken transition-all shadow-inner">
                                 <RichTextInput
                                     value={description}
                                     onChange={setDescription}
@@ -164,7 +164,7 @@ export const AddLessonPage = () => {
                                 <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
                                 Content Representation (Live)
                             </label>
-                            <div className="w-full bg-surface border border-border-subtle rounded-[2.5rem] p-10 min-h-[250px] backdrop-blur-sm shadow-xl relative overflow-hidden">
+                            <div className="w-full bg-surface border border-border-subtle rounded-3xl md:rounded-[2.5rem] p-6 md:p-10 min-h-[200px] md:min-h-[250px] backdrop-blur-sm shadow-xl relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none text-text-muted">
                                     <BookOpen size={150} />
                                 </div>
@@ -219,7 +219,7 @@ export const AddLessonPage = () => {
                                         onChange={handleVideoChange}
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                     />
-                                    <div className="h-full border-2 border-dashed border-border-default rounded-[3rem] flex flex-col items-center justify-center bg-surface-sunken/20 hover:bg-accent-primary/[0.03] hover:border-accent-primary/40 transition-all group-hover/upload:shadow-2xl">
+                                    <div className="h-full border-2 border-dashed border-border-default rounded-3xl md:rounded-[3rem] flex flex-col items-center justify-center bg-surface-sunken/20 hover:bg-accent-primary/[0.03] hover:border-accent-primary/40 transition-all group-hover/upload:shadow-2xl p-6">
                                         <div className="w-24 h-24 rounded-3xl bg-surface-sunken flex items-center justify-center mb-6 group-hover/upload:bg-accent-primary/10 group-hover/upload:text-accent-primary transition-all group-hover/upload:scale-110 shadow-sm border border-border-subtle">
                                             <Upload size={32} />
                                         </div>

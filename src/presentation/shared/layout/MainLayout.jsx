@@ -31,8 +31,9 @@ export const MainLayout = ({ children, className }) => {
         }
     }, [isAuthenticated, fetchMe]);
 
-    // Determine if we are in Focus Mode (e.g., CMS or Problem Details workspace)
-    const isFocusMode = location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT) || location.pathname.includes('/problems/');
+    // Determine if we are in Focus Mode (e.g., Problem Details workspace)
+    // CMS is no longer focus mode as per user request to have header/footer
+    const isFocusMode = location.pathname.includes('/problems/') && !location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT);
 
     // Optional: Hide header for specific full-page views (like auth pages if desired, but Header handles guest state nicely)
     const isAuthPage = location.pathname === PATHS.LOGIN || location.pathname === PATHS.REGISTER;
@@ -68,6 +69,8 @@ export const MainLayout = ({ children, className }) => {
                 ] : [
                     "flex flex-col p-0 my-0 w-full min-h-screen mx-auto",
                 ],
+                // Add extra padding/margin if in CMS to handle the header correctly if not in focus mode
+                location.pathname.startsWith(PATHS.CONTENT_MANAGEMENT) && "mt-0",
                 className
             )}>
                 {/* Base grid orchestration - pages will populate the slots */}

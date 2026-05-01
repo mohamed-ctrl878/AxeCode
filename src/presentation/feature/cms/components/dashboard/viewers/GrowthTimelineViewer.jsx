@@ -3,7 +3,6 @@ import { TrendingUp, Users } from 'lucide-react';
 
 const COLOR_MAPS = {
     "accent-primary": { bar: "bg-accent-primary/40", hover: "hover:bg-accent-primary", text: "text-accent-primary", border: "border-accent-primary/20", bg: "bg-accent-primary/5" },
-    "accent-primary": { bar: "bg-accent-primary/40", hover: "hover:bg-accent-primary", text: "text-accent-primary", border: "border-accent-primary/20", bg: "bg-accent-primary/5" },
     "accent-violet": { bar: "bg-accent-violet/40", hover: "hover:bg-accent-violet", text: "text-accent-violet", border: "border-accent-violet/20", bg: "bg-accent-violet/5" },
     "accent-rose": { bar: "bg-accent-rose/40", hover: "hover:bg-accent-rose", text: "text-accent-rose", border: "border-accent-rose/20", bg: "bg-accent-rose/5" },
 };

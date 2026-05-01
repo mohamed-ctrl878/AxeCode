@@ -25,7 +25,7 @@ const CMSCoursesPage = () => {
     return (
         <div className="flex flex-col gap-8 w-full animation-fade-in">
             {/* Control Panel - Shared Tabs */}
-            <div className="flex items-center gap-2 p-1.5 bg-surface-sunken/50 border border-border-subtle rounded-2xl w-fit mx-auto shadow-sm backdrop-blur-md">
+            <div className="flex items-center gap-2 p-1.5 bg-surface-sunken/50 border border-border-subtle rounded-2xl w-full md:w-fit mx-auto shadow-sm backdrop-blur-md overflow-x-auto scrollbar-hide">
                 <button 
                     onClick={() => setActiveTab('archive')}
                     className={cn(
@@ -36,7 +36,7 @@ const CMSCoursesPage = () => {
                     )}
                 >
                     <BookOpen size={16} />
-                    Courses Archive
+                    <span className="hidden md:inline">Courses Archive</span>
                 </button>
                 <button 
                     onClick={() => setActiveTab('types')}
@@ -48,7 +48,7 @@ const CMSCoursesPage = () => {
                     )}
                 >
                     <Layers size={16} />
-                    Course Types
+                    <span className="hidden md:inline">Course Types</span>
                 </button>
             </div>
 

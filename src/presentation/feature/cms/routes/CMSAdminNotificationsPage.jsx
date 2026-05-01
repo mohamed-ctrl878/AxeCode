@@ -19,13 +19,13 @@ const CMSAdminNotificationsPage = () => {
     return (
         <div className="space-y-8 animation-fade-in">
             {/* Header */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-ivory p-8 rounded-[32px] border border-border-default shadow-whisper">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-ivory p-6 md:p-8 rounded-3xl md:rounded-[32px] border border-border-default shadow-whisper">
                 <div className="flex items-center gap-5">
                     <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 border border-amber-200">
                         <Bell size={28} />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-serif font-bold tracking-tight text-near-black">Admin Alerts</h2>
+                        <h2 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-near-black">Admin Alerts</h2>
                         <p className="text-[11px] text-text-muted font-serif italic mt-1">Platform-level alerts: reported content, system events.</p>
                     </div>
                 </div>
@@ -35,7 +35,7 @@ const CMSAdminNotificationsPage = () => {
             </div>
 
             {/* Status Filter */}
-            <div className="flex items-center gap-2 bg-ivory p-2 rounded-2xl border border-border-default w-fit">
+            <div className="flex items-center gap-2 bg-ivory p-2 rounded-2xl border border-border-default w-full md:w-fit overflow-x-auto scrollbar-hide">
                 {statusTabs.map((tab) => {
                     const TabIcon = tab.icon;
                     const isActive = statusFilter === tab.id;
@@ -44,7 +44,7 @@ const CMSAdminNotificationsPage = () => {
                             key={tab.label}
                             onClick={() => setStatusFilter(tab.id)}
                             className={cn(
-                                "flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all",
+                                "flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap",
                                 isActive ? "bg-near-black text-ivory shadow-lg" : "text-text-muted hover:bg-surface-sunken hover:text-near-black"
                             )}
                         >
@@ -57,7 +57,7 @@ const CMSAdminNotificationsPage = () => {
 
             {/* Notifications List */}
             <div className="bg-ivory border border-border-default rounded-[32px] shadow-whisper overflow-hidden">
-                <div className="bg-parchment/80 px-8 py-4 border-b border-border-default">
+                <div className="bg-parchment/80 px-4 md:px-8 py-3 md:py-4 border-b border-border-default">
                     <span className="text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">Admin Notification Feed</span>
                 </div>
 
@@ -86,18 +86,41 @@ const CMSAdminNotificationsPage = () => {
                             : '';
 
                         return (
-                            <div key={id} className={cn("px-8 py-5 flex items-center justify-between hover:bg-parchment/40 transition-all group", !isRead && "bg-amber-50/30")}>
-                                <div className="flex items-center gap-5 flex-1 min-w-0">
-                                    <div className={cn("w-2 h-2 rounded-full shrink-0", !isRead ? "bg-amber-500" : "bg-transparent")} />
-                                    <div className="min-w-0">
-                                        <div className="text-sm font-serif font-bold text-near-black truncate">{message}</div>
-                                        <div className="text-[10px] text-text-muted font-serif italic mt-0.5">
-                                            By {actorName} · {dateStr} · {contentType}
+                            <div key={id} className={cn("px-4 md:px-8 py-4 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:bg-parchment/40 transition-all group", !isRead && "bg-amber-50/30")}>
+                                <div className="flex items-start md:items-center gap-4 md:gap-5 w-full md:w-auto flex-1 min-w-0">
+                                    <div className={cn("w-2 h-2 rounded-full shrink-0 mt-1.5 md:mt-0", !isRead ? "bg-amber-500" : "bg-transparent")} />
+                                    <div className="min-w-0 flex-1">
+                                        <div className="text-sm font-serif font-bold text-near-black break-words md:truncate">{message}</div>
+                                        <div className="text-[10px] text-text-muted font-serif italic mt-0.5 truncate">
+                                            By {actorName} · {dateStr} {/*· {contentType}*/}
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Mobile Actions / Statuses */}
+                                    <div className="flex md:hidden flex-col items-end gap-2 shrink-0">
+                                        <span className={cn(
+                                            "px-2 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-widest border",
+                                            status === 'RESOLVED' ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-amber-50 text-amber-600 border-amber-200"
+                                        )}>
+                                            {status}
+                                        </span>
+                                        <div className="flex items-center gap-1.5">
+                                            {!isRead && (
+                                                <button onClick={() => markRead(id)} className="p-1.5 rounded-lg text-text-muted hover:bg-surface-sunken border border-border-subtle" title="Mark as read">
+                                                    <Eye size={12} />
+                                                </button>
+                                            )}
+                                            {status === 'PENDING' && (
+                                                <button onClick={() => updateStatus(id, 'RESOLVED')} className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200" title="Resolve">
+                                                    <CheckCircle2 size={12} />
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3">
+                                {/* Desktop Actions */}
+                                <div className="hidden md:flex items-center gap-3">
                                     <span className={cn(
                                         "px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest border",
                                         status === 'RESOLVED' ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-amber-50 text-amber-600 border-amber-200"
