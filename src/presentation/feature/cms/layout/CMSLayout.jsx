@@ -19,7 +19,8 @@ import {
     Box,
     LayoutDashboard,
     Wallet,
-    Users
+    Users,
+    CreditCard
 } from 'lucide-react';
 import { CMSSidebar } from '../components/CMSSidebar';
 import { CMSActionBar } from '../components/CMSActionBar';
@@ -42,6 +43,7 @@ const CMS_SECTIONS = [
     { name: 'Accounts', icon: Users },
     { name: 'Reports', icon: ShieldAlert },
     { name: 'Admin-Alerts', icon: Bell },
+    { name: 'Payouts', icon: CreditCard },
     // Configuration
     { name: 'Course-Types', icon: Layers },
     { name: 'Problem-Types', icon: Box },

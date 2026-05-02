@@ -73,7 +73,8 @@ export class WalletRepository {
      */
     async updateCommissionRate(id, commissionRate) {
         try {
-            const response = await this.apiClient.put(`/api/wallets/${id}/commission`, { commission_rate: commissionRate }, true);
+            // Using endpoint prefix without trailing slash, id, payload, and wrap=false
+            const response = await this.apiClient.put('/api/wallets', `${id}/commission`, { commission_rate: commissionRate }, false);
             return response?.data || response;
         } catch (error) {
             console.error('[WalletRepository] updateCommissionRate failed:', error);
@@ -88,7 +89,8 @@ export class WalletRepository {
      */
     async requestPayout({ amount, method, details }) {
         try {
-            const response = await this.apiClient.post('/api/payouts/request', { amount, method, details }, true);
+            // Send unwrapped payload to match custom backend controller
+            const response = await this.apiClient.post('/api/payouts/request', { amount, method, details }, false);
             return response?.data || response;
         } catch (error) {
             console.error('[WalletRepository] requestPayout failed:', error);

@@ -8,7 +8,7 @@ const WalletLayout = () => {
     const { isPublisher } = useRole();
 
     return (
-        <div className="p-6 space-y-8 max-w-7xl mx-auto animation-fade-in mt-16 md:mt-24">
+        <div className="md:col-span-12 w-full p-6 space-y-8 max-w-7xl mx-auto animation-fade-in mt-4 md:mt-8">
             {/* Header section with icon */}
             <div className="flex items-center gap-3">
                 <Wallet className="w-8 h-8 text-primary" />
