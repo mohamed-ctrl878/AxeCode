@@ -231,7 +231,7 @@ const MyWalletPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <BalanceCard 
                     title="Available Balance" 
-                    amount={wallet?.balance} 
+                    amount={wallet ? (wallet.balance - (wallet.pendingBalance || 0)) : 0} 
                     currency={wallet?.currency} 
                     reconciliation={wallet?.reconciliation_status} 
                     isActive={wallet?.isActive} 
@@ -273,13 +273,13 @@ const MyWalletPage = () => {
                                     type="number" 
                                     required
                                     min="100"
-                                    max={wallet?.balance}
+                                    max={wallet ? (wallet.balance - (wallet.pendingBalance || 0)) : 0}
                                     placeholder="Min 100"
                                     className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 text-lg font-bold"
                                     value={payoutAmount}
                                     onChange={(e) => setPayoutAmount(e.target.value)}
                                 />
-                                <p className="text-xs text-gray-400 mt-2">Available: {wallet?.balance?.toLocaleString()} {wallet?.currency}</p>
+                                <p className="text-xs text-gray-400 mt-2">Available: {wallet ? (wallet.balance - (wallet.pendingBalance || 0))?.toLocaleString() : 0} {wallet?.currency}</p>
                             </div>
 
                             <div>
@@ -316,7 +316,7 @@ const MyWalletPage = () => {
                                 </button>
                                 <button 
                                     type="submit"
-                                    disabled={requestingPayout || !payoutAmount || parseFloat(payoutAmount) > wallet?.balance}
+                                    disabled={requestingPayout || !payoutAmount || parseFloat(payoutAmount) > (wallet ? (wallet.balance - (wallet.pendingBalance || 0)) : 0)}
                                     className="flex-1 px-6 py-4 rounded-2xl font-bold bg-primary text-white hover:bg-primary/90 transition-all disabled:opacity-50 disabled:grayscale"
                                 >
                                     {requestingPayout ? 'Processing...' : 'Confirm Request'}

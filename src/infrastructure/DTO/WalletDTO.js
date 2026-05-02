@@ -24,6 +24,8 @@ export class WalletDTO {
         this.transactions = Array.isArray(data.transactions) ? data.transactions.map(t => new TransactionDTO(t)) : [];
         this.payouts = Array.isArray(data.payouts) ? data.payouts.map(p => new PayoutDTO(p)) : [];
         
+        this.stats = data.stats || null;
+
         this.createdAt = data.createdAt ? new Date(data.createdAt) : null;
     }
 }
@@ -48,10 +50,25 @@ export class PayoutDTO {
         if (!data) return;
         
         this.id = data.id;
+        this.documentId = data.documentId;
         this.amount = Number(data.amount || 0);
-        this.status = data.status; // 'pending' | 'processing' | 'completed' | 'failed' | 'rejected'
+        this.status = data.status; // 'PENDING' | 'PAID' | 'REJECTED'
         this.method = data.method;
         this.details = data.details || {};
+        this.admin_notes = data.admin_notes;
         this.createdAt = data.createdAt ? new Date(data.createdAt) : null;
+        
+        // Populate Wallet owner if available
+        if (data.wallet) {
+            this.wallet = {
+                id: data.wallet.id,
+                balance: data.wallet.balance,
+                owner: data.wallet.owner ? {
+                    id: data.wallet.owner.id,
+                    username: data.wallet.owner.username,
+                    email: data.wallet.owner.email
+                } : null
+            };
+        }
     }
 }

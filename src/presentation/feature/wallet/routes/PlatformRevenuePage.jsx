@@ -23,18 +23,30 @@ const PlatformRevenuePage = () => {
 
             {error && <ErrorAlert message={error} />}
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <BalanceCard 
-                    title="Total Commission Earned" 
-                    amount={platformWallet?.balance} 
+                    title="Total Platform Revenue" 
+                    amount={platformWallet?.stats?.total_system_balance || 0} 
                     currency={platformWallet?.currency} 
                     isActive={platformWallet?.isActive} 
                     isPrimary 
                 />
+                <BalanceCard 
+                    title="Publishers' Funds" 
+                    amount={platformWallet?.stats?.total_publisher_balance || 0} 
+                    currency={platformWallet?.currency} 
+                    isActive={platformWallet?.isActive} 
+                />
+                <BalanceCard 
+                    title="Our Commission Earned" 
+                    amount={platformWallet?.balance || 0} 
+                    currency={platformWallet?.currency} 
+                    isActive={platformWallet?.isActive} 
+                />
                  <StatCard 
-                    title="Active Status" 
+                    title="Wallet Status" 
                     amount={platformWallet?.isActive ? 'Active' : 'Inactive'} 
-                    desc="Platform wallet status." 
+                    desc="Platform wallet operations." 
                     icon={<ShieldCheck className="w-6 h-6" />} 
                     color="emerald" 
                 />

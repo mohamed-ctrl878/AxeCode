@@ -41,6 +41,7 @@ const CMSCoursesPage = lazy(() => import('@presentation/feature/cms/routes/CMSCo
 const CMSEventsPage = lazy(() => import('@presentation/feature/cms/routes/CMSEventsPage'));
 const CMSProblemsPage = lazy(() => import('@presentation/feature/cms/routes/CMSProblemsPage'));
 const CMSReportsPage = lazy(() => import('@presentation/feature/cms/routes/CMSReportsPage'));
+const CMSPayoutsPage = lazy(() => import('@presentation/feature/cms/routes/CMSPayoutsPage'));
 const CMSAdminNotificationsPage = lazy(() => import('@presentation/feature/cms/routes/CMSAdminNotificationsPage'));
 const CMSTagsPage = lazy(() => import('@presentation/feature/cms/routes/CMSTagsPage'));
 const CMSFaqsPage = lazy(() => import('@presentation/feature/cms/routes/CMSFaqsPage'));
@@ -203,6 +204,7 @@ export const AppRoutes = () => {
                     <Route path="roadmaps" element={<CMSRoadmapsPage />} />
                     <Route path="report-reasons" element={<CMSReportTypesPage />} />
                     <Route path="reports" element={<CMSReportsPage />} />
+                    <Route path="payouts" element={<CMSPayoutsPage />} />
                     <Route path="admin-alerts" element={<CMSAdminNotificationsPage />} />
                     <Route path="global-tags" element={<CMSTagsPage />} />
                     <Route path="faqs" element={<CMSFaqsPage />} />
