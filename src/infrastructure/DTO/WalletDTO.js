@@ -41,6 +41,7 @@ export class TransactionDTO {
         this.referenceType = data.reference_type;
         this.referenceId = data.reference_id;
         this.metadata = data.metadata || {};
+        this.status = data.status; // 'PENDING' | 'COMPLETED' | 'FAILED' | 'REVERSED'
         this.createdAt = data.createdAt ? new Date(data.createdAt) : null;
     }
 }
