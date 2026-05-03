@@ -43,13 +43,13 @@ export const WeekList = ({ courseId, weeks = [], onEdit, onDelete, onDeleteLesso
                     >
                         {/* Week Header (clickable to expand) */}
                         <div
-                            className="group flex items-center justify-between px-6 py-5 cursor-pointer select-none"
+                            className="group flex flex-wrap sm:flex-nowrap items-center justify-between px-4 sm:px-6 py-4 sm:py-5 cursor-pointer select-none gap-4"
                             onClick={() => toggleExpand(weekId)}
                         >
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
                                 {/* Week Number Badge */}
                                 <div className={cn(
-                                    "w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 transition-all",
+                                    "w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 transition-all",
                                     isExpanded
                                         ? "bg-accent-primary text-on-accent shadow-lg shadow-accent-primary/20"
                                         : "bg-surface-sunken text-text-primary border border-border-subtle"
@@ -57,8 +57,8 @@ export const WeekList = ({ courseId, weeks = [], onEdit, onDelete, onDeleteLesso
                                     {index + 1}
                                 </div>
 
-                                <div>
-                                    <h3 className="text-sm font-black text-text-primary tracking-tight">
+                                <div className="min-w-0">
+                                    <h3 className="text-sm font-black text-text-primary tracking-tight truncate">
                                         {week.title || `Week ${index + 1}`}
                                     </h3>
                                     <div className="flex items-center gap-3 mt-1">
@@ -70,9 +70,9 @@ export const WeekList = ({ courseId, weeks = [], onEdit, onDelete, onDeleteLesso
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4">
-                                {/* Action Buttons */}
-                                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                            <div className="flex items-center gap-3 sm:gap-4 shrink-0 w-full sm:w-auto justify-end border-t sm:border-t-0 border-border-subtle pt-3 sm:pt-0">
+                                {/* Action Buttons - always visible on mobile, hover on desktop */}
+                                <div className="flex items-center gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all">
                                     <button
                                         onClick={(e) => { e.stopPropagation(); onEdit(week); }}
                                         className="w-8 h-8 rounded-lg border border-border-default flex items-center justify-center text-text-muted hover:text-accent-primary hover:border-accent-primary/30 hover:bg-accent-primary/5 transition-all shadow-sm bg-surface"
@@ -150,39 +150,39 @@ const LessonRow = ({ lesson, index, courseId, weekId, onDelete }) => {
     const AccessIcon = lesson.isPublic ? Globe : Lock;
 
     return (
-        <div className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-surface-elevated transition-all group/lesson border border-transparent hover:border-border-subtle shadow-sm hover:shadow-md">
-            <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 rounded-xl hover:bg-surface-elevated transition-all group/lesson border border-transparent hover:border-border-subtle shadow-sm hover:shadow-md">
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 {/* Lesson Order */}
-                <span className="text-[10px] text-text-muted/40 font-black w-6 text-right shrink-0">
+                <span className="text-[10px] text-text-muted/40 font-black w-5 sm:w-6 text-right shrink-0">
                     {String(index + 1).padStart(2, '0')}
                 </span>
 
                 {/* Type Icon */}
                 <div className={cn(
-                    "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm",
+                    "w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm",
                     lesson.type === 'video'
                         ? "bg-status-info/10 text-status-info"
                         : "bg-status-warning/10 text-status-warning"
                 )}>
-                    <TypeIcon size={14} />
+                    <TypeIcon size={12} className="sm:w-[14px] sm:h-[14px]" />
                 </div>
 
                 {/* Info */}
-                <div>
-                    <p className="text-xs font-bold text-text-primary tracking-tight">
+                <div className="min-w-0">
+                    <p className="text-xs font-bold text-text-primary tracking-tight truncate">
                         {lesson.title || `Untitled Lesson`}
                     </p>
-                    <p className="text-[9px] text-text-muted/60 uppercase tracking-widest font-bold mt-0.5">
+                    <p className="text-[8px] sm:text-[9px] text-text-muted/60 uppercase tracking-widest font-bold mt-0.5">
                         {lesson.type || 'Lesson'}
                     </p>
                 </div>
             </div>
 
             {/* Right Side Badges */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto justify-end sm:justify-start pl-[2.25rem] sm:pl-0">
                 {/* Access Badge */}
                 <div className={cn(
-                    "flex items-center gap-1.5 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border",
+                    "flex items-center gap-1.5 px-2 py-1 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest border shrink-0",
                     lesson.isPublic 
                         ? "bg-status-success/10 text-status-success border-status-success/20" 
                         : "bg-text-muted/5 text-text-muted/40 border-border-subtle"
@@ -192,19 +192,19 @@ const LessonRow = ({ lesson, index, courseId, weekId, onDelete }) => {
                 </div>
 
                 {/* Actions (Hidden until hover) */}
-                <div className="flex items-center gap-1.5 ml-2 opacity-0 group-hover/lesson:opacity-100 transition-all">
+                <div className="flex items-center gap-1.5 ml-0 sm:ml-2 opacity-100 sm:opacity-0 sm:group-hover/lesson:opacity-100 transition-all shrink-0">
                     <Link
                         to={`${PATHS.CONTENT_MANAGEMENT}/courses/${courseId}/weeks/${weekId}/lessons/${lessonId}/edit`}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 transition-all border border-border-subtle bg-surface"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 transition-all border border-border-subtle bg-surface"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <Edit2 size={13} />
+                        <Edit2 size={12} className="sm:w-[13px] sm:h-[13px]" />
                     </Link>
                     <button
                         onClick={(e) => { e.stopPropagation(); onDelete(lesson); }}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-status-error hover:bg-status-error/10 transition-all border border-border-subtle bg-surface"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-status-error hover:bg-status-error/10 transition-all border border-border-subtle bg-surface"
                     >
-                        <Trash2 size={13} />
+                        <Trash2 size={12} className="sm:w-[13px] sm:h-[13px]" />
                     </button>
                 </div>
             </div>

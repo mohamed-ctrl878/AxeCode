@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
-    User, LogOut, Settings, Moon, Sun, ChevronDown, ShieldCheck, BookOpen 
+    User, LogOut, Settings, Moon, Sun, ChevronDown, ShieldCheck, BookOpen, Wallet 
 } from 'lucide-react';
+import { PermissionGate } from '../../Auth/PermissionGate';
+import { ROLE_TYPES } from '@core/constants/RoleConstants';
 import { logout } from '@infrastructure/store/authSlice';
 import { cn } from '@core/utils/cn';
 import { useUI } from '@presentation/shared/provider/UIProvider.jsx';
@@ -129,6 +131,15 @@ export const UserMenu = ({ user }) => {
                             Enrolled Content
                         </Link>
                         
+                        <Link 
+                            to={PATHS.WALLET_MY} 
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-3 w-full px-3 py-2.5 text-xs font-semibold text-text-muted hover:text-text-primary hover:bg-surface-hover rounded-xl transition-all group"
+                        >
+                            <Wallet size={16} className="group-hover:text-accent-primary" />
+                            My Wallet
+                        </Link>
+
                         <Link 
                             to={PATHS.SETTINGS} 
                             onClick={() => setIsOpen(false)}

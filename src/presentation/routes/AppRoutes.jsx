@@ -41,6 +41,7 @@ const CMSCoursesPage = lazy(() => import('@presentation/feature/cms/routes/CMSCo
 const CMSEventsPage = lazy(() => import('@presentation/feature/cms/routes/CMSEventsPage'));
 const CMSProblemsPage = lazy(() => import('@presentation/feature/cms/routes/CMSProblemsPage'));
 const CMSReportsPage = lazy(() => import('@presentation/feature/cms/routes/CMSReportsPage'));
+const CMSPayoutsPage = lazy(() => import('@presentation/feature/cms/routes/CMSPayoutsPage'));
 const CMSAdminNotificationsPage = lazy(() => import('@presentation/feature/cms/routes/CMSAdminNotificationsPage'));
 const CMSTagsPage = lazy(() => import('@presentation/feature/cms/routes/CMSTagsPage'));
 const CMSFaqsPage = lazy(() => import('@presentation/feature/cms/routes/CMSFaqsPage'));
@@ -50,6 +51,12 @@ const CMSProblemTypesPage = lazy(() => import('@presentation/feature/cms/routes/
 const CMSUsersPage = lazy(() => import('@presentation/feature/cms/routes/CMSUsersPage'));
 const CMSMediaPage = lazy(() => import('@presentation/feature/cms/routes/CMSMediaPage'));
 const CMSDashboardPage = lazy(() => import('@presentation/feature/cms/routes/CMSDashboardPage'));
+
+// Wallet Module Pages
+const WalletLayout = lazy(() => import('@presentation/feature/wallet/routes/WalletLayout'));
+const MyWalletPage = lazy(() => import('@presentation/feature/wallet/routes/MyWalletPage'));
+const PlatformRevenuePage = lazy(() => import('@presentation/feature/wallet/routes/PlatformRevenuePage'));
+const AllWalletsPage = lazy(() => import('@presentation/feature/wallet/routes/AllWalletsPage'));
 
 // CMS Management Pages (Deep routes)
 const CourseManagementPage = lazy(() => import('@presentation/feature/cms/routes/CourseManagementPage'));
@@ -72,6 +79,8 @@ const GithubCallbackPage = lazy(() => import('@presentation/feature/auth/login/r
 const CMSRoadmapsPage = lazy(() => import('@presentation/feature/cms/routes/CMSRoadmapsPage'));
 const FlowSandboxPage = lazy(() => import('@presentation/feature/misc/FlowSandboxPage'));
 const ProfilePage = lazy(() => import('@presentation/feature/profile/routes/ProfilePage'));
+const PaymentResultPage = lazy(() => import('@presentation/feature/payment/routes/PaymentResult').then(m => ({ default: m.PaymentResult })));
+
 const SettingsPage = lazy(() => import('@presentation/feature/user/routes/SettingsPage'));
 const LegalPage = lazy(() => import('@presentation/feature/static/routes/LegalPage'));
 const DocumentationPage = lazy(() => import('@presentation/feature/static/routes/DocumentationPage'));
@@ -117,6 +126,7 @@ export const AppRoutes = () => {
                 <Route path={PATHS.PRIVACY} element={<LegalPage />} />
                 <Route path={PATHS.TERMS} element={<LegalPage />} />
                 <Route path={PATHS.DOCUMENTATION} element={<DocumentationPage />} />
+                <Route path={`${PATHS.PAYMENT_RESULT}/*`} element={<PaymentResultPage />} />
                 
                 {/* Auth */}
                 <Route path={PATHS.REGISTER} element={<GuestRoute><RegisterPage /></GuestRoute>} />
@@ -194,6 +204,7 @@ export const AppRoutes = () => {
                     <Route path="roadmaps" element={<CMSRoadmapsPage />} />
                     <Route path="report-reasons" element={<CMSReportTypesPage />} />
                     <Route path="reports" element={<CMSReportsPage />} />
+                    <Route path="payouts" element={<CMSPayoutsPage />} />
                     <Route path="admin-alerts" element={<CMSAdminNotificationsPage />} />
                     <Route path="global-tags" element={<CMSTagsPage />} />
                     <Route path="faqs" element={<CMSFaqsPage />} />
@@ -267,6 +278,29 @@ export const AppRoutes = () => {
                         </ProtectedRoute>
                     } 
                 />
+
+                {/* Wallet (Available to all authenticated users, tabs depend on role) */}
+                <Route 
+                    path="/wallet" 
+                    element={
+                        <ProtectedRoute>
+                            <WalletLayout />
+                        </ProtectedRoute>
+                    }
+                >
+                    <Route index element={<Navigate to="mywallet" replace />} />
+                    <Route path="mywallet" element={<MyWalletPage />} />
+                    <Route path="platform" element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <PlatformRevenuePage />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="all-wallets" element={
+                        <ProtectedRoute allowedRoles={[ROLE_TYPES.PUBLISHER]}>
+                            <AllWalletsPage />
+                        </ProtectedRoute>
+                    } />
+                </Route>
 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />

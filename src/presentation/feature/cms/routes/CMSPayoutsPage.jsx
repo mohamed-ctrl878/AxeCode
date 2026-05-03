@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
-import { ShieldAlert, CheckCircle2, XCircle, Clock, Eye, Trash2, RefreshCw, AlertTriangle, MessageSquare, Database } from 'lucide-react';
-import { useFetchAdminReports } from '@domain/useCase/useFetchAdminReports';
+import { CreditCard, CheckCircle2, XCircle, Clock, Eye, RefreshCw, AlertTriangle, Database } from 'lucide-react';
+import { useFetchAdminPayouts } from '@domain/useCase/useFetchAdminPayouts';
 import { useConfirm } from '@presentation/shared/provider/ConfirmationProvider';
 import { cn } from '@core/utils/cn';
 
 /**
- * CMSReportsPage - Admin dashboard for reviewing user reports.
- * Provides status filtering and moderation actions.
+ * CMSPayoutsPage - Admin dashboard for reviewing publisher payout requests.
  */
-const CMSReportsPage = () => {
-    const { reports, isLoading, fetch, updateStatus, deleteReport, statusFilter, setStatusFilter } = useFetchAdminReports();
+const CMSPayoutsPage = () => {
+    const { payouts, isLoading, fetch, updateStatus, statusFilter, setStatusFilter } = useFetchAdminPayouts();
     const { confirm } = useConfirm();
 
     const statusTabs = [
         { id: null, label: 'All', icon: Eye },
-        { id: 'pending', label: 'Pending', icon: Clock },
-        { id: 'resolved', label: 'Resolved', icon: CheckCircle2 },
-        { id: 'dismissed', label: 'Dismissed', icon: XCircle }
+        { id: 'PENDING', label: 'Pending', icon: Clock },
+        { id: 'PAID', label: 'Paid', icon: CheckCircle2 },
+        { id: 'REJECTED', label: 'Rejected', icon: XCircle }
     ];
 
     const getStatusStyles = (status) => {
         switch (status) {
-            case 'resolved': return 'bg-emerald-900/30 text-emerald-400 border-emerald-500/30';
-            case 'dismissed': return 'bg-rose-900/30 text-rose-400 border-rose-500/30';
+            case 'PAID': return 'bg-emerald-900/30 text-emerald-400 border-emerald-500/30';
+            case 'REJECTED': return 'bg-rose-900/30 text-rose-400 border-rose-500/30';
             default: return 'bg-amber-900/30 text-amber-400 border-amber-500/30';
         }
     };
@@ -32,12 +31,12 @@ const CMSReportsPage = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-ivory p-6 md:p-8 rounded-3xl md:rounded-[32px] border border-border-default shadow-whisper">
                 <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-accent-rose/10 flex items-center justify-center text-accent-rose border border-accent-rose/20">
-                        <ShieldAlert size={28} />
+                    <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                        <CreditCard size={28} />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-serif font-bold tracking-tight text-near-black">Reports Review</h2>
-                        <p className="text-[11px] text-text-muted font-serif italic mt-1">Review and moderate content reports from users.</p>
+                        <h2 className="text-3xl font-serif font-bold tracking-tight text-near-black">Payout Requests</h2>
+                        <p className="text-[11px] text-text-muted font-serif italic mt-1">Review and manage publisher withdrawal requests.</p>
                     </div>
                 </div>
                 <button onClick={fetch} disabled={isLoading} className="p-3 rounded-2xl bg-surface-sunken border border-border-default text-text-muted hover:text-near-black transition-all">
@@ -68,13 +67,13 @@ const CMSReportsPage = () => {
                 })}
             </div>
 
-            {/* Reports List */}
+            {/* Payouts List */}
             <div className="bg-ivory border border-border-default rounded-[32px] shadow-whisper overflow-hidden">
                 <div className="bg-parchment/80 px-4 md:px-8 py-3 md:py-4 border-b border-border-default flex items-center justify-between sticky top-0 z-10">
-                    <span className="text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">Content Report</span>
+                    <span className="text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">Payout Request</span>
                     <div className="hidden md:flex items-center gap-16 text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">
                         <span className="w-24 text-center">Status</span>
-                        <span className="w-24 text-center">Type</span>
+                        <span className="w-24 text-center">Amount</span>
                         <span className="w-20 text-center">Actions</span>
                     </div>
                 </div>
@@ -83,36 +82,42 @@ const CMSReportsPage = () => {
                     {isLoading ? (
                         <div className="flex flex-col items-center justify-center py-32 gap-4 animate-pulse">
                             <RefreshCw size={40} className="animate-spin text-near-black/20" />
-                            <p className="text-[11px] font-bold text-near-black/40 font-serif uppercase tracking-[0.3em]">Loading reports...</p>
+                            <p className="text-[11px] font-bold text-near-black/40 font-serif uppercase tracking-[0.3em]">Loading requests...</p>
                         </div>
-                    ) : (!Array.isArray(reports) || reports.length === 0) ? (
+                    ) : (!Array.isArray(payouts) || payouts.length === 0) ? (
                         <div className="flex flex-col items-center justify-center py-32 gap-6 opacity-40">
                             <Database size={60} className="text-text-muted" />
-                            <p className="text-lg font-serif font-bold text-near-black">No Reports Found</p>
+                            <p className="text-lg font-serif font-bold text-near-black">No Payout Requests</p>
                         </div>
-                    ) : reports.map((report, idx) => {
-                        const id = report?.documentId || report?.id || `report-${idx}`;
-                        const contentType = report?.content_type || 'unknown';
-                        const status = report?.review_status || 'pending';
-                        const reporter = report?.reporter_user?.username || 'Anonymous';
-                        const reported = report?.reported_user?.username || 'Unknown';
-                        const dateStr = report?.createdAt
-                            ? new Date(report.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+                    ) : payouts.map((payout, idx) => {
+                        const id = payout?.documentId || payout?.id || `payout-${idx}`;
+                        const status = payout?.status || 'PENDING';
+                        const owner = payout?.wallet?.owner?.username || 'Unknown User';
+                        const amount = payout?.amount?.toLocaleString() || 0;
+                        const method = payout?.method || 'N/A';
+                        const details = payout?.details?.details || payout?.details || 'No details provided';
+                        const dateStr = payout?.createdAt
+                            ? new Date(payout.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                             : 'Unknown';
 
                         return (
                             <div key={id} className="px-4 md:px-8 py-4 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:bg-parchment/40 transition-all group">
                                 <div className="flex items-center gap-4 md:gap-5 w-full md:w-auto flex-1 min-w-0">
-                                    <div className="w-10 h-10 rounded-xl bg-accent-rose/10 flex items-center justify-center text-accent-rose shrink-0">
-                                        <AlertTriangle size={18} />
+                                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                        <CreditCard size={18} />
                                     </div>
                                     <div className="min-w-0 flex-1">
                                         <div className="text-sm font-serif font-bold text-near-black truncate">
-                                            {reporter} → {reported}
+                                            {owner} - {method}
                                         </div>
                                         <div className="text-[10px] text-text-muted font-serif italic mt-0.5 truncate">
-                                            {dateStr} · {contentType}
+                                            {dateStr} · {details}
                                         </div>
+                                        {payout.admin_notes && (
+                                            <div className="text-[10px] text-rose-500 font-bold mt-1">
+                                                Note: {payout.admin_notes}
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Mobile Actions / Statuses */}
@@ -120,13 +125,27 @@ const CMSReportsPage = () => {
                                         <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-widest border", getStatusStyles(status))}>
                                             {status}
                                         </span>
+                                        <span className="font-bold text-lg text-near-black">{amount} EGP</span>
                                         <div className="flex items-center gap-2">
-                                            {status === 'pending' && (
+                                            {status === 'PENDING' && (
                                                 <>
-                                                    <button onClick={() => updateStatus(id, 'resolved')} className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200">
+                                                    <button onClick={async () => {
+                                                        const ok = await confirm({
+                                                            title: 'Approve Payout',
+                                                            message: `Approve ${amount} EGP payout to ${owner}? This will deduct the funds permanently.`,
+                                                            confirmLabel: 'Approve',
+                                                            type: 'success'
+                                                        });
+                                                        if (ok) updateStatus(id, 'PAID');
+                                                    }} className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200">
                                                         <CheckCircle2 size={12} />
                                                     </button>
-                                                    <button onClick={() => updateStatus(id, 'dismissed')} className="p-1.5 rounded-lg bg-amber-50 text-amber-600 border border-amber-200">
+                                                    <button onClick={async () => {
+                                                        const note = window.prompt("Reason for rejection (optional):");
+                                                        if (note !== null) {
+                                                            updateStatus(id, 'REJECTED', note);
+                                                        }
+                                                    }} className="p-1.5 rounded-lg bg-rose-50 text-rose-600 border border-rose-200">
                                                         <XCircle size={12} />
                                                     </button>
                                                 </>
@@ -140,43 +159,43 @@ const CMSReportsPage = () => {
                                     <span className={cn("px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest border", getStatusStyles(status))}>
                                         {status}
                                     </span>
-                                    <span className="px-2 py-1 rounded bg-surface-sunken border border-border-subtle text-[9px] font-mono text-text-muted uppercase w-24 text-center">
-                                        {contentType}
+                                    <span className="px-2 py-1 text-sm font-bold text-near-black w-24 text-right">
+                                        {amount} <span className="text-[10px] text-text-muted font-normal">EGP</span>
                                     </span>
-                                    <div className="flex items-center gap-2">
-                                        {status === 'pending' && (
+                                    <div className="flex items-center gap-2 w-20 justify-end">
+                                        {status === 'PENDING' ? (
                                             <>
                                                 <button
-                                                    onClick={() => updateStatus(id, 'resolved')}
+                                                    onClick={async () => {
+                                                        const ok = await confirm({
+                                                            title: 'Approve Payout',
+                                                            message: `Approve ${amount} EGP payout to ${owner}? This will permanently deduct the funds from their wallet.`,
+                                                            confirmLabel: 'Approve & Pay',
+                                                            type: 'success'
+                                                        });
+                                                        if (ok) updateStatus(id, 'PAID');
+                                                    }}
                                                     className="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-all border border-emerald-200"
-                                                    title="Mark Resolved"
+                                                    title="Approve Payout"
                                                 >
                                                     <CheckCircle2 size={14} />
                                                 </button>
                                                 <button
-                                                    onClick={() => updateStatus(id, 'dismissed')}
-                                                    className="p-2 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition-all border border-amber-200"
-                                                    title="Dismiss"
+                                                    onClick={async () => {
+                                                        const note = window.prompt("Reason for rejection (optional):");
+                                                        if (note !== null) {
+                                                            updateStatus(id, 'REJECTED', note);
+                                                        }
+                                                    }}
+                                                    className="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all border border-rose-200"
+                                                    title="Reject Payout"
                                                 >
                                                     <XCircle size={14} />
                                                 </button>
                                             </>
+                                        ) : (
+                                            <div className="w-[72px]"></div>
                                         )}
-                                        <button
-                                            onClick={async () => {
-                                                const ok = await confirm({
-                                                    title: 'Archive Record',
-                                                    message: 'Permanently expunge this internal moderation report? This data will be erased from scholarly history.',
-                                                    confirmLabel: 'Confirm Purge',
-                                                    type: 'danger'
-                                                });
-                                                if (ok) deleteReport(id);
-                                            }}
-                                            className="p-2 rounded-lg text-accent-rose/60 hover:bg-accent-rose/10 hover:text-accent-rose transition-all"
-                                            title="Delete"
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -188,4 +207,4 @@ const CMSReportsPage = () => {
     );
 };
 
-export default CMSReportsPage;
+export default CMSPayoutsPage;

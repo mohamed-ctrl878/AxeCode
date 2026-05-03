@@ -124,12 +124,18 @@ export const CourseCard = ({ course }) => {
                               </button>
                          ) : (
                             !price ? (
-                                <button className="px-4 py-1.5 rounded-lg btn-success">
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleDetails(); }}
+                                    className="px-4 py-1.5 rounded-lg btn-success"
+                                >
                                     <ArrowRight size={12} />
                                     <span>Free Join</span>
                                 </button>
                             ) : (
-                                <button className="px-4 py-1.5 rounded-lg btn-primary">
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleDetails(); }}
+                                    className="px-4 py-1.5 rounded-lg btn-primary"
+                                >
                                     <ShoppingCart size={12} />
                                     <span>Buy Now</span>
                                 </button>

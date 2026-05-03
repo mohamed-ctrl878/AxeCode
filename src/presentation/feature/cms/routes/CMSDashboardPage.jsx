@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFetchCMSAnalytics } from '../../../../domain/useCase/useFetchCMSAnalytics';
-import { ShieldAlert, BookOpen, Calendar, Users, TrendingUp, BarChart3, Users2 } from 'lucide-react';
+import { ShieldAlert, BookOpen, Calendar, Users, TrendingUp, BarChart3, Users2, Layers } from 'lucide-react';
 import { PageLoader } from '../../../shared/components/loaders/PageLoader';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../../routes/paths';
@@ -9,6 +9,9 @@ import { PATHS } from '../../../routes/paths';
 import UnifiedTimelineViewer from '../components/dashboard/viewers/GrowthTimelineViewer';
 import ContributorStatsViewer from '../components/dashboard/viewers/ContributorStatsViewer';
 import DefaultDashboardViewer from '../components/dashboard/viewers/DefaultDashboardViewer';
+import CategoryDistributionViewer from '../components/dashboard/viewers/CategoryDistributionViewer';
+import TopContentWidget from '../components/dashboard/widgets/TopContentWidget';
+import TrendTagsAnalyzer from '../components/dashboard/widgets/TrendTagsAnalyzer';
 
 const VIEWERS = {
     DEFAULT: 'default',
@@ -106,8 +109,10 @@ const CMSDashboardPage = () => {
                 );
             case VIEWERS.CONTRIBUTORS:
                 return <ContributorStatsViewer stats={stats} />;
+            case 'COMPOSITION':
+                return <CategoryDistributionViewer data={data} />;
             default:
-                return <DefaultDashboardViewer />;
+                return <DefaultDashboardViewer data={data} />;
         }
     };
 
@@ -138,14 +143,14 @@ const CMSDashboardPage = () => {
             {/* Header */}
             <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
-                    <h1 className="text-3xl font-serif font-bold text-near-black tracking-tight mb-2 uppercase">Master Ledger</h1>
+                    <h1 className="text-2xl md:text-3xl font-serif font-bold text-near-black tracking-tight mb-2 uppercase">Master Ledger</h1>
                     <p className="text-sm text-text-muted flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
                         System Analytics & Insight Engine
                     </p>
                 </div>
                 
-                <div className="flex items-center gap-4 bg-surface-sunken p-1.5 rounded-2xl border border-border-subtle">
+                <div className="flex flex-wrap items-center gap-2 md:gap-4 bg-surface-sunken p-1.5 rounded-2xl border border-border-subtle w-full md:w-auto justify-center md:justify-start">
                     {TIME_OPTIONS.map((opt) => (
                         <button
                             key={opt.value}
@@ -221,13 +226,34 @@ const CMSDashboardPage = () => {
             {/* Insight Hub Body */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Dynamic Insight Viewer */}
-                <div className="lg:col-span-2 bg-surface rounded-3xl border border-border-subtle p-8 shadow-whisper relative overflow-hidden">
+                <div className="lg:col-span-2 bg-surface rounded-[32px] border border-border-subtle p-5 md:p-8 shadow-whisper relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-near-black/5 rounded-full -mr-32 -mt-32 blur-3xl" />
                     {renderViewer()}
                 </div>
 
                 {/* Sidebar Context */}
                 <div className="space-y-6">
+                    <button 
+                        onClick={() => setActiveViewer(activeViewer === 'COMPOSITION' ? VIEWERS.DEFAULT : 'COMPOSITION')}
+                        className={`w-full p-8 rounded-3xl border transition-all text-left relative overflow-hidden group shadow-elegant flex flex-col ${
+                            activeViewer === 'COMPOSITION' 
+                            ? 'bg-near-black text-ivory border-near-black' 
+                            : 'bg-surface border-border-subtle hover:border-near-black/20 text-near-black'
+                        }`}
+                    >
+                         <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl ${activeViewer === 'COMPOSITION' ? 'bg-ivory/10' : 'bg-near-black/5'}`} />
+                         <h3 className={`text-[10px] font-serif font-bold uppercase tracking-[0.2em] mb-4 ${activeViewer === 'COMPOSITION' ? 'opacity-60' : 'text-text-muted'}`}>Infrastructure</h3>
+                         <div className="flex items-center justify-between gap-4">
+                            <div>
+                                <p className="text-sm font-bold uppercase tracking-tight">System Composition</p>
+                                <p className={`text-[10px] mt-1 font-medium ${activeViewer === 'COMPOSITION' ? 'text-ivory/60' : 'text-text-muted'}`}>Audit asset distribution</p>
+                            </div>
+                            <div className={`p-3 rounded-2xl transition-all ${activeViewer === 'COMPOSITION' ? 'bg-ivory text-near-black scale-110' : 'bg-near-black/5 text-near-black'}`}>
+                                <Layers size={20} />
+                            </div>
+                         </div>
+                    </button>
+
                     <div className="bg-near-black text-ivory rounded-3xl p-8 shadow-elegant relative overflow-hidden">
                          <div className="absolute top-0 right-0 w-32 h-32 bg-ivory/10 rounded-full blur-2xl" />
                          <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] mb-4 opacity-60">System Security</h3>
@@ -247,11 +273,16 @@ const CMSDashboardPage = () => {
                          </div>
                     </div>
 
-                    <div className="bg-surface rounded-3xl border border-border-subtle p-8 border-dashed border-2 flex flex-col items-center justify-center text-center opacity-60">
-                         <Users2 size={32} className="text-text-muted mb-3" />
-                         <p className="text-xs text-text-muted font-medium">More analytics modules coming soon to the Scholar's Ledger.</p>
+                    <div className="bg-surface rounded-3xl border border-border-subtle p-8 shadow-whisper">
+                         <TopContentWidget data={data} />
                     </div>
                 </div>
+            </div>
+
+            {/* Trend Tags Analysis Section */}
+            <div className="bg-surface rounded-[32px] border border-border-subtle p-5 md:p-8 shadow-whisper relative overflow-hidden mt-8">
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent-primary/5 rounded-full blur-3xl -ml-24 -mb-24" />
+                <TrendTagsAnalyzer />
             </div>
         </div>
     );
