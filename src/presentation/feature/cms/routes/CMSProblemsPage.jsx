@@ -31,7 +31,7 @@ const CMSProblemsPage = () => {
                     className={cn(
                         "flex items-center gap-3 px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all",
                         activeTab === 'archive' 
-                            ? "bg-near-black text-ivory shadow-lg scale-[1.02]" 
+                            ? "bg-text-primary text-surface shadow-lg scale-[1.02]" 
                             : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
                     )}
                 >
@@ -43,7 +43,7 @@ const CMSProblemsPage = () => {
                     className={cn(
                         "flex items-center gap-3 px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all",
                         activeTab === 'types' 
-                            ? "bg-near-black text-ivory shadow-lg scale-[1.02]" 
+                            ? "bg-text-primary text-surface shadow-lg scale-[1.02]" 
                             : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
                     )}
                 >

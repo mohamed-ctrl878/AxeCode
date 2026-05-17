@@ -15,11 +15,11 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss()],
 
-    server: {
-      host: env.VITE_LISTEN_ALL === "true" ? "0.0.0.0" : "localhost",
-      port: 5173,
-      strictPort: true,
-    },
+    // server: {
+    //   host: env.VITE_LISTEN_ALL === "true" ? "0.0.0.0" : "localhost",
+    //   port: 5173,
+    //   strictPort: true,
+    // },
 
   resolve: {
     alias: {

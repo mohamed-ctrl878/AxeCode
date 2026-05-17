@@ -10,17 +10,17 @@ export const CMSActionBar = ({ onExit }) => {
         <div className="flex items-center justify-between mb-8 px-2">
             <button 
                 onClick={onExit}
-                className="flex items-center gap-3 text-text-muted hover:text-near-black transition-all group"
+                className="flex items-center gap-3 text-text-muted hover:text-text-primary transition-all group"
             >
-                <div className="w-10 h-10 rounded-full border border-border-default flex items-center justify-center group-hover:border-near-black group-hover:bg-near-black group-hover:text-ivory transition-all shadow-sm">
+                <div className="w-10 h-10 rounded-full border border-border-default flex items-center justify-center group-hover:border-text-primary group-hover:bg-text-primary group-hover:text-surface transition-all shadow-sm">
                     <ChevronLeft size={18} />
                 </div>
                 <span className="text-xs font-serif font-bold uppercase tracking-[0.2em]">Close Archive</span>
             </button>
 
             <div className="flex items-center gap-6">
-                <div className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-parchment border border-border-default text-[10px] font-serif font-bold uppercase tracking-widest text-near-black shadow-inner">
-                    <div className="w-1.5 h-1.5 rounded-full bg-near-black" />
+                <div className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-background border border-border-default text-[10px] font-serif font-bold uppercase tracking-widest text-text-primary shadow-inner">
+                    <div className="w-1.5 h-1.5 rounded-full bg-text-primary" />
                     Archive Active
                 </div>
                 

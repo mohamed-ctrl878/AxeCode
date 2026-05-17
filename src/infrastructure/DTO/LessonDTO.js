@@ -12,6 +12,11 @@ export class LessonDTO extends BaseContentDTO {
         this.description = data.description; // {object | array} - Blocks
         this.public = !!data.public; // {boolean}
 
+        // Embedded video fields
+        this.embedSource = data.embed_source || null; // {string | null} - Provider: youtube, vimeo, custom
+        this.embedUrl = data.embed_url || null; // {string | null} - Raw URL as entered by admin
+        this.embedMetadata = data.embed_metadata || null; // {object | null} - Cached provider metadata
+
         /**
          * Relationships
          */

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, BookOpen, Loader2, AlertCircle, Video, FileText, Globe, Lock, Upload, X, Film, Calendar } from 'lucide-react';
+import { ChevronLeft, BookOpen, Loader2, AlertCircle, Video, FileText, Globe, Lock, Upload, X, Film, Calendar, MonitorPlay } from 'lucide-react';
 import { PATHS } from '@presentation/routes/paths';
 import { useCreateLesson } from '@domain/useCase/useCreateLesson';
 import { useUploadMedia } from '@domain/useCase/useUploadMedia';
 import { RichTextInput } from '@presentation/shared/components/RichTextEditor/RichTextInput';
 import { RichTextBlocks } from '@presentation/shared/components/RichTextBlocks';
+import { EmbedUrlInput } from '../components/EmbedUrlInput';
 import { cn } from '@core/utils/cn';
 
 /**
@@ -24,6 +25,9 @@ export const AddLessonPage = () => {
     const [isPublic, setIsPublic] = useState(false);
     const [isDraft, setIsDraft] = useState(true);
     const [description, setDescription] = useState([]);
+
+    // Embedded Video State
+    const [embedUrl, setEmbedUrl] = useState('');
 
     // Video Upload State
     const [videoFile, setVideoFile] = useState(null);
@@ -64,7 +68,9 @@ export const AddLessonPage = () => {
                 isDraft,
                 weekId,
                 description,
-                videoId
+                videoId,
+                // Embedded video fields
+                embedUrl: type === 'embedded' ? embedUrl : null,
             });
             // Navigate back to weeks tab after success
             navigate(`${PATHS.CONTENT_MANAGEMENT}/courses/${courseId}/weeks`);
@@ -230,6 +236,11 @@ export const AddLessonPage = () => {
                             )}
                         </div>
                     )}
+
+                    {/* Embedded Video URL Input with Live Preview */}
+                    {type === 'embedded' && (
+                        <EmbedUrlInput value={embedUrl} onChange={setEmbedUrl} />
+                    )}
                 </div>
 
                 {/* Sidebar Configuration */}
@@ -286,6 +297,28 @@ export const AddLessonPage = () => {
                                 <div>
                                     <p className="text-xs font-black uppercase tracking-widest">Tech Article</p>
                                     <p className="text-[9px] font-medium opacity-60 mt-1">Deep-dive technical brief.</p>
+                                </div>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setType('embedded')}
+                                className={cn(
+                                    "flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
+                                    type === 'embedded' 
+                                        ? "bg-blue-500/10 border-blue-500/40 text-blue-500 shadow-lg shadow-blue-500/5" 
+                                        : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default hover:bg-surface-sunken"
+                                )}
+                            >
+                                <div className={cn(
+                                    "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
+                                    type === 'embedded' ? "bg-blue-500 text-on-accent" : "bg-surface border border-border-subtle"
+                                )}>
+                                    <MonitorPlay size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest">Embedded Video</p>
+                                    <p className="text-[9px] font-medium opacity-60 mt-1">YouTube, Vimeo, or external source.</p>
                                 </div>
                             </button>
                         </div>
@@ -369,7 +402,7 @@ export const AddLessonPage = () => {
                                 isDraft ? "bg-text-muted/20" : "bg-accent-primary"
                             )}>
                                 <div className={cn(
-                                    "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
+                                    "absolute top-1 w-4 h-4 rounded-full bg-surface-elevated transition-all shadow-sm",
                                     isDraft ? "left-1" : "left-7"
                                 )} />
                             </div>

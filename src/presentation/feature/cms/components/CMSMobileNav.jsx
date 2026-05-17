@@ -21,11 +21,11 @@ export const CMSMobileNav = ({ sections, activeSection }) => {
             {/* Dropdown Toggle Button */}
             <button 
                 onClick={toggleMenu}
-                className="w-full flex items-center justify-between p-4 bg-surface rounded-2xl border border-border-subtle shadow-sm transition-colors hover:border-near-black/20"
+                className="w-full flex items-center justify-between p-4 bg-surface rounded-2xl border border-border-subtle shadow-sm transition-colors hover:border-text-primary/20"
             >
                 <div className="flex items-center gap-3">
                     {currentSection?.icon && <currentSection.icon size={18} className="text-accent-primary" />}
-                    <span className="font-serif font-bold tracking-tight text-near-black text-sm">
+                    <span className="font-serif font-bold tracking-tight text-text-primary text-sm">
                         {currentSection?.name}
                     </span>
                 </div>
@@ -40,7 +40,7 @@ export const CMSMobileNav = ({ sections, activeSection }) => {
                 <>
                     {/* Backdrop for closing when clicking outside */}
                     <div 
-                        className="fixed inset-0 z-40 bg-near-black/5 backdrop-blur-[2px]"
+                        className="fixed inset-0 z-40 bg-text-primary/5 backdrop-blur-[2px]"
                         onClick={() => setIsOpen(false)}
                     />
                     
@@ -54,14 +54,14 @@ export const CMSMobileNav = ({ sections, activeSection }) => {
                                     className={cn(
                                         "w-full flex items-center justify-between py-3 px-4 transition-all duration-200 rounded-xl group",
                                         activeSection === section.name 
-                                            ? "bg-near-black text-ivory shadow-md" 
+                                            ? "bg-text-primary text-surface shadow-md" 
                                             : "text-text-muted hover:bg-surface-sunken hover:text-text-primary"
                                     )}
                                 >
                                     <div className="flex items-center gap-3">
                                         <section.icon 
                                             size={16} 
-                                            className={activeSection === section.name ? "text-ivory" : "text-text-muted/60 group-hover:text-accent-primary transition-colors"} 
+                                            className={activeSection === section.name ? "text-surface" : "text-text-muted/60 group-hover:text-accent-primary transition-colors"} 
                                         />
                                         <span className={cn(
                                             "text-sm tracking-tight",
@@ -73,7 +73,7 @@ export const CMSMobileNav = ({ sections, activeSection }) => {
                                     <span className={cn(
                                         "text-[9px] font-mono px-2 py-0.5 rounded-full border transition-colors",
                                         activeSection === section.name 
-                                            ? "bg-ivory/20 border-ivory/20 text-ivory" 
+                                            ? "bg-surface/20 border-ivory/20 text-surface" 
                                             : "bg-surface-elevated border-border-subtle text-text-muted/50 group-hover:text-accent-primary"
                                     )}>
                                         {section.count}

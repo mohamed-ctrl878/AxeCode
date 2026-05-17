@@ -30,23 +30,23 @@ const CMSReportsPage = () => {
     return (
         <div className="space-y-8 animation-fade-in">
             {/* Header */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-ivory p-6 md:p-8 rounded-3xl md:rounded-[32px] border border-border-default shadow-whisper">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-surface p-6 md:p-8 rounded-3xl md:rounded-[32px] border border-border-default shadow-whisper">
                 <div className="flex items-center gap-5">
                     <div className="w-14 h-14 rounded-2xl bg-accent-rose/10 flex items-center justify-center text-accent-rose border border-accent-rose/20">
                         <ShieldAlert size={28} />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-serif font-bold tracking-tight text-near-black">Reports Review</h2>
+                        <h2 className="text-3xl font-serif font-bold tracking-tight text-text-primary">Reports Review</h2>
                         <p className="text-[11px] text-text-muted font-serif italic mt-1">Review and moderate content reports from users.</p>
                     </div>
                 </div>
-                <button onClick={fetch} disabled={isLoading} className="p-3 rounded-2xl bg-surface-sunken border border-border-default text-text-muted hover:text-near-black transition-all">
+                <button onClick={fetch} disabled={isLoading} className="p-3 rounded-2xl bg-surface-sunken border border-border-default text-text-muted hover:text-text-primary transition-all">
                     <RefreshCw size={18} className={cn(isLoading && "animate-spin")} />
                 </button>
             </div>
 
             {/* Status Filter Tabs */}
-            <div className="flex items-center gap-2 bg-ivory p-2 rounded-2xl border border-border-default w-full md:w-fit overflow-x-auto scrollbar-hide">
+            <div className="flex items-center gap-2 bg-surface p-2 rounded-2xl border border-border-default w-full md:w-fit overflow-x-auto scrollbar-hide">
                 {statusTabs.map((tab) => {
                     const TabIcon = tab.icon;
                     const isActive = statusFilter === tab.id;
@@ -57,8 +57,8 @@ const CMSReportsPage = () => {
                             className={cn(
                                 "flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap",
                                 isActive
-                                    ? "bg-near-black text-ivory shadow-lg"
-                                    : "text-text-muted hover:bg-surface-sunken hover:text-near-black"
+                                    ? "bg-text-primary text-surface shadow-lg"
+                                    : "text-text-muted hover:bg-surface-sunken hover:text-text-primary"
                             )}
                         >
                             <TabIcon size={14} />
@@ -69,10 +69,10 @@ const CMSReportsPage = () => {
             </div>
 
             {/* Reports List */}
-            <div className="bg-ivory border border-border-default rounded-[32px] shadow-whisper overflow-hidden">
-                <div className="bg-parchment/80 px-4 md:px-8 py-3 md:py-4 border-b border-border-default flex items-center justify-between sticky top-0 z-10">
-                    <span className="text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">Content Report</span>
-                    <div className="hidden md:flex items-center gap-16 text-[11px] font-bold text-near-black/50 font-serif uppercase tracking-[0.3em]">
+            <div className="bg-surface border border-border-default rounded-[32px] shadow-whisper overflow-hidden">
+                <div className="bg-background/80 px-4 md:px-8 py-3 md:py-4 border-b border-border-default flex items-center justify-between sticky top-0 z-10">
+                    <span className="text-[11px] font-bold text-text-primary/50 font-serif uppercase tracking-[0.3em]">Content Report</span>
+                    <div className="hidden md:flex items-center gap-16 text-[11px] font-bold text-text-primary/50 font-serif uppercase tracking-[0.3em]">
                         <span className="w-24 text-center">Status</span>
                         <span className="w-24 text-center">Type</span>
                         <span className="w-20 text-center">Actions</span>
@@ -82,13 +82,13 @@ const CMSReportsPage = () => {
                 <div className="divide-y divide-border-subtle/50 min-h-[300px]">
                     {isLoading ? (
                         <div className="flex flex-col items-center justify-center py-32 gap-4 animate-pulse">
-                            <RefreshCw size={40} className="animate-spin text-near-black/20" />
-                            <p className="text-[11px] font-bold text-near-black/40 font-serif uppercase tracking-[0.3em]">Loading reports...</p>
+                            <RefreshCw size={40} className="animate-spin text-text-primary/20" />
+                            <p className="text-[11px] font-bold text-text-primary/40 font-serif uppercase tracking-[0.3em]">Loading reports...</p>
                         </div>
                     ) : (!Array.isArray(reports) || reports.length === 0) ? (
                         <div className="flex flex-col items-center justify-center py-32 gap-6 opacity-40">
                             <Database size={60} className="text-text-muted" />
-                            <p className="text-lg font-serif font-bold text-near-black">No Reports Found</p>
+                            <p className="text-lg font-serif font-bold text-text-primary">No Reports Found</p>
                         </div>
                     ) : reports.map((report, idx) => {
                         const id = report?.documentId || report?.id || `report-${idx}`;
@@ -101,13 +101,13 @@ const CMSReportsPage = () => {
                             : 'Unknown';
 
                         return (
-                            <div key={id} className="px-4 md:px-8 py-4 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:bg-parchment/40 transition-all group">
+                            <div key={id} className="px-4 md:px-8 py-4 md:py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 hover:bg-background/40 transition-all group">
                                 <div className="flex items-center gap-4 md:gap-5 w-full md:w-auto flex-1 min-w-0">
                                     <div className="w-10 h-10 rounded-xl bg-accent-rose/10 flex items-center justify-center text-accent-rose shrink-0">
                                         <AlertTriangle size={18} />
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <div className="text-sm font-serif font-bold text-near-black truncate">
+                                        <div className="text-sm font-serif font-bold text-text-primary truncate">
                                             {reporter} → {reported}
                                         </div>
                                         <div className="text-[10px] text-text-muted font-serif italic mt-0.5 truncate">

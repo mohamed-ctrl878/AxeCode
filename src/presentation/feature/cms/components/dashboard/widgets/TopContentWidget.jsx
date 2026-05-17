@@ -28,7 +28,7 @@ const TopContentWidget = ({ events = [], courses = [] }) => {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] text-near-black flex items-center gap-2">
+                <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] text-text-primary flex items-center gap-2">
                     <Trophy size={14} className="text-accent-primary" />
                     High-Velocity Modules
                 </h3>
@@ -42,11 +42,11 @@ const TopContentWidget = ({ events = [], courses = [] }) => {
                         <div key={`${item.type}-${item.id}`} className="bg-surface-sunken/40 border border-border-subtle p-4 rounded-2xl hover:bg-surface-sunken transition-all group">
                             <div className="flex items-start justify-between gap-4">
                                 <div className="flex items-center gap-3">
-                                    <div className={`p-2 ${colors.bg} ${colors.text} rounded-lg ${colors.hover} group-hover:text-ivory transition-colors`}>
+                                    <div className={`p-2 ${colors.bg} ${colors.text} rounded-lg ${colors.hover} group-hover:text-surface transition-colors`}>
                                         <item.icon size={16} />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-bold text-near-black uppercase tracking-tight line-clamp-1">{item.title || item.name || 'Untitled Module'}</p>
+                                        <p className="text-[10px] font-bold text-text-primary uppercase tracking-tight line-clamp-1">{item.title || item.name || 'Untitled Module'}</p>
                                         <p className="text-[9px] text-text-muted font-medium mt-0.5">{item.label} • REF-{item.id}</p>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@ const TopContentWidget = ({ events = [], courses = [] }) => {
 
             <Link 
                 to={PATHS.CONTENT_MANAGEMENT} 
-                className="block w-full text-center py-2.5 text-[10px] font-bold text-text-muted uppercase tracking-widest hover:text-near-black transition-colors border border-dashed border-border-subtle rounded-xl"
+                className="block w-full text-center py-2.5 text-[10px] font-bold text-text-muted uppercase tracking-widest hover:text-text-primary transition-colors border border-dashed border-border-subtle rounded-xl"
             >
                 View Analytics Archive
             </Link>

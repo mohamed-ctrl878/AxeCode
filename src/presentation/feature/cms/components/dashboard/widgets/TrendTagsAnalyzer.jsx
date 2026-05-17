@@ -84,7 +84,7 @@ const TrendTagsAnalyzer = () => {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center py-16 gap-3">
-                <Loader2 className="w-5 h-5 text-near-black/40 animate-spin" />
+                <Loader2 className="w-5 h-5 text-text-primary/40 animate-spin" />
                 <span className="text-[10px] text-text-muted uppercase tracking-widest font-bold">Scanning User Interest Maps...</span>
             </div>
         );
@@ -113,18 +113,18 @@ const TrendTagsAnalyzer = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
-                    <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] text-near-black flex items-center gap-2">
+                    <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] text-text-primary flex items-center gap-2">
                         <TrendingUp size={14} className="text-accent-primary" />
                         Trend Tags — Audience Analysis
                     </h3>
                     <p className="text-[10px] text-text-muted mt-1">
-                        Real user interest from <span className="font-bold text-near-black">{totalUsers}</span> scholars' interest maps
+                        Real user interest from <span className="font-bold text-text-primary">{totalUsers}</span> scholars' interest maps
                     </p>
                 </div>
                 {selectedTagIds.size > 0 && (
                     <button 
                         onClick={clearSelection}
-                        className="flex items-center gap-1.5 text-[10px] font-bold text-text-muted hover:text-near-black uppercase tracking-widest transition-colors px-3 py-1.5 rounded-full border border-border-subtle hover:border-near-black/30"
+                        className="flex items-center gap-1.5 text-[10px] font-bold text-text-muted hover:text-text-primary uppercase tracking-widest transition-colors px-3 py-1.5 rounded-full border border-border-subtle hover:border-text-primary/30"
                     >
                         <X size={10} />
                         Clear ({selectedTagIds.size})
@@ -134,7 +134,7 @@ const TrendTagsAnalyzer = () => {
 
             {/* Selected Tags Stats Panel */}
             {selectedStats && (
-                <div className="bg-near-black text-ivory rounded-2xl p-6 relative overflow-hidden animation-fade-in">
+                <div className="bg-text-primary text-surface rounded-2xl p-6 relative overflow-hidden animation-fade-in">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/10 rounded-full blur-3xl -mr-12 -mt-12" />
                     
                     <div className="flex items-center gap-2 mb-5">
@@ -144,19 +144,19 @@ const TrendTagsAnalyzer = () => {
 
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div>
-                            <p className="text-[9px] text-ivory/50 uppercase tracking-widest mb-1">Tags Selected</p>
+                            <p className="text-[9px] text-surface/50 uppercase tracking-widest mb-1">Tags Selected</p>
                             <p className="text-2xl font-bold font-sans">{selectedStats.selectedCount}</p>
                         </div>
                         <div>
-                            <p className="text-[9px] text-ivory/50 uppercase tracking-widest mb-1">Interested Users</p>
+                            <p className="text-[9px] text-surface/50 uppercase tracking-widest mb-1">Interested Users</p>
                             <p className="text-2xl font-bold font-sans text-accent-primary">{selectedStats.totalInterested}</p>
                         </div>
                         <div>
-                            <p className="text-[9px] text-ivory/50 uppercase tracking-widest mb-1">Tagged Content</p>
+                            <p className="text-[9px] text-surface/50 uppercase tracking-widest mb-1">Tagged Content</p>
                             <p className="text-2xl font-bold font-sans">{selectedStats.totalContent}</p>
                         </div>
                         <div>
-                            <p className="text-[9px] text-ivory/50 uppercase tracking-widest mb-1">User Reach</p>
+                            <p className="text-[9px] text-surface/50 uppercase tracking-widest mb-1">User Reach</p>
                             <p className="text-2xl font-bold font-sans text-success">{selectedStats.reachPercent}%</p>
                         </div>
                     </div>
@@ -185,14 +185,14 @@ const TrendTagsAnalyzer = () => {
                             onClick={() => toggleTag(tag.name)}
                             className={`w-full text-left px-4 py-3 rounded-xl border transition-all duration-200 relative overflow-hidden group ${
                                 isSelected 
-                                    ? 'bg-near-black text-ivory border-near-black shadow-lg scale-[1.01]' 
-                                    : 'bg-surface border-border-subtle hover:border-near-black/20'
+                                    ? 'bg-text-primary text-surface border-text-primary shadow-lg scale-[1.01]' 
+                                    : 'bg-surface border-border-subtle hover:border-text-primary/20'
                             }`}
                         >
                             {/* Interest bar background */}
                             <div 
                                 className={`absolute inset-y-0 left-0 transition-all duration-500 ${
-                                    isSelected ? 'bg-accent-primary/20' : 'bg-near-black/[0.03] group-hover:bg-near-black/[0.06]'
+                                    isSelected ? 'bg-accent-primary/20' : 'bg-text-primary/[0.03] group-hover:bg-text-primary/[0.06]'
                                 }`}
                                 style={{ width: `${barWidth}%` }}
                             />
@@ -200,12 +200,12 @@ const TrendTagsAnalyzer = () => {
                             <div className="relative flex items-center justify-between gap-3">
                                 <div className="flex items-center gap-2.5 min-w-0">
                                     <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 transition-colors ${
-                                        isSelected ? 'bg-accent-primary text-ivory' : 'bg-near-black/5 text-text-muted'
+                                        isSelected ? 'bg-accent-primary text-surface' : 'bg-text-primary/5 text-text-muted'
                                     }`}>
                                         <Hash size={10} />
                                     </div>
                                     <span className={`text-[11px] font-bold uppercase tracking-tight truncate ${
-                                        isSelected ? 'text-ivory' : 'text-near-black'
+                                        isSelected ? 'text-surface' : 'text-text-primary'
                                     }`}>
                                         {tag.name}
                                     </span>
@@ -214,14 +214,14 @@ const TrendTagsAnalyzer = () => {
                                 <div className="flex items-center gap-3 flex-shrink-0">
                                     {/* Real user interest count */}
                                     <div className={`flex items-center gap-1 text-[10px] font-mono font-bold ${
-                                        isSelected ? 'text-accent-primary' : 'text-near-black'
+                                        isSelected ? 'text-accent-primary' : 'text-text-primary'
                                     }`}>
                                         <Users size={10} />
                                         {tag.interestedUsers || 0}
                                     </div>
                                     {/* Content usage count */}
                                     <div className={`flex items-center gap-1 text-[10px] font-mono ${
-                                        isSelected ? 'text-ivory/50' : 'text-text-muted'
+                                        isSelected ? 'text-surface/50' : 'text-text-muted'
                                     }`}>
                                         <FileText size={9} />
                                         {tag.count || 0}

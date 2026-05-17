@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Save, Video, FileText, Globe, Lock, X, Upload, Loader2, Play, BookOpen, Calendar } from 'lucide-react';
+import { ChevronLeft, Save, Video, FileText, Globe, Lock, X, Upload, Loader2, Play, BookOpen, Calendar, MonitorPlay } from 'lucide-react';
 import { PATHS } from '@presentation/routes/paths';
 import { cn } from '@core/utils/cn';
 import { useFetchLesson } from '@domain/useCase/useFetchLesson';
@@ -8,6 +8,7 @@ import { useUpdateLesson } from '@domain/useCase/useUpdateLesson';
 import { useUploadMedia } from '@domain/useCase/useUploadMedia';
 import { RichTextInput } from '@presentation/shared/components/RichTextEditor/RichTextInput';
 import { RichTextBlocks } from '@presentation/shared/components/RichTextBlocks';
+import { EmbedUrlInput } from '../components/EmbedUrlInput';
 
 /**
  * EditLessonPage: Full-page editor for an existing lesson.
@@ -33,6 +34,9 @@ const EditLessonPage = () => {
     const [videoPreview, setVideoPreview] = useState(null);
     const [existingVideo, setExistingVideo] = useState(null);
 
+    // Embedded Video State
+    const [embedUrl, setEmbedUrl] = useState('');
+
     // Initial Fetch
     useEffect(() => {
         if (lessonId) {
@@ -50,6 +54,10 @@ const EditLessonPage = () => {
             setIsDraft(lesson.isDraft ?? true);
             if (lesson.video) {
                 setExistingVideo(lesson.video);
+            }
+            // Sync embedded fields
+            if (lesson.embedUrl) {
+                setEmbedUrl(lesson.embedUrl);
             }
         }
     }, [lesson]);
@@ -92,7 +100,9 @@ const EditLessonPage = () => {
                     isDraft,
                     weekId,
                     description,
-                    videoId: finalVideoId
+                    videoId: finalVideoId,
+                    // Embedded video fields
+                    embedUrl: type === 'embedded' ? embedUrl : null,
                 }
             });
 
@@ -288,6 +298,11 @@ const EditLessonPage = () => {
                             )}
                         </div>
                     )}
+
+                    {/* Embedded Video URL Input with Live Preview */}
+                    {type === 'embedded' && (
+                        <EmbedUrlInput value={embedUrl} onChange={setEmbedUrl} />
+                    )}
                 </div>
 
                 {/* Sidebar Configuration */}
@@ -344,6 +359,28 @@ const EditLessonPage = () => {
                                 <div>
                                     <p className="text-xs font-black uppercase tracking-widest">Tech Article</p>
                                     <p className="text-[9px] font-medium opacity-60 mt-1">Deep-dive technical brief.</p>
+                                </div>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setType('embedded')}
+                                className={cn(
+                                    "flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
+                                    type === 'embedded' 
+                                        ? "bg-blue-500/10 border-blue-500/40 text-blue-500 shadow-lg shadow-blue-500/5" 
+                                        : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default hover:bg-surface-sunken"
+                                )}
+                            >
+                                <div className={cn(
+                                    "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
+                                    type === 'embedded' ? "bg-blue-500 text-on-accent" : "bg-surface border border-border-subtle"
+                                )}>
+                                    <MonitorPlay size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest">Embedded Video</p>
+                                    <p className="text-[9px] font-medium opacity-60 mt-1">YouTube, Vimeo, or external source.</p>
                                 </div>
                             </button>
                         </div>
@@ -427,7 +464,7 @@ const EditLessonPage = () => {
                                 isDraft ? "bg-text-muted/20" : "bg-accent-primary"
                             )}>
                                 <div className={cn(
-                                    "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
+                                    "absolute top-1 w-4 h-4 rounded-full bg-surface-elevated transition-all shadow-sm",
                                     isDraft ? "left-1" : "left-7"
                                 )} />
                             </div>
