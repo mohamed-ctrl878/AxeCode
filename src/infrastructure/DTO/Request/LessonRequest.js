@@ -7,13 +7,18 @@ export class LessonRequest extends BaseRequest {
     constructor(data = {}) {
         super();
         this.title = data.title;
-        this.type_of_lesson = data.type || 'video'; // Enum: video, article
+        this.type_of_lesson = data.type || 'video'; // Enum: video, article, embedded
         this.video = data.videoId || null; // {id}
         this.description = data.description; // {blocks}
         this.week = data.weekId; // {id | documentId}
         this.public = !!data.public;
         this.isDraft = data.isDraft ?? true;
         
+        // Embedded video fields (only relevant when type = 'embedded')
+        this.embed_url = data.embedUrl || data.embed_url || null;
+        this.embed_source = data.embedSource || data.embed_source || null;
+        this.embed_metadata = data.embedMetadata || data.embed_metadata || null;
+
         // Strapi v4/v5 relationship arrays
         this.course_types = data.courseTypeIds; 
         this.problem_types = data.problemTypeIds;

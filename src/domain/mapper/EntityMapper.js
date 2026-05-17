@@ -131,7 +131,10 @@ export class EntityMapper {
             description: dto.description,
             isPublic: dto.public,
             instructor: this.toUser(dto.instructor),
-            isDraft: !!dto.isDraft
+            isDraft: !!dto.isDraft,
+            embedSource: dto.embedSource,
+            embedUrl: dto.embedUrl,
+            embedMetadata: dto.embedMetadata,
         });
     }
 

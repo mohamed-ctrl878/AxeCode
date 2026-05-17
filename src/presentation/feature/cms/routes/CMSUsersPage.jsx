@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Users } from 'lucide-react';
 import { useFetchAdminUsers } from '@domain/useCase/useFetchAdminUsers';
 import { CMSResourceTable } from '../components/CMSResourceTable';
+import { ChangeUserRoleModal } from '../components/ChangeUserRoleModal';
 
 /**
  * CMSUsersPage: Admin page for User Management.
  */
 const CMSUsersPage = () => {
     const { users, isLoading, reloadUsers, deleteUser } = useFetchAdminUsers();
+    const [editingUser, setEditingUser] = useState(null);
 
     const tableItems = users.map(user => {
         const isConfirmed = user.confirmed === true;
@@ -26,15 +28,29 @@ const CMSUsersPage = () => {
     });
 
     return (
-        <CMSResourceTable 
-            sectionName="Accounts" 
-            items={tableItems} 
-            columns={{ status: 'Account State', metric: 'User ID' }}
-            isLoading={isLoading} 
-            icon={Users} 
-            onRefresh={reloadUsers}
-            onDelete={deleteUser}
-        />
+        <>
+            <CMSResourceTable 
+                sectionName="Accounts" 
+                items={tableItems} 
+                columns={{ status: 'Account State', metric: 'User ID' }}
+                isLoading={isLoading} 
+                icon={Users} 
+                onRefresh={reloadUsers}
+                onDelete={deleteUser}
+                onEditItem={(user) => setEditingUser(user)}
+            />
+
+            {editingUser && (
+                <ChangeUserRoleModal 
+                    user={editingUser}
+                    onClose={() => setEditingUser(null)}
+                    onSuccess={() => {
+                        setEditingUser(null);
+                        reloadUsers();
+                    }}
+                />
+            )}
+        </>
     );
 };
 

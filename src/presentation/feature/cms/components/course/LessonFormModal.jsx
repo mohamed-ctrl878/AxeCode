@@ -116,7 +116,7 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
                             )}
                         >
                             <span className={cn(
-                                "absolute w-4 h-4 rounded-full bg-white shadow-md transition-all",
+                                "absolute w-4 h-4 rounded-full bg-surface-elevated shadow-md transition-all",
                                 isPublic ? 'translate-x-7' : 'translate-x-1'
                             )} />
                         </button>
@@ -138,7 +138,7 @@ export const LessonFormModal = ({ isOpen, onClose, onSubmit, weekTitle = '', isL
                                 isDraft ? "bg-accent-primary" : "bg-text-muted/20"
                             )}>
                                 <div className={cn(
-                                    "absolute top-0.5 w-2 h-2 rounded-full bg-white transition-all shadow-sm",
+                                    "absolute top-0.5 w-2 h-2 rounded-full bg-surface-elevated transition-all shadow-sm",
                                     isDraft ? "left-3.5" : "left-0.5"
                                 )} />
                             </div>

@@ -14,8 +14,8 @@ const CategoryDistributionViewer = ({ data = {} }) => {
         <div className="animation-fade-in h-full flex flex-col">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h2 className="text-sm font-serif font-bold text-near-black uppercase tracking-widest flex items-center gap-2">
-                        <Layers size={16} className="text-near-black" />
+                    <h2 className="text-sm font-serif font-bold text-text-primary uppercase tracking-widest flex items-center gap-2">
+                        <Layers size={16} className="text-text-primary" />
                         Infrastructure Composition
                     </h2>
                     <p className="text-[10px] text-text-muted mt-1 uppercase tracking-tighter">Distribution of core system assets</p>
@@ -28,7 +28,7 @@ const CategoryDistributionViewer = ({ data = {} }) => {
                     <div key={item.label} className="space-y-3">
                         <div className="flex justify-between items-end">
                             <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.label}</span>
-                            <span className="text-xl font-serif font-bold text-near-black">{item.count}</span>
+                            <span className="text-xl font-serif font-bold text-text-primary">{item.count}</span>
                         </div>
                         <div className="h-3 w-full bg-surface-sunken rounded-full overflow-hidden border border-border-subtle shadow-inner">
                             <div 
@@ -42,11 +42,11 @@ const CategoryDistributionViewer = ({ data = {} }) => {
 
             <div className="mt-12 p-6 bg-surface-sunken/40 rounded-3xl border border-border-subtle border-dashed">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-ivory rounded-2xl shadow-sm">
+                    <div className="p-3 bg-surface rounded-2xl shadow-sm">
                         <Activity size={20} className="text-accent-primary" />
                     </div>
                     <div>
-                        <p className="text-[10px] font-black text-near-black uppercase tracking-widest">System Health Score</p>
+                        <p className="text-[10px] font-black text-text-primary uppercase tracking-widest">System Health Score</p>
                         <p className="text-[9px] text-text-muted font-medium mt-0.5">Stability verified across all curriculum nodes.</p>
                     </div>
                 </div>

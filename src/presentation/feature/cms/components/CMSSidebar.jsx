@@ -23,7 +23,7 @@ export const CMSSidebar = ({ sections, activeSection }) => {
                                 className={cn(
                                     "w-full flex items-center justify-between py-2.5 px-3 transition-all duration-300 group rounded-xl",
                                     activeSection === section.name 
-                                        ? "bg-near-black text-ivory shadow-lg" 
+                                        ? "bg-text-primary text-surface shadow-lg" 
                                         : "text-text-muted hover:bg-surface-sunken hover:text-text-primary"
                                 )}
                             >
@@ -36,7 +36,7 @@ export const CMSSidebar = ({ sections, activeSection }) => {
                                 <span className={cn(
                                     "text-[9px] font-mono px-2 py-0.5 rounded-full border transition-colors",
                                     activeSection === section.name 
-                                        ? "bg-ivory/20 border-ivory/20 text-ivory" 
+                                        ? "bg-surface/20 border-ivory/20 text-surface" 
                                         : "bg-surface-elevated border-border-subtle text-text-muted/50 group-hover:text-accent-primary"
                                 )}>
                                     {section.count}
@@ -47,15 +47,15 @@ export const CMSSidebar = ({ sections, activeSection }) => {
                 </div>
 
                 <div className="mt-auto">
-                    <div className="p-5 rounded-2xl bg-parchment border border-border-default shadow-whisper">
-                        <h4 className="text-[10px] font-bold text-near-black font-serif uppercase tracking-widest mb-3">
+                    <div className="p-5 rounded-2xl bg-background border border-border-default shadow-whisper">
+                        <h4 className="text-[10px] font-bold text-text-primary font-serif uppercase tracking-widest mb-3">
                             Storage Vault
                         </h4>
                         <div className="w-full bg-border-subtle h-1 rounded-full overflow-hidden mb-3">
-                            <div className="bg-near-black h-full w-[84%]" />
+                            <div className="bg-text-primary h-full w-[84%]" />
                         </div>
                         <p className="text-[9px] text-text-muted leading-relaxed">
-                            Capacity used: <span className="text-near-black font-bold">42.8 GB</span> of 500 GB
+                            Capacity used: <span className="text-text-primary font-bold">42.8 GB</span> of 500 GB
                         </p>
                     </div>
                 </div>

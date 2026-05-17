@@ -47,7 +47,7 @@ export const CategorizationSelector = ({
                     selectedItems.map(item => (
                         <div 
                             key={item.documentId || item.id}
-                            className="flex items-center gap-1.5 px-2.5 py-1 bg-accent-primary text-ivory rounded-lg text-[10px] font-bold uppercase tracking-tight shadow-sm animation-fade-in"
+                            className="flex items-center gap-1.5 px-2.5 py-1 bg-accent-primary text-surface rounded-lg text-[10px] font-bold uppercase tracking-tight shadow-sm animation-fade-in"
                         >
                             {item.title || item.type}
                             <div 
@@ -55,7 +55,7 @@ export const CategorizationSelector = ({
                                     e.stopPropagation();
                                     toggleItem(item.documentId || item.id);
                                 }}
-                                className="hover:bg-white/20 p-0.5 rounded transition-colors"
+                                className="hover:bg-surface-elevated/20 p-0.5 rounded transition-colors"
                             >
                                 <Check size={10} strokeWidth={4} />
                             </div>
@@ -123,7 +123,7 @@ export const CategorizationSelector = ({
                         <button 
                             type="button"
                             onClick={() => setIsOpen(false)}
-                            className="px-4 py-1.5 rounded-lg bg-near-black text-ivory text-[9px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all"
+                            className="px-4 py-1.5 rounded-lg bg-text-primary text-surface text-[9px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all"
                         >
                             Finalize Selection
                         </button>

@@ -317,7 +317,7 @@ export const ProblemForm = ({
                                 isDraft ? "bg-accent-primary/80" : "bg-accent-emerald/80"
                             )}>
                                 <div className={cn(
-                                    "w-3 h-3 rounded-full bg-white shadow-sm transition-all duration-300 transform",
+                                    "w-3 h-3 rounded-full bg-surface-elevated shadow-sm transition-all duration-300 transform",
                                     isDraft ? "translate-x-5" : "translate-x-0"
                                 )} />
                             </div>
@@ -384,15 +384,15 @@ export const ProblemForm = ({
                                 {picturePreview ? (
                                     <>
                                         <img src={picturePreview} alt="Preview" className="w-full h-full object-cover" />
-                                        <div className="absolute inset-0 bg-near-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                                            <label className="p-3 bg-ivory text-near-black rounded-xl cursor-pointer hover:scale-110 transition-transform">
+                                        <div className="absolute inset-0 bg-text-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                            <label className="p-3 bg-surface text-text-primary rounded-xl cursor-pointer hover:scale-110 transition-transform">
                                                 <Edit2 size={16} />
                                                 <input type="file" className="hidden" accept="image/*" onChange={handlePictureChange} />
                                             </label>
                                             <button 
                                                 type="button" 
                                                 onClick={() => { setPictureFile(null); setPicturePreview(null); }}
-                                                className="p-3 bg-accent-rose text-ivory rounded-xl hover:scale-110 transition-transform"
+                                                className="p-3 bg-accent-rose text-surface rounded-xl hover:scale-110 transition-transform"
                                             >
                                                 <Trash2 size={16} />
                                             </button>

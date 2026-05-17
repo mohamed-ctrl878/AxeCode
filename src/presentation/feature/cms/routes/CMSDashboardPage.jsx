@@ -33,7 +33,7 @@ const StatCard = ({ title, value, icon: Icon, trend, trendLabel, colorClass, onC
     <button 
         onClick={onClick}
         className={`w-full text-left p-6 bg-surface rounded-2xl border transition-all duration-300 group relative overflow-hidden ${
-            isActive ? `border-${colorClass} shadow-lg ring-1 ring-${colorClass}/20` : 'border-border-subtle hover:border-near-black/20'
+            isActive ? `border-${colorClass} shadow-lg ring-1 ring-${colorClass}/20` : 'border-border-subtle hover:border-text-primary/20'
         }`}
     >
         {isActive && (
@@ -42,12 +42,12 @@ const StatCard = ({ title, value, icon: Icon, trend, trendLabel, colorClass, onC
             </div>
         )}
         <div className="flex justify-between items-start mb-4">
-            <div className={`p-3 rounded-xl ${isActive ? `bg-${colorClass} text-ivory` : `bg-${colorClass}/10 text-${colorClass}`} transition-colors`}>
+            <div className={`p-3 rounded-xl ${isActive ? `bg-${colorClass} text-surface` : `bg-${colorClass}/10 text-${colorClass}`} transition-colors`}>
                 <Icon size={24} />
             </div>
             <div className="text-right">
                 <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest font-serif">{title}</span>
-                <h3 className="text-3xl font-bold font-sans mt-1 text-near-black">{value}</h3>
+                <h3 className="text-3xl font-bold font-sans mt-1 text-text-primary">{value}</h3>
             </div>
         </div>
         <div className="flex items-center text-xs text-text-muted">
@@ -116,7 +116,7 @@ const CMSDashboardPage = () => {
         }
     };
 
-    if (isLoading) return <div className="h-96 flex items-center justify-center text-near-black"><PageLoader /></div>;
+    if (isLoading) return <div className="h-96 flex items-center justify-center text-text-primary"><PageLoader /></div>;
 
     if (!data && error) {
         return (
@@ -128,7 +128,7 @@ const CMSDashboardPage = () => {
                 </div>
                 <button 
                     onClick={() => fetchAnalytics(timeRange)}
-                    className="px-6 py-2 bg-near-black text-ivory rounded-xl text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform"
+                    className="px-6 py-2 bg-text-primary text-surface rounded-xl text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform"
                 >
                     Reconnect to Ledger
                 </button>
@@ -143,7 +143,7 @@ const CMSDashboardPage = () => {
             {/* Header */}
             <div className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-serif font-bold text-near-black tracking-tight mb-2 uppercase">Master Ledger</h1>
+                    <h1 className="text-2xl md:text-3xl font-serif font-bold text-text-primary tracking-tight mb-2 uppercase">Master Ledger</h1>
                     <p className="text-sm text-text-muted flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
                         System Analytics & Insight Engine
@@ -157,8 +157,8 @@ const CMSDashboardPage = () => {
                             onClick={() => setTimeRange(opt.value)}
                             className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all ${
                                 timeRange === opt.value 
-                                ? 'bg-near-black text-ivory shadow-lg' 
-                                : 'text-text-muted hover:text-near-black'
+                                ? 'bg-text-primary text-surface shadow-lg' 
+                                : 'text-text-muted hover:text-text-primary'
                             }`}
                         >
                             {opt.label}
@@ -167,7 +167,7 @@ const CMSDashboardPage = () => {
                     <div className="w-[1px] h-4 bg-border-subtle mx-1" />
                     <button 
                         onClick={() => fetchAnalytics(timeRange)}
-                        className="p-2 text-text-muted hover:text-near-black transition-colors"
+                        className="p-2 text-text-muted hover:text-text-primary transition-colors"
                         title="Force Refresh"
                     >
                         <TrendingUp size={14} className="rotate-90" />
@@ -227,7 +227,7 @@ const CMSDashboardPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Dynamic Insight Viewer */}
                 <div className="lg:col-span-2 bg-surface rounded-[32px] border border-border-subtle p-5 md:p-8 shadow-whisper relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-near-black/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-text-primary/5 rounded-full -mr-32 -mt-32 blur-3xl" />
                     {renderViewer()}
                 </div>
 
@@ -237,36 +237,36 @@ const CMSDashboardPage = () => {
                         onClick={() => setActiveViewer(activeViewer === 'COMPOSITION' ? VIEWERS.DEFAULT : 'COMPOSITION')}
                         className={`w-full p-8 rounded-3xl border transition-all text-left relative overflow-hidden group shadow-elegant flex flex-col ${
                             activeViewer === 'COMPOSITION' 
-                            ? 'bg-near-black text-ivory border-near-black' 
-                            : 'bg-surface border-border-subtle hover:border-near-black/20 text-near-black'
+                            ? 'bg-text-primary text-surface border-text-primary' 
+                            : 'bg-surface border-border-subtle hover:border-text-primary/20 text-text-primary'
                         }`}
                     >
-                         <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl ${activeViewer === 'COMPOSITION' ? 'bg-ivory/10' : 'bg-near-black/5'}`} />
+                         <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl ${activeViewer === 'COMPOSITION' ? 'bg-surface/10' : 'bg-text-primary/5'}`} />
                          <h3 className={`text-[10px] font-serif font-bold uppercase tracking-[0.2em] mb-4 ${activeViewer === 'COMPOSITION' ? 'opacity-60' : 'text-text-muted'}`}>Infrastructure</h3>
                          <div className="flex items-center justify-between gap-4">
                             <div>
                                 <p className="text-sm font-bold uppercase tracking-tight">System Composition</p>
-                                <p className={`text-[10px] mt-1 font-medium ${activeViewer === 'COMPOSITION' ? 'text-ivory/60' : 'text-text-muted'}`}>Audit asset distribution</p>
+                                <p className={`text-[10px] mt-1 font-medium ${activeViewer === 'COMPOSITION' ? 'text-surface/60' : 'text-text-muted'}`}>Audit asset distribution</p>
                             </div>
-                            <div className={`p-3 rounded-2xl transition-all ${activeViewer === 'COMPOSITION' ? 'bg-ivory text-near-black scale-110' : 'bg-near-black/5 text-near-black'}`}>
+                            <div className={`p-3 rounded-2xl transition-all ${activeViewer === 'COMPOSITION' ? 'bg-surface text-text-primary scale-110' : 'bg-text-primary/5 text-text-primary'}`}>
                                 <Layers size={20} />
                             </div>
                          </div>
                     </button>
 
-                    <div className="bg-near-black text-ivory rounded-3xl p-8 shadow-elegant relative overflow-hidden">
-                         <div className="absolute top-0 right-0 w-32 h-32 bg-ivory/10 rounded-full blur-2xl" />
+                    <div className="bg-text-primary text-surface rounded-3xl p-8 shadow-elegant relative overflow-hidden">
+                         <div className="absolute top-0 right-0 w-32 h-32 bg-surface/10 rounded-full blur-2xl" />
                          <h3 className="text-xs font-serif font-bold uppercase tracking-[0.2em] mb-4 opacity-60">System Security</h3>
                          <div className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <span className="text-sm font-medium opacity-80">Pending Reports</span>
-                                <span className={`px-2 py-1 rounded text-[10px] font-bold ${stats.pendingReports > 0 ? 'bg-error text-ivory' : 'bg-success/20 text-success'}`}>
+                                <span className={`px-2 py-1 rounded text-[10px] font-bold ${stats.pendingReports > 0 ? 'bg-error text-surface' : 'bg-success/20 text-success'}`}>
                                     {stats.pendingReports}
                                 </span>
                             </div>
                             <Link 
                                 to={`${PATHS.CONTENT_MANAGEMENT}/reports`} 
-                                className="block w-full text-center py-3 bg-ivory text-near-black rounded-xl text-xs font-bold hover:bg-border-subtle transition-colors mt-4"
+                                className="block w-full text-center py-3 bg-surface text-text-primary rounded-xl text-xs font-bold hover:bg-border-subtle transition-colors mt-4"
                             >
                                 Enter Security Console
                             </Link>

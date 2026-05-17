@@ -71,7 +71,7 @@ export const CMSPage = () => {
                     activeSection={activeSection}
                 />
 
-                <div className="flex-1 p-8 overflow-y-auto bg-parchment/60 scrollbar-hide">
+                <div className="flex-1 p-8 overflow-y-auto bg-background/60 scrollbar-hide">
                     <CMSResourceTable
                         sectionName={activeSection}
                         items={items}
