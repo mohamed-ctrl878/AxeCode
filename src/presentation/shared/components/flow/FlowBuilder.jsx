@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useMemo } from 'react';
 import { 
     ReactFlow, 
     Controls, 
@@ -15,6 +15,7 @@ import { Plus, Save } from 'lucide-react';
 
 import { RichTextNode } from './nodes/RichTextNode';
 import { FlowSettingsSidebar } from './FlowSettingsSidebar';
+import { ConfirmationModal } from '../modals/ConfirmationModal';
 
 const nodeTypes = {
     richText: RichTextNode,
@@ -43,6 +44,17 @@ const FlowBuilderInner = ({
     // UI Selection State
     const [selectedNode, setSelectedNode] = useState(null);
     const [selectedEdge, setSelectedEdge] = useState(null);
+
+    // Confirmation Popup Modal State
+    const [confirmModal, setConfirmModal] = useState({
+        isOpen: false,
+        title: "",
+        message: "",
+        type: "danger",
+        confirmLabel: "Confirm",
+        cancelLabel: "Cancel",
+        onConfirm: null
+    });
 
     const onConnect = useCallback((params) => {
         // Default edge is smoothstep and animated for cool factor
@@ -81,6 +93,7 @@ const FlowBuilderInner = ({
             id: newNodeId,
             type: 'richText',
             position: { x: 100 + Math.random() * 100, y: 100 + Math.random() * 100 },
+            style: { width: 280, height: 180 },
             data: { 
                 label: 'New Concept',
                 content: [], 
@@ -105,17 +118,19 @@ const FlowBuilderInner = ({
         setNodes((nds) =>
             nds.map((n) => {
                 if (n.id === nodeId) {
-                    const updatedNode = { ...n, data: { ...n.data, ...newDataProps } };
-                    // Keep sidebar selected instance in sync
-                    if (selectedNode?.id === nodeId) {
-                        setSelectedNode(updatedNode);
-                    }
-                    return updatedNode;
+                    return { ...n, data: { ...n.data, ...newDataProps } };
                 }
                 return n;
             })
         );
-    }, [selectedNode, setNodes]);
+        // Keep sidebar selected instance in sync using functional updater
+        setSelectedNode((prev) => {
+            if (prev?.id === nodeId) {
+                return { ...prev, data: { ...prev.data, ...newDataProps } };
+            }
+            return prev;
+        });
+    }, [setNodes]);
 
     const updateEdgeProperties = useCallback((edgeId, newEdgeProps) => {
         setEdges((eds) =>
@@ -144,21 +159,77 @@ const FlowBuilderInner = ({
     };
 
     // In read-only mode, we ensure editing features are disabled
-    const mappedNodes = readOnly 
-        ? nodes.map(n => ({ ...n, draggable: false, selectable: false })) 
-        : nodes.map(n => {
-             // ensure functions are attached for interactivity if someone passes initial nodes from DB
-             if (!n.data.onChange) {
-                 n.data.onChange = (id, newContent) => updateNodeData(id, { content: newContent });
-             }
-             if (!n.data.onEditToggle) {
-                 n.data.onEditToggle = (id, isEditing) => updateNodeData(id, { isEditing });
-             }
-             return n;
+    const mappedNodes = useMemo(() => {
+        return nodes.map(n => {
+            const style = {
+                width: n.style?.width || (n.data?.shape === 'circle' ? 200 : 280),
+                height: n.style?.height || (n.data?.shape === 'circle' ? 200 : 180),
+                ...n.style
+            };
+            const baseNode = {
+                ...n,
+                style,
+                draggable: !readOnly,
+                selectable: true
+            };
+            
+            if (readOnly) {
+                return {
+                    ...baseNode,
+                    data: {
+                        ...n.data,
+                        onEditToggle: () => {},
+                        isEditing: false
+                    }
+                };
+            } else {
+                return {
+                    ...baseNode,
+                    data: {
+                        ...n.data,
+                        onChange: n.data?.onChange || ((id, newContent) => updateNodeData(id, { content: newContent })),
+                        onEditToggle: n.data?.onEditToggle || ((id, isEditing) => updateNodeData(id, { isEditing }))
+                    }
+                };
+            }
         });
+    }, [nodes, readOnly, updateNodeData]);
+
+    const deleteNode = useCallback((nodeId) => {
+        setConfirmModal({
+            isOpen: true,
+            title: "Delete Node",
+            message: "Are you sure you want to delete this architectural block? All connected links will also be permanently removed.",
+            type: "danger",
+            confirmLabel: "Delete Node",
+            cancelLabel: "Cancel",
+            onConfirm: () => {
+                setNodes((nds) => nds.filter((n) => n.id !== nodeId));
+                setEdges((eds) => eds.filter((e) => e.source !== nodeId && e.target !== nodeId));
+                setSelectedNode(null);
+                setConfirmModal(prev => ({ ...prev, isOpen: false }));
+            }
+        });
+    }, [setNodes, setEdges]);
+
+    const deleteEdge = useCallback((edgeId) => {
+        setConfirmModal({
+            isOpen: true,
+            title: "Delete Link",
+            message: "Are you sure you want to remove this connection line between the nodes?",
+            type: "danger",
+            confirmLabel: "Delete Link",
+            cancelLabel: "Cancel",
+            onConfirm: () => {
+                setEdges((eds) => eds.filter((e) => e.id !== edgeId));
+                setSelectedEdge(null);
+                setConfirmModal(prev => ({ ...prev, isOpen: false }));
+            }
+        });
+    }, [setEdges]);
 
     return (
-        <div className={`w-full flex h-[600px] border border-border-subtle rounded-2xl overflow-hidden bg-background ${className}`} ref={reactFlowWrapper}>
+        <div className={`w-full flex h-full border border-border-subtle rounded-2xl overflow-hidden bg-background ${className || ''}`} ref={reactFlowWrapper}>
             {/* React Flow Canvas Playground */}
             <div className="flex-1 h-full relative">
                 
@@ -196,6 +267,8 @@ const FlowBuilderInner = ({
                     fitView
                     attributionPosition="bottom-right"
                     proOptions={{ hideAttribution: true }} // Disables the watermark if permitted
+                    style={{ width: '100%', height: '100%', minHeight: '550px' }}
+                    className="w-full h-full"
                 >
                     <Background color="#3f3f46" gap={16} size={1} />
                     <Controls className="bg-surface border-border-subtle !shadow-xl [&_button]:border-b-border-subtle [&_button]:bg-surface [&_button]:fill-text-primary [&_button:hover]:bg-surface-light" />
@@ -219,9 +292,23 @@ const FlowBuilderInner = ({
                     selectedEdge={selectedEdge}
                     onNodeUpdate={updateNodeData}
                     onEdgeUpdate={updateEdgeProperties}
+                    onNodeDelete={deleteNode}
+                    onEdgeDelete={deleteEdge}
                     onClose={() => onPaneClick()}
                 />
             )}
+
+            {/* Confirmation Dialog Popup */}
+            <ConfirmationModal 
+                isOpen={confirmModal.isOpen}
+                onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+                onConfirm={confirmModal.onConfirm}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                confirmLabel={confirmModal.confirmLabel}
+                cancelLabel={confirmModal.cancelLabel}
+                type={confirmModal.type}
+            />
         </div>
     );
 };

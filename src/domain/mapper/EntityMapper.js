@@ -15,6 +15,12 @@ import { TestCaseEntity } from '../entity/TestCaseEntity';
 import { TestCaseDTO } from '@infrastructure/DTO/TestCaseDTO';
 import { SubmissionEntity } from '../entity/SubmissionEntity';
 import { NotificationEntity } from '../entity/NotificationEntity';
+import { ProjectEntity, ProjectRoleEntity, ProjectMemberEntity, ProjectApplicationEntity, JobTitleTagEntity } from '../entity/ProjectEntity';
+import { TaskEntity, SprintEntity, CheckpointEntity } from '../entity/TaskEntity';
+import { JobAdEntity } from '../entity/JobAdEntity';
+import { WorkspaceItemEntity } from '../entity/WorkspaceItemEntity';
+import { ReviewRequestEntity } from '../entity/ReviewRequestEntity';
+
 
 /**
  * EntityMapper utility for converting DTOs to Domain Entities.
@@ -622,6 +628,236 @@ export class EntityMapper {
             read: dto.read,
             createdAt: dto.createdAt,
             actor: this.toUser(dto.actor)
+        });
+    }
+
+    /**
+     * Maps a ProjectDTO to ProjectEntity
+     */
+    static toProject(dto) {
+        if (!dto) return null;
+        return new ProjectEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            title: dto.title,
+            description: dto.description,
+            methodology: dto.methodology,
+            status: dto.status,
+            visibility: dto.visibility,
+            githubRepoUrl: dto.github_repo_url,
+            githubRepoId: dto.github_repo_id,
+            engagementScore: dto.engagement_score,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt,
+            publisher: this.toUser(dto.publisher),
+            roles: Array.isArray(dto.project_roles || dto.roles) ? (dto.project_roles || dto.roles).map(r => this.toProjectRole(r)) : [],
+            members: Array.isArray(dto.project_members || dto.members) ? (dto.project_members || dto.members).map(m => this.toProjectMember(m)) : [],
+            sprints: Array.isArray(dto.sprints) ? dto.sprints.map(s => this.toSprint(s)) : [],
+            wikiDocs: dto.wiki_docs,
+            architectureDiagram: dto.architecture_diagram
+        });
+    }
+
+    /**
+     * Maps a ProjectRoleDTO to ProjectRoleEntity
+     */
+    static toProjectRole(dto) {
+        if (!dto) return null;
+        return new ProjectRoleEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            customLabel: dto.custom_label,
+            permissions: dto.permissions,
+            isOpen: dto.is_open,
+            requiredLevel: dto.required_level,
+            slots: dto.slots,
+            jobTitleTag: this.toJobTitleTag(dto.job_title_tag)
+        });
+    }
+
+    /**
+     * Maps a ProjectMemberDTO to ProjectMemberEntity
+     */
+    static toProjectMember(dto) {
+        if (!dto) return null;
+        return new ProjectMemberEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            user: this.toUser(dto.user),
+            projectRole: this.toProjectRole(dto.project_role),
+            githubUsername: dto.github_username,
+            isActive: dto.is_active,
+            joinedAt: dto.joined_at
+        });
+    }
+
+    /**
+     * Maps a ProjectApplicationDTO to ProjectApplicationEntity
+     */
+    static toProjectApplication(dto) {
+        if (!dto) return null;
+        return new ProjectApplicationEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            type: dto.type,
+            status: dto.status,
+            message: dto.message,
+            createdAt: dto.createdAt,
+            user: this.toUser(dto.user),
+            project: this.toProject(dto.project),
+            projectRole: this.toProjectRole(dto.project_role)
+        });
+    }
+
+    /**
+     * Maps a JobTitleTagDTO to JobTitleTagEntity
+     */
+    static toJobTitleTag(dto) {
+        if (!dto) return null;
+        return new JobTitleTagEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            slug: dto.slug,
+            labelAr: dto.label_ar,
+            labelEn: dto.label_en,
+            category: dto.category
+        });
+    }
+
+    /**
+     * Maps a TaskDTO to TaskEntity
+     */
+    static toTask(dto) {
+        if (!dto) return null;
+        return new TaskEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            title: dto.title,
+            description: dto.description,
+            status: dto.status,
+            priority: dto.priority,
+            branchPattern: dto.branch_pattern,
+            githubPrId: dto.github_pr_id,
+            ciStatus: dto.ci_status,
+            order: dto.order,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt,
+            assignee: this.toProjectMember(dto.assignee),
+            sprint: this.toSprint(dto.sprint),
+            projectId: dto.projectId,
+            taskType: dto.task_type,
+            layerId: dto.layer_id,
+            stage: dto.stage,
+            checkpointId: dto.checkpoint?.documentId || (typeof dto.checkpoint === 'string' ? dto.checkpoint : null),
+            checkpoint: dto.checkpoint ? (typeof dto.checkpoint === 'object' ? this.toCheckpoint(dto.checkpoint) : null) : null
+        });
+    }
+
+    /**
+     * Maps a CheckpointDTO to CheckpointEntity
+     */
+    static toCheckpoint(dto) {
+        if (!dto) return null;
+        return new CheckpointEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            name: dto.name,
+            stage: dto.stage,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt,
+            sprint: this.toSprint(dto.sprint),
+            tasks: Array.isArray(dto.tasks) ? dto.tasks.map(t => this.toTask(t)).filter(Boolean) : [],
+            projectId: dto.projectId
+        });
+    }
+
+    /**
+     * Maps a SprintDTO to SprintEntity
+     */
+    static toSprint(dto) {
+        if (!dto) return null;
+        return new SprintEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            number: dto.number,
+            goal: dto.goal,
+            status: dto.status,
+            startDate: dto.start_date,
+            endDate: dto.end_date,
+            retrospectiveNotes: dto.retrospective_notes,
+            projectId: dto.projectId
+        });
+    }
+
+    /**
+     * Maps a JobAdDTO to JobAdEntity
+     */
+    static toJobAd(dto) {
+        if (!dto) return null;
+        return new JobAdEntity({
+            roleId: dto.role_id,
+            roleUid: dto.role_documentId,
+            jobTitle: dto.job_title,
+            customLabel: dto.custom_label,
+            requiredLevel: dto.required_level,
+            slots: dto.slots,
+            isMatched: dto.is_matched,
+            hasApplied: dto.has_applied,
+            project: dto.project ? {
+                uid: dto.project.documentId,
+                title: dto.project.title,
+                methodology: dto.project.methodology,
+                status: dto.project.status,
+                publisher: dto.project.publisher ? {
+                    uid: dto.project.publisher.documentId,
+                    username: dto.project.publisher.username
+                } : null
+            } : null
+        });
+    }
+
+    /**
+     * Maps a WorkspaceItemDTO to WorkspaceItemEntity
+     */
+    static toWorkspaceItem(dto) {
+        if (!dto) return null;
+        return new WorkspaceItemEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            projectId: dto.projectId,
+            projectMemberId: dto.project_member,
+            type: dto.type,
+            title: dto.title,
+            content: dto.content,
+            status: dto.status,
+            linkedTaskId: dto.linked_task?.documentId || dto.linked_task,
+            linkedTask: this.toTask(dto.linked_task)
+        });
+    }
+
+    /**
+     * Maps a ReviewRequestDTO to ReviewRequestEntity
+     */
+    static toReviewRequest(dto) {
+        if (!dto) return null;
+        return new ReviewRequestEntity({
+            id: dto.id,
+            uid: dto.documentId,
+            projectId: dto.projectId,
+            taskId: dto.task?.documentId || dto.task,
+            task: this.toTask(dto.task),
+            workspaceItemId: dto.workspace_item?.documentId || dto.workspace_item,
+            workspaceItem: this.toWorkspaceItem(dto.workspace_item),
+            externalLink: dto.external_link,
+            requesterId: dto.requester?.documentId || dto.requester,
+            requester: this.toProjectMember(dto.requester),
+            reviewerId: dto.reviewer?.documentId || dto.reviewer,
+            reviewer: this.toProjectMember(dto.reviewer),
+            status: dto.status,
+            message: dto.message,
+            feedback: dto.feedback,
+            createdAt: dto.createdAt,
+            updatedAt: dto.updatedAt
         });
     }
 }

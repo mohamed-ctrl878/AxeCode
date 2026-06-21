@@ -35,6 +35,9 @@ const EventPage = lazy(() => import('@presentation/feature/event/routes/EventPag
 const CreateEventPage = lazy(() => import('@presentation/feature/event/routes/CreateEventPage'));
 const EventDetailsPage = lazy(() => import('@presentation/feature/event/routes/EventDetailsPage'));
 
+const ProjectDiscoveryPage = lazy(() => import('@presentation/feature/project/routes/ProjectDiscoveryPage'));
+const ProjectDashboard = lazy(() => import('@presentation/feature/project/routes/ProjectDashboard'));
+
 // CMS Layout + Module Pages (Nested Routing)
 const CMSLayout = lazy(() => import('@presentation/feature/cms/layout/CMSLayout'));
 const CMSCoursesPage = lazy(() => import('@presentation/feature/cms/routes/CMSCoursesPage'));
@@ -247,6 +250,14 @@ export const AppRoutes = () => {
                 } />
                 <Route path={`${PATHS.EVENTS}/:id`} element={
                     <ProtectedRoute><EventDetailsPage /></ProtectedRoute>
+                } />
+
+                {/* Projects */}
+                <Route path={PATHS.PROJECTS} element={
+                    <ProtectedRoute><ProjectDiscoveryPage /></ProtectedRoute>
+                } />
+                <Route path={PATHS.PROJECT_DETAILS} element={
+                    <ProtectedRoute><ProjectDashboard /></ProtectedRoute>
                 } />
 
                 {/* Resources */}

@@ -22,6 +22,11 @@ const FlowPreviewerInner = ({ nodes = [], edges = [], className }) => {
     const lockedNodes = useMemo(() => {
         return nodes.map(node => ({
             ...node,
+            style: {
+                width: node.style?.width || (node.data?.shape === 'circle' ? 200 : 280),
+                height: node.style?.height || (node.data?.shape === 'circle' ? 200 : 180),
+                ...node.style
+            },
             data: {
                 ...node.data,
                 // Override toggle handler to do nothing in preview mode
@@ -33,7 +38,7 @@ const FlowPreviewerInner = ({ nodes = [], edges = [], className }) => {
     }, [nodes]);
 
     return (
-        <div className={`w-full h-full relative bg-surface-dark border border-border-subtle rounded-2xl overflow-hidden ${className || ''}`}>
+        <div className={`w-full h-full relative bg-surface-dark border border-border-subtle rounded-2xl overflow-hidden ${className || ''}`} style={{ minHeight: '550px' }}>
             <ReactFlow
                 nodes={lockedNodes}
                 edges={edges}
@@ -45,6 +50,8 @@ const FlowPreviewerInner = ({ nodes = [], edges = [], className }) => {
                 elementsSelectable={true} // Allow selecting to see labels but not move
                 zoomOnScroll={true}
                 panOnDrag={true}
+                style={{ width: '100%', height: '100%' }}
+                proOptions={{ hideAttribution: true }}
             >
                 <Background color="#3f3f46" gap={16} />
                 <Controls showInteractive={false} />

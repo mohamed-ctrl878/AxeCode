@@ -38,6 +38,22 @@ export class BaseRepository extends IApiClient {
         return await fetchWrapper(url, true, 'application/json', 'POST', body);
     }
 
+    async patch(endpoint, requestDto, wrap = true) {
+        if (requestDto && typeof requestDto.validate === 'function') {
+            requestDto.validate();
+        }
+
+        let payload = requestDto;
+        if (requestDto && typeof requestDto.toPayload === 'function') {
+            payload = requestDto.toPayload();
+            if (payload && payload.data) wrap = false;
+        }
+
+        const url = this.#buildUrl(endpoint);
+        const body = wrap ? { data: payload } : payload;
+        return await fetchWrapper(url, true, 'application/json', 'PATCH', body);
+    }
+
     async put(endpoint, id, requestDto, wrap = true, params = {}) {
         if (requestDto && typeof requestDto.validate === 'function') {
             requestDto.validate();

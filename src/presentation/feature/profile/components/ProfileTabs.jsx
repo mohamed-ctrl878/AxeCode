@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { FeedItem } from '@presentation/feature/feed/components/FeedItem';
 import { ArticleCard } from '@presentation/feature/article/components/ArticleCard';
 import { CourseCard } from '@presentation/feature/course/components/CourseCard';
-import { BookOpen, FileText, Layout, Users, Code, Box } from 'lucide-react';
+import { BookOpen, FileText, Layout, Users, Code, Box, Settings } from 'lucide-react';
 import { cn } from '@core/utils/cn';
+import { JobTitleSettings } from './JobTitleSettings';
 
 /**
  * ProfileTabs: Switches between different authored content types.
@@ -43,6 +44,7 @@ export const ProfileTabs = ({
         { id: 'courses', label: 'Courses', icon: BookOpen, count: counts.courses || 0 },
         { id: 'workspaces', label: 'Workspaces', icon: Code, isComingSoon: true },
         { id: 'collabs', label: 'Collaborations', icon: Users, isComingSoon: true },
+        { id: 'settings', label: 'Settings', icon: Settings },
     ];
 
     const renderContent = () => {
@@ -96,6 +98,12 @@ export const ProfileTabs = ({
                         {courses.map((course, idx) => (
                             <CourseCard key={course.id || course.uid || idx} course={course} />
                         ))}
+                    </div>
+                )}
+
+                {activeTab === 'settings' && (
+                    <div className="flex flex-col gap-8 animate-in slide-in-from-bottom-4 duration-500">
+                        <JobTitleSettings />
                     </div>
                 )}
 
