@@ -57,6 +57,7 @@ export const RichTextNode = ({ id, data, selected }) => {
                     activeShapeClass,
                     selectedRing
                 )}
+                style={{ minWidth: '120px', minHeight: '80px' }}
                 onDoubleClick={() => {
                     // Toggle edit mode on double click if allowed
                     if (data.onEditToggle) data.onEditToggle(id, !isEditing);
@@ -82,7 +83,7 @@ export const RichTextNode = ({ id, data, selected }) => {
                     </div>
                 )}
                 
-                <div className="flex-1 w-full min-h-[50px] flex items-center justify-center pointer-events-auto nodrag">
+                <div className={cn("flex-1 w-full min-h-[50px] flex items-center justify-center pointer-events-auto", isEditing ? "nodrag" : "")}>
                     {isEditing ? (
                         <div className="w-full bg-background rounded-lg border border-border-subtle overflow-hidden">
                              <RichTextInput 

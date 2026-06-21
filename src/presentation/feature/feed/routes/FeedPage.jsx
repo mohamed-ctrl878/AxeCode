@@ -5,7 +5,9 @@ import { EventAds } from '../components/EventAds';
 import { FeedFilters } from '../components/FeedFilters';
 import { CreateBlogModal } from '../components/CreateBlogModal';
 import { useFetchBlogs } from '@domain/useCase/useFetchBlogs';
+import { useFetchJobAds } from '@domain/useCase/feed/useFetchJobAds';
 import { FeedItemSkeleton } from '@presentation/shared/components/skeletons/FeedItemSkeleton';
+import { JobAdCard } from '../../project/components/JobAdCard';
 import { PageLoader } from '@presentation/shared/components/loaders/PageLoader';
 import { useParams } from 'react-router-dom';
 import { useFetchBlog } from '@domain/useCase/useFetchBlog';
@@ -20,6 +22,7 @@ const FeedPage = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const { fetchBlogs, blogs, loading, error, hasMore, resetBlogs } = useFetchBlogs();
     const { fetchBlog, blog: linkedBlog, loading: linkedLoading } = useFetchBlog();
+    const { fetchJobAds, jobAds } = useFetchJobAds();
     
     const observerTarget = useRef(null);
     const stateRef = useRef({ loading, hasMore, blogsLength: blogs?.length || 0, activeFilter: 'recommend' });
@@ -35,8 +38,9 @@ const FeedPage = () => {
     useEffect(() => {
         if (!blogId) {
             fetchBlogs(true, 20, activeFilter);
+            fetchJobAds(); // Fetch job ads alongside blogs
         }
-    }, [fetchBlogs, activeFilter, blogId]);
+    }, [fetchBlogs, fetchJobAds, activeFilter, blogId]);
 
     // Fetch linked blog if ID is in the URL
     useEffect(() => {
@@ -139,13 +143,25 @@ const FeedPage = () => {
                         )}
 
                         {/* 2. Show regular feed, filtering out the linked blog to avoid duplication */}
-                        {(blogs || []).filter(b => b.id !== linkedBlog?.id).map((blog, index) => (
-                            <FeedItem 
-                                key={blog.id || index} 
-                                blog={blog} 
-                                rank={activeFilter === 'trend' ? index + 1 : null} 
-                            />
-                        ))}
+                        {(blogs || []).filter(b => b.id !== linkedBlog?.id).map((blog, index) => {
+                            const showJobAd = (index > 0 && index % 10 === 0);
+                            const jobAdIndex = (index / 10) - 1;
+                            const jobAdToRender = showJobAd && jobAds ? jobAds[jobAdIndex] : null;
+
+                            return (
+                                <React.Fragment key={blog.id || index}>
+                                    <FeedItem 
+                                        blog={blog} 
+                                        rank={activeFilter === 'trend' ? index + 1 : null} 
+                                    />
+                                    {jobAdToRender && (
+                                        <div className="my-6">
+                                            <JobAdCard jobAd={jobAdToRender} />
+                                        </div>
+                                    )}
+                                </React.Fragment>
+                            );
+                        })}
 
                         {/* Intersection Observer Target (Hidden if viewing specific linked blog) */}
                         {!blogId && (

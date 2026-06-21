@@ -25,6 +25,10 @@ export const PATHS = {
     EVENT_CREATE: '/cms/events/create',
     EVENT_DETAILS: '/events/:id',
 
+    // Projects (Kanban, Agility)
+    PROJECTS: '/projects',
+    PROJECT_DETAILS: '/projects/:id',
+
     // Resources
     MEDIA: '/media',
     LIVE: '/live',

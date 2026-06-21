@@ -13,6 +13,7 @@ export class RecommendationRepository extends IRecommendationAccess {
         this.eventsEndpoint = import.meta.env.VITE_API_EVENTS;
         this.blogsEndpoint = import.meta.env.VITE_API_BLOG;
         this.articlesEndpoint = import.meta.env.VITE_API_ARTICLE;
+        this.jobAdsEndpoint = '/recommendations/job-ads';
     }
 
     /**
@@ -76,6 +77,15 @@ export class RecommendationRepository extends IRecommendationAccess {
             feedType,
             populate 
         });
+        return response?.data || response || [];
+    }
+
+    /**
+     * @param {number} [limit=4] Max number of job ads
+     * @returns {Promise<object[]>} Raw job ad data from recommendation API.
+     */
+    async getJobAds(limit = 4) {
+        const response = await this.apiClient.get(this.jobAdsEndpoint, { limit });
         return response?.data || response || [];
     }
 

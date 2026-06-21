@@ -1,12 +1,14 @@
 import React from 'react';
 import { cn } from '@core/utils/cn';
-import { Settings, Square, Circle, Diamond, RectangleHorizontal, Type, PenLine, Droplet } from 'lucide-react';
+import { Settings, Square, Circle, Diamond, RectangleHorizontal, Type, PenLine, Droplet, Trash2 } from 'lucide-react';
 
 export const FlowSettingsSidebar = ({ 
     selectedNode, 
     selectedEdge, 
     onNodeUpdate, 
     onEdgeUpdate, 
+    onNodeDelete,
+    onEdgeDelete,
     onClose 
 }) => {
     
@@ -138,6 +140,17 @@ export const FlowSettingsSidebar = ({
                             </button>
                             <p className="text-[10px] text-text-muted text-center mt-1">Or double-click the node on the canvas</p>
                         </div>
+
+                        {/* Delete Node Action */}
+                        <div className="flex flex-col gap-3 pt-4 border-t border-border-subtle">
+                            <button
+                                onClick={() => onNodeDelete && onNodeDelete(element.id)}
+                                className="w-full py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500 border border-rose-500/20 text-rose-500 hover:text-white flex items-center justify-center gap-2 font-bold transition-all"
+                            >
+                                <Trash2 size={18} />
+                                Delete Node
+                            </button>
+                        </div>
                     </>
                 ) : (
                     // Edge Settings 
@@ -192,6 +205,17 @@ export const FlowSettingsSidebar = ({
                                 value={element.label || ''}
                                 onChange={(e) => onEdgeUpdate(element.id, { label: e.target.value })}
                             />
+                        </div>
+
+                        {/* Delete Edge Action */}
+                        <div className="flex flex-col gap-3 pt-4 border-t border-border-subtle mt-4">
+                            <button
+                                onClick={() => onEdgeDelete && onEdgeDelete(element.id)}
+                                className="w-full py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500 border border-rose-500/20 text-rose-500 hover:text-white flex items-center justify-center gap-2 font-bold transition-all"
+                            >
+                                <Trash2 size={18} />
+                                Delete Link
+                            </button>
                         </div>
                     </>
                 )}
