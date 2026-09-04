@@ -144,21 +144,12 @@ const FeedPage = () => {
 
                         {/* 2. Show regular feed, filtering out the linked blog to avoid duplication */}
                         {(blogs || []).filter(b => b.id !== linkedBlog?.id).map((blog, index) => {
-                            const showJobAd = (index > 0 && index % 10 === 0);
-                            const jobAdIndex = (index / 10) - 1;
-                            const jobAdToRender = showJobAd && jobAds ? jobAds[jobAdIndex] : null;
-
                             return (
                                 <React.Fragment key={blog.id || index}>
                                     <FeedItem 
                                         blog={blog} 
                                         rank={activeFilter === 'trend' ? index + 1 : null} 
                                     />
-                                    {jobAdToRender && (
-                                        <div className="my-6">
-                                            <JobAdCard jobAd={jobAdToRender} />
-                                        </div>
-                                    )}
                                 </React.Fragment>
                             );
                         })}
