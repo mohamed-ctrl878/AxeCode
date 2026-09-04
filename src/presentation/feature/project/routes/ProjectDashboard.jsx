@@ -12,6 +12,7 @@ import { useProjectRole } from '@core/hooks/useProjectRole';
 import { useRole } from '@core/hooks/useRole';
 import { useProjectApplications } from '@domain/useCase/project/useProjectApplications';
 import { useProjectMembers } from '@domain/useCase/project/useProjectMembers';
+import { useUpdateProject } from '@domain/useCase/project/useUpdateProject';
 import { Modal, Form, Select, Input, Button } from 'antd';
 import { toast } from 'react-hot-toast';
 
@@ -314,12 +315,26 @@ export const ProjectDashboard = () => {
 
 const ProjectSettings = ({ project }) => {
     const [copied, setCopied] = useState(false);
+    const [form] = Form.useForm();
+    const { updateProject, isUpdating } = useUpdateProject(project.uid);
     const webhookUrl = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:1338/api'}/github-event/webhook`;
 
     const handleCopy = () => {
         navigator.clipboard.writeText(webhookUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    };
+
+    const handleUpdate = async (values) => {
+        try {
+            await updateProject({
+                github_repo_id: values.github_repo_id || null,
+                github_webhook_secret: values.github_webhook_secret || null
+            });
+            toast.success("GitHub configuration updated successfully!");
+        } catch (err) {
+            toast.error(err.message || "Failed to update configuration");
+        }
     };
 
     return (
@@ -330,14 +345,25 @@ const ProjectSettings = ({ project }) => {
                     Automate your Kanban Board. Link your GitHub repository to automatically move tasks when Pull Requests are opened or merged, and update CI statuses based on GitHub Actions.
                 </p>
 
-                <div className="space-y-6">
+                <Form 
+                    form={form} 
+                    layout="vertical" 
+                    initialValues={{
+                        github_repo_id: project.githubRepoId || '',
+                        github_webhook_secret: project.githubWebhookSecret || ''
+                    }}
+                    onFinish={handleUpdate}
+                    className="space-y-6"
+                >
+                    {/* Setup Instructions */}
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-text-muted mb-2">Payload URL</label>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 mb-2">
                             <div className="flex-1 bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm font-mono text-text-primary overflow-x-auto whitespace-nowrap">
                                 {webhookUrl}
                             </div>
                             <button 
+                                type="button"
                                 onClick={handleCopy}
                                 className="px-4 py-3 bg-surface-elevated border border-border-subtle rounded-xl hover:text-accent-primary hover:border-accent-primary transition-all flex items-center justify-center shrink-0"
                             >
@@ -354,31 +380,45 @@ const ProjectSettings = ({ project }) => {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-text-muted mb-2">Secret</label>
-                            <div className="bg-surface-sunken border border-border-subtle rounded-xl px-4 py-3 text-sm font-mono text-text-muted">
-                                Configure in Project Settings
+                            <label className="block text-xs font-bold uppercase tracking-widest text-text-muted mb-2">Events to trigger</label>
+                            <div className="flex flex-wrap gap-2">
+                                {['Pushes', 'Pull requests', 'Pull request reviews', 'Check runs'].map(event => (
+                                    <span key={event} className="px-2 py-1 rounded bg-surface-elevated border border-border-subtle text-[10px] font-bold text-text-primary uppercase tracking-wider">
+                                        {event}
+                                    </span>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-text-muted mb-3">Events to trigger</label>
-                        <div className="flex flex-wrap gap-2">
-                            {['Pushes', 'Pull requests', 'Pull request reviews', 'Check runs'].map(event => (
-                                <span key={event} className="px-3 py-1.5 rounded-lg bg-surface-elevated border border-border-subtle text-xs font-bold text-text-primary">
-                                    {event}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                    <div className="border-t border-border-subtle/50 my-6 pt-6" />
 
-                <div className="mt-8 pt-8 border-t border-border-subtle">
-                    <button className="btn-primary px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-sm flex items-center gap-2">
-                        <ShieldAlert size={16} />
-                        Update Webhook Secret
-                    </button>
-                </div>
+                    {/* Configuration Form */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Form.Item 
+                            name="github_repo_id" 
+                            label={<span className="text-xs font-bold uppercase tracking-widest text-text-muted">GitHub Repository ID</span>}
+                            tooltip="The numeric ID of your GitHub repository (e.g., 123456789)"
+                        >
+                            <Input placeholder="e.g. 123456789" className="dark-input" />
+                        </Form.Item>
+
+                        <Form.Item 
+                            name="github_webhook_secret" 
+                            label={<span className="text-xs font-bold uppercase tracking-widest text-text-muted">Webhook Secret (Optional)</span>}
+                            tooltip="The secret you configured in GitHub to secure the webhook"
+                        >
+                            <Input.Password placeholder="Leave blank if not used" className="dark-input" />
+                        </Form.Item>
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t border-border-subtle flex justify-end">
+                        <Button type="primary" htmlType="submit" loading={isUpdating} className="dark-btn-primary h-12 px-8 rounded-xl font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                            <ShieldAlert size={16} />
+                            Save Configuration
+                        </Button>
+                    </div>
+                </Form>
             </div>
         </div>
     );

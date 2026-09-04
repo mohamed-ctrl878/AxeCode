@@ -14,5 +14,8 @@ export class BlogDTO extends BaseContentDTO {
          * Relationships
          */
         this.publisher = data.publisher ? new UserDTO(data.publisher) : null; // {UserDTO | null}
+        this.type = data.type || 'blog';
+        this.project_role = data.project_role || null;
+        this.project = data.project || null;
     }
 }

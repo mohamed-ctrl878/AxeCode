@@ -436,7 +436,10 @@ export class EntityMapper {
             description: dto.description,
             image: dto.image ? this.toMedia(dto.image) : null,
             author: dto.publisher ? this.toUser(dto.publisher) : null,
-            isDraft: !!dto.isDraft
+            isDraft: !!dto.isDraft,
+            type: dto.type || 'blog',
+            projectRole: dto.project_role ? this.toProjectRole(dto.project_role) : null,
+            project: dto.project ? this.toProject(dto.project) : null
         });
     }
 
@@ -739,6 +742,9 @@ export class EntityMapper {
             branchPattern: dto.branch_pattern,
             githubPrId: dto.github_pr_id,
             ciStatus: dto.ci_status,
+            lastCommitSha: dto.last_commit_sha,
+            prUrl: dto.pr_url,
+            prTitle: dto.pr_title,
             order: dto.order,
             createdAt: dto.createdAt,
             updatedAt: dto.updatedAt,
@@ -752,6 +758,7 @@ export class EntityMapper {
             checkpoint: dto.checkpoint ? (typeof dto.checkpoint === 'object' ? this.toCheckpoint(dto.checkpoint) : null) : null
         });
     }
+
 
     /**
      * Maps a CheckpointDTO to CheckpointEntity
