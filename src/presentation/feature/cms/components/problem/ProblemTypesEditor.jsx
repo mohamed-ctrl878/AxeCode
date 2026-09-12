@@ -166,7 +166,7 @@ export const ProblemTypesEditor = ({ problemId }) => {
 
             {/* Empty State / Footer Info */}
             <div className="p-6 rounded-2xl bg-surface-sunken/30 border border-border-subtle flex items-start gap-4">
-                <div className="p-2 rounded-lg bg-white/5 border border-white/10 text-text-muted">
+                <div className="p-2 rounded-lg bg-surface-elevated/5 border border-white/10 text-text-muted">
                     <AlertCircle size={16} />
                 </div>
                 <div className="space-y-1">

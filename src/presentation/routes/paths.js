@@ -25,6 +25,10 @@ export const PATHS = {
     EVENT_CREATE: '/cms/events/create',
     EVENT_DETAILS: '/events/:id',
 
+    // Projects (Kanban, Agility)
+    PROJECTS: '/projects',
+    PROJECT_DETAILS: '/projects/:id',
+
     // Resources
     MEDIA: '/media',
     LIVE: '/live',
@@ -34,6 +38,10 @@ export const PATHS = {
 
     // Management
     CONTENT_MANAGEMENT: '/cms',
+    WALLET: '/wallet',
+    WALLET_MY: '/wallet/mywallet',
+    WALLET_PLATFORM: '/wallet/platform',
+    WALLET_ALL: '/wallet/all-wallets',
     CMS_REPORT_TYPES: '/cms/report-reasons',
     REPORT_TYPE_CREATE: '/cms/report-reasons/create',
     REPORT_TYPE_EDIT: '/cms/report-reasons/:id/edit',
@@ -53,6 +61,9 @@ export const PATHS = {
     RESET_PASSWORD: '/reset-password',
     GITHUB_CALLBACK: '/github/callback',
     COMING_SOON: '/coming-soon',
+
+    // Payment / System
+    PAYMENT_RESULT: '/payment-result',
 
     // Guest Navigation
     WHATS_NEW: '/coming-soon',

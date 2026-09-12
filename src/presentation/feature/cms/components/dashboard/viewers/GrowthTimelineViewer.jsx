@@ -3,7 +3,6 @@ import { TrendingUp, Users } from 'lucide-react';
 
 const COLOR_MAPS = {
     "accent-primary": { bar: "bg-accent-primary/40", hover: "hover:bg-accent-primary", text: "text-accent-primary", border: "border-accent-primary/20", bg: "bg-accent-primary/5" },
-    "accent-primary": { bar: "bg-accent-primary/40", hover: "hover:bg-accent-primary", text: "text-accent-primary", border: "border-accent-primary/20", bg: "bg-accent-primary/5" },
     "accent-violet": { bar: "bg-accent-violet/40", hover: "hover:bg-accent-violet", text: "text-accent-violet", border: "border-accent-violet/20", bg: "bg-accent-violet/5" },
     "accent-rose": { bar: "bg-accent-rose/40", hover: "hover:bg-accent-rose", text: "text-accent-rose", border: "border-accent-rose/20", bg: "bg-accent-rose/5" },
 };
@@ -17,7 +16,7 @@ const UnifiedTimelineViewer = ({ data = {}, title, subtitle, colorClass = "accen
         <div className="animation-fade-in">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h2 className="text-sm font-serif font-bold text-near-black uppercase tracking-widest flex items-center gap-2">
+                    <h2 className="text-sm font-serif font-bold text-text-primary uppercase tracking-widest flex items-center gap-2">
                         <TrendingUp size={16} className={colors.text} />
                         {title}
                     </h2>
@@ -30,7 +29,7 @@ const UnifiedTimelineViewer = ({ data = {}, title, subtitle, colorClass = "accen
 
             <div className="h-64 flex items-end justify-between gap-1 px-1 mt-8 border-b border-border-subtle pb-4 relative">
                 <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5 py-4">
-                   {[0, 1, 2, 4].map(i => <div key={i} className="border-t border-near-black w-full" />)}
+                   {[0, 1, 2, 4].map(i => <div key={i} className="border-t border-text-primary w-full" />)}
                 </div>
 
                 {timeline.length > 0 ? timeline.map((item, i) => {
@@ -41,7 +40,7 @@ const UnifiedTimelineViewer = ({ data = {}, title, subtitle, colorClass = "accen
                             className={`flex-1 ${colors.bar} rounded-t-[1px] relative group ${colors.hover} transition-all duration-200`} 
                             style={{ height: `${Math.max(height, 2)}%`, minWidth: '2px' }}
                         >
-                            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-near-black text-ivory text-[9px] py-1.5 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-20 pointer-events-none border border-border-subtle whitespace-nowrap">
+                            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-text-primary text-surface text-[9px] py-1.5 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-20 pointer-events-none border border-border-subtle whitespace-nowrap">
                                 <p className="font-bold">{item.count} Actions Logged</p>
                                 <p className="opacity-60 text-[8px] font-mono">{item.time}</p>
                             </div>
@@ -57,11 +56,11 @@ const UnifiedTimelineViewer = ({ data = {}, title, subtitle, colorClass = "accen
             <div className="mt-8 grid grid-cols-2 gap-6">
                 <div className="p-5 bg-surface-sunken rounded-2xl border border-border-subtle shadow-inner">
                     <span className="text-[10px] text-text-muted uppercase font-bold tracking-[0.2em] block mb-2">Peak Activity</span>
-                    <span className="text-3xl font-serif font-bold text-near-black">{maxVal === 1 && timeline.every(t => t.count === 0) ? 0 : maxVal}</span>
+                    <span className="text-3xl font-serif font-bold text-text-primary">{maxVal === 1 && timeline.every(t => t.count === 0) ? 0 : maxVal}</span>
                 </div>
                 <div className="p-5 bg-surface-sunken rounded-2xl border border-border-subtle shadow-inner">
                     <span className="text-[10px] text-text-muted uppercase font-bold tracking-[0.2em] block mb-2">Cumulative total</span>
-                    <span className="text-3xl font-serif font-bold text-near-black">{data.total || 0}</span>
+                    <span className="text-3xl font-serif font-bold text-text-primary">{data.total || 0}</span>
                 </div>
             </div>
         </div>

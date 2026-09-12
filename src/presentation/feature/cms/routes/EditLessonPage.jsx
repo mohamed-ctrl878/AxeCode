@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Save, Video, FileText, Globe, Lock, X, Upload, Loader2, Play, BookOpen, Calendar } from 'lucide-react';
+import { ChevronLeft, Save, Video, FileText, Globe, Lock, X, Upload, Loader2, Play, BookOpen, Calendar, MonitorPlay } from 'lucide-react';
 import { PATHS } from '@presentation/routes/paths';
 import { cn } from '@core/utils/cn';
 import { useFetchLesson } from '@domain/useCase/useFetchLesson';
@@ -8,6 +8,7 @@ import { useUpdateLesson } from '@domain/useCase/useUpdateLesson';
 import { useUploadMedia } from '@domain/useCase/useUploadMedia';
 import { RichTextInput } from '@presentation/shared/components/RichTextEditor/RichTextInput';
 import { RichTextBlocks } from '@presentation/shared/components/RichTextBlocks';
+import { EmbedUrlInput } from '../components/EmbedUrlInput';
 
 /**
  * EditLessonPage: Full-page editor for an existing lesson.
@@ -33,6 +34,9 @@ const EditLessonPage = () => {
     const [videoPreview, setVideoPreview] = useState(null);
     const [existingVideo, setExistingVideo] = useState(null);
 
+    // Embedded Video State
+    const [embedUrl, setEmbedUrl] = useState('');
+
     // Initial Fetch
     useEffect(() => {
         if (lessonId) {
@@ -50,6 +54,10 @@ const EditLessonPage = () => {
             setIsDraft(lesson.isDraft ?? true);
             if (lesson.video) {
                 setExistingVideo(lesson.video);
+            }
+            // Sync embedded fields
+            if (lesson.embedUrl) {
+                setEmbedUrl(lesson.embedUrl);
             }
         }
     }, [lesson]);
@@ -92,7 +100,9 @@ const EditLessonPage = () => {
                     isDraft,
                     weekId,
                     description,
-                    videoId: finalVideoId
+                    videoId: finalVideoId,
+                    // Embedded video fields
+                    embedUrl: type === 'embedded' ? embedUrl : null,
                 }
             });
 
@@ -135,7 +145,7 @@ const EditLessonPage = () => {
     return (
         <div className="md:col-span-full max-w-[1200px] mx-auto py-8 px-4 animation-fade-in text-text-primary">
             {/* Header with Glassmorphism */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 p-8 rounded-[2.5rem] bg-surface border border-border-subtle backdrop-blur-md shadow-2xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 md:mb-12 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] bg-surface border border-border-subtle backdrop-blur-md shadow-2xl">
                 <div className="flex items-center gap-5">
                     <button 
                         onClick={() => navigate(-1)}
@@ -145,7 +155,7 @@ const EditLessonPage = () => {
                     </button>
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-3xl font-black tracking-tight text-text-primary italic">Edit Lesson</h1>
+                            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-text-primary italic">Edit Lesson</h1>
                             <span className="px-2 py-0.5 rounded text-[10px] font-black bg-accent-primary/10 border border-accent-primary/20 text-accent-primary uppercase tracking-widest mt-1">Refining</span>
                         </div>
                         <p className="text-text-muted text-[10px] font-black uppercase tracking-widest mt-1 opacity-40">Orchestration REF • {lessonId}</p>
@@ -163,7 +173,7 @@ const EditLessonPage = () => {
                     <button
                         onClick={handleSubmit}
                         disabled={isSubmitting || !title}
-                        className="flex items-center justify-center gap-3 px-8 py-3 rounded-2xl bg-accent-primary text-on-accent font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group min-w-[200px]"
+                        className="flex items-center justify-center gap-3 px-6 md:px-8 py-3 rounded-2xl bg-accent-primary text-on-accent font-black text-[10px] md:text-xs uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(52,211,153,0.3)] hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group w-full md:min-w-[200px]"
                     >
                         {isSubmitting ? (
                             <Loader2 size={18} className="animate-spin" />
@@ -190,7 +200,7 @@ const EditLessonPage = () => {
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 placeholder="Capture the essence of this lesson..."
-                                className="w-full bg-surface-sunken/40 border border-border-subtle rounded-3xl px-8 py-6 text-2xl font-black text-text-primary focus:border-accent-primary focus:bg-surface-sunken outline-none transition-all placeholder:text-text-muted/20 shadow-inner"
+                                className="w-full bg-surface-sunken/40 border border-border-subtle rounded-2xl md:rounded-3xl px-6 md:px-8 py-4 md:py-6 text-xl md:text-2xl font-black text-text-primary focus:border-accent-primary focus:bg-surface-sunken outline-none transition-all placeholder:text-text-muted/20 shadow-inner"
                                 required
                             />
                         </div>
@@ -203,7 +213,7 @@ const EditLessonPage = () => {
                                 <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                                 Content Curriculum (Architect)
                             </label>
-                            <div className="border border-border-subtle rounded-[2.5rem] overflow-hidden min-h-[400px] bg-surface-sunken/40 focus-within:border-accent-primary focus-within:bg-surface-sunken transition-all shadow-inner">
+                            <div className="border border-border-subtle rounded-3xl md:rounded-[2.5rem] overflow-hidden min-h-[300px] md:min-h-[400px] bg-surface-sunken/40 focus-within:border-accent-primary focus-within:bg-surface-sunken transition-all shadow-inner">
                                 <RichTextInput
                                     value={description}
                                     onChange={setDescription}
@@ -218,7 +228,7 @@ const EditLessonPage = () => {
                                 <span className="w-2 h-2 rounded-full bg-accent-primary shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
                                 Content Representation (Live)
                             </label>
-                            <div className="w-full bg-surface border border-border-subtle rounded-[2.5rem] p-10 min-h-[250px] backdrop-blur-sm shadow-xl relative overflow-hidden">
+                            <div className="w-full bg-surface border border-border-subtle rounded-3xl md:rounded-[2.5rem] p-6 md:p-10 min-h-[200px] md:min-h-[250px] backdrop-blur-sm shadow-xl relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none text-text-muted">
                                     <BookOpen size={150} />
                                 </div>
@@ -277,7 +287,7 @@ const EditLessonPage = () => {
                                         onChange={handleVideoChange}
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                     />
-                                    <div className="h-full border-2 border-dashed border-border-default rounded-[3rem] flex flex-col items-center justify-center bg-surface-sunken/20 hover:bg-accent-primary/[0.03] hover:border-accent-primary/40 transition-all group-hover/upload:shadow-2xl">
+                                    <div className="h-full border-2 border-dashed border-border-default rounded-3xl md:rounded-[3rem] flex flex-col items-center justify-center bg-surface-sunken/20 hover:bg-accent-primary/[0.03] hover:border-accent-primary/40 transition-all group-hover/upload:shadow-2xl p-6">
                                         <div className="w-24 h-24 rounded-3xl bg-surface-sunken flex items-center justify-center mb-6 group-hover/upload:bg-accent-primary/10 group-hover/upload:text-accent-primary transition-all group-hover/upload:scale-110 shadow-sm border border-border-subtle">
                                             <Upload size={32} />
                                         </div>
@@ -287,6 +297,11 @@ const EditLessonPage = () => {
                                 </div>
                             )}
                         </div>
+                    )}
+
+                    {/* Embedded Video URL Input with Live Preview */}
+                    {type === 'embedded' && (
+                        <EmbedUrlInput value={embedUrl} onChange={setEmbedUrl} />
                     )}
                 </div>
 
@@ -344,6 +359,28 @@ const EditLessonPage = () => {
                                 <div>
                                     <p className="text-xs font-black uppercase tracking-widest">Tech Article</p>
                                     <p className="text-[9px] font-medium opacity-60 mt-1">Deep-dive technical brief.</p>
+                                </div>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setType('embedded')}
+                                className={cn(
+                                    "flex items-center gap-5 p-5 rounded-2xl border transition-all text-left shadow-sm",
+                                    type === 'embedded' 
+                                        ? "bg-blue-500/10 border-blue-500/40 text-blue-500 shadow-lg shadow-blue-500/5" 
+                                        : "bg-surface-sunken/40 border-border-subtle text-text-muted hover:border-border-default hover:bg-surface-sunken"
+                                )}
+                            >
+                                <div className={cn(
+                                    "w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 shadow-md",
+                                    type === 'embedded' ? "bg-blue-500 text-on-accent" : "bg-surface border border-border-subtle"
+                                )}>
+                                    <MonitorPlay size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-black uppercase tracking-widest">Embedded Video</p>
+                                    <p className="text-[9px] font-medium opacity-60 mt-1">YouTube, Vimeo, or external source.</p>
                                 </div>
                             </button>
                         </div>
@@ -427,7 +464,7 @@ const EditLessonPage = () => {
                                 isDraft ? "bg-text-muted/20" : "bg-accent-primary"
                             )}>
                                 <div className={cn(
-                                    "absolute top-1 w-4 h-4 rounded-full bg-white transition-all shadow-sm",
+                                    "absolute top-1 w-4 h-4 rounded-full bg-surface-elevated transition-all shadow-sm",
                                     isDraft ? "left-1" : "left-7"
                                 )} />
                             </div>

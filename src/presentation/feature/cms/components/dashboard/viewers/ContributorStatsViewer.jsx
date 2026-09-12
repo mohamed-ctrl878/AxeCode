@@ -6,7 +6,7 @@ const ContributorStatsViewer = ({ stats = {} }) => {
         <div className="animation-slide-up">
             <div className="flex justify-between items-center mb-10">
                 <div>
-                    <h2 className="text-sm font-serif font-bold text-near-black uppercase tracking-widest flex items-center gap-2">
+                    <h2 className="text-sm font-serif font-bold text-text-primary uppercase tracking-widest flex items-center gap-2">
                         <Award size={16} className="text-accent-primary" />
                         Scholarly Contributors
                     </h2>
@@ -23,7 +23,7 @@ const ContributorStatsViewer = ({ stats = {} }) => {
                         </div>
                         <h4 className="text-xs font-bold text-text-muted uppercase tracking-widest mb-2 font-serif">Curriculum Authors</h4>
                         <div className="flex items-baseline gap-2">
-                            <span className="text-5xl font-bold text-near-black font-sans">{stats.courseAuthors || 0}</span>
+                            <span className="text-5xl font-bold text-text-primary font-sans">{stats.courseAuthors || 0}</span>
                             <span className="text-xs text-text-muted font-medium italic">Unique Educators</span>
                         </div>
                         <div className="mt-6 pt-6 border-t border-border-subtle">
@@ -43,7 +43,7 @@ const ContributorStatsViewer = ({ stats = {} }) => {
                         </div>
                         <h4 className="text-xs font-bold text-text-muted uppercase tracking-widest mb-2 font-serif">Assembly Organizers</h4>
                         <div className="flex items-baseline gap-2">
-                            <span className="text-5xl font-bold text-near-black font-sans">{stats.eventOrganizers || 0}</span>
+                            <span className="text-5xl font-bold text-text-primary font-sans">{stats.eventOrganizers || 0}</span>
                             <span className="text-xs text-text-muted font-medium italic">Event Leads</span>
                         </div>
                         <div className="mt-6 pt-6 border-t border-border-subtle">

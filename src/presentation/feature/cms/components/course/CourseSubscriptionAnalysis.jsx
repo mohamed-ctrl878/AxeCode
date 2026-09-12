@@ -244,75 +244,82 @@ export const CourseSubscriptionAnalysis = ({ courseId }) => {
                         <span className="text-[10px] font-mono text-text-muted/40 uppercase">Total: {userEntitlements.length}</span>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
-                            <thead className="bg-surface-sunken">
-                                <tr>
-                                    <th className="px-8 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Student Identity</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Status</th>
-                                    <th className="px-8 py-4 text-left text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Start Date</th>
-                                    <th className="px-8 py-4 text-right text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-subtle">Directives</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-border-subtle">
-                                {userEntitlements.map((entry) => {
-                                    const user = entry?.user;
-                                    const userLabel = user?.username || user?.email || `ID: ${user?.id}`;
-                                    const userEmail = user?.email || '';
-                                    
-                                    return (
-                                        <tr key={entry.id} className="group hover:bg-surface-sunken/40 transition-colors">
-                                            <td className="px-8 py-5">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-border-subtle to-transparent flex items-center justify-center text-text-muted/40 font-bold">
-                                                        <User size={16} />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-sm font-bold text-text-primary group-hover:text-accent-primary transition-colors">{userLabel}</p>
-                                                        <p className="text-[10px] text-text-muted opacity-60 font-mono italic">{userEmail || 'System Entity'}</p>
-                                                    </div>
+                    <div className="flex flex-col">
+                        <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_auto] gap-4 bg-surface-sunken px-8 py-4 border-b border-border-subtle">
+                            <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Student Identity</div>
+                            <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Status</div>
+                            <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Start Date</div>
+                            <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest text-right pr-4">Directives</div>
+                        </div>
+                        <div className="divide-y divide-border-subtle">
+                            {userEntitlements.map((entry) => {
+                                const user = entry?.user;
+                                const userLabel = user?.username || user?.email || `ID: ${user?.id}`;
+                                const userEmail = user?.email || '';
+                                
+                                return (
+                                    <div key={entry.id} className="group hover:bg-surface-sunken/40 transition-colors flex flex-col md:grid md:grid-cols-[2fr_1fr_1fr_auto] md:items-center gap-4 md:gap-4 p-5 md:px-8 md:py-5">
+                                        <div className="flex items-center justify-between md:justify-start gap-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-border-subtle to-transparent flex items-center justify-center text-text-muted/40 font-bold flex-shrink-0">
+                                                    <User size={16} />
                                                 </div>
-                                            </td>
-                                            <td className="px-8 py-5">
-                                                <span className={cn(
-                                                    "px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest border",
-                                                    entry.status === 'successed' ? "bg-status-success/10 text-status-success border-status-success/20" : 
-                                                    entry.status === 'pinding' ? "bg-status-warning/10 text-status-warning border-status-warning/20" : 
-                                                    "bg-status-error/10 text-status-error border-status-error/20"
-                                                )}>
-                                                    {entry.status === 'successed' ? 'Enrolled' : entry.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-8 py-5">
-                                                <p className="text-[10px] font-mono text-text-muted">
-                                                    {entry.startDate ? entry.startDate.toLocaleDateString() : 'Historical'}
-                                                </p>
-                                            </td>
-                                            <td className="px-8 py-5 text-right">
-                                                <button 
-                                                    onClick={() => handleRevokeAccess(entry.documentId || entry.id)}
-                                                    disabled={isDeleting}
-                                                    className="p-2.5 rounded-xl bg-status-error/10 text-status-error hover:bg-status-error hover:text-on-accent transition-all shadow-lg active:scale-95 disabled:opacity-20"
-                                                    title="Revoke Enrollment"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                                {userEntitlements.length === 0 && (
-                                    <tr>
-                                        <td colSpan="4" className="px-8 py-20 text-center">
-                                            <div className="flex flex-col items-center gap-3 opacity-20">
-                                                <Users size={48} />
-                                                <p className="text-sm font-mono tracking-tight text-text-muted">No ownership records found for this Product ID.</p>
+                                                <div className="min-w-0">
+                                                    <p className="text-sm font-bold text-text-primary group-hover:text-accent-primary transition-colors truncate">{userLabel}</p>
+                                                    <p className="text-[10px] text-text-muted opacity-60 font-mono italic truncate">{userEmail || 'System Entity'}</p>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+
+                                            {/* Mobile direct action */}
+                                            <button 
+                                                onClick={() => handleRevokeAccess(entry.documentId || entry.id)}
+                                                disabled={isDeleting}
+                                                className="md:hidden p-2 rounded-xl bg-status-error/10 text-status-error hover:bg-status-error hover:text-on-accent transition-all shadow-sm active:scale-95 disabled:opacity-20 flex-shrink-0"
+                                                title="Revoke Enrollment"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
+
+                                        <div className="flex items-center gap-2 md:block">
+                                            <span className="md:hidden text-[10px] font-bold text-text-muted uppercase tracking-widest">Status:</span>
+                                            <span className={cn(
+                                                "px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest border",
+                                                entry.status === 'successed' ? "bg-status-success/10 text-status-success border-status-success/20" : 
+                                                entry.status === 'pinding' ? "bg-status-warning/10 text-status-warning border-status-warning/20" : 
+                                                "bg-status-error/10 text-status-error border-status-error/20"
+                                            )}>
+                                                {entry.status === 'successed' ? 'Enrolled' : entry.status}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex items-center gap-2 md:block">
+                                            <span className="md:hidden text-[10px] font-bold text-text-muted uppercase tracking-widest">Start Date:</span>
+                                            <p className="text-[10px] font-mono text-text-muted">
+                                                {entry.startDate ? entry.startDate.toLocaleDateString() : 'Historical'}
+                                            </p>
+                                        </div>
+
+                                        <div className="hidden md:flex justify-end pr-4">
+                                            <button 
+                                                onClick={() => handleRevokeAccess(entry.documentId || entry.id)}
+                                                disabled={isDeleting}
+                                                className="p-2.5 rounded-xl bg-status-error/10 text-status-error hover:bg-status-error hover:text-on-accent transition-all shadow-lg active:scale-95 disabled:opacity-20"
+                                                title="Revoke Enrollment"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                            {userEntitlements.length === 0 && (
+                                <div className="px-8 py-20 text-center flex flex-col items-center gap-3 opacity-20">
+                                    <Users size={48} />
+                                    <p className="text-sm font-mono tracking-tight text-text-muted">No ownership records found for this Product ID.</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

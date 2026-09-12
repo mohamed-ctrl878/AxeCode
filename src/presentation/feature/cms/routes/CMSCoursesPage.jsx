@@ -25,30 +25,30 @@ const CMSCoursesPage = () => {
     return (
         <div className="flex flex-col gap-8 w-full animation-fade-in">
             {/* Control Panel - Shared Tabs */}
-            <div className="flex items-center gap-2 p-1.5 bg-surface-sunken/50 border border-border-subtle rounded-2xl w-fit mx-auto shadow-sm backdrop-blur-md">
+            <div className="flex items-center gap-2 p-1.5 bg-surface-sunken/50 border border-border-subtle rounded-2xl w-full md:w-fit mx-auto shadow-sm backdrop-blur-md overflow-x-auto scrollbar-hide">
                 <button 
                     onClick={() => setActiveTab('archive')}
                     className={cn(
                         "flex items-center gap-3 px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all",
                         activeTab === 'archive' 
-                            ? "bg-near-black text-ivory shadow-lg scale-[1.02]" 
+                            ? "bg-text-primary text-surface shadow-lg scale-[1.02]" 
                             : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
                     )}
                 >
                     <BookOpen size={16} />
-                    Courses Archive
+                    <span className="hidden md:inline">Courses Archive</span>
                 </button>
                 <button 
                     onClick={() => setActiveTab('types')}
                     className={cn(
                         "flex items-center gap-3 px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all",
                         activeTab === 'types' 
-                            ? "bg-near-black text-ivory shadow-lg scale-[1.02]" 
+                            ? "bg-text-primary text-surface shadow-lg scale-[1.02]" 
                             : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
                     )}
                 >
                     <Layers size={16} />
-                    Course Types
+                    <span className="hidden md:inline">Course Types</span>
                 </button>
             </div>
 

@@ -23,6 +23,19 @@ export class LessonEntity extends ContentEntity {
         this.description = props.description;
         this.isPublic = props.isPublic || false;
         this.instructor = props.instructor;
+
+        // Embedded video support
+        this.embedSource = props.embedSource || null;
+        this.embedUrl = props.embedUrl || null;
+        this.embedMetadata = props.embedMetadata || null;
+    }
+
+    /**
+     * Checks if the lesson is an embedded external video.
+     * @returns {boolean}
+     */
+    get isEmbedded() {
+        return this.type === 'embedded';
     }
 
     /**
@@ -39,5 +52,22 @@ export class LessonEntity extends ContentEntity {
      */
     get isArticle() {
         return this.type === 'article';
+    }
+
+    /**
+     * Returns the provider-specific embed URL for iframe rendering.
+     * Falls back to raw embedUrl if metadata is missing.
+     * @returns {string|null}
+     */
+    get embedPlayerUrl() {
+        return this.embedMetadata?.embedUrl || this.embedUrl || null;
+    }
+
+    /**
+     * Returns the cached thumbnail from the provider.
+     * @returns {string|null}
+     */
+    get embedThumbnail() {
+        return this.embedMetadata?.thumbnail || null;
     }
 }

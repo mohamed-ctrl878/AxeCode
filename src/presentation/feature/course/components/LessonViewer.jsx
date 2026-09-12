@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { Play, CheckCircle, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { ArticleContentRenderer } from '../../article/components/ArticleContentRenderer';
+import { EmbeddedVideoPlayer } from './EmbeddedVideoPlayer';
 import { cn } from '@core/utils/cn';
 
 /**
- * LessonViewer: Renders the active lesson content (Video or Article).
+ * LessonViewer: Renders the active lesson content (Video, Article, or Embedded).
  * 
  * @param {object} props
  * @param {LessonEntity} props.lesson - The lesson details.
@@ -61,7 +62,14 @@ export const LessonViewer = ({
 
     return (
         <div className="learn-content animation-fade-in">
-            {lesson.type === 'video' ? (
+            {lesson.type === 'embedded' ? (
+                <div className="video-container">
+                    <EmbeddedVideoPlayer
+                        lesson={lesson}
+                        onComplete={() => onComplete && onComplete(lesson.uid || lesson.id)}
+                    />
+                </div>
+            ) : lesson.type === 'video' ? (
                 <div className="video-container">
                     {/* Placeholder for Video Player - Can be replaced with specific player logic (ReactPlayer, etc) */}
                     {lesson.video?.url ? (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronRight, CheckCircle2, Circle, PlayCircle, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, CheckCircle2, Circle, PlayCircle, BookOpen, MonitorPlay } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 
 /**
@@ -66,7 +66,7 @@ export const LearnSidebar = ({ course, currentLessonId }) => {
                                 {week.lessons.map((lesson) => {
                                     const lessonUrlId = lesson.uid || lesson.id;
                                     const isActive = String(lessonUrlId) === String(currentLessonId);
-                                    const Icon = lesson.type === 'video' ? PlayCircle : BookOpen;
+                                    const Icon = lesson.type === 'embedded' ? MonitorPlay : lesson.type === 'video' ? PlayCircle : BookOpen;
                                     
                                     return (
                                         <div 
