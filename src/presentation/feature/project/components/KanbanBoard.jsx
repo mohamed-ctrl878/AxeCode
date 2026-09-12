@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Typography, Spin, Alert, Tag, Button, Dropdown, Space, Modal, Form, Input, Select, DatePicker } from 'antd';
-import { MoreOutlined, GithubOutlined, CheckCircleOutlined, SyncOutlined, StopOutlined } from '@ant-design/icons';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Card, Typography, Spin, Tag, Button, Dropdown, Modal, Form, Input, Select, DatePicker, Tooltip } from 'antd';
+import { MoreOutlined, GithubOutlined, CheckCircleOutlined, SyncOutlined, StopOutlined, CopyOutlined, LinkOutlined } from '@ant-design/icons';
 import { useKanbanBoard } from '@domain/useCase/task/useKanbanBoard';
 import { useSprints } from '@domain/useCase/task/useSprints';
-import { Plus, Trash2, Calendar, Flame, AlertCircle, Play, CheckSquare, Layers, Award, Target, HelpCircle } from 'lucide-react';
+import { Plus, Trash2, Calendar, Flame, AlertCircle, Play, CheckSquare, Layers, Target, GitBranch, GitPullRequest, GitCommit, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 const { Title, Text, Paragraph } = Typography;
@@ -29,7 +29,8 @@ export const KanbanBoard = ({ project }) => {
     
     // Usecases
     const { 
-        fetchTasks, 
+        fetchTasks,
+        startPolling,
         tasks, 
         loadingTasks, 
         tasksError, 
@@ -62,11 +63,13 @@ export const KanbanBoard = ({ project }) => {
     const [taskForm] = Form.useForm();
 
     useEffect(() => {
-        if (projectId) {
-            fetchTasks();
-            fetchSprints();
-        }
-    }, [projectId, fetchTasks, fetchSprints]);
+        if (!projectId) return;
+        fetchTasks();
+        fetchSprints();
+        // Start silent background polling — returns cleanup fn
+        const stopPolling = startPolling();
+        return () => stopPolling();
+    }, [projectId]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Derived values
     const activeSprint = sprints?.find(s => s.status === 'active');
@@ -602,47 +605,49 @@ export const KanbanBoard = ({ project }) => {
     );
 };
 
-const TaskCard = ({ task, onTransition, onDelete, isTransitioning, projectMembers, project, showSprintTag }) => {
-    const items = STATUS_COLUMNS
-        .filter(c => c.key !== task.status)
-        .map(c => ({
-            key: c.key,
-            label: `Move to ${c.title}`,
-            onClick: () => onTransition(c.key)
-        }));
+// ─────────────────────────────────────────────────────────────────────────────
+// TaskCard — shows task info + live GitHub state + Developer Guide panel
+// ─────────────────────────────────────────────────────────────────────────────
+const TaskCard = ({ task, onTransition, onDelete, isTransitioning, project, showSprintTag }) => {
+    const [guideOpen, setGuideOpen] = useState(false);
 
-    // Add Delete item with separator
-    items.push({
-        type: 'divider'
-    });
-    
-    items.push({
-        key: 'delete',
-        label: <span className="text-status-error flex items-center gap-1.5"><Trash2 size={12} /> Delete Task</span>,
-        onClick: onDelete
-    });
+    const menuItems = [
+        ...STATUS_COLUMNS
+            .filter(c => c.key !== task.status)
+            .map(c => ({ key: c.key, label: `Move to ${c.title}`, onClick: () => onTransition(c.key) })),
+        { type: 'divider' },
+        {
+            key: 'guide',
+            label: <span className="flex items-center gap-1.5"><BookOpen size={12} /> Developer Guide</span>,
+            onClick: () => setGuideOpen(v => !v)
+        },
+        { type: 'divider' },
+        {
+            key: 'delete',
+            label: <span className="text-red-400 flex items-center gap-1.5"><Trash2 size={12} /> Delete Task</span>,
+            onClick: onDelete
+        },
+    ];
 
-    // Resolve target layer label
+    // ── Suggested branch name ──────────────────────────────────────────────
+    const suggestedBranch = task.branchPattern
+        ? task.branchPattern
+        : `task/${task.uid}`;
+
+    const copyToClipboard = (text, label) => {
+        navigator.clipboard.writeText(text).then(() => toast.success(`${label} copied!`));
+    };
+
+    // ── Layer label ────────────────────────────────────────────────────────
     const targetLayerNode = (project?.architectureDiagram?.nodes || []).find(n => n.id === task.layerId);
     let layerLabel = null;
     if (targetLayerNode) {
         layerLabel = targetLayerNode.data?.label || 'Unnamed Module';
-        if (layerLabel === 'New Concept' && targetLayerNode.data?.content && targetLayerNode.data.content.length > 0) {
-            const textBlock = targetLayerNode.data.content.find(b => b.type === 'paragraph' || b.type === 'header');
-            if (textBlock && textBlock.data?.text) {
-                layerLabel = textBlock.data.text.replace(/<[^>]*>/g, '');
-            }
+        if (layerLabel === 'New Concept' && targetLayerNode.data?.content?.length > 0) {
+            const tb = targetLayerNode.data.content.find(b => b.type === 'paragraph' || b.type === 'header');
+            if (tb?.data?.text) layerLabel = tb.data.text.replace(/<[^>]*>/g, '');
         }
     }
-
-    const typeLabels = {
-        general: 'General',
-        document: 'Doc',
-        flowchart: 'Flowchart',
-        code_commit: 'Code',
-        test_case: 'Test',
-        deployment: 'Deploy'
-    };
 
     const typeColors = {
         general: 'bg-white/5 text-text-muted',
@@ -650,65 +655,55 @@ const TaskCard = ({ task, onTransition, onDelete, isTransitioning, projectMember
         flowchart: 'bg-purple-500/10 text-purple-400',
         code_commit: 'bg-orange-500/10 text-orange-400',
         test_case: 'bg-green-500/10 text-green-400',
-        deployment: 'bg-pink-500/10 text-pink-400'
+        deployment: 'bg-pink-500/10 text-pink-400',
     };
+    const typeLabels = { general:'General', document:'Doc', flowchart:'Flowchart', code_commit:'Code', test_case:'Test', deployment:'Deploy' };
+
+    const hasGithubState = task.lastCommitSha || task.githubPrId || task.branchPattern;
 
     return (
-        <Card 
-            size="small" 
+        <Card
+            size="small"
             className="task-card bg-surface-elevated/40 backdrop-blur-md border border-border-subtle/70 hover:border-accent-primary/50 transition-all duration-300 rounded-2xl shadow-lg relative group overflow-hidden"
             style={{ borderLeft: `4px solid ${PRIORITY_COLORS[task.priority] || '#333'}` }}
             bodyStyle={{ padding: '14px' }}
         >
+            {/* ── Header ─────────────────────────────────────────────────── */}
             <div className="flex justify-between items-start gap-2">
-                <Text className="text-text-primary font-bold text-sm tracking-wide line-clamp-2 leading-relaxed">
+                <span className="text-text-primary font-bold text-sm tracking-wide line-clamp-2 leading-relaxed flex-1">
                     {task.title}
-                </Text>
-                
-                <Dropdown menu={{ items }} trigger={['click']} disabled={isTransitioning} overlayClassName="dark-dropdown-menu">
+                </span>
+                <Dropdown menu={{ items: menuItems }} trigger={['click']} disabled={isTransitioning} overlayClassName="dark-dropdown-menu">
                     <Button type="text" size="small" icon={<MoreOutlined className="text-text-muted hover:text-text-primary" />} />
                 </Dropdown>
             </div>
-            
+
             {task.description && (
-                <Paragraph className="text-text-muted text-[11px] mt-1.5 line-clamp-2 leading-relaxed whitespace-pre-wrap">
+                <p className="text-text-muted text-[11px] mt-1.5 line-clamp-2 leading-relaxed whitespace-pre-wrap">
                     {task.description}
-                </Paragraph>
+                </p>
             )}
 
+            {/* ── Meta Tags ──────────────────────────────────────────────── */}
             <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border-subtle/30">
                 <Tag className="px-1.5 py-0.5 rounded bg-surface border-none text-[9px] uppercase font-bold" style={{ color: PRIORITY_COLORS[task.priority] }}>
                     {task.priority}
                 </Tag>
-                
                 {task.taskType && task.taskType !== 'general' && (
                     <Tag className={`px-1.5 py-0.5 rounded border-none text-[9px] font-bold uppercase ${typeColors[task.taskType] || 'bg-white/5 text-text-muted'}`}>
                         {typeLabels[task.taskType]}
                     </Tag>
                 )}
-
                 {task.stage && (
                     <Tag className="px-1.5 py-0.5 rounded border-none bg-yellow-500/10 text-yellow-400 text-[9px] font-bold uppercase">
                         {task.stage === 'implementation' ? 'Coding' : task.stage}
                     </Tag>
                 )}
-
                 {layerLabel && (
-                    <Tag className="px-1.5 py-0.5 rounded border-none bg-cyan-500/10 text-cyan-400 text-[9px] font-bold uppercase max-w-[120px] truncate">
+                    <Tag className="px-1.5 py-0.5 rounded border-none bg-cyan-500/10 text-cyan-400 text-[9px] font-bold uppercase max-w-[110px] truncate">
                         {layerLabel}
                     </Tag>
                 )}
-                
-                {task.branchPattern && (
-                    <Tag className="px-1.5 py-0.5 rounded bg-surface border-none text-[9px] text-text-muted flex items-center gap-1.5 font-mono">
-                        <GithubOutlined size={10} /> {task.branchPattern}
-                    </Tag>
-                )}
-                
-                {task.ciStatus === 'success' && <Tag className="px-1.5 py-0.5 rounded border-none bg-green-500/10 text-green-400 text-[9px] flex items-center gap-1 font-bold uppercase"><CheckCircleOutlined /> Pass</Tag>}
-                {task.ciStatus === 'failure' && <Tag className="px-1.5 py-0.5 rounded border-none bg-red-500/10 text-red-400 text-[9px] flex items-center gap-1 font-bold uppercase"><StopOutlined /> Fail</Tag>}
-                {task.ciStatus === 'pending' && <Tag className="px-1.5 py-0.5 rounded border-none bg-yellow-500/10 text-yellow-400 text-[9px] flex items-center gap-1 font-bold uppercase"><SyncOutlined spin /> CI</Tag>}
-                
                 {showSprintTag && task.sprint && (
                     <Tag className="px-1.5 py-0.5 rounded border-none bg-accent-primary/10 text-accent-primary text-[9px] font-bold uppercase">
                         S{task.sprint.number}
@@ -716,10 +711,154 @@ const TaskCard = ({ task, onTransition, onDelete, isTransitioning, projectMember
                 )}
             </div>
 
+            {/* ── Live GitHub State ───────────────────────────────────────── */}
+            {hasGithubState && (
+                <div className="mt-3 pt-2.5 border-t border-border-subtle/30 flex flex-col gap-1.5">
+                    {/* Branch */}
+                    {(task.branchPattern || task.uid) && (
+                        <div className="flex items-center gap-1.5">
+                            <GitBranch size={10} className="text-accent-primary/70 shrink-0" />
+                            <span className="text-[10px] font-mono text-text-muted truncate flex-1">{suggestedBranch}</span>
+                            <Tooltip title="Copy branch name">
+                                <button
+                                    onClick={() => copyToClipboard(suggestedBranch, 'Branch name')}
+                                    className="text-text-muted/50 hover:text-accent-primary transition-colors"
+                                >
+                                    <CopyOutlined style={{ fontSize: 9 }} />
+                                </button>
+                            </Tooltip>
+                        </div>
+                    )}
+
+                    {/* PR Link */}
+                    {task.githubPrId && (
+                        <div className="flex items-center gap-1.5">
+                            <GitPullRequest size={10} className="text-blue-400/70 shrink-0" />
+                            <span className="text-[10px] text-blue-400 font-medium">PR #{task.githubPrId}</span>
+                            {task.prTitle && (
+                                <span className="text-[10px] text-text-muted truncate max-w-[120px]">· {task.prTitle}</span>
+                            )}
+                            {task.prUrl && (
+                                <a href={task.prUrl} target="_blank" rel="noopener noreferrer" className="text-text-muted/50 hover:text-blue-400 ml-auto">
+                                    <LinkOutlined style={{ fontSize: 9 }} />
+                                </a>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Last Commit SHA */}
+                    {task.lastCommitSha && (
+                        <div className="flex items-center gap-1.5">
+                            <GitCommit size={10} className="text-text-muted/50 shrink-0" />
+                            <span className="text-[10px] font-mono text-text-muted/60">{task.lastCommitSha.substring(0, 7)}</span>
+                        </div>
+                    )}
+
+                    {/* CI Status */}
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                        {task.ciStatus === 'success' && (
+                            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[9px] font-bold uppercase">
+                                <CheckCircleOutlined /> CI Passing
+                            </span>
+                        )}
+                        {task.ciStatus === 'failure' && (
+                            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-[9px] font-bold uppercase">
+                                <StopOutlined /> CI Failed
+                            </span>
+                        )}
+                        {task.ciStatus === 'pending' && (
+                            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[9px] font-bold uppercase">
+                                <SyncOutlined spin /> Running
+                            </span>
+                        )}
+                        {task.ciStatus === 'cancelled' && (
+                            <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-sunken border border-border-subtle text-text-muted text-[9px] font-bold uppercase">
+                                Cancelled
+                            </span>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* ── Developer Guide (collapsible) ───────────────────────────── */}
+            {guideOpen && (
+                <div className="mt-3 pt-3 border-t border-accent-primary/20 bg-accent-primary/5 rounded-xl p-3 flex flex-col gap-2.5">
+                    <div className="flex items-center gap-2 mb-1">
+                        <GithubOutlined className="text-accent-primary" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-accent-primary">Developer Guide</span>
+                    </div>
+
+                    {/* Step 1 */}
+                    <div className="flex flex-col gap-1">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">① Create branch with this exact name</span>
+                        <div className="flex items-center gap-1.5 bg-surface-sunken rounded-lg px-2 py-1.5 border border-border-subtle/50">
+                            <GitBranch size={9} className="text-accent-primary shrink-0" />
+                            <code className="text-[10px] font-mono text-accent-primary flex-1 truncate">{suggestedBranch}</code>
+                            <button
+                                onClick={() => copyToClipboard(suggestedBranch, 'Branch name')}
+                                className="text-text-muted hover:text-accent-primary transition-colors shrink-0"
+                            >
+                                <CopyOutlined style={{ fontSize: 10 }} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Step 2 */}
+                    <div className="flex flex-col gap-1">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">② OR reference in commit message</span>
+                        <div className="flex items-center gap-1.5 bg-surface-sunken rounded-lg px-2 py-1.5 border border-border-subtle/50">
+                            <GitCommit size={9} className="text-purple-400 shrink-0" />
+                            <code className="text-[10px] font-mono text-purple-400 flex-1 truncate">git commit -m "fix: ... TASK-{task.uid}"</code>
+                            <button
+                                onClick={() => copyToClipboard(`TASK-${task.uid}`, 'Task reference')}
+                                className="text-text-muted hover:text-purple-400 transition-colors shrink-0"
+                            >
+                                <CopyOutlined style={{ fontSize: 10 }} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Step 3 */}
+                    <div className="flex flex-col gap-1">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">③ Open a Pull Request</span>
+                        <p className="text-[10px] text-text-muted leading-relaxed">
+                            When you open a PR from this branch, the task moves to <strong className="text-purple-400">In Review</strong>.
+                            When merged, it becomes <strong className="text-green-400">Done ✅</strong>.
+                        </p>
+                    </div>
+
+                    {/* Task ID copy */}
+                    <div className="flex items-center justify-between pt-2 border-t border-border-subtle/30">
+                        <span className="text-[9px] text-text-muted font-mono">Task ID: {task.uid}</span>
+                        <button
+                            onClick={() => copyToClipboard(task.uid, 'Task ID')}
+                            className="text-[9px] text-text-muted hover:text-accent-primary flex items-center gap-1 transition-colors"
+                        >
+                            <CopyOutlined style={{ fontSize: 9 }} /> Copy
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* ── Guide toggle button ─────────────────────────────────────── */}
+            <button
+                onClick={() => setGuideOpen(v => !v)}
+                className={`mt-2.5 w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl border transition-all text-[9px] font-bold uppercase tracking-wider ${
+                    guideOpen
+                        ? 'bg-accent-primary/10 border-accent-primary/30 text-accent-primary'
+                        : 'bg-surface-sunken/50 border-border-subtle/40 text-text-muted hover:border-accent-primary/30 hover:text-accent-primary'
+                }`}
+            >
+                <GithubOutlined style={{ fontSize: 9 }} />
+                {guideOpen ? 'Hide Guide' : 'Dev Guide'}
+                {guideOpen ? <ChevronUp size={9} /> : <ChevronDown size={9} />}
+            </button>
+
+            {/* ── Assignee ────────────────────────────────────────────────── */}
             {task.assignee && (
-                <div className="flex justify-between items-center mt-3 pt-2 text-[10px] text-text-muted/80">
-                    <span className="text-[10px]">Assignee:</span>
-                    <span className="font-bold text-text-primary bg-surface/50 border border-border-subtle/50 px-2 py-0.5 rounded-lg flex items-center gap-1 text-[10px]">
+                <div className="flex justify-between items-center mt-2.5 pt-2 border-t border-border-subtle/30 text-[10px] text-text-muted/80">
+                    <span>Assignee:</span>
+                    <span className="font-bold text-text-primary bg-surface/50 border border-border-subtle/50 px-2 py-0.5 rounded-lg flex items-center gap-1">
                         {task.assignee.user?.username}
                     </span>
                 </div>

@@ -11,6 +11,9 @@ export class TaskDTO {
         this.branch_pattern = data.branch_pattern;
         this.github_pr_id = data.github_pr_id;
         this.ci_status = data.ci_status; // pending, success, failure, cancelled
+        this.last_commit_sha = data.last_commit_sha;
+        this.pr_url = data.pr_url;
+        this.pr_title = data.pr_title;
         this.order = data.order;
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
