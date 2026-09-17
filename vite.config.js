@@ -60,5 +60,18 @@ export default defineConfig(({ mode }) => {
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/setupTests.js",
+    // Vitest's default include glob matches ANY *.spec.js in the repo,
+    // which would also pick up tests/e2e/** (Playwright specs, written
+    // against a different `test`/`expect` API and meant to run only via
+    // `npx playwright test`). Exclude it explicitly, alongside Vitest's
+    // normal defaults which specifying `exclude` otherwise overrides.
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/cypress/**",
+      "**/.{idea,git,cache,output,temp}/**",
+      "**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*",
+      "tests/e2e/**",
+    ],
   },
 }});
