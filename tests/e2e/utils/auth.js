@@ -1,4 +1,4 @@
-import { PATHS } from './paths.js';
+import { PATHS } from '../../../src/presentation/routes/paths.js';
 
 /**
  * Solves Google reCAPTCHA when the app is configured with Google's public
