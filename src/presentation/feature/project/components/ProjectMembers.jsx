@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Link2, Shield, Loader2, Check, X, Clock } from 'lucide-react';
-import { Modal, Form, Select, Button, Input, Checkbox } from 'antd';
+import { Users, Link2, Shield, Loader2, Check, X, Clock, Github, Edit2 } from 'lucide-react';
+import { Modal, Form, Select, Button, Input, Checkbox, Tooltip } from 'antd';
 import { toast } from 'react-hot-toast';
 
 import { useProjectMembers } from '@domain/useCase/project/useProjectMembers';
 import { useJobTitleTags } from '@domain/useCase/project/useJobTitleTags';
 import { useProjectApplications } from '@domain/useCase/project/useProjectApplications';
 import { useProjectRole } from '@core/hooks/useProjectRole';
+import { useRole } from '@core/hooks/useRole';
 import { cn } from '@core/utils/cn';
+import { repositoryRegistry } from '@infrastructure/repository/RepositoryRegistry';
 
 const { Option } = Select;
 
@@ -21,6 +23,10 @@ export const ProjectMembers = ({ project, canManageMembers, projectApplication, 
     const [isCreateRoleModalOpen, setIsCreateRoleModalOpen] = useState(false);
     const [createRoleForm] = Form.useForm();
 
+    // GitHub Username editing state (memberId → { editing, value, saving })
+    const [githubEditing, setGithubEditing] = useState({});
+
+    const { user } = useRole();
     const { isMember, isPublisher } = useProjectRole(project);
 
     const {
@@ -88,7 +94,8 @@ export const ProjectMembers = ({ project, canManageMembers, projectApplication, 
             custom_label: values.customLabel,
             job_title_tag: values.job_title_tag,
             permissions: permissions,
-            project: project.id || project.documentId // link to project
+            project: project.id || project.documentId, // link to project
+            announce_in_feed: !!values.announce_in_feed
         };
 
         const success = await createRole(payload);
@@ -99,6 +106,40 @@ export const ProjectMembers = ({ project, canManageMembers, projectApplication, 
     };
 
     const pendingApplications = (applications || []).filter(app => app.status === 'pending');
+
+    // ── GitHub Username helpers ──────────────────────────────────────────────
+    const startGithubEdit = (member) => {
+        const memberId = member.documentId || member.uid;
+        setGithubEditing(prev => ({
+            ...prev,
+            [memberId]: { editing: true, value: member.githubUsername || member.github_username || '', saving: false },
+        }));
+    };
+
+    const cancelGithubEdit = (memberId) => {
+        setGithubEditing(prev => { const n = { ...prev }; delete n[memberId]; return n; });
+    };
+
+    const saveGithubUsername = async (member) => {
+        const memberId = member.documentId || member.uid;
+        const state = githubEditing[memberId];
+        if (!state) return;
+        setGithubEditing(prev => ({ ...prev, [memberId]: { ...state, saving: true } }));
+        try {
+            await repositoryRegistry.projectRepository.updateMemberGithubUsername(
+                project.uid,
+                memberId,
+                state.value
+            );
+            toast.success(`GitHub username saved for @${member.user?.username}`);
+            cancelGithubEdit(memberId);
+            if (onRefresh) onRefresh();
+        } catch (err) {
+            toast.error(err.message || 'Failed to save GitHub username');
+            setGithubEditing(prev => ({ ...prev, [memberId]: { ...state, saving: false } }));
+        }
+    };
+
 
     return (
         <div className="space-y-12">
@@ -241,41 +282,110 @@ export const ProjectMembers = ({ project, canManageMembers, projectApplication, 
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {(project.members || []).map((member, i) => (
-                        <div key={i} className="bento-card p-6 bg-surface rounded-3xl flex items-center gap-4 group">
-                            <div className="w-12 h-12 rounded-full bg-surface-elevated border border-border-subtle flex items-center justify-center text-xl font-serif text-accent-primary shrink-0 overflow-hidden">
-                                {member.user?.avatar?.url ? (
-                                    <img src={member.user.avatar.url} alt="Avatar" className="w-full h-full object-cover" />
-                                ) : (
-                                    member.user?.username?.charAt(0).toUpperCase()
-                                )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <h4 className="text-text-primary font-bold truncate">{member.user?.username}</h4>
-                                 <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                    <span className="px-2 py-0.5 rounded bg-accent-primary/10 text-accent-primary text-[10px] font-mono uppercase truncate max-w-full">
-                                        {member.projectRole?.customLabel || member.projectRole?.jobTitleTag?.labelEn || member.project_role?.custom_label || member.project_role?.job_title_tag?.label_en || 'Member'}
-                                    </span>
+                    {(project.members || []).map((member, i) => {
+                        const memberId = member.documentId || member.uid;
+                        const ghState = githubEditing[memberId];
+                        const currentGithub = member.githubUsername || member.github_username || '';
+
+                        return (
+                            <div key={i} className="bento-card p-6 bg-surface rounded-3xl flex flex-col gap-3 group transition-all hover:border-border-subtle/60">
+                                {/* Top Row: Avatar + Info + Actions */}
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-full bg-surface-elevated border border-border-subtle flex items-center justify-center text-xl font-serif text-accent-primary shrink-0 overflow-hidden">
+                                        {member.user?.avatar?.url ? (
+                                            <img src={member.user.avatar.url} alt="Avatar" className="w-full h-full object-cover" />
+                                        ) : (
+                                            member.user?.username?.charAt(0).toUpperCase()
+                                        )}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="text-text-primary font-bold truncate">{member.user?.username}</h4>
+                                        <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                            <span className="px-2 py-0.5 rounded bg-accent-primary/10 text-accent-primary text-[10px] font-mono uppercase truncate max-w-full">
+                                                {member.projectRole?.customLabel || member.projectRole?.jobTitleTag?.labelEn || member.project_role?.custom_label || member.project_role?.job_title_tag?.label_en || 'Member'}
+                                            </span>
+                                            <span className="px-2 py-0.5 rounded bg-surface-sunken text-text-muted text-[9px] font-mono uppercase border border-border-subtle">
+                                                {(member.projectRole?.permissions?.admin || member.project_role?.permissions?.admin) ? 'Admin' : 'Custom'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {canManageMembers && (
+                                        <button
+                                            onClick={() => openAssignModal(member)}
+                                            className="text-[10px] font-bold text-text-muted hover:text-accent-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1 shrink-0"
+                                        >
+                                            <Shield size={12} /> Role
+                                        </button>
+                                    )}
+                                </div>
+
+                                {/* GitHub Username Row */}
+                                <div className="pt-2.5 border-t border-border-subtle/40">
+                                    {ghState?.editing ? (
+                                        /* Edit Mode */
+                                        <div className="flex items-center gap-1.5">
+                                            <Github size={12} className="text-text-muted shrink-0" />
+                                            <Input
+                                                size="small"
+                                                value={ghState.value}
+                                                onChange={e => setGithubEditing(prev => ({
+                                                    ...prev,
+                                                    [memberId]: { ...ghState, value: e.target.value }
+                                                }))}
+                                                placeholder="github-username"
+                                                className="dark-input text-[11px] font-mono flex-1"
+                                                onPressEnter={() => saveGithubUsername(member)}
+                                                autoFocus
+                                            />
+                                            <button
+                                                onClick={() => saveGithubUsername(member)}
+                                                disabled={ghState.saving}
+                                                className="p-1 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 transition-all"
+                                            >
+                                                {ghState.saving ? <Loader2 size={10} className="animate-spin" /> : <Check size={10} />}
+                                            </button>
+                                            <button
+                                                onClick={() => cancelGithubEdit(memberId)}
+                                                className="p-1 rounded-lg bg-surface-sunken border border-border-subtle text-text-muted hover:text-text-primary transition-all"
+                                            >
+                                                <X size={10} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        /* Display Mode */
+                                        <div className="flex items-center gap-2">
+                                            <Github size={12} className={currentGithub ? 'text-accent-primary/70' : 'text-text-muted/40'} />
+                                            {currentGithub ? (
+                                                <a
+                                                    href={`https://github.com/${currentGithub}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-[11px] font-mono text-text-muted hover:text-accent-primary transition-colors truncate"
+                                                >
+                                                    @{currentGithub}
+                                                </a>
+                                            ) : (
+                                                <span className="text-[10px] text-text-muted/40 italic">GitHub not linked</span>
+                                            )}
+                                            {/* Only allow editing if the member is the current user */}
+                                            {(member.user?.uid === user?.uid || member.user?.id === user?.id) && (
+                                                <Tooltip title="Link GitHub account">
+                                                    <button
+                                                        onClick={() => startGithubEdit(member)}
+                                                        className="ml-auto text-text-muted/30 hover:text-accent-primary opacity-0 group-hover:opacity-100 transition-all"
+                                                    >
+                                                        <Edit2 size={10} />
+                                                    </button>
+                                                </Tooltip>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            {/* Permissions & Actions */}
-                            <div className="flex flex-col gap-2 shrink-0 items-end">
-                                <span className="px-2 py-0.5 rounded bg-surface-sunken text-text-muted text-[9px] font-mono uppercase border border-border-subtle max-w-[80px] truncate" title={JSON.stringify(member.projectRole?.permissions || member.project_role?.permissions)}>
-                                    {(member.projectRole?.permissions?.admin || member.project_role?.permissions?.admin) ? 'Admin' : 'Custom'}
-                                </span>
-                                
-                                {canManageMembers && (
-                                    <button 
-                                        onClick={() => openAssignModal(member)}
-                                        className="text-[10px] font-bold text-text-muted hover:text-accent-primary transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-1"
-                                    >
-                                        <Shield size={12} /> Assign Role
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
+
             </section>
 
             {/* Project Roles */}
@@ -384,6 +494,14 @@ export const ProjectMembers = ({ project, canManageMembers, projectApplication, 
                             </Form.Item>
                             <Form.Item name="manage_members" valuePropName="checked" className="mb-0">
                                 <Checkbox className="text-text-primary">Manage Members (Assign Roles)</Checkbox>
+                            </Form.Item>
+                        </div>
+                    </div>
+                    <div className="mb-2">
+                        <span className="text-xs font-bold uppercase tracking-wider text-text-muted block mb-3">Feed</span>
+                        <div className="space-y-3 bg-surface-sunken p-4 rounded-xl border border-border-subtle">
+                            <Form.Item name="announce_in_feed" valuePropName="checked" className="mb-0">
+                                <Checkbox className="text-text-primary">Publish Job Opportunity to Feed</Checkbox>
                             </Form.Item>
                         </div>
                     </div>

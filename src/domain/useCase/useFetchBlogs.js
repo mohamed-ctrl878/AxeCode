@@ -33,7 +33,13 @@ export const useFetchBlogs = () => {
                     fields: ['firstname', 'lastname', 'email', 'username', 'birthday', 'university', 'bio'],
                     populate: ['avatar']
                 },
-                image: true
+                image: true,
+                project_role: {
+                    populate: ['job_title_tag']
+                },
+                project: {
+                    populate: ['publisher']
+                }
             };
 
             const rawData = await repository.getBlogs(limit, excludeIds, feedType, populate);

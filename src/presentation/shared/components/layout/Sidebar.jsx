@@ -15,7 +15,8 @@ import {
     UserCircle,
     Settings,
     LogOut,
-    Database
+    Database,
+    FolderKanban
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { PATHS } from '@presentation/routes/paths';
@@ -99,6 +100,9 @@ export const Sidebar = () => {
                     <NavCategory label="Management" collapsed={!isSidebarOpen} />
                     <NavItem icon={Database} label="Content Management" path={PATHS.CONTENT_MANAGEMENT} collapsed={!isSidebarOpen} />
                 </PermissionGate>
+
+                <NavCategory label="Workspaces" collapsed={!isSidebarOpen} />
+                <NavItem icon={FolderKanban} label="Projects" path={PATHS.PROJECTS} collapsed={!isSidebarOpen} />
 
                 <NavCategory label="Social" collapsed={!isSidebarOpen} />
                 <NavItem icon={MessageSquare} label="Messages" path={PATHS.MESSAGES} collapsed={!isSidebarOpen} />

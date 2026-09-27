@@ -55,6 +55,8 @@ export const FeedItem = ({ blog, className, rank, highlight }) => {
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     };
 
+    const isJobOpportunity = blog.type === 'job_opportunity';
+
     // Determine Podium Styles
     let podiumStyles = "border-border-subtle bg-surface-dark";
     let badge = null;
@@ -71,7 +73,17 @@ export const FeedItem = ({ blog, className, rank, highlight }) => {
     } else if (highlight) {
         podiumStyles = "border-accent-primary/50 bg-accent-primary/5 shadow-[0_0_40px_rgba(var(--accent-primary-rgb),0.1)] ring-1 ring-accent-primary/20";
     }
-    console.log(blog);
+
+    if (isJobOpportunity) {
+        podiumStyles = "border-blue-500/50 bg-gradient-to-br from-blue-900/10 to-blue-500/5 shadow-[0_0_40px_rgba(59,130,246,0.15)] ring-1 ring-blue-500/30";
+        badge = (
+            <div className="absolute -top-3 -left-3 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 flex items-center justify-center text-white text-[10px] font-bold shadow-lg border-2 border-background uppercase tracking-widest gap-1">
+                <span className="text-sm">🔥</span> Project Opportunity
+            </div>
+        );
+    }
+    
+    // console.log(blog);
 
     return (
         <div className={cn(
@@ -81,7 +93,7 @@ export const FeedItem = ({ blog, className, rank, highlight }) => {
         )}>
             {badge}
             {/* Header: Author & Meta */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-2">
                 <div 
                     onClick={(e) => {
                         if (blog.author?.username) {
@@ -186,6 +198,16 @@ export const FeedItem = ({ blog, className, rank, highlight }) => {
                             alt="Feature" 
                             className="w-full max-h-[500px] object-contain" 
                         />
+                    </div>
+                )}
+
+                {isJobOpportunity && blog.project && (
+                    <div className="mt-4 pt-4 border-t border-border-subtle/50">
+                        <Link to={`/projects/${blog.project.uid}`}>
+                            <button className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-sm uppercase tracking-widest shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all flex items-center justify-center gap-2">
+                                Join Now 🚀
+                            </button>
+                        </Link>
                     </div>
                 )}
             </div>

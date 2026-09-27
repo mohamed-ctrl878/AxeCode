@@ -6,7 +6,8 @@ import {
     BookOpen, Code2, Map, LayoutDashboard, FileText, 
     Calendar, Video, Image, Database, Menu, X,
     Users,
-    Github
+    Github,
+    FolderKanban
 } from 'lucide-react';
 import { cn } from '@core/utils/cn';
 import { PATHS } from '../../../routes/paths';
@@ -154,7 +155,9 @@ const NAV_COMMUNITY = [
     { icon: Calendar, label: 'Events', path: PATHS.EVENTS },
 ];
 
-const NAV_WORKSPACES = [];
+const NAV_WORKSPACES = [
+    { icon: FolderKanban, label: 'Projects', path: PATHS.PROJECTS }
+];
 
 export const Header = () => {
     const location = useLocation();
@@ -215,7 +218,6 @@ export const Header = () => {
                             <HeaderNavDropdown 
                                 label="Workspaces" 
                                 links={NAV_WORKSPACES}
-                                comingSoon={true}
                                 isOpen={openDropdown === 'workspaces'} 
                                 onToggle={() => toggleDropdown('workspaces')}
                                 onClose={() => setOpenDropdown(null)}
@@ -323,10 +325,16 @@ export const Header = () => {
 
                                     {/* Workspaces */}
                                     <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted/50 px-3 pt-2 pb-1">Workspaces</div>
-                                    <div className="px-3 py-4 flex flex-col gap-1 bg-accent-primary/5 rounded-xl border border-accent-primary/10">
-                                        <p className="text-sm font-bold text-accent-primary tracking-tight">Coming Soon</p>
-                                        <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest leading-relaxed">Inshaa Allah</p>
-                                    </div>
+                                    {NAV_WORKSPACES.map(({ icon: Icon, label, path }) => (
+                                        <Link key={path} to={path} onClick={closeAll} className={cn(
+                                            "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg no-underline transition-colors",
+                                            location.pathname === path 
+                                                ? "text-accent-primary bg-accent-primary/5"
+                                                : "text-text-muted hover:text-text-primary hover:bg-surface-sunken"
+                                        )}>
+                                            <Icon size={16} /> {label}
+                                        </Link>
+                                    ))}
 
                                     {/* CMS — Publisher Only (Mobile) */}
                                     <PermissionGate allowedRoles={[ROLE_TYPES.PUBLISHER]}>

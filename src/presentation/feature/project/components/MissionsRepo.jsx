@@ -9,7 +9,8 @@ import { useRole } from '@core/hooks/useRole';
 import { 
     Target, ChevronRight, ChevronDown, CheckCircle2, Circle, Clock, 
     FileText, GitBranch, Play, Rocket, Compass, Layers, Plus, Search,
-    X, ExternalLink, User, AlertCircle, Filter, Loader2, Calendar, Check, Send
+    X, ExternalLink, User, AlertCircle, Filter, Loader2, Calendar, Check, Send,
+    Github, GitCommit, Copy
 } from 'lucide-react';
 
 import { cn } from '@core/utils/cn';
@@ -976,6 +977,153 @@ const TaskPreviewContent = ({
                     </div>
                 </div>
             )}
+
+            {/* Developer Guide */}
+            <div className="mt-4 pt-4 border-t border-border-subtle/50">
+                <div className="bg-surface-elevated/30 border border-accent-primary/20 p-4 rounded-xl flex flex-col gap-3">
+                    <div className="flex items-center gap-2 mb-1">
+                        <Github size={14} className="text-accent-primary" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-accent-primary">GitHub Integration Guide</span>
+                    </div>
+                    <div className="text-xs text-text-muted leading-relaxed">
+                        To link your commits to this task, use one of the following methods:
+                    </div>
+                    
+                    <div className="flex flex-col gap-1">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">① Create a branch (Recommended)</span>
+                        <div className="flex items-center gap-2 bg-surface-sunken rounded-lg p-2 border border-border-subtle/50">
+                            <GitBranch size={12} className="text-accent-primary shrink-0" />
+                            <code className="text-[10px] font-mono text-accent-primary flex-1 truncate">
+                                {task.branchPattern || `task/${task.uid}`}
+                            </code>
+                            <button 
+                                onClick={() => {
+                                    navigator.clipboard.writeText(task.branchPattern || `task/${task.uid}`);
+                                    toast.success('Branch name copied!');
+                                }}
+                                className="text-text-muted hover:text-accent-primary"
+                                title="Copy branch name"
+                            >
+                                <Copy size={12} />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-text-muted">② OR reference in commit message</span>
+                        <div className="flex items-center gap-2 bg-surface-sunken rounded-lg p-2 border border-border-subtle/50">
+                            <GitCommit size={12} className="text-purple-400 shrink-0" />
+                            <code className="text-[10px] font-mono text-purple-400 flex-1 truncate">
+                                git commit -m "fix: ... TASK-{task.uid}"
+                            </code>
+                            <button 
+                                onClick={() => {
+                                    navigator.clipboard.writeText(`TASK-${task.uid}`);
+                                    toast.success('Task reference copied!');
+                                }}
+                                className="text-text-muted hover:text-purple-400"
+                                title="Copy task ID reference"
+                            >
+                                <Copy size={12} />
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between pt-2 border-t border-border-subtle/30 mt-1">
+                        <span className="text-[9px] text-text-muted font-mono">Task ID: {task.uid}</span>
+                        <button
+                            onClick={() => {
+                                navigator.clipboard.writeText(task.uid);
+                                toast.success('Task ID copied!');
+                            }}
+                            className="text-[9px] text-text-muted hover:text-accent-primary flex items-center gap-1 transition-colors"
+                        >
+                            <Copy size={10} /> Copy ID
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* GitHub Activity — Live Status */}
+            <div className="mt-4 pt-4 border-t border-border-subtle/50">
+                <div className="bg-surface-elevated/30 border border-border-subtle/50 p-4 rounded-xl flex flex-col gap-3">
+                    <div className="flex items-center gap-2 mb-1">
+                        <Github size={14} className="text-text-primary" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-text-primary">GitHub Activity</span>
+                    </div>
+
+                    {!(task.lastCommitSha || task.githubPrId || task.branchPattern || task.ciStatus) ? (
+                        <div className="text-xs text-text-muted italic flex items-center gap-2">
+                            <Circle size={10} className="text-border-subtle" />
+                            No activity yet. Follow the Developer Guide below to link your commits.
+                        </div>
+                    ) : (
+                        <>
+                            {/* Branch */}
+                            {(task.branchPattern || task.uid) && (
+                                <div className="flex items-center gap-2">
+                                    <GitBranch size={12} className="text-accent-primary/70 shrink-0" />
+                                    <code className="text-[11px] font-mono text-accent-primary truncate flex-1">
+                                        {task.branchPattern || `task/${task.uid}`}
+                                    </code>
+                                </div>
+                            )}
+
+                            {/* Last Commit */}
+                            {task.lastCommitSha && (
+                                <div className="flex items-center gap-2">
+                                    <GitCommit size={12} className="text-purple-400/70 shrink-0" />
+                                    <span className="text-[11px] font-mono text-text-muted">
+                                        Last commit: <span className="text-purple-400 font-bold">{task.lastCommitSha.substring(0, 7)}</span>
+                                    </span>
+                                </div>
+                            )}
+
+                            {/* Pull Request */}
+                            {task.githubPrId && (
+                                <div className="flex items-center gap-2">
+                                    <GitBranch size={12} className="text-blue-400/70 shrink-0" />
+                                    <span className="text-[11px] text-blue-400 font-bold">PR #{task.githubPrId}</span>
+                                    {task.prTitle && (
+                                        <span className="text-[11px] text-text-muted truncate">· {task.prTitle}</span>
+                                    )}
+                                    {task.prUrl && (
+                                        <a href={task.prUrl} target="_blank" rel="noopener noreferrer" className="ml-auto text-text-muted hover:text-blue-400 transition-colors">
+                                            <ExternalLink size={12} />
+                                        </a>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* CI Status */}
+                            {task.ciStatus && (
+                                <div className="flex items-center gap-2 mt-1">
+                                    {task.ciStatus === 'success' && (
+                                        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase tracking-wider">
+                                            <CheckCircle2 size={12} /> CI Passing
+                                        </span>
+                                    )}
+                                    {task.ciStatus === 'failure' && (
+                                        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-bold uppercase tracking-wider">
+                                            <AlertCircle size={12} /> CI Failed
+                                        </span>
+                                    )}
+                                    {task.ciStatus === 'pending' && (
+                                        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-bold uppercase tracking-wider">
+                                            <Loader2 size={12} className="animate-spin" /> Running
+                                        </span>
+                                    )}
+                                    {task.ciStatus === 'cancelled' && (
+                                        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-sunken border border-border-subtle text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                                            Cancelled
+                                        </span>
+                                    )}
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+            </div>
 
             {/* Review and Deliverable Actions */}
             <div className="border-t border-border-subtle/50 pt-5 mt-3">

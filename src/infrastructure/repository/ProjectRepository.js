@@ -71,6 +71,23 @@ export class ProjectRepository extends IProjectAccess {
         return response?.data || response;
     }
 
+    async updateMemberGithubUsername(projectId, memberId, githubUsername) {
+        const response = await this.apiClient.patch(
+            `${this.projectsEndpoint}/${projectId}/members/${memberId}/github-username`,
+            { github_username: githubUsername }
+        );
+        return new ProjectMemberDTO(response?.data || response);
+    }
+
+    // --- GitHub Repo Linking ---
+    async linkGithubRepo(projectId, { github_repo_url, github_repo_id, github_webhook_secret }) {
+        const response = await this.apiClient.patch(
+            `${this.projectsEndpoint}/${projectId}/github-repo`,
+            { github_repo_url, github_repo_id, github_webhook_secret }
+        );
+        return response?.data || response;
+    }
+
     // --- Applications ---
     async applyToRole(projectId, data) {
         const response = await this.apiClient.post(`${this.projectsEndpoint}/${projectId}/apply`, data);

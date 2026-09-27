@@ -9,6 +9,9 @@ export class TaskEntity {
         this.branchPattern = data.branchPattern;
         this.githubPrId = data.githubPrId;
         this.ciStatus = data.ciStatus;
+        this.lastCommitSha = data.lastCommitSha;  // latest commit SHA (short)
+        this.prUrl = data.prUrl;                  // GitHub PR URL
+        this.prTitle = data.prTitle;              // GitHub PR title
         this.order = data.order;
         this.createdAt = data.createdAt;
         this.updatedAt = data.updatedAt;
