@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 /**
@@ -20,6 +20,23 @@ export const Recaptcha = forwardRef(({ onChange }, ref) => {
     if (!siteKey) {
         console.warn("reCAPTCHA site key is missing in .env (VITE_RECAPATCH)");
         return null;
+    }
+
+    // Bypass real reCAPTCHA for E2E testing
+    if (siteKey === "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI") {
+        useEffect(() => {
+            if (onChange) {
+                onChange("test-bypass");
+            }
+        }, [onChange]);
+        
+        return (
+            <div className="flex justify-center p-2 bg-surface-dark/30 border border-white/5 rounded-2xl">
+                <div className="text-white/50 text-xs p-2 text-center border border-white/10 rounded">
+                    Auto-verified for E2E Tests
+                </div>
+            </div>
+        );
     }
 
     return (

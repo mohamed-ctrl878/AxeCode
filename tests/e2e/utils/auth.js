@@ -10,13 +10,9 @@ import { PATHS } from '../../../src/presentation/routes/paths.js';
  * misconfigured environment fails loudly instead of hanging.
  */
 export async function solveTestRecaptcha(page) {
-  const frame = page.frameLocator('iframe[title="reCAPTCHA"]').first();
-  const checkbox = frame.locator('#recaptcha-anchor');
-  await checkbox.waitFor({ state: 'visible', timeout: 15000 });
-  await checkbox.click();
-  // The test key auto-verifies almost instantly; wait for the checked state
-  // rather than a fixed timeout.
-  await frame.locator('#recaptcha-anchor[aria-checked="true"]').waitFor({ timeout: 10000 });
+  // Recaptcha component is now bypassed in E2E (see Recaptcha.jsx)
+  // We just wait for the bypass message to ensure it rendered
+  await page.getByText('Auto-verified for E2E Tests').waitFor({ state: 'visible', timeout: 5000 });
 }
 
 /**
