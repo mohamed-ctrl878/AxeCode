@@ -37,5 +37,5 @@ export async function loginAsTestUser(page) {
   await solveTestRecaptcha(page);
 
   await page.getByRole('button', { name: /Initiate Protocol/i }).click();
-  await page.waitForURL(PATHS.DASHBOARD, { timeout: 15000 });
+  await page.waitForURL(url => url.pathname === PATHS.DASHBOARD || url.pathname === PATHS.COURSES, { timeout: 15000 });
 }

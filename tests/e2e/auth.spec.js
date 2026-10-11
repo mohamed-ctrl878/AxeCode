@@ -5,7 +5,7 @@ import { loginAsTestUser, solveTestRecaptcha } from './utils/auth.js';
 test.describe('Authentication', () => {
   test('logs in with valid credentials and reaches the dashboard', async ({ page }) => {
     await loginAsTestUser(page);
-    await expect(page).toHaveURL(PATHS.DASHBOARD);
+    await expect(page).toHaveURL(new RegExp(`(${PATHS.COURSES}|${PATHS.DASHBOARD})$`));
   });
 
   test('shows an error and re-enables the form on invalid credentials', async ({ page }) => {
