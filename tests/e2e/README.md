@@ -1,73 +1,59 @@
-# E2E Tests (Playwright)
+# AxeCode Full-Coverage E2E Test Suite (Playwright)
 
-This is the first E2E test suite for the AxeCode frontend — previously
-there was no E2E coverage at all, only Vitest unit tests under
-`tests/useCases`. See the QA/scalability plan for the full context.
+Comprehensive End-to-End test suite covering all functional modules of the AxeCode platform across real backend, database, and execution engine components.
 
-## What's covered so far
+## Test Modules & Coverage
 
-- `auth.spec.js` — login with valid credentials, and the error path for
-  invalid credentials (no false-positive redirect, form re-enabled).
-- `problems.spec.js` — the `/problems` catalog loads while authenticated,
-  and opening a problem renders the workspace (Run/Submit, tabs, Monaco
-  editor mounted).
-- `courses.spec.js` — the `/courses` catalog loads while authenticated,
-  and opening a course renders its details page.
+1. **`auth.spec.js` — Authentication & Lifecycle**
+   - Valid login with credentials + Google reCAPTCHA test bypass.
+   - Invalid login handling, error notification, and form reset.
+   - Multi-step registration flow (Credentials -> Personal Info -> OTP Verification screen).
+   - Sign Out / Logout session termination and redirection.
 
-**Not covered yet (intentionally, tracked separately):**
-- Actual Judge0 code execution results (Run/Submit correctness) — needs
-  seeded test problems with known-good solutions in a staging environment.
-- The full purchase flow (checkout → Paymob/Kashier → entitlement granted
-  → content unlocked) — needs sandboxed payment provider credentials.
-- Live/Agora video call flows.
+2. **`problems.spec.js` — Problems & Judge0 Code Execution**
+   - Catalog browsing and problem list display.
+   - Problem workspace: Monaco editor mounting, language selection, tabs.
+   - Code execution (`Run`): runs code against sample test cases via Judge0.
+   - Code submission (`Submit`): evaluates solution against all test cases with verdict banner.
 
-These are P0/P1 items in the QA plan and are meant to build on this setup,
-not block it.
+3. **`courses.spec.js` — Courses & Learning Journey**
+   - Catalog browsing and course listings.
+   - Course details view, curriculum, and lesson outlines.
+   - Free enrollment / Continue Learning navigation to lesson player.
 
-## Why every test logs in through the real UI
+4. **`articles.spec.js` — Community & Knowledge Sharing**
+   - Articles and community feed listing.
+   - Reading article details.
+   - Writing and publishing new articles via the rich article editor.
 
-Every route except the landing page, auth pages, and legal pages is
-wrapped in `ProtectedRoute` (see `src/presentation/routes/AppRoutes.jsx`),
-so there is no "public" content to test against. Login itself requires
-solving reCAPTCHA — the submit button on `LoginPage` stays disabled until
-`recaptchaToken` is set, independently of the backend's `RECAPTCHA_REQUIRED`
-flag. So automating login requires Google's own supported mechanism for
-this: their public **test key pair**, which always verifies instantly
-with no real challenge, and is documented for exactly this purpose.
+5. **`events.spec.js` — Events & Workshops**
+   - Upcoming and past events catalog.
+   - Event details and registration.
 
-## Required environment setup
+6. **`projects.spec.js` — Projects & Workspaces**
+   - Community project discovery.
+   - Project dashboard and Kanban task view.
 
-1. **Frontend build config** — set the reCAPTCHA site key to Google's
-   test key for whatever environment you run these tests against:
-   ```
-   VITE_RECAPTCHA_SITE_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
-   ```
-2. **Backend config** (`AxeCode_backend`) — set the matching test secret:
-   ```
-   RECAPTCHA_SECRET_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-   ```
-   **Never use this key pair in production** — anyone can pass it.
-3. **A seeded test user** on that backend, then:
-   ```
-   E2E_TEST_USER_EMAIL=your-test-user@example.com
-   E2E_TEST_USER_PASSWORD=your-test-password
-   ```
-4. Optionally, point tests at a non-default frontend URL:
-   ```
-   E2E_BASE_URL=http://localhost:5173
-   ```
+7. **`roadmaps.spec.js` — Learning Roadmaps**
+   - Structured career and skills roadmaps catalog.
+   - Roadmap details and interactive pathway nodes.
 
-## Running locally
+8. **`wallet.spec.js` — Wallet & Financials**
+   - User wallet balance, available/pending funds, and currency display.
+
+9. **`cms.spec.js` — Content Management & Access Control**
+   - Role-based protection: ensures non-publisher student accounts cannot access `/cms`.
+
+## Staging Environment & Automatic Seeding
+
+In the staging environment (CI/CD self-hosted runner), tests run against an ephemeral Docker stack (Strapi, Postgres, Redis, Judge0).
+Data is automatically seeded via `scripts/staging-seed-data.sql`, ensuring that tests always have real, reproducible data (problems with test cases, courses, lessons, articles, events, roadmaps, projects, and wallets) without needing manual setup.
+
+## Running Locally
 
 ```bash
-npx playwright install --with-deps chromium   # first time only
-npm run test:e2e            # headless
-npm run test:e2e:ui         # interactive UI mode, easiest for debugging
-npm run test:e2e:report     # open the HTML report from the last run
+npx playwright install chromium    # first time only
+npm run test:e2e                   # run all tests headless
+npm run test:e2e:ui                # run in interactive UI mode
+npm run test:e2e:report            # view the latest HTML test report
 ```
-
-`playwright.config.js` auto-starts `npm run dev` locally
-(`reuseExistingServer: true`, so it won't conflict with a server you
-already have running). In CI/staging, the app and backend are assumed to
-already be deployed — see the "Full-Stack E2E" section of the QA plan for
-the staging pipeline this is meant to plug into.
