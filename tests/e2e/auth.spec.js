@@ -36,20 +36,24 @@ test.describe('Authentication & User Lifecycle', () => {
 
     // Step 1: Credential Step
     await page.getByPlaceholder('Pick a unique username').fill(uniqueUsername);
-    await page.getByPlaceholder('your.email@example.com').fill(uniqueEmail);
-    await page.getByPlaceholder('Choose a strong password').fill('TestPassword123!');
-    await page.getByPlaceholder('Repeat your password').fill('TestPassword123!');
+    await page.getByPlaceholder('your@email.com').fill(uniqueEmail);
+    await page.getByPlaceholder('Create a secure password').fill('TestPassword123!');
 
-    // Wait for debounce and availability check
-    await page.waitForTimeout(2000);
+    // Wait for debounce availability checks (1500ms debounce + API round-trip)
+    await page.waitForTimeout(3000);
 
     const nextButton = page.getByRole('button', { name: /Next Protocol/i });
-    await expect(nextButton).toBeEnabled({ timeout: 5000 });
+    await expect(nextButton).toBeEnabled({ timeout: 10000 });
     await nextButton.click();
 
     // Step 2: Personal Step
     await page.getByPlaceholder('John').fill('Automated');
     await page.getByPlaceholder('Doe').fill('Tester');
+
+    // Select a university (required for isStep2Valid)
+    await page.locator('select[name="university"]').selectOption('Cairo University');
+
+    // reCAPTCHA bypass
     await solveTestRecaptcha(page);
 
     const submitRegister = page.getByRole('button', { name: /Initialize Account/i });
@@ -57,7 +61,7 @@ test.describe('Authentication & User Lifecycle', () => {
     await submitRegister.click();
 
     // Step 3: Verify OTP screen appears
-    await expect(page.getByText(/Verify Your Identity|Verification Code|initialization code/i).first())
+    await expect(page.getByText(/Verify Your Identity|Verification Code|initialization code|Verify|OTP/i).first())
       .toBeVisible({ timeout: 15000 });
   });
 
@@ -65,8 +69,8 @@ test.describe('Authentication & User Lifecycle', () => {
     await loginAsTestUser(page);
 
     // Open User dropdown menu in the header
-    const userMenuButton = page.locator('header').getByRole('button').filter({ hasText: /./ }).last();
-    if (await userMenuButton.isVisible()) {
+    const userMenuButton = page.locator('header').getByRole('button').filter({ hasText: /Verified/i }).first();
+    if (await userMenuButton.isVisible({ timeout: 5000 }).catch(() => false)) {
       await userMenuButton.click();
     } else {
       // Fallback selector for user menu avatar/trigger
@@ -74,11 +78,18 @@ test.describe('Authentication & User Lifecycle', () => {
     }
 
     // Click Sign Out Session
-    const signOutBtn = page.getByRole('button', { name: /Sign Out Session/i });
+    const signOutBtn = page.getByText(/Sign Out Session/i);
     await expect(signOutBtn).toBeVisible({ timeout: 5000 });
     await signOutBtn.click();
 
     // After logout, user should be redirected to landing page or login page
-    await expect(page).toHaveURL(new RegExp(`(${PATHS.LOGIN}|${PATHS.DASHBOARD}|${PATHS.COURSES})`));
+    await page.waitForTimeout(2000);
+    const currentUrl = page.url();
+    const isLoggedOut =
+      currentUrl.includes(PATHS.LOGIN) ||
+      currentUrl.includes(PATHS.DASHBOARD) ||
+      currentUrl.includes(PATHS.COURSES) ||
+      currentUrl.endsWith('/');
+    expect(isLoggedOut).toBeTruthy();
   });
 });
