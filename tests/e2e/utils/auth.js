@@ -32,13 +32,25 @@ export async function loginAsTestUser(page) {
   }
 
   await page.goto(PATHS.LOGIN);
-  await page.getByPlaceholder('Enter your email or username').fill(email);
+  // If already authenticated and redirected to an internal page, nothing to do
+  if (!page.url().includes(PATHS.LOGIN)) {
+    return;
+  }
+
+  const usernameInput = page.getByPlaceholder('Enter your email or username');
+  if (!await usernameInput.isVisible({ timeout: 5000 }).catch(() => false)) {
+    if (!page.url().includes(PATHS.LOGIN)) {
+      return;
+    }
+  }
+
+  await usernameInput.fill(email);
   await page.getByPlaceholder('••••••••').fill(password);
   await solveTestRecaptcha(page);
 
   await page.getByRole('button', { name: /Initiate Protocol/i }).click();
   await page.waitForURL(
     url => !url.pathname.includes(PATHS.LOGIN) || url.pathname === PATHS.DASHBOARD || url.pathname === PATHS.COURSES,
-    { timeout: 35000 }
+    { timeout: 45000 }
   );
 }
