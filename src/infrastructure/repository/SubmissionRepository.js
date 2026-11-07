@@ -9,7 +9,7 @@ import { SubmissionRequest } from '../DTO/Request/SubmissionRequest';
 export class SubmissionRepository {
     constructor(apiClient = repositoryRegistry.apiClient) {
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_SUBMISSIONS;
+        this.endpoint = import.meta.env.VITE_API_SUBMISSIONS || '/api/submissions';
     }
 
     /**

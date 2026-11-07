@@ -9,11 +9,11 @@ export class RecommendationRepository extends IRecommendationAccess {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.coursesEndpoint = import.meta.env.VITE_API_COURSES;
-        this.eventsEndpoint = import.meta.env.VITE_API_EVENTS;
-        this.blogsEndpoint = import.meta.env.VITE_API_BLOG;
-        this.articlesEndpoint = import.meta.env.VITE_API_ARTICLE;
-        this.jobAdsEndpoint = '/recommendations/job-ads';
+        this.coursesEndpoint = import.meta.env.VITE_API_COURSES || '/api/recommendations/courses';
+        this.eventsEndpoint = import.meta.env.VITE_API_EVENTS || '/api/recommendations/events';
+        this.blogsEndpoint = import.meta.env.VITE_API_BLOG || '/api/recommendations/blogs';
+        this.articlesEndpoint = import.meta.env.VITE_API_ARTICLE || '/api/recommendations/articles';
+        this.jobAdsEndpoint = import.meta.env.VITE_API_JOB_ADS || '/api/recommendations/job-ads';
     }
 
     /**

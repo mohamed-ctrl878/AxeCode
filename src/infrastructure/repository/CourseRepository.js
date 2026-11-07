@@ -13,7 +13,7 @@ export class CourseRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_COURSE_BASE;
+        this.endpoint = import.meta.env.VITE_API_COURSE_BASE || '/api/courses';
     }
 
     async create(data) {
@@ -73,7 +73,7 @@ export class CourseRepository extends IContentInteraction {
      * @returns {Promise<object>} Raw course data from API.
      */
     async getPreview(documentId) {
-        const previewEndpoint = import.meta.env.VITE_API_COURSE_BASE;
+        const previewEndpoint = import.meta.env.VITE_API_COURSE_BASE || '/api/courses';
         const response = await this.apiClient.get(`${previewEndpoint}/${documentId}`);
         // Ensure data is flattened for DTO mapping
         return flattenStrapi(response);

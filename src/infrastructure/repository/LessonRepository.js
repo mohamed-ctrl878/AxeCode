@@ -10,7 +10,7 @@ export class LessonRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_LESSONS;
+        this.endpoint = import.meta.env.VITE_API_LESSONS || '/api/lessons';
     }
 
     async getById(id) {

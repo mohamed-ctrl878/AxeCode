@@ -9,7 +9,7 @@ export class WeekRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_WEEKS;
+        this.endpoint = import.meta.env.VITE_API_WEEKS || '/api/weeks';
     }
 
     async create(data) {

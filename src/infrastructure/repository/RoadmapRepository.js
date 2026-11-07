@@ -10,7 +10,7 @@ export class RoadmapRepository extends IRoadmapInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_ROADMAP;
+        this.endpoint = import.meta.env.VITE_API_ROADMAP || '/api/roadmaps';
     }
 
     async create(data) {

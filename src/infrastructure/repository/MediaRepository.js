@@ -7,7 +7,7 @@ import { repositoryRegistry } from './RepositoryRegistry';
 export class MediaRepository {
     constructor(apiClient = repositoryRegistry.apiClient) {
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_UPLOAD;
+        this.endpoint = import.meta.env.VITE_API_UPLOAD || '/api/upload';
     }
 
     /**

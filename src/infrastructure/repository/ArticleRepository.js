@@ -10,7 +10,7 @@ export class ArticleRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_ARTICLE_BASE;
+        this.endpoint = import.meta.env.VITE_API_ARTICLE_BASE || '/api/articles';
     }
 
     async getById(id) {

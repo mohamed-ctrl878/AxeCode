@@ -9,7 +9,7 @@ export class CategorizationRepository extends BaseRepository {
     }
 
     async getCourseTypes(page = 1, pageSize = 10, search = '') {
-        const endpoint = import.meta.env.VITE_API_COURSE_TYPES;
+        const endpoint = import.meta.env.VITE_API_COURSE_TYPES || '/api/course-types';
         const filters = search ? `&filters[title][$containsi]=${encodeURIComponent(search)}` : '';
         const response = await this.apiClient.get(`${endpoint}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc${filters}`);
         const data = response?.data || [];
@@ -20,7 +20,7 @@ export class CategorizationRepository extends BaseRepository {
     }
 
     async getProblemTypes(page = 1, pageSize = 10, search = '') {
-        const endpoint = import.meta.env.VITE_API_PROBLEM_TYPES;
+        const endpoint = import.meta.env.VITE_API_PROBLEM_TYPES || '/api/problem-types';
         const filters = search ? `&filters[title][$containsi]=${encodeURIComponent(search)}` : '';
         const response = await this.apiClient.get(`${endpoint}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=createdAt:desc${filters}`);
         const data = response?.data || [];
@@ -31,22 +31,22 @@ export class CategorizationRepository extends BaseRepository {
     }
 
     async deleteCourseType(id) {
-        const endpoint = `${import.meta.env.VITE_API_COURSE_TYPES}/${id}`;
+        const endpoint = `${import.meta.env.VITE_API_COURSE_TYPES || '/api/course-types'}/${id}`;
         return await this.delete(endpoint);
     }
 
     async deleteProblemType(id) {
-        const endpoint = `${import.meta.env.VITE_API_PROBLEM_TYPES}/${id}`;
+        const endpoint = `${import.meta.env.VITE_API_PROBLEM_TYPES || '/api/problem-types'}/${id}`;
         return await this.delete(endpoint);
     }
 
     async createCourseType(data) {
-        const endpoint = import.meta.env.VITE_API_COURSE_TYPES;
+        const endpoint = import.meta.env.VITE_API_COURSE_TYPES || '/api/course-types';
         return await this.post(endpoint, data);
     }
 
     async createProblemType(data) {
-        const endpoint = import.meta.env.VITE_API_PROBLEM_TYPES;
+        const endpoint = import.meta.env.VITE_API_PROBLEM_TYPES || '/api/problem-types';
         return await this.post(endpoint, data);
     }
 }

@@ -13,8 +13,8 @@ export class EventRepository extends IEventInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_EVENTS;
-        this.endpointBase = import.meta.env.VITE_API_EVENTS_BASE;
+        this.endpoint = import.meta.env.VITE_API_EVENTS || '/api/recommendations/events';
+        this.endpointBase = import.meta.env.VITE_API_EVENTS_BASE || '/api/events';
     }
 
     async create(data) {

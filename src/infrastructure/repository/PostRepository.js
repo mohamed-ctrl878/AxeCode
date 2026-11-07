@@ -10,7 +10,7 @@ export class PostRepository extends IContentInteraction {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_POSTS;
+        this.endpoint = import.meta.env.VITE_API_POSTS || '/api/posts/';
     }
 
     async create(data) {

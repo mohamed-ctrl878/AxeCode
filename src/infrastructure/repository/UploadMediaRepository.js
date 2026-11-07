@@ -11,7 +11,7 @@ export class UploadMediaRepository extends IUploadMediaAccess {
     constructor(apiClient = repositoryRegistry.apiClient) {
         super();
         this.apiClient = apiClient;
-        this.endpoint = import.meta.env.VITE_API_UPLOAD;
+        this.endpoint = import.meta.env.VITE_API_UPLOAD || '/api/upload';
     }
 
     /**
